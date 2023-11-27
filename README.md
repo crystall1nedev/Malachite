@@ -4,7 +4,7 @@
 2. the name of my app to take control of the macro lens on iPhone
 ---
 ## What is it?
-Malachite is a **work-in-progress** app that makes using iPhone with macro lenses... great magnifiers.
+Malachite is a **work-in-progress** app that gives you more control over the macro lens of (or connected to) your iPhone.
 
 ## What do I need?[^1]
 You'll need one of the following configurations...
@@ -13,7 +13,7 @@ You'll need one of the following configurations...
 ...and **iOS 14.0** or later.
 
 ## What can I do with this?
-It's pretty simple: open the app, and get close to what you want to magnify. It could be something as simple as finely woven cloth, or complex like a few caps on a motherboard. I've also included a flash button to help you illuminate your view.
+Currently, you can use the macro lens as a magnifier for small things (camera view and a flashlight are implemented.) Over the coming weeks, I'll be putting in pinch to zoom, proper photo capture support, and manual focus enhancements.
 
 ## How do I get it?
 I'll release the first build of Malachite in the Releases tab when it's ready for prime time. Until then:
