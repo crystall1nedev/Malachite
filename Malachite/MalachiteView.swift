@@ -23,16 +23,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     var wideAngleInUse = true
     var initRun = true
     
-    let cameraButton : UIButton = {
-        let button = UIButton()
-        let image = UIImage(systemName: "camera.fill")?.withRenderingMode(.alwaysTemplate)
-        button.setImage(image, for: .normal)
-        button.tintColor = .white
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.masksToBounds = true
-        button.layer.cornerRadius = 30
-        return button
-    }()
+    var cameraButton = UIButton()
+    var flashlightButton = UIButton()
+    var captureButton = UIButton()
+    var aboutButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +64,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     func setupView(){
         self.view.backgroundColor = .black
         
-        let cameraButton = returnProperButton(symbolName: "camera")
+        cameraButton = returnProperButton(symbolName: "camera")
         self.view.addSubview(cameraButton)
         NSLayoutConstraint.activate([
             cameraButton.widthAnchor.constraint(equalToConstant: 60),
@@ -80,7 +74,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         ])
         cameraButton.addTarget(self, action: #selector(self.switchInput), for: .touchUpInside)
         
-        let flashlightButton = returnProperButton(symbolName: "flashlight.on.fill")
+        flashlightButton = returnProperButton(symbolName: "flashlight.off.fill")
         self.view.addSubview(flashlightButton)
         NSLayoutConstraint.activate([
             flashlightButton.widthAnchor.constraint(equalToConstant: 60),
@@ -90,7 +84,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         ])
         flashlightButton.addTarget(self, action: #selector(self.toggleFlash), for: .touchUpInside)
         
-        let captureButton = returnProperButton(symbolName: "camera.aperture")
+        captureButton = returnProperButton(symbolName: "camera.aperture")
         self.view.addSubview(captureButton)
         NSLayoutConstraint.activate([
             captureButton.widthAnchor.constraint(equalToConstant: 60),
@@ -100,7 +94,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         ])
         captureButton.addTarget(self, action: #selector(self.captureImage), for: .touchUpInside)
         
-        let aboutButton = returnProperButton(symbolName: "info")
+        aboutButton = returnProperButton(symbolName: "info")
         self.view.addSubview(aboutButton)
         NSLayoutConstraint.activate([
             aboutButton.widthAnchor.constraint(equalToConstant: 60),
@@ -148,22 +142,28 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
     @objc func toggleFlash() {
         if ((selectedDevice?.hasTorch) != nil) {
+            var buttonImage = UIImage()
             do {
                 try selectedDevice?.lockForConfiguration()
                 if (selectedDevice?.torchMode == AVCaptureDevice.TorchMode.on) {
                     NSLog("[Flashlight] Flash is already on, turning off")
                     selectedDevice?.torchMode = AVCaptureDevice.TorchMode.off
+                    buttonImage = (UIImage(systemName: "flashlight.off.fill")?.withRenderingMode(.alwaysTemplate))!
                 } else {
                     do {
                         NSLog("[Flashlight] Flash is off, turning on")
                         try selectedDevice?.setTorchModeOn(level: 1.0)
+                        buttonImage = (UIImage(systemName: "flashlight.on.fill")?.withRenderingMode(.alwaysTemplate))!
                     } catch {
                         print(error)
+                        buttonImage = (UIImage(systemName: "flashlight.off.fill")?.withRenderingMode(.alwaysTemplate))!
                     }
                 }
+                flashlightButton.setImage(buttonImage, for: .normal)
                 selectedDevice?.unlockForConfiguration()
             } catch {
                 print(error)
+                buttonImage = (UIImage(systemName: "flashlight.on.fill")?.withRenderingMode(.alwaysTemplate))!
             }
         }
     }
