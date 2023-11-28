@@ -9,8 +9,9 @@ import SwiftUI
 import UIKit
 import Foundation
 import AVFoundation
+import Photos
 
-class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCapturePhotoCaptureDelegate {
     
     var cameraSession: AVCaptureSession?
     var selectedDevice: AVCaptureDevice?
@@ -19,6 +20,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     var selectedInput: AVCaptureDeviceInput?
     var input: AVCaptureDeviceInput?
     var output: AVCaptureMetadataOutput?
+    var photoOutput: AVCapturePhotoOutput?
     var cameraPreview: AVCaptureVideoPreviewLayer?
     var wideAngleInUse = true
     var initRun = true
@@ -37,6 +39,12 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         
         NSLog("[Initialization] Bringing up AVCaptureDeviceInput")
         switchInput()
+        
+        let photoOutput = AVCapturePhotoOutput()
+        photoOutput.isHighResolutionCaptureEnabled = true
+        photoOutput.maxPhotoQualityPrioritization = .quality
+        cameraSession?.addOutput(photoOutput)
+        self.photoOutput = photoOutput
         
         NSLog("[Initialization] Bringing up AVCaptureVideoPreviewLayer")
         cameraPreview = AVCaptureVideoPreviewLayer(session: cameraSession!)
@@ -70,7 +78,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
             cameraButton.widthAnchor.constraint(equalToConstant: 60),
             cameraButton.heightAnchor.constraint(equalToConstant: 60),
             cameraButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            cameraButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            cameraButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
         cameraButton.addTarget(self, action: #selector(self.switchInput), for: .touchUpInside)
         
@@ -80,7 +88,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
             flashlightButton.widthAnchor.constraint(equalToConstant: 60),
             flashlightButton.heightAnchor.constraint(equalToConstant: 60),
             flashlightButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
-            flashlightButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            flashlightButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
         flashlightButton.addTarget(self, action: #selector(self.toggleFlash), for: .touchUpInside)
         
@@ -90,7 +98,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
             captureButton.widthAnchor.constraint(equalToConstant: 60),
             captureButton.heightAnchor.constraint(equalToConstant: 60),
             captureButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150),
-            captureButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            captureButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
         captureButton.addTarget(self, action: #selector(self.captureImage), for: .touchUpInside)
         
@@ -100,7 +108,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
             aboutButton.widthAnchor.constraint(equalToConstant: 60),
             aboutButton.heightAnchor.constraint(equalToConstant: 60),
             aboutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 220),
-            aboutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            aboutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
         aboutButton.addTarget(self, action: #selector(self.presentAboutView), for: .touchUpInside)
     }
@@ -127,15 +135,20 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         let cameraAuthStatus =  AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
         switch cameraAuthStatus {
         case .authorized:
+            NSLog("[Permissions] User has given permission to use the camera")
             return
         case .denied:
+            NSLog("[Permissions] User has denied permission to use the camera")
             abort()
         case .notDetermined:
+            NSLog("[Permissions] Unknown authorization state, requesting access")
             AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler:
                                             { (authorized) in if(!authorized){ abort() } })
         case .restricted:
+            NSLog("[Permissions] User cannot give camera access due to restrictions")
             abort()
         @unknown default:
+            NSLog("[Permissions] the what")
             fatalError()
         }
     }
@@ -218,7 +231,44 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     }
     
     @objc func captureImage() {
+        var libraryAccessGranted = false
+        let group = DispatchGroup()
+        group.enter()
+
+        PHPhotoLibrary.requestAuthorization { (status) in
+            if status == .authorized || status == .limited {
+                libraryAccessGranted = true
+            }
+            group.leave()
+        }
         
+        group.notify(queue: .main) {
+            if libraryAccessGranted {
+                let photoSettings = AVCapturePhotoSettings()
+                if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
+                    photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
+                    self.photoOutput?.capturePhoto(with: photoSettings, delegate: self)
+                }
+            } else {
+                NSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
+                let alert = UIAlertController(title: "Cannot capture photos", message: "The capture images feature cannot be used because Malachite has not been given access to the photos library.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+                    NSLog("[Capture Photo] Dialog has been dismissed")
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard let imageData = photo.fileDataRepresentation() else { return }
+        let previewImage = UIImage(data: imageData)
+        let photoPreview = MalachitePhotoPreview()
+        photoPreview.photoImageView.frame = self.view.frame
+        photoPreview.photoImage = previewImage!
+        let navigationController = UINavigationController(rootViewController: photoPreview)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        self.present(navigationController, animated: true, completion: nil)
     }
     
     @objc func presentAboutView() {
