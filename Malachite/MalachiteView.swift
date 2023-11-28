@@ -29,6 +29,16 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     var flashlightButton = UIButton()
     var captureButton = UIButton()
     var aboutButton = UIButton()
+    var focusSlider = UISlider()
+    
+    let minimumZoom: CGFloat = 1.0
+    let maximumZoom: CGFloat = 5.0
+    var lastZoomFactor: CGFloat = 1.0
+    
+    let lightHaptic = UIImpactFeedbackGenerator(style: .light)
+    let mediumHaptic = UIImpactFeedbackGenerator(style: .medium)
+    let heavyHaptic = UIImpactFeedbackGenerator(style: .heavy)
+    let notificationHaptic = UINotificationFeedbackGenerator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,6 +121,31 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             aboutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
         aboutButton.addTarget(self, action: #selector(self.presentAboutView), for: .touchUpInside)
+        
+        let zoomRecognizer = UIPinchGestureRecognizer(target: self, action:#selector(zoom(sender:)))
+        self.view.addGestureRecognizer(zoomRecognizer)
+        
+        let autofocusRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(autofocus(sender:)))
+        self.view.addGestureRecognizer(autofocusRecognizer)
+        
+        let focusButton = returnProperButton(symbolName: "")
+        focusSlider.translatesAutoresizingMaskIntoConstraints = false
+        focusSlider.transform = CGAffineTransform(rotationAngle: CGFloat((3 * Double.pi) / 2))
+        focusButton.addSubview(focusSlider)
+        self.view.addSubview(focusButton)
+        NSLayoutConstraint.activate([
+            focusButton.widthAnchor.constraint(equalToConstant: 60),
+            focusButton.heightAnchor.constraint(equalToConstant: 210),
+            focusButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 290),
+            focusButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            
+            focusSlider.widthAnchor.constraint(equalToConstant: 180),
+            focusSlider.heightAnchor.constraint(equalToConstant: 80),
+            focusSlider.centerYAnchor.constraint(equalTo: focusButton.centerYAnchor),
+            focusSlider.centerXAnchor.constraint(equalTo: focusButton.trailingAnchor, constant: -30),
+        ])
+        focusSlider.addTarget(self, action: #selector(self.controlManualFocus(sender:)), for: .valueChanged)
+        focusSlider.addTarget(self, action: #selector(self.buttonHaptics(_:)), for: .touchUpInside)
     }
     
     func returnProperButton(symbolName name: String) -> UIButton {
@@ -121,14 +156,23 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 30
+        button.bringSubviewToFront(button.imageView!)
+        button.insertSubview(returnProperBlur(), at: 0)
+        button.addTarget(self, action: #selector(self.buttonHaptics(_:)), for: .touchUpInside)
+        return button
+    }
+    
+    func returnProperBlur() -> UIVisualEffectView {
         let blur = UIBlurEffect(style: UIBlurEffect.Style.light)
         let blurView = UIVisualEffectView(effect: blur)
         blurView.frame = view.bounds
         blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurView.isUserInteractionEnabled = false
-        button.bringSubviewToFront(button.imageView!)
-        button.insertSubview(blurView, at: 0)
-        return button
+        return blurView
+    }
+    
+    @objc func buttonHaptics(_ sender: Any) {
+        self.mediumHaptic.impactOccurred()
     }
     
     func checkPermissions() {
@@ -150,6 +194,63 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         @unknown default:
             NSLog("[Permissions] the what")
             fatalError()
+        }
+    }
+    
+    @objc func zoom(sender pinch: UIPinchGestureRecognizer) {
+        guard let device = selectedDevice else { return }
+        
+        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
+            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
+        }
+        
+        func update(scale factor: CGFloat) {
+            do {
+                try device.lockForConfiguration()
+                defer { device.unlockForConfiguration() }
+                device.videoZoomFactor = factor
+                NSLog("[Pinch to Zoom] Changed zoom factor"                                                                                                                                                              )
+            } catch {
+                NSLog("[Pinch to Zoom] Error changing video zoom factor: %@", error.localizedDescription)
+            }
+        }
+        
+        let newScaleFactor = minMaxZoom(pinch.scale * lastZoomFactor)
+        
+        switch pinch.state {
+        case .began:
+            self.mediumHaptic.impactOccurred()
+            fallthrough
+        case .changed: update(scale: newScaleFactor)
+        case .ended:
+            lastZoomFactor = minMaxZoom(newScaleFactor)
+            update(scale: lastZoomFactor)
+            self.mediumHaptic.impactOccurred()
+        default: break
+        }
+    }
+    
+    
+    
+    @objc func autofocus(sender: UILongPressGestureRecognizer) {
+        if let device = selectedDevice {
+            let focusPoint = sender.location(in: self.view)
+            let focusScaledPointX = focusPoint.x / self.view.frame.size.width
+            let focusScaledPointY = focusPoint.y / self.view.frame.size.height
+            if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
+                do {
+                    try device.lockForConfiguration()
+                } catch {
+                    print("[Tap to Zoom] Couldn't lock device for configuration: %@", error.localizedDescription)
+                    return
+                }
+                
+                device.focusMode = .autoFocus
+                device.focusPointOfInterest = CGPointMake(focusScaledPointX, focusScaledPointY)
+                self.notificationHaptic.notificationOccurred(.success)
+                NSLog("[Tap to Focus] Changed focus area")
+                device.unlockForConfiguration()
+            }
         }
     }
     
@@ -225,6 +326,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
         
         NSLog("[Camera Input] Attached input, finishing configuration")
+        focusSlider.value = 0
         cameraSession?.addInput(selectedInput!)
         cameraSession?.commitConfiguration()
         cameraButton.isUserInteractionEnabled = true
@@ -272,11 +374,27 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     }
     
     @objc func presentAboutView() {
-        let aboutView = MalachiteAboutView() // swiftUIView is View
+        let aboutView = MalachiteAboutView()
         let hostingController = UIHostingController(rootView: aboutView)
         let navigationController = UINavigationController(rootViewController: hostingController)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
         self.present(navigationController, animated: true, completion: nil)
+    }
+    
+    @objc func controlManualFocus(sender: UISlider) {
+        if let device = selectedDevice {
+            let lensPosition = sender.value
+            do {
+                try device.lockForConfiguration()
+            } catch {
+                print("[Manual Focus] Couldn't lock device for configuration: %@", error.localizedDescription)
+                return
+            }
+            
+            device.setFocusModeLocked(lensPosition: lensPosition)
+            NSLog("[Manual Focus] Changed lens position")
+            device.unlockForConfiguration()
+        }
     }
     
     override var prefersStatusBarHidden: Bool {
