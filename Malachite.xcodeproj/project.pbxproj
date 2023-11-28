@@ -13,6 +13,7 @@
 		785F08562B12D41300244EB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 785F08552B12D41300244EB4 /* Assets.xcassets */; };
 		785F08592B12D41300244EB4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 785F08572B12D41300244EB4 /* LaunchScreen.storyboard */; };
 		788E74B32B13D8200024B586 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788E74B22B13D8200024B586 /* MalachiteAboutView.swift */; };
+		78E5EFC02B15748400F15250 /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		785F08582B12D41300244EB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		785F085A2B12D41300244EB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		788E74B22B13D8200024B586 /* MalachiteAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteAboutView.swift; sourceTree = "<group>"; };
+		78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePhotoPreview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				785F084C2B12D41100244EB4 /* AppDelegate.swift */,
 				785F084E2B12D41100244EB4 /* SceneDelegate.swift */,
 				785F08502B12D41100244EB4 /* MalachiteView.swift */,
+				78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */,
 				788E74B22B13D8200024B586 /* MalachiteAboutView.swift */,
 				785F08552B12D41300244EB4 /* Assets.xcassets */,
 				785F08572B12D41300244EB4 /* LaunchScreen.storyboard */,
@@ -140,6 +143,7 @@
 				785F08512B12D41100244EB4 /* MalachiteView.swift in Sources */,
 				788E74B32B13D8200024B586 /* MalachiteAboutView.swift in Sources */,
 				785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */,
+				78E5EFC02B15748400F15250 /* MalachitePhotoPreview.swift in Sources */,
 				785F084F2B12D41100244EB4 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -288,6 +292,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Malachite/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Malachite uses write access to your library in order to save photos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -295,6 +300,7 @@
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -324,6 +330,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Malachite/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Malachite uses write access to your library in order to save photos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -331,6 +338,7 @@
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
