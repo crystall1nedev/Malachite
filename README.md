@@ -22,7 +22,7 @@ You'll need one of the following configurations...
 - [ ] More features, coming soon...  
 
 ## What's it look like?
-I don't currently have images for it; I will as I get closer to release!
+I don't currently have images for it; I'll be adding some as I get closer to my first release.
 
 ## How do I get it?
 I'll release the first build of Malachite in the Releases tab when it's ready for prime time. Until then:
