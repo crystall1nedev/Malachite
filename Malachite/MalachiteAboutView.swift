@@ -8,20 +8,13 @@
 import SwiftUI
 
 struct MalachiteAboutView: View {
-    let currentVersion = MalachiteVersion()
+    let currentVersion = MalachiteClassesObject().versions
     
     var body: some View {
         VStack {
             Text("Malachite")
                 .font(.largeTitle)
                 .bold()
-            Image("AppIcon")
-                .imageScale(.large)
-            Text("Bringing camera control back to you.")
-            Text("")
-            Text("Designed by Eva with ❤️ in 2023")
-                .bold()
-            Text("")
             if currentVersion.versionBeta {
                 Text("v\(currentVersion.versionMajor).\(currentVersion.versionMinor).\(currentVersion.versionMinor) beta")
                     .font(.footnote)
@@ -29,6 +22,14 @@ struct MalachiteAboutView: View {
                 Text("v\(currentVersion.versionMajor).\(currentVersion.versionMinor).\(currentVersion.versionMinor)")
                     .font(.footnote)
             }
+            Text("")
+            Image("AppIcon")
+                .imageScale(.large)
+            Text("Bringing camera control back to you.")
+            Text("")
+            Text("Designed by Eva with ❤️ in 2023")
+                .bold()
+            Text("")
         }
         .padding()
     }

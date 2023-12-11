@@ -30,6 +30,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     var captureButton = UIButton()
     var aboutButton = UIButton()
     var focusSlider = UISlider()
+    var zoomRecognizer = UIPinchGestureRecognizer()
+    var autofocusRecognizer = UILongPressGestureRecognizer()
     
     let minimumZoom: CGFloat = 1.0
     let maximumZoom: CGFloat = 5.0
@@ -45,7 +47,12 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         cameraSession = AVCaptureSession()
         
         NSLog("[Initialization] Bringing up AVCaptureDeviceInput")
-        switchInput()
+        NSLog("[Camera Input] Still initializing, getting compatible devices")
+        ultraWideDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: AVMediaType.video, position: .back)
+        NSLog("[Camera Input] Check for builtInUltraWideCamera completed")
+        wideAngleDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back)!
+        NSLog("[Camera Input] Check for builtInWideAngleCamera completed")
+        runInputSwitch()
         
         let photoOutput = AVCapturePhotoOutput()
         photoOutput.isHighResolutionCaptureEnabled = true
@@ -87,7 +94,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             cameraButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             cameraButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
-        cameraButton.addTarget(self, action: #selector(self.switchInput), for: .touchUpInside)
+        cameraButton.addTarget(self, action: #selector(self.runInputSwitch), for: .touchUpInside)
         
         flashlightButton = utilities.views.returnProperButton(symbolName: "flashlight.off.fill", viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(flashlightButton)
@@ -97,7 +104,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             flashlightButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
             flashlightButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
-        flashlightButton.addTarget(self, action: #selector(self.toggleFlash), for: .touchUpInside)
+        flashlightButton.addTarget(self, action: #selector(self.runFlashlightToggle), for: .touchUpInside)
         
         captureButton = utilities.views.returnProperButton(symbolName: "camera.aperture", viewForBounds: view, hapticClass: utilities.haptics)
         self.view.addSubview(captureButton)
@@ -107,7 +114,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             captureButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150),
             captureButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
-        captureButton.addTarget(self, action: #selector(self.captureImage), for: .touchUpInside)
+        captureButton.addTarget(self, action: #selector(self.runImageCapture), for: .touchUpInside)
         
         aboutButton = utilities.views.returnProperButton(symbolName: "info", viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(aboutButton)
@@ -119,10 +126,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         ])
         aboutButton.addTarget(self, action: #selector(self.presentAboutView), for: .touchUpInside)
         
-        let zoomRecognizer = UIPinchGestureRecognizer(target: self, action:#selector(zoom(sender:)))
+        zoomRecognizer = UIPinchGestureRecognizer(target: self, action:#selector(runZoomController))
         self.view.addGestureRecognizer(zoomRecognizer)
         
-        let autofocusRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(autofocus(sender:)))
+        autofocusRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runAutoFocusController))
         self.view.addGestureRecognizer(autofocusRecognizer)
         
         let focusButton = utilities.views.returnProperButton(symbolName: "", viewForBounds: self.view, hapticClass: utilities.haptics)
@@ -170,182 +177,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
     }
     
-    @objc func zoom(sender pinch: UIPinchGestureRecognizer) {
-        guard let device = selectedDevice else { return }
-        
-        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
-            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
-        }
-        
-        func update(scale factor: CGFloat) {
-            do {
-                try device.lockForConfiguration()
-                defer { device.unlockForConfiguration() }
-                device.videoZoomFactor = factor
-                NSLog("[Pinch to Zoom] Changed zoom factor"                                                                                                                                                              )
-            } catch {
-                NSLog("[Pinch to Zoom] Error changing video zoom factor: %@", error.localizedDescription)
-            }
-        }
-        
-        let newScaleFactor = minMaxZoom(pinch.scale * lastZoomFactor)
-        
-        switch pinch.state {
-        case .began:
-            utilities.haptics.triggerMediumHaptic()
-            fallthrough
-        case .changed: update(scale: newScaleFactor)
-        case .ended:
-            lastZoomFactor = minMaxZoom(newScaleFactor)
-            update(scale: lastZoomFactor)
-            utilities.haptics.triggerMediumHaptic()
-        default: break
-        }
-    }
-    
-    
-    
-    @objc func autofocus(sender: UILongPressGestureRecognizer) {
-        if let device = selectedDevice {
-            let focusPoint = sender.location(in: self.view)
-            let focusScaledPointX = focusPoint.x / self.view.frame.size.width
-            let focusScaledPointY = focusPoint.y / self.view.frame.size.height
-            if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
-                do {
-                    try device.lockForConfiguration()
-                } catch {
-                    print("[Tap to Zoom] Couldn't lock device for configuration: %@", error.localizedDescription)
-                    return
-                }
-                
-                device.focusMode = .autoFocus
-                device.focusPointOfInterest = CGPointMake(focusScaledPointX, focusScaledPointY)
-                utilities.haptics.triggerNotificationHaptic(type: .success)
-                NSLog("[Tap to Focus] Changed focus area")
-                device.unlockForConfiguration()
-            }
-        }
-    }
-    
-    @objc func toggleFlash() {
-        if ((selectedDevice?.hasTorch) != nil) {
-            var buttonImage = UIImage()
-            do {
-                try selectedDevice?.lockForConfiguration()
-                if (selectedDevice?.torchMode == AVCaptureDevice.TorchMode.on) {
-                    NSLog("[Flashlight] Flash is already on, turning off")
-                    selectedDevice?.torchMode = AVCaptureDevice.TorchMode.off
-                    buttonImage = (UIImage(systemName: "flashlight.off.fill")?.withRenderingMode(.alwaysTemplate))!
-                } else {
-                    do {
-                        NSLog("[Flashlight] Flash is off, turning on")
-                        try selectedDevice?.setTorchModeOn(level: 1.0)
-                        buttonImage = (UIImage(systemName: "flashlight.on.fill")?.withRenderingMode(.alwaysTemplate))!
-                    } catch {
-                        print(error)
-                        buttonImage = (UIImage(systemName: "flashlight.off.fill")?.withRenderingMode(.alwaysTemplate))!
-                    }
-                }
-                flashlightButton.setImage(buttonImage, for: .normal)
-                selectedDevice?.unlockForConfiguration()
-            } catch {
-                print(error)
-                buttonImage = (UIImage(systemName: "flashlight.on.fill")?.withRenderingMode(.alwaysTemplate))!
-            }
-        }
-    }
-    
-    @objc func switchInput(){
-        if ultraWideDevice == nil && !initRun {
-            NSLog("[Camera Input] AVCaptureDevice for builtInUltraWideCamera unavailable, showing error")
-            let alert = UIAlertController(title: "Switching cameras unsupported", message: "The camera switcher cannot be used as your device does not have an ultra-wide camera available.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-                NSLog("[Camera Input] Dialog has been dismissed")
-            }))
-            self.present(alert, animated: true, completion: nil)
-            return
-        }
-        
-        cameraButton.isUserInteractionEnabled = false
-        NSLog("[Camera Input] Getting ready to configure session")
-        cameraSession?.beginConfiguration()
-        
-        if !initRun {
-            NSLog("[Camera Input] Removing currently active camera input")
-            cameraSession?.removeInput(selectedInput!)
-        } else {
-            NSLog("[Camera Input] Still initializing, getting compatible devices")
-            ultraWideDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: AVMediaType.video, position: .back)
-            NSLog("[Camera Input] Check for builtInUltraWideCamera completed")
-            wideAngleDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back)
-            NSLog("[Camera Input] Check for builtInWideAngleCamera completed")
-            initRun = false
-        }
-        
-        if wideAngleInUse == true && ultraWideDevice != nil {
-            NSLog("[Camera Input] builtInUltraWideCamera is available, selecting as device")
-            selectedDevice = ultraWideDevice
-            wideAngleInUse = false
-        } else {
-            NSLog("[Camera Input] builtInWideAngle is available, selecting as device")
-            selectedDevice = wideAngleDevice
-            wideAngleInUse = true
-        }
-        
-        NSLog("[Camera Input] Attempting to attach device input to session")
-        do { selectedInput = try AVCaptureDeviceInput(device: selectedDevice!) }
-        catch {
-            print(error)
-        }
-        
-        NSLog("[Camera Input] Attached input, finishing configuration")
-        focusSlider.value = 0
-        cameraSession?.addInput(selectedInput!)
-        cameraSession?.commitConfiguration()
-        cameraButton.isUserInteractionEnabled = true
-    }
-    
-    @objc func captureImage() {
-        var libraryAccessGranted = false
-        let group = DispatchGroup()
-        group.enter()
-
-        PHPhotoLibrary.requestAuthorization { (status) in
-            if status == .authorized || status == .limited {
-                libraryAccessGranted = true
-            }
-            group.leave()
-        }
-        
-        group.notify(queue: .main) {
-            if libraryAccessGranted {
-                let photoSettings = AVCapturePhotoSettings()
-                if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
-                    photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
-                    self.photoOutput?.capturePhoto(with: photoSettings, delegate: self)
-                }
-            } else {
-                NSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
-                let alert = UIAlertController(title: "Cannot capture photos", message: "The capture images feature cannot be used because Malachite has not been given access to the photos library.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-                    NSLog("[Capture Photo] Dialog has been dismissed")
-                }))
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
-    }
-    
-    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        guard let imageData = photo.fileDataRepresentation() else { return }
-        let previewImage = UIImage(data: imageData)
-        let photoPreview = MalachitePhotoPreview()
-        photoPreview.photoImageView.frame = self.view.frame
-        photoPreview.photoImage = previewImage!
-        let navigationController = UINavigationController(rootViewController: photoPreview)
-        navigationController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        self.present(navigationController, animated: true, completion: nil)
-    }
-    
     @objc func presentAboutView() {
         let aboutView = MalachiteAboutView()
         let hostingController = UIHostingController(rootView: aboutView)
@@ -368,6 +199,85 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             NSLog("[Manual Focus] Changed lens position")
             device.unlockForConfiguration()
         }
+    }
+    
+    
+    @objc func runInputSwitch() {
+        if ultraWideDevice == nil && !initRun {
+            NSLog("[Camera Input] AVCaptureDevice for builtInUltraWideCamera unavailable, showing error")
+            let alert = UIAlertController(title: "Switching cameras unsupported", message: "The camera switcher cannot be used as your device does not have an ultra-wide camera available.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+                NSLog("[Camera Input] Dialog has been dismissed")
+            }))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        focusSlider.value = 0
+        utilities.function.switchInput(session: &cameraSession!,
+                                       uwDevice: &ultraWideDevice,
+                                       waDevice: &wideAngleDevice!,
+                                       device: &selectedDevice,
+                                       input: &selectedInput,
+                                       button: &cameraButton,
+                                       waInUse: &wideAngleInUse,
+                                       firstRun: &initRun)
+    }
+    
+    @objc func runFlashlightToggle() {
+        utilities.function.toggleFlash(captureDevice: &selectedDevice!,
+                                       flashlightButton: &flashlightButton)
+    }
+    
+    @objc func runImageCapture() {
+        var libraryAccessGranted = false
+        let group = DispatchGroup()
+        group.enter()
+        
+        PHPhotoLibrary.requestAuthorization { (status) in
+            if status == .authorized || status == .limited {
+                libraryAccessGranted = true
+            }
+            group.leave()
+        }
+        
+        group.notify(queue: .main) { [self] in
+            if libraryAccessGranted {
+                self.photoOutput = utilities.function.captureImage(output: self.photoOutput!, viewForBounds: self.view, captureDelegate: self)
+            } else {
+                NSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
+                let alert = UIAlertController(title: "Cannot capture photos", message: "The capture images feature cannot be used because Malachite has not been given access to the photos library.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+                    NSLog("[Capture Photo] Dialog has been dismissed")
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    public func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard let imageData = photo.fileDataRepresentation() else { return }
+        let previewImage = UIImage(data: imageData)
+        let photoPreview = MalachitePhotoPreview()
+        photoPreview.photoImageView.frame = view.frame
+        photoPreview.photoImage = previewImage!
+        let navigationController = UINavigationController(rootViewController: photoPreview)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        self.present(navigationController, animated: true, completion: nil)
+    }
+    
+    @objc func runZoomController() {
+        utilities.function.zoom(sender: zoomRecognizer,
+                                captureDevice: &selectedDevice!,
+                                lastZoomFactor: &lastZoomFactor,
+                                hapticClass: utilities.haptics)
+    }
+    
+    @objc func runAutoFocusController() {
+        utilities.function.autofocus(sender: autofocusRecognizer,
+                                     captureDevice: &selectedDevice!,
+                                     viewForScale: self.view,
+                                     hapticClass: utilities.haptics)
     }
     
     override var prefersStatusBarHidden: Bool {
