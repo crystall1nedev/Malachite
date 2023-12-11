@@ -35,10 +35,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     let maximumZoom: CGFloat = 5.0
     var lastZoomFactor: CGFloat = 1.0
     
-    let lightHaptic = UIImpactFeedbackGenerator(style: .light)
-    let mediumHaptic = UIImpactFeedbackGenerator(style: .medium)
-    let heavyHaptic = UIImpactFeedbackGenerator(style: .heavy)
-    let notificationHaptic = UINotificationFeedbackGenerator()
+    var utilities = MalachiteClassesObject()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,7 +79,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     func setupView(){
         self.view.backgroundColor = .black
         
-        cameraButton = returnProperButton(symbolName: "camera")
+        cameraButton = utilities.views.returnProperButton(symbolName: "camera", viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(cameraButton)
         NSLayoutConstraint.activate([
             cameraButton.widthAnchor.constraint(equalToConstant: 60),
@@ -92,7 +89,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         ])
         cameraButton.addTarget(self, action: #selector(self.switchInput), for: .touchUpInside)
         
-        flashlightButton = returnProperButton(symbolName: "flashlight.off.fill")
+        flashlightButton = utilities.views.returnProperButton(symbolName: "flashlight.off.fill", viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(flashlightButton)
         NSLayoutConstraint.activate([
             flashlightButton.widthAnchor.constraint(equalToConstant: 60),
@@ -102,7 +99,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         ])
         flashlightButton.addTarget(self, action: #selector(self.toggleFlash), for: .touchUpInside)
         
-        captureButton = returnProperButton(symbolName: "camera.aperture")
+        captureButton = utilities.views.returnProperButton(symbolName: "camera.aperture", viewForBounds: view, hapticClass: utilities.haptics)
         self.view.addSubview(captureButton)
         NSLayoutConstraint.activate([
             captureButton.widthAnchor.constraint(equalToConstant: 60),
@@ -112,7 +109,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         ])
         captureButton.addTarget(self, action: #selector(self.captureImage), for: .touchUpInside)
         
-        aboutButton = returnProperButton(symbolName: "info")
+        aboutButton = utilities.views.returnProperButton(symbolName: "info", viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(aboutButton)
         NSLayoutConstraint.activate([
             aboutButton.widthAnchor.constraint(equalToConstant: 60),
@@ -128,7 +125,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         let autofocusRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(autofocus(sender:)))
         self.view.addGestureRecognizer(autofocusRecognizer)
         
-        let focusButton = returnProperButton(symbolName: "")
+        let focusButton = utilities.views.returnProperButton(symbolName: "", viewForBounds: self.view, hapticClass: utilities.haptics)
         focusSlider.translatesAutoresizingMaskIntoConstraints = false
         focusSlider.transform = CGAffineTransform(rotationAngle: CGFloat((3 * Double.pi) / 2))
         focusButton.addSubview(focusSlider)
@@ -145,35 +142,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             focusSlider.centerXAnchor.constraint(equalTo: focusButton.trailingAnchor, constant: -30),
         ])
         focusSlider.addTarget(self, action: #selector(self.controlManualFocus(sender:)), for: .valueChanged)
-        focusSlider.addTarget(self, action: #selector(self.buttonHaptics(_:)), for: .touchUpInside)
+        focusSlider.addTarget(utilities.haptics, action: #selector(utilities.haptics.buttonMediumHaptics(_:)), for: .touchUpInside)
     }
     
-    func returnProperButton(symbolName name: String) -> UIButton {
-        let button = UIButton()
-        let buttonImage = UIImage(systemName: name)?.withRenderingMode(.alwaysTemplate)
-        button.setImage(buttonImage, for: .normal)
-        button.tintColor = .white
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.masksToBounds = true
-        button.layer.cornerRadius = 30
-        button.bringSubviewToFront(button.imageView!)
-        button.insertSubview(returnProperBlur(), at: 0)
-        button.addTarget(self, action: #selector(self.buttonHaptics(_:)), for: .touchUpInside)
-        return button
-    }
     
-    func returnProperBlur() -> UIVisualEffectView {
-        let blur = UIBlurEffect(style: UIBlurEffect.Style.light)
-        let blurView = UIVisualEffectView(effect: blur)
-        blurView.frame = view.bounds
-        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        blurView.isUserInteractionEnabled = false
-        return blurView
-    }
     
-    @objc func buttonHaptics(_ sender: Any) {
-        self.mediumHaptic.impactOccurred()
-    }
     
     func checkPermissions() {
         let cameraAuthStatus =  AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
@@ -219,13 +192,13 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         switch pinch.state {
         case .began:
-            self.mediumHaptic.impactOccurred()
+            utilities.haptics.triggerMediumHaptic()
             fallthrough
         case .changed: update(scale: newScaleFactor)
         case .ended:
             lastZoomFactor = minMaxZoom(newScaleFactor)
             update(scale: lastZoomFactor)
-            self.mediumHaptic.impactOccurred()
+            utilities.haptics.triggerMediumHaptic()
         default: break
         }
     }
@@ -247,7 +220,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                 
                 device.focusMode = .autoFocus
                 device.focusPointOfInterest = CGPointMake(focusScaledPointX, focusScaledPointY)
-                self.notificationHaptic.notificationOccurred(.success)
+                utilities.haptics.triggerNotificationHaptic(type: .success)
                 NSLog("[Tap to Focus] Changed focus area")
                 device.unlockForConfiguration()
             }
@@ -387,7 +360,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             do {
                 try device.lockForConfiguration()
             } catch {
-                print("[Manual Focus] Couldn't lock device for configuration: %@", error.localizedDescription)
+                NSLog("[Manual Focus] Couldn't lock device for configuration: %@", error.localizedDescription)
                 return
             }
             

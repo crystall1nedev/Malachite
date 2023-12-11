@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		78271CC72B26BB8E0085B864 /* MalachiteUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78271CC62B26BB8E0085B864 /* MalachiteUtils.swift */; };
 		785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F084C2B12D41100244EB4 /* AppDelegate.swift */; };
 		785F084F2B12D41100244EB4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F084E2B12D41100244EB4 /* SceneDelegate.swift */; };
 		785F08512B12D41100244EB4 /* MalachiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F08502B12D41100244EB4 /* MalachiteView.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		78271CC62B26BB8E0085B864 /* MalachiteUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteUtils.swift; sourceTree = "<group>"; };
 		785F08492B12D41100244EB4 /* Malachite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Malachite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		785F084C2B12D41100244EB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		785F084E2B12D41100244EB4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 		785F084B2B12D41100244EB4 /* Malachite */ = {
 			isa = PBXGroup;
 			children = (
+				78271CC62B26BB8E0085B864 /* MalachiteUtils.swift */,
 				785F084C2B12D41100244EB4 /* AppDelegate.swift */,
 				785F084E2B12D41100244EB4 /* SceneDelegate.swift */,
 				785F08502B12D41100244EB4 /* MalachiteView.swift */,
@@ -142,6 +145,7 @@
 			files = (
 				785F08512B12D41100244EB4 /* MalachiteView.swift in Sources */,
 				788E74B32B13D8200024B586 /* MalachiteAboutView.swift in Sources */,
+				78271CC72B26BB8E0085B864 /* MalachiteUtils.swift in Sources */,
 				785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */,
 				78E5EFC02B15748400F15250 /* MalachitePhotoPreview.swift in Sources */,
 				785F084F2B12D41100244EB4 /* SceneDelegate.swift in Sources */,

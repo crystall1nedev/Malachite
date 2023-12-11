@@ -10,6 +10,8 @@ import UIKit
 import Photos
 
 class MalachitePhotoPreview : UIViewController {
+    var utilities = MalachiteClassesObject()
+    
     let photoImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFill
@@ -28,7 +30,7 @@ class MalachitePhotoPreview : UIViewController {
         photoImageView.image = photoImage
         self.view.addSubview(photoImageView)
         
-        dismissButton = MalachiteView().returnProperButton(symbolName: "xmark")
+        dismissButton = utilities.views.returnProperButton(symbolName: "xmark", viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(dismissButton)
         NSLayoutConstraint.activate([
             dismissButton.widthAnchor.constraint(equalToConstant: 60),
@@ -38,7 +40,7 @@ class MalachitePhotoPreview : UIViewController {
         ])
         dismissButton.addTarget(self, action: #selector(self.dismissView), for: .touchUpInside)
         
-        savePhotoButton = MalachiteView().returnProperButton(symbolName: "square.and.arrow.down")
+        savePhotoButton = utilities.views.returnProperButton(symbolName: "square.and.arrow.down", viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(savePhotoButton)
         NSLayoutConstraint.activate([
             savePhotoButton.widthAnchor.constraint(equalToConstant: 60),
