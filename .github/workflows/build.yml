@@ -23,7 +23,7 @@ jobs:
 
       - name: Build
         run: |
-          xcodebuild -project Malachite.xcodeproj -target Malachite -configuration Debug
+          xcodebuild -project Malachite.xcodeproj -target Malachite -configuration Debug -allowProvisioningUpdates
           mkdir build/Payload && mv build/Debug-iphoneos/Malachite.app build/Payload/Malachite.app 
           cd build && zip -r Payload.ipa Payload/
           cd ..
