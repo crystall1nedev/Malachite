@@ -29,15 +29,19 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     var flashlightButton = UIButton()
     var captureButton = UIButton()
     var aboutButton = UIButton()
+    var focusButton = UIButton()
     var focusSlider = UISlider()
+    
     var zoomRecognizer = UIPinchGestureRecognizer()
     var autofocusRecognizer = UILongPressGestureRecognizer()
+    var uiHiderRecognizer = UILongPressGestureRecognizer()
+    var uiIsHidden = false
     
     let minimumZoom: CGFloat = 1.0
     let maximumZoom: CGFloat = 5.0
     var lastZoomFactor: CGFloat = 1.0
     
-    var utilities = MalachiteClassesObject()
+    public var utilities = MalachiteClassesObject()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,16 +125,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NSLayoutConstraint.activate([
             aboutButton.widthAnchor.constraint(equalToConstant: 60),
             aboutButton.heightAnchor.constraint(equalToConstant: 60),
-            aboutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 220),
+            aboutButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10),
             aboutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
         aboutButton.addTarget(self, action: #selector(self.presentAboutView), for: .touchUpInside)
-        
-        zoomRecognizer = UIPinchGestureRecognizer(target: self, action:#selector(runZoomController))
-        self.view.addGestureRecognizer(zoomRecognizer)
-        
-        autofocusRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runAutoFocusController))
-        self.view.addGestureRecognizer(autofocusRecognizer)
         
         let focusButton = utilities.views.returnProperButton(symbolName: "", viewForBounds: self.view, hapticClass: utilities.haptics)
         focusSlider.translatesAutoresizingMaskIntoConstraints = false
@@ -140,7 +138,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NSLayoutConstraint.activate([
             focusButton.widthAnchor.constraint(equalToConstant: 60),
             focusButton.heightAnchor.constraint(equalToConstant: 210),
-            focusButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 290),
+            focusButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 220),
             focusButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             
             focusSlider.widthAnchor.constraint(equalToConstant: 180),
@@ -148,12 +146,21 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             focusSlider.centerYAnchor.constraint(equalTo: focusButton.centerYAnchor),
             focusSlider.centerXAnchor.constraint(equalTo: focusButton.trailingAnchor, constant: -30),
         ])
-        focusSlider.addTarget(self, action: #selector(self.controlManualFocus(sender:)), for: .valueChanged)
+        focusSlider.addTarget(self, action: #selector(self.runManualFocusController), for: .valueChanged)
         focusSlider.addTarget(utilities.haptics, action: #selector(utilities.haptics.buttonMediumHaptics(_:)), for: .touchUpInside)
+        
+        zoomRecognizer = UIPinchGestureRecognizer(target: self, action:#selector(runZoomController))
+        self.view.addGestureRecognizer(zoomRecognizer)
+        
+        autofocusRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runAutoFocusController))
+        self.view.addGestureRecognizer(autofocusRecognizer)
+        
+        uiHiderRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runUIHider))
+        uiHiderRecognizer.numberOfTouchesRequired = 2
+        self.view.addGestureRecognizer(uiHiderRecognizer)
+        
+        utilities.tooltips.tutorialFlow(viewForBounds: self.view)
     }
-    
-    
-    
     
     func checkPermissions() {
         let cameraAuthStatus =  AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
@@ -184,23 +191,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
         self.present(navigationController, animated: true, completion: nil)
     }
-    
-    @objc func controlManualFocus(sender: UISlider) {
-        if let device = selectedDevice {
-            let lensPosition = sender.value
-            do {
-                try device.lockForConfiguration()
-            } catch {
-                NSLog("[Manual Focus] Couldn't lock device for configuration: %@", error.localizedDescription)
-                return
-            }
-            
-            device.setFocusModeLocked(lensPosition: lensPosition)
-            NSLog("[Manual Focus] Changed lens position")
-            device.unlockForConfiguration()
-        }
-    }
-    
     
     @objc func runInputSwitch() {
         if ultraWideDevice == nil && !initRun {
@@ -255,7 +245,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
     }
     
-    public func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation() else { return }
         let previewImage = UIImage(data: imageData)
         let photoPreview = MalachitePhotoPreview()
@@ -279,6 +269,42 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                      viewForScale: self.view,
                                      hapticClass: utilities.haptics)
     }
+    
+    @objc func runManualFocusController() {
+        utilities.function.manualFocus(captureDevice: &selectedDevice!,
+                                       sender: focusSlider)
+        
+    }
+    
+    @objc func runUIHider() {
+        if uiHiderRecognizer.state != UITapGestureRecognizer.State.began { return }
+        
+        let gestureRecognizers = [ zoomRecognizer, autofocusRecognizer ]
+        
+        if !uiIsHidden {
+            UIView.animate(withDuration: 0.25) { [self] in
+                for subview in self.view.subviews {
+                    subview.alpha = 0.0
+                }
+            }
+            for gestureRecognizer in gestureRecognizers {
+                self.view.removeGestureRecognizer(gestureRecognizer)
+            }
+            uiIsHidden = true
+        } else {
+            UIView.animate(withDuration: 0.25) { [self] in
+                for subview in self.view.subviews {
+                    subview.alpha = 1.0
+                }
+            }
+            for gestureRecognizer in gestureRecognizers {
+                self.view.addGestureRecognizer(gestureRecognizer)
+            }
+            uiIsHidden = false
+        }
+        utilities.haptics.triggerNotificationHaptic(type: .success)
+    }
+    
     
     override var prefersStatusBarHidden: Bool {
         return true
