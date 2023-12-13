@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Photos
 import UIKit
 
 public class MalachiteViewUtils : NSObject {
@@ -43,5 +44,73 @@ public class MalachiteViewUtils : NSObject {
         label.textColor = labelColor
         
         return label
+    }
+    
+    @objc func rotateButtonsWithOrientation(buttonsToRotate buttons: Array<UIButton>) {
+        var rotation = -1.0
+        
+        switch UIDevice.current.orientation {
+        case .unknown:
+            NSLog("[Rotation] How did I get here?")
+        case .portrait:
+            NSLog("[Rotation] Device has rotated portrait, with front camera on the top")
+            rotation = Double.pi * 2
+        case .portraitUpsideDown:
+            NSLog("[Rotation] Device has rotated portrait, with front camera on the bottom")
+            rotation = Double.pi
+        case .landscapeLeft:
+            NSLog("[Rotation] Device has rotated landscape, with front camera on the left")
+            rotation = Double.pi / 2
+        case .landscapeRight:
+            NSLog("[Rotation] Device has rotated landscape, with front camera on the right")
+            rotation = -Double.pi / 2
+        case .faceUp:
+            NSLog("[Rotation] Unneeded rotation, ignoring")
+            rotation = Double.pi * 2
+        case .faceDown:
+            NSLog("[Rotation] Unneeded rotation, ignoring")
+            rotation = Double.pi * 2
+        @unknown default:
+            abort()
+        }
+        
+        if rotation.isEqual(to: -1.0) { return }
+        
+        UIView.animate(withDuration: 0.25) {
+            for button in buttons {
+                button.transform = CGAffineTransform(rotationAngle: rotation)
+            }
+        }
+    }
+}
+
+extension UIDeviceOrientation {
+    var asCaptureVideoOrientation: AVCaptureVideoOrientation {
+        switch self {
+        case .landscapeLeft: return .landscapeRight
+        case .landscapeRight: return .landscapeLeft
+        case .portraitUpsideDown: return .portraitUpsideDown
+        default: return .portrait
+        }
+    }
+}
+
+extension UIImage {
+    func rotate(radians: Float) -> UIImage? {
+        var newSize = CGRect(origin: CGPoint.zero, size: self.size).applying(CGAffineTransform(rotationAngle: CGFloat(radians))).size
+        newSize.width = floor(newSize.width)
+        newSize.height = floor(newSize.height)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, self.scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        
+        context.translateBy(x: newSize.width/2, y: newSize.height/2)
+        context.rotate(by: CGFloat(radians))
+        self.draw(in: CGRect(x: -self.size.width/2, y: -self.size.height/2, width: self.size.width, height: self.size.height))
+    
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
 }

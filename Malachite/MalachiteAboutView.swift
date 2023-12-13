@@ -65,7 +65,11 @@ struct MalachiteAboutAndSettingsView: View {
         }
         .onDisappear() {
             utilities.settings.defaults.set(watermarkSwitch, forKey: "enableWatermark")
-            utilities.settings.defaults.set(watermarkText, forKey: "textForWatermark")
+            if !watermarkText.isEmpty {
+                utilities.settings.defaults.set(watermarkText, forKey: "textForWatermark")
+            } else {
+                utilities.settings.defaults.set("Shot with Malachite", forKey: "textForWatermark")
+            }
         }
         .onChange(of: watermarkSwitch) {_ in
             utilities.settings.defaults.set(watermarkSwitch, forKey: "enableWatermark")

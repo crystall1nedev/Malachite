@@ -20,16 +20,50 @@ class MalachitePhotoPreview : UIViewController {
     }()
     
     var photoImage = UIImage()
+    var watermarkedImage = UIImage()
     
     var savePhotoButton = UIButton()
     var dismissButton = UIButton()
     
+    let fixedOrientation = UIDevice.current.orientation
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .red
-        photoImageView.image = photoImage
-        self.view.addSubview(photoImageView)
         
+        var rotation = -1.0
+        var rotatedImage = UIImage()
+        
+        switch UIDevice.current.orientation {
+        case .unknown:
+            NSLog("[Rotation] How did I get here?")
+        case .portrait:
+            NSLog("[Rotation] Device has rotated portrait, with front camera on the top")
+            rotation = Double.pi * 2
+        case .portraitUpsideDown:
+            NSLog("[Rotation] Device has rotated portrait, with front camera on the bottom")
+            rotation = Double.pi
+        case .landscapeLeft:
+            NSLog("[Rotation] Device has rotated landscape, with front camera on the left")
+            rotation = Double.pi / 2
+        case .landscapeRight:
+            NSLog("[Rotation] Device has rotated landscape, with front camera on the right")
+            rotation = -Double.pi / 2
+        case .faceUp:
+            NSLog("[Rotation] Unneeded rotation, ignoring")
+            rotation = Double.pi * 2
+        case .faceDown:
+            NSLog("[Rotation] Unneeded rotation, ignoring")
+            rotation = Double.pi * 2
+        @unknown default:
+            abort()
+        }
+        
+        watermarkedImage = self.watermark(watermark: utilities.settings.defaults.string(forKey: "textForWatermark")!, imageToWatermark: photoImage)
+        rotatedImage = photoImage.rotate(radians: Float(rotation))!
+        
+        photoImageView.image = rotatedImage
+        self.view.addSubview(photoImageView)
         dismissButton = utilities.views.returnProperButton(symbolName: "xmark", viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(dismissButton)
         NSLayoutConstraint.activate([
@@ -49,6 +83,9 @@ class MalachitePhotoPreview : UIViewController {
             savePhotoButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
         savePhotoButton.addTarget(self, action: #selector(self.savePhoto), for: .touchUpInside)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
     }
     
     @objc private func dismissView() {
@@ -57,21 +94,61 @@ class MalachitePhotoPreview : UIViewController {
         }
     }
     
+    @objc func orientationChanged() {
+        utilities.views.rotateButtonsWithOrientation(buttonsToRotate: [ dismissButton, savePhotoButton ])
+    }
     
     @objc private func savePhoto() {
-        
-        guard let previewImage = self.photoImageView.image else { return }
-        
         do {
             try PHPhotoLibrary.shared().performChangesAndWait {
-                PHAssetChangeRequest.creationRequestForAsset(from: previewImage)
-                NSLog("[Capture Photo] Photo has been saved to the user's library.")
+                PHAssetChangeRequest.creationRequestForAsset(from: self.watermarkedImage)
+                NSLog("[Capture Photo] Photo has been saved to the user's library")
+                self.utilities.haptics.triggerNotificationHaptic(type: .success)
                 self.dismissView()
             }
         } catch let error {
             NSLog("[Capture Photo] Photo couldn't be saved to the user's library: %@", error.localizedDescription)
         }
         
+    }
+    
+    func watermark(watermark text: String, imageToWatermark image: UIImage) -> UIImage
+    {
+        let imageView = UIImageView(image: image)
+        imageView.backgroundColor = UIColor.clear
+        imageView.frame = CGRect(x:0, y:0, width:image.size.width, height:image.size.height)
+        
+        if utilities.settings.defaults.bool(forKey: "enableWatermark") {
+            NSLog("[Watermarking] User has opted to show a watermark")
+            var label = UILabel()
+            if image.size.width < image.size.height {
+                label = UILabel(frame: CGRect(x:75, y:image.size.width - 125, width:image.size.height, height:50))
+                label.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2)
+            } else {
+                label = UILabel(frame: CGRect(x:20, y:20, width:image.size.width, height:50))
+            }
+            label.textAlignment = .left
+            label.textColor = UIColor.white
+            label.text = text
+            label.font = UIFont.boldSystemFont(ofSize: 30)
+            
+            imageView.addSubview(label)
+        }
+        
+        UIGraphicsBeginImageContext(imageView.bounds.size)
+        imageView.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let imageWithText = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext();
+        return imageWithText!
+    }
+    
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     
     override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
