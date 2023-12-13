@@ -15,5 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let rootVC = MalachiteView()
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
+        
+        MalachiteSettingsUtils().ensurePreferencesOnLaunch()
     }
 }

@@ -15,12 +15,12 @@ public class MalachiteTooltipUtils : NSObject {
     var focusTitle = UILabel()
     var aboutTitle = UILabel()
     var currentYPosition = 10.0
-    public func tutorialFlow(viewForBounds view: UIView) {
+    public func tooltipFlow(viewForBounds view: UIView) {
         cameraTitle = MalachiteViewUtils().returnProperLabel(viewForBounds: view, text: "Switch camera", textColor: .white)
         flashlightTitle = MalachiteViewUtils().returnProperLabel(viewForBounds: view, text: "Toggle flashlight", textColor: .white)
         captureTitle = MalachiteViewUtils().returnProperLabel(viewForBounds: view, text: "Capture photo", textColor: .white)
         focusTitle = MalachiteViewUtils().returnProperLabel(viewForBounds: view, text: "Manual focus slider", textColor: .white)
-        aboutTitle = MalachiteViewUtils().returnProperLabel(viewForBounds: view, text: "About Malachite", textColor: .white)
+        aboutTitle = MalachiteViewUtils().returnProperLabel(viewForBounds: view, text: "Settings", textColor: .white)
         
         cameraTitle.textAlignment = .right
         flashlightTitle.textAlignment = .right

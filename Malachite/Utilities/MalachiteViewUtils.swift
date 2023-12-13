@@ -18,7 +18,7 @@ public class MalachiteViewUtils : NSObject {
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 30
         button.bringSubviewToFront(button.imageView!)
-        button.insertSubview(returnProperBlur(viewForBounds: view, blurStyle: .dark), at: 0)
+        button.insertSubview(returnProperBlur(viewForBounds: view, blurStyle: .systemThinMaterial), at: 0)
         button.addTarget(haptic, action: #selector(haptic.buttonMediumHaptics(_:)), for: .touchUpInside)
         
         return button

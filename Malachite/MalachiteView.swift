@@ -28,7 +28,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     var cameraButton = UIButton()
     var flashlightButton = UIButton()
     var captureButton = UIButton()
-    var aboutButton = UIButton()
+    var settingsButton = UIButton()
     var focusButton = UIButton()
     var focusSlider = UISlider()
     
@@ -120,16 +120,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         ])
         captureButton.addTarget(self, action: #selector(self.runImageCapture), for: .touchUpInside)
         
-        aboutButton = utilities.views.returnProperButton(symbolName: "info", viewForBounds: self.view, hapticClass: utilities.haptics)
-        self.view.addSubview(aboutButton)
-        NSLayoutConstraint.activate([
-            aboutButton.widthAnchor.constraint(equalToConstant: 60),
-            aboutButton.heightAnchor.constraint(equalToConstant: 60),
-            aboutButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10),
-            aboutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-        ])
-        aboutButton.addTarget(self, action: #selector(self.presentAboutView), for: .touchUpInside)
-        
         let focusButton = utilities.views.returnProperButton(symbolName: "", viewForBounds: self.view, hapticClass: utilities.haptics)
         focusSlider.translatesAutoresizingMaskIntoConstraints = false
         focusSlider.transform = CGAffineTransform(rotationAngle: CGFloat((3 * Double.pi) / 2))
@@ -149,6 +139,16 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         focusSlider.addTarget(self, action: #selector(self.runManualFocusController), for: .valueChanged)
         focusSlider.addTarget(utilities.haptics, action: #selector(utilities.haptics.buttonMediumHaptics(_:)), for: .touchUpInside)
         
+        settingsButton = utilities.views.returnProperButton(symbolName: "gear", viewForBounds: self.view, hapticClass: utilities.haptics)
+        self.view.addSubview(settingsButton)
+        NSLayoutConstraint.activate([
+            settingsButton.widthAnchor.constraint(equalToConstant: 60),
+            settingsButton.heightAnchor.constraint(equalToConstant: 60),
+            settingsButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+            settingsButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+        ])
+        settingsButton.addTarget(self, action: #selector(self.presentAboutView), for: .touchUpInside)
+        
         zoomRecognizer = UIPinchGestureRecognizer(target: self, action:#selector(runZoomController))
         self.view.addGestureRecognizer(zoomRecognizer)
         
@@ -159,7 +159,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         uiHiderRecognizer.numberOfTouchesRequired = 2
         self.view.addGestureRecognizer(uiHiderRecognizer)
         
-        utilities.tooltips.tutorialFlow(viewForBounds: self.view)
+        utilities.tooltips.tooltipFlow(viewForBounds: self.view)
     }
     
     func checkPermissions() {
@@ -185,7 +185,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     }
     
     @objc func presentAboutView() {
-        let aboutView = MalachiteAboutView()
+        let aboutView = MalachiteAboutAndSettingsView()
         let hostingController = UIHostingController(rootView: aboutView)
         let navigationController = UINavigationController(rootViewController: hostingController)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
