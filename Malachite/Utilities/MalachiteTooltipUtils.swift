@@ -63,7 +63,7 @@ public class MalachiteTooltipUtils : NSObject {
             
             aboutTitle.widthAnchor.constraint(equalToConstant: 180),
             aboutTitle.heightAnchor.constraint(equalToConstant: 60),
-            aboutTitle.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+            aboutTitle.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
             aboutTitle.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -90),
         ])
         

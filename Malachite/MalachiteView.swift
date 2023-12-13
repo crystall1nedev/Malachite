@@ -42,6 +42,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     var lastZoomFactor: CGFloat = 1.0
     
     public var utilities = MalachiteClassesObject()
+    private var rotationObserver: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,6 +79,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         NSLog("[Initialization] Presenting user interface")
         setupView()
+        
+        NSLog("[Initialization] Setting up notification observer for orientation changes")
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
     }
     
     func transformOrientation(orientation: UIInterfaceOrientation) -> AVCaptureVideoOrientation {
@@ -144,7 +149,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NSLayoutConstraint.activate([
             settingsButton.widthAnchor.constraint(equalToConstant: 60),
             settingsButton.heightAnchor.constraint(equalToConstant: 60),
-            settingsButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+            settingsButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
             settingsButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
         settingsButton.addTarget(self, action: #selector(self.presentAboutView), for: .touchUpInside)
@@ -160,6 +165,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.view.addGestureRecognizer(uiHiderRecognizer)
         
         utilities.tooltips.tooltipFlow(viewForBounds: self.view)
+    }
+    
+    private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
+        layer.videoOrientation = orientation
+        cameraPreview?.frame = view.bounds
     }
     
     func checkPermissions() {
@@ -305,6 +315,13 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         utilities.haptics.triggerNotificationHaptic(type: .success)
     }
     
+    @objc func orientationChanged() {
+        utilities.views.rotateButtonsWithOrientation(buttonsToRotate: [ cameraButton, flashlightButton, captureButton, settingsButton ])
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
     
     override var prefersStatusBarHidden: Bool {
         return true

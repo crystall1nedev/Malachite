@@ -134,7 +134,11 @@ public class MalachiteFunctionUtils : NSObject {
     
     public func captureImage(output photoOutput: AVCapturePhotoOutput, viewForBounds view: UIView, captureDelegate delegate: AVCapturePhotoCaptureDelegate) -> AVCapturePhotoOutput {
         let photoSettings = AVCapturePhotoSettings()
+        let photoOrientation = UIDevice.current.orientation.asCaptureVideoOrientation
         if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
+            if let photoOutputConnection = photoOutput.connection(with: AVMediaType.video) {
+                photoOutputConnection.videoOrientation = photoOrientation
+            }
             photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
             photoOutput.capturePhoto(with: photoSettings, delegate: delegate)
         }
