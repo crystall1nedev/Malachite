@@ -11,7 +11,7 @@ public class MalachiteSettingsUtils : NSObject {
     public let defaults = UserDefaults.standard
 
     /// Resets all user settings. (Clears UserDefaults)
-    public func resetAllSettings() -> Void {
+    public func resetAllSettings() {
         let domain = Bundle.main.bundleIdentifier!
         defaults.removePersistentDomain(forName: domain)
         defaults.synchronize()
@@ -19,15 +19,20 @@ public class MalachiteSettingsUtils : NSObject {
 
     /// Returns the entire UserDefaults (Settings) as a Dictionary object
     public func settingsAsDictionary() -> Dictionary<String, Any> {
-        return UserDefaults.standard.dictionaryRepresentation()
+        return defaults.dictionaryRepresentation()
     }
-
-    /**
-     Does internal first time launch housekeeping tasks.
-     
-     For now this sets `IsFirstLaunch` in UserDefaults to `true`.
-    */
-    public func doAppFirstTimeLaunch() -> Void {
-        defaults.set(true, forKey: "isNotFirstLaunch")
+    
+    public func checkIfPreferenceIsPresent(keyToCheck key: String) -> Bool {
+        if settingsAsDictionary().keys.contains(key) {
+            return true
+        }
+        
+        return false
+    }
+    
+    public func ensurePreferencesOnLaunch() {
+        if !self.checkIfPreferenceIsPresent(keyToCheck: "isFirstLaunch") { defaults.set(true, forKey: "isNotFirstLaunch") }
+        if !self.checkIfPreferenceIsPresent(keyToCheck: "enableWatermark") { defaults.set(false, forKey: "enableWatermark") }
+        if !self.checkIfPreferenceIsPresent(keyToCheck: "textForWatermark") { defaults.set("Shot with Malachite", forKey: "textForWatermark") }
     }
 }
