@@ -1,0 +1,41 @@
+name: Build
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build for iOS
+    runs-on: Lisa
+    steps:
+      - name: Remove work folders
+        run: |
+          echo "before"
+          ls -lah ./
+          rm -rf ./* || true
+          rm -rf ./.??* || true
+          echo "after"
+          ls -lah ./
+          
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build
+        env:
+          password: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          security unlock-keychain -p $password login.keychain
+          xcodebuild -project Malachite.xcodeproj -target Malachite -configuration Debug -allowProvisioningUpdates
+          mkdir build/Payload && mv build/Debug-iphoneos/Malachite.app build/Payload/Malachite.app 
+          cd build && zip -r Payload.ipa Payload/
+          cd ..
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Malachite.ipa
+          path: build/Payload.ipa
+    
+
+      
