@@ -31,7 +31,7 @@ I'll release the first build of Malachite in the Releases tab when it's ready fo
 3. Change the codesigning team in `Signing & Capabilities`
 4. Build!
 
-[^1]: This list is what I hope to target all the way through. If development hurdles come up, some functionality may be restricted to newer releases that are not listed here. Configurations that are not listed are not supported by this app. Devices older than the iPhone 11 are not supported ion any capacity.
+[^1]: This list is what I hope to target all the way through. If development hurdles come up, some functionality may be restricted to newer releases that are not listed here. Configurations that are not listed are not tested.
 [^2]: Pinch-to-zoom will feature haptic feedback when reaching the minimum and maximum zoom levels in a future commit.
 [^3]: Autofocus currently features haptic feedback. On-screen feedback will be featured in a future commit.
 [^4]: Taking photos is locked to portrait mode - rotating the phone doesn't currently rotate the captured photo! This will be fixed in a future commit, alongside proper orientation enhancements.
