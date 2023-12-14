@@ -11,9 +11,10 @@ struct MalachiteAboutAndSettingsView: View {
     @State private var watermarkSwitch = false
     @State private var watermarkText = String()
     @State private var photoFormat = Int()
+    @State private var hdrSwitch = false
     @State private var supportsHEIC = false
     @State private var supportsHEIC10Bit = false
-    @State private var formatPickerText = "This device isn't capable of encoding images in HEIF or HEIF 10-bit."
+    @State private var formatFooterText = "This device isn't capable of encoding images in HEIF or HEIF 10-bit."
     
     let utilities = MalachiteClassesObject()
     
@@ -53,23 +54,21 @@ struct MalachiteAboutAndSettingsView: View {
                 Text("Designed by Eva with ❤️ in 2023")
                     .bold()
             }
-            Section(header: Text("Photo settings")) {
+            Section(header: Text("Photo settings"), footer: Text(formatFooterText)) {
                 Picker("Image file format", selection: $photoFormat) {
                     Text("JPEG")
                         .tag(0)
                     Text("HEIF")
                         .tag(1)
-                        .disabled(!supportsHEIC)
-                    Text("HEIF 10-bit")
-                        .tag(2)
-                        .disabled(!supportsHEIC10Bit)
+                    if supportsHEIC10Bit {
+                        Text("HEIF 10-bit")
+                            .tag(2)
+                    }
                 }
-                .disabled(!supportsHEIC && !supportsHEIC10Bit)
+                .disabled(!supportsHEIC)
                 .pickerStyle(.segmented)
-                Text(formatPickerText)
-                if supportsHEIC && !supportsHEIC10Bit {
-                    Text("You'll need to update to iOS 15 or later in order to use HEIF 10-bit.")
-                }
+                Toggle("Enable HDR", isOn: $hdrSwitch)
+                    .disabled(!supportsHEIC)
             }
             Section(header: Text("Watermark settings"), footer: Text("A fun little feature, you can enable a watermark on your images when you take them.")) {
                 Toggle("Enable watermark", isOn: $watermarkSwitch)
@@ -85,16 +84,17 @@ struct MalachiteAboutAndSettingsView: View {
         }
         .onAppear() {
             watermarkSwitch = utilities.settings.defaults.bool(forKey: "enableWatermark")
+            hdrSwitch = utilities.settings.defaults.bool(forKey: "shouldEnableHDR")
             watermarkText = utilities.settings.defaults.string(forKey: "textForWatermark")!
             
             if utilities.function.supportedImageCaptureTypes.contains("public.heic") {
                 supportsHEIC = true
-                formatPickerText = "Choose JPEG for better compatibility with non-Apple platforms, or go with HEIC for better file size."
+                formatFooterText = "JPEG - Better compatibility with non-Apple platforms\nHEIC - Better file size while retaining quality\nUpdate to iOS 15 or later to support HEIC 10-bit."
             }
             
             if #available(iOS 15.0, *) {
                 supportsHEIC10Bit = true
-                formatPickerText = "Choose JPEG for better compatibility with non-Apple platforms, HEIC for better file size, or HEIF 10-bit for the best quality and color accuracy."
+                formatFooterText = "JPEG - Better compatibility with non-Apple platforms\nHEIC - Better file size while retaining quality\nHEIF 10-bit - Best quality and color accuracy"
             }
             
             if !utilities.settings.defaults.bool(forKey: "shouldUseHEIF") {
@@ -109,11 +109,14 @@ struct MalachiteAboutAndSettingsView: View {
         }
         .onDisappear() {
             utilities.settings.defaults.set(watermarkSwitch, forKey: "enableWatermark")
+            utilities.settings.defaults.set(hdrSwitch, forKey: "shouldUseHDR")
+            
             if !watermarkText.isEmpty {
                 utilities.settings.defaults.set(watermarkText, forKey: "textForWatermark")
             } else {
                 utilities.settings.defaults.set("Shot with Malachite", forKey: "textForWatermark")
             }
+            
             if photoFormat == 0 {
                 utilities.settings.defaults.set("0", forKey: "shouldUseHEIF")
                 utilities.settings.defaults.set(false, forKey: "shouldUseHEIF")
@@ -129,6 +132,9 @@ struct MalachiteAboutAndSettingsView: View {
         }
         .onChange(of: watermarkSwitch) {_ in
             utilities.settings.defaults.set(watermarkSwitch, forKey: "enableWatermark")
+        }
+        .onChange(of: hdrSwitch) { _ in
+            utilities.settings.defaults.set(hdrSwitch, forKey: "shouldEnableHDR")
         }
         .onChange(of: watermarkText) {_ in
             watermarkText = String(watermarkText.prefix(65))
