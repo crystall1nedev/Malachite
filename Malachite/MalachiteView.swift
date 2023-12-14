@@ -62,6 +62,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         let photoOutput = AVCapturePhotoOutput()
         photoOutput.isHighResolutionCaptureEnabled = true
         photoOutput.maxPhotoQualityPrioritization = .quality
+        cameraSession?.sessionPreset = AVCaptureSession.Preset.photo
         cameraSession?.addOutput(photoOutput)
         self.photoOutput = photoOutput
         

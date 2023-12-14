@@ -122,15 +122,19 @@ class MalachitePhotoPreview : UIViewController {
             NSLog("[Watermarking] User has opted to show a watermark")
             var label = UILabel()
             if image.size.width < image.size.height {
-                label = UILabel(frame: CGRect(x:75, y:image.size.width - 125, width:image.size.height, height:50))
-                label.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2)
+                label = UILabel(frame: CGRect(x:image.size.width - 20, y:20, width:image.size.width, height:120))
+                var transA = CGAffineTransformMakeTranslation(label.frame.size.width/2,label.frame.size.height/2);
+                var transB = CGAffineTransformMakeRotation(Double.pi / 2);
+                var transC = CGAffineTransformMakeTranslation(-label.frame.size.width/2,-label.frame.size.height/2);
+                
+                label.transform = CGAffineTransformConcat(CGAffineTransformConcat(transA,transB),transC);
             } else {
-                label = UILabel(frame: CGRect(x:20, y:20, width:image.size.width, height:50))
+                label = UILabel(frame: CGRect(x:20, y:20, width:image.size.width, height:120))
             }
             label.textAlignment = .left
             label.textColor = UIColor.white
             label.text = text
-            label.font = UIFont.boldSystemFont(ofSize: 30)
+            label.font = UIFont.boldSystemFont(ofSize: 70)
             
             imageView.addSubview(label)
         }
