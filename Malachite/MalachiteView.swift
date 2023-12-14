@@ -258,13 +258,18 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation() else { return }
-        let previewImage = UIImage(data: imageData)
+        let getterForOrientation = UIImage(data: imageData)
+        let previewImage = UIImage(ciImage: CIImage(data: imageData, options: [.applyOrientationProperty: true,
+                                                                                                .properties: [kCGImagePropertyOrientation: CGImagePropertyOrientation(getterForOrientation!.imageOrientation).rawValue]])!)
         let photoPreview = MalachitePhotoPreview()
+        photoPreview.photoImageData = imageData
         photoPreview.photoImageView.frame = view.frame
-        photoPreview.photoImage = previewImage!
+        photoPreview.photoImage = previewImage
         let navigationController = UINavigationController(rootViewController: photoPreview)
-        navigationController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+        navigationController.isNavigationBarHidden = true
         self.present(navigationController, animated: true, completion: nil)
+        NotificationCenter.default.addObserver(photoPreview, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     @objc func runZoomController() {

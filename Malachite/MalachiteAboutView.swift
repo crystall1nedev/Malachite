@@ -10,6 +10,10 @@ import SwiftUI
 struct MalachiteAboutAndSettingsView: View {
     @State private var watermarkSwitch = false
     @State private var watermarkText = String()
+    @State private var photoFormat = Int()
+    @State private var supportsHEIC = false
+    @State private var supportsHEIC10Bit = false
+    @State private var formatPickerText = "This device isn't capable of encoding images in HEIF or HEIF 10-bit."
     
     let utilities = MalachiteClassesObject()
     
@@ -49,7 +53,25 @@ struct MalachiteAboutAndSettingsView: View {
                 Text("Designed by Eva with ❤️ in 2023")
                     .bold()
             }
-            Section(header: Text("Watermark settings for captured images"), footer: Text("A fun little feature, you can enable a watermark on your images when you take them. It helps me get some recognition, and enables you to flex your cameras on others! Completely optional, totally up to you.")) {
+            Section(header: Text("Photo settings")) {
+                Picker("Image file format", selection: $photoFormat) {
+                    Text("JPEG")
+                        .tag(0)
+                    Text("HEIF")
+                        .tag(1)
+                        .disabled(!supportsHEIC)
+                    Text("HEIF 10-bit")
+                        .tag(2)
+                        .disabled(!supportsHEIC10Bit)
+                }
+                .disabled(!supportsHEIC && !supportsHEIC10Bit)
+                .pickerStyle(.segmented)
+                Text(formatPickerText)
+                if supportsHEIC && !supportsHEIC10Bit {
+                    Text("You'll need to update to iOS 15 or later in order to use HEIF 10-bit.")
+                }
+            }
+            Section(header: Text("Watermark settings"), footer: Text("A fun little feature, you can enable a watermark on your images when you take them.")) {
                 Toggle("Enable watermark", isOn: $watermarkSwitch)
                 HStack {
                     Text("Watermark text")
@@ -64,6 +86,26 @@ struct MalachiteAboutAndSettingsView: View {
         .onAppear() {
             watermarkSwitch = utilities.settings.defaults.bool(forKey: "enableWatermark")
             watermarkText = utilities.settings.defaults.string(forKey: "textForWatermark")!
+            
+            if utilities.function.supportedImageCaptureTypes.contains("public.heic") {
+                supportsHEIC = true
+                formatPickerText = "Choose JPEG for better compatibility with non-Apple platforms, or go with HEIC for better file size."
+            }
+            
+            if #available(iOS 15.0, *) {
+                supportsHEIC10Bit = true
+                formatPickerText = "Choose JPEG for better compatibility with non-Apple platforms, HEIC for better file size, or HEIF 10-bit for the best quality and color accuracy."
+            }
+            
+            if !utilities.settings.defaults.bool(forKey: "shouldUseHEIF") {
+                photoFormat = 0
+            } else {
+                if !utilities.settings.defaults.bool(forKey: "shouldUseHEIFEDR") {
+                    photoFormat = 1
+                } else {
+                    photoFormat = 2
+                }
+            }
         }
         .onDisappear() {
             utilities.settings.defaults.set(watermarkSwitch, forKey: "enableWatermark")
@@ -71,6 +113,18 @@ struct MalachiteAboutAndSettingsView: View {
                 utilities.settings.defaults.set(watermarkText, forKey: "textForWatermark")
             } else {
                 utilities.settings.defaults.set("Shot with Malachite", forKey: "textForWatermark")
+            }
+            if photoFormat == 0 {
+                utilities.settings.defaults.set("0", forKey: "shouldUseHEIF")
+                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF")
+                utilities.settings.defaults.set(false, forKey: "shouldUseHEIFEDR")
+            } else if photoFormat == 1 {
+                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF")
+                utilities.settings.defaults.set(false, forKey: "shouldUseHEIFEDR")
+            } else if photoFormat == 2 {
+                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF")
+                utilities.settings.defaults.set(true, forKey: "shouldUseHEIFEDR")
+                
             }
         }
         .onChange(of: watermarkSwitch) {_ in
@@ -84,7 +138,22 @@ struct MalachiteAboutAndSettingsView: View {
                 utilities.settings.defaults.set("Shot with Malachite", forKey: "textForWatermark")
             }
         }
+        .onChange(of: photoFormat) {_ in
+            if photoFormat == 0 {
+                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF")
+                utilities.settings.defaults.set(false, forKey: "shouldUseHEIFEDR")
+            } else if photoFormat == 1 {
+                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF")
+                utilities.settings.defaults.set(false, forKey: "shouldUseHEIFEDR")
+            } else if photoFormat == 2 {
+                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF")
+                utilities.settings.defaults.set(true, forKey: "shouldUseHEIFEDR")
+                
+            }
+        }
+        .navigationTitle("Settings")
     }
+       
     
 }
 

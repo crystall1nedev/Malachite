@@ -34,5 +34,7 @@ public class MalachiteSettingsUtils : NSObject {
         if !self.checkIfPreferenceIsPresent(keyToCheck: "isFirstLaunch") { defaults.set(true, forKey: "isNotFirstLaunch") }
         if !self.checkIfPreferenceIsPresent(keyToCheck: "enableWatermark") { defaults.set(false, forKey: "enableWatermark") }
         if !self.checkIfPreferenceIsPresent(keyToCheck: "textForWatermark") { defaults.set("Shot with Malachite", forKey: "textForWatermark") }
+        if !self.checkIfPreferenceIsPresent(keyToCheck: "shouldUseHEIF") { defaults.set(false, forKey: "shouldUseHEIF") }
+        if !self.checkIfPreferenceIsPresent(keyToCheck: "shouldUseHEIF10Bit") { defaults.set(false, forKey: "shouldUseHEIF10Bit") }
     }
 }
