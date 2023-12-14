@@ -56,6 +56,8 @@ struct MalachiteAboutAndSettingsView: View {
                     Spacer()
                     TextField("Shot with Malachite", text: $watermarkText)
                         .multilineTextAlignment(.trailing)
+                        .autocorrectionDisabled()
+                        .keyboardType(.emailAddress)
                 }
             }
         }
@@ -75,6 +77,7 @@ struct MalachiteAboutAndSettingsView: View {
             utilities.settings.defaults.set(watermarkSwitch, forKey: "enableWatermark")
         }
         .onChange(of: watermarkText) {_ in
+            watermarkText = String(watermarkText.prefix(65))
             if !watermarkText.isEmpty {
                 utilities.settings.defaults.set(watermarkText, forKey: "textForWatermark")
             } else {
@@ -82,6 +85,7 @@ struct MalachiteAboutAndSettingsView: View {
             }
         }
     }
+    
 }
 
 #Preview {
