@@ -19,6 +19,7 @@ class MalachitePhotoPreview : UIViewController {
         return imageView
     }()
     
+    var photoImageData = Data()
     var photoImage = UIImage()
     var watermarkedImage = UIImage()
     
@@ -37,6 +38,7 @@ class MalachitePhotoPreview : UIViewController {
         switch UIDevice.current.orientation {
         case .unknown:
             NSLog("[Rotation] How did I get here?")
+            rotation = Double.pi * 2
         case .portrait:
             NSLog("[Rotation] Device has rotated portrait, with front camera on the top")
             rotation = Double.pi * 2
@@ -59,33 +61,34 @@ class MalachitePhotoPreview : UIViewController {
             abort()
         }
         
-        watermarkedImage = self.watermark(watermark: utilities.settings.defaults.string(forKey: "textForWatermark")!, imageToWatermark: photoImage)
         rotatedImage = photoImage.rotate(radians: Float(rotation))!
-        
         photoImageView.image = rotatedImage
+        
+        var currentY = (self.navigationController?.navigationBar.frame.size.height)!  - 28
         self.view.addSubview(photoImageView)
         dismissButton = utilities.views.returnProperButton(symbolName: "xmark", viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(dismissButton)
         NSLayoutConstraint.activate([
             dismissButton.widthAnchor.constraint(equalToConstant: 60),
             dismissButton.heightAnchor.constraint(equalToConstant: 60),
-            dismissButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -28),
+            dismissButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: currentY),
             dismissButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
         dismissButton.addTarget(self, action: #selector(self.dismissView), for: .touchUpInside)
+        
+        currentY = currentY + 69
         
         savePhotoButton = utilities.views.returnProperButton(symbolName: "square.and.arrow.down", viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(savePhotoButton)
         NSLayoutConstraint.activate([
             savePhotoButton.widthAnchor.constraint(equalToConstant: 60),
             savePhotoButton.heightAnchor.constraint(equalToConstant: 60),
-            savePhotoButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 41),
+            savePhotoButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: currentY),
             savePhotoButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
         savePhotoButton.addTarget(self, action: #selector(self.savePhoto), for: .touchUpInside)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
-        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        orientationChanged()
     }
     
     @objc private func dismissView() {
@@ -100,8 +103,25 @@ class MalachitePhotoPreview : UIViewController {
     
     @objc private func savePhoto() {
         do {
-            try PHPhotoLibrary.shared().performChangesAndWait {
-                PHAssetChangeRequest.creationRequestForAsset(from: self.watermarkedImage)
+            try PHPhotoLibrary.shared().performChangesAndWait { [self] in
+                let createRequest = PHAssetCreationRequest.forAsset()
+                var data = Data()
+                let rawImage = CIImage(data: self.photoImageData)
+                let watermarkImage = CIImage(image: self.watermark(watermark: utilities.settings.defaults.string(forKey: "textForWatermark")!,
+                                                                   imageToWatermark: photoImage))
+                let outputImage = watermarkImage!.composited(over: rawImage!)
+                let outputImageWithProps = outputImage.settingProperties(rawImage!.properties)
+                
+                let enableHEIF = utilities.settings.defaults.bool(forKey: "shouldUseHEIF")
+                let enableHEIF10 = utilities.settings.defaults.bool(forKey: "shouldUseHEIF10Bit")
+                
+                if enableHEIF {
+                    data = returnHEIC(enable10Bit: enableHEIF10, imageForRepresentation: outputImageWithProps)
+                } else {
+                    data = returnJPEG(imageForRepresentation: outputImageWithProps)
+                }
+                
+                createRequest.addResource(with: .photo, data: data, options: nil)
                 NSLog("[Capture Photo] Photo has been saved to the user's library")
                 self.utilities.haptics.triggerNotificationHaptic(type: .success)
                 self.dismissView()
@@ -109,27 +129,23 @@ class MalachitePhotoPreview : UIViewController {
         } catch let error {
             NSLog("[Capture Photo] Photo couldn't be saved to the user's library: %@", error.localizedDescription)
         }
-        
     }
+        
     
     func watermark(watermark text: String, imageToWatermark image: UIImage) -> UIImage
     {
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView()
         imageView.backgroundColor = UIColor.clear
-        imageView.frame = CGRect(x:0, y:0, width:image.size.width, height:image.size.height)
+        if image.size.width < image.size.height {
+            imageView.frame = CGRect(x:0, y:0, width:image.size.height, height:image.size.width)
+        } else {
+            imageView.frame = CGRect(x:0, y:0, width:image.size.width, height:image.size.height)
+        }
         
         if utilities.settings.defaults.bool(forKey: "enableWatermark") {
             NSLog("[Watermarking] User has opted to show a watermark")
             var label = UILabel()
-            if image.size.width < image.size.height {
-                label = UILabel(frame: CGRect(x:image.size.width - 20, y:50, width:image.size.width, height:120))
-                let transA = CGAffineTransformMakeTranslation(label.frame.size.width/2,label.frame.size.height/2);
-                let transB = CGAffineTransformMakeRotation(Double.pi / 2);
-                let transC = CGAffineTransformMakeTranslation(-label.frame.size.width/2,-label.frame.size.height/2);
-                label.transform = CGAffineTransformConcat(CGAffineTransformConcat(transA,transB),transC);
-            } else {
-                label = UILabel(frame: CGRect(x:50, y:20, width:image.size.width, height:120))
-            }
+            label = UILabel(frame: CGRect(x:50, y:20, width:image.size.width, height:120))
             label.textAlignment = .left
             label.textColor = UIColor.white
             label.text = text
@@ -145,6 +161,37 @@ class MalachitePhotoPreview : UIViewController {
         return imageWithText!
     }
     
+    func returnHEIC(enable10Bit extraBits: Bool, imageForRepresentation image: CIImage) -> Data {
+        let types = CGImageDestinationCopyTypeIdentifiers() as NSArray
+        if types.contains("public.heic") {
+            if #available(iOS 15.0, *) {
+                if extraBits {
+                    do {
+                        NSLog("[Capture Photo] HEIF 10-bit is enabled, saving 10-bit HEIF representation")
+                        return try CIContext().heif10Representation(of: image, colorSpace: CGColorSpace(name: CGColorSpace.itur_2020)!)
+                    } catch {
+                        NSLog("[Capture Photo] HEIF 10-bit representation failed, falling back to HEIF")
+                    }
+                } else {
+                    NSLog("[Capture Photo] HEIF is enabled, saving HEIF representation")
+                }
+            } else {
+                NSLog("[Capture Photo] HEIF EDR was enabled, but we're on iOS 14")
+                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF10Bit")
+            }
+            
+            return CIContext().heifRepresentation(of: image, format: .ARGB8, colorSpace: CGColorSpace(name: CGColorSpace.itur_709)!)!
+        } else {
+            NSLog("[Capture Photo] Device does not support encoding HEIF, falling back to JPEG")
+            utilities.settings.defaults.set(false, forKey: "shouldUseHEIF")
+            return returnJPEG(imageForRepresentation: image)
+        }
+    }
+    
+    func returnJPEG(imageForRepresentation image: CIImage) -> Data {
+        NSLog("[Capture Photo] HEIF is disabled, saving JPEG representation")
+        return CIContext().jpegRepresentation(of: image, colorSpace: CGColorSpace(name: CGColorSpace.itur_709)!)!
+    }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
@@ -158,3 +205,4 @@ class MalachitePhotoPreview : UIViewController {
         return [.bottom]
     }
 }
+

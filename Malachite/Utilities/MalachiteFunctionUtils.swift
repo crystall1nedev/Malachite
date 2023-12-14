@@ -11,6 +11,8 @@ import Photos
 import UIKit
 
 public class MalachiteFunctionUtils : NSObject {
+    public let supportedImageCaptureTypes = CGImageDestinationCopyTypeIdentifiers() as NSArray
+    
     public func zoom(sender pinch: UIPinchGestureRecognizer, captureDevice device: inout AVCaptureDevice, lastZoomFactor zoomFactor: inout CGFloat, hapticClass haptic: MalachiteHapticUtils) {
         func minMaxZoom(_ factor: CGFloat) -> CGFloat {
             return min(min(max(factor, 1.0), 5.0), device.activeFormat.videoMaxZoomFactor)
@@ -126,6 +128,18 @@ public class MalachiteFunctionUtils : NSObject {
             print(error)
         }
         
+        if MalachiteSettingsUtils().defaults.bool(forKey: "shouldUseHEIFMax") {
+            do {
+                try device?.lockForConfiguration()
+                defer { device?.unlockForConfiguration() }
+                device?.automaticallyAdjustsVideoHDREnabled = false
+                device?.isVideoHDREnabled = true
+                NSLog("[Camera Input] Force enabled HDR on camera")
+            } catch {
+                NSLog("[Camera Input] Error forcing HDR: %@", error.localizedDescription)
+            }
+        }
+        
         NSLog("[Camera Input] Attached input, finishing configuration")
         session.addInput(input!)
         session.commitConfiguration()
@@ -133,7 +147,13 @@ public class MalachiteFunctionUtils : NSObject {
     }
     
     public func captureImage(output photoOutput: AVCapturePhotoOutput, viewForBounds view: UIView, captureDelegate delegate: AVCapturePhotoCaptureDelegate) -> AVCapturePhotoOutput {
-        let photoSettings = AVCapturePhotoSettings()
+        var format = [String: Any]()
+        if MalachiteSettingsUtils().defaults.bool(forKey: "shouldUseHEIC") {
+            format = [AVVideoCodecKey : AVVideoCodecType.hevc]
+        } else {
+            format = [AVVideoCodecKey : AVVideoCodecType.jpeg]
+        }
+        let photoSettings = AVCapturePhotoSettings(format: format)
         let photoOrientation = UIDevice.current.orientation.asCaptureVideoOrientation
         if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
             if let photoOutputConnection = photoOutput.connection(with: AVMediaType.video) {
@@ -158,5 +178,22 @@ public class MalachiteFunctionUtils : NSObject {
         device.setFocusModeLocked(lensPosition: lensPosition)
         NSLog("[Manual Focus] Changed lens position")
         device.unlockForConfiguration()
+    }
+}
+
+extension CGImagePropertyOrientation {
+    init(_ uiOrientation: UIImage.Orientation) {
+        switch uiOrientation {
+            case .up: self = .up
+            case .upMirrored: self = .upMirrored
+            case .down: self = .down
+            case .downMirrored: self = .downMirrored
+            case .left: self = .left
+            case .leftMirrored: self = .leftMirrored
+            case .right: self = .right
+            case .rightMirrored: self = .rightMirrored
+        @unknown default:
+            abort()
+        }
     }
 }

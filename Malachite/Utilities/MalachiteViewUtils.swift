@@ -52,6 +52,7 @@ public class MalachiteViewUtils : NSObject {
         switch UIDevice.current.orientation {
         case .unknown:
             NSLog("[Rotation] How did I get here?")
+            rotation = Double.pi * 2
         case .portrait:
             NSLog("[Rotation] Device has rotated portrait, with front camera on the top")
             rotation = Double.pi * 2
