@@ -216,9 +216,9 @@ class MalachitePhotoPreview : UIViewController {
             }
             
             if enableHDR {
-                return CIContext().heifRepresentation(of: image, format: .ARGB8, colorSpace: CGColorSpace(name: colorSpace!)!, options:  [ .hdrGainMapImage : hdrImage ])!
+                return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!, options:  [ .hdrGainMapImage : hdrImage ])!
             } else {
-                return CIContext().heifRepresentation(of: image, format: .ARGB8, colorSpace: CGColorSpace(name: colorSpace!)!)!
+                return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!)!
             }
         } else {
             NSLog("[Capture Photo] Device does not support encoding HEIF, falling back to JPEG")
