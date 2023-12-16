@@ -10,7 +10,7 @@ Malachite is a **work-in-progress** app that gives you more control over the mac
 You'll need one of the following configurations...
 - iPhone 13 Pro/Pro Max or later Pro models
 - An iPhone with a macro lens accessory attached  
-...and **iOS 14.0** or later.
+...and **iOS 14.1** or later.
 
 ## What can I do with this?  
 - [x] Basic camera view, with buttons that are out of the way  
