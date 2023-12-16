@@ -28,6 +28,10 @@ class MalachitePhotoPreview : UIViewController {
     
     let fixedOrientation = UIDevice.current.orientation
     
+    let enableHDR = MalachiteClassesObject().settings.defaults.bool(forKey: "shouldUseHDR")
+    let enableHEIF = MalachiteClassesObject().settings.defaults.bool(forKey: "shouldUseHEIF")
+    let enableHEIF10 = MalachiteClassesObject().settings.defaults.bool(forKey: "shouldUseHEIF10Bit")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .red
@@ -104,23 +108,53 @@ class MalachitePhotoPreview : UIViewController {
     @objc private func savePhoto() {
         do {
             try PHPhotoLibrary.shared().performChangesAndWait { [self] in
+                // I can move some of these variables out of this function and class-wide
                 let createRequest = PHAssetCreationRequest.forAsset()
+                
                 var data = Data()
-                let rawImage = CIImage(data: self.photoImageData)
+                let rawImageData = NSData(data: self.photoImageData)
+                let gainMapOutputData = NSMutableData()
+                var gainMapImage = CIImage()
+                let rawImageSource = CGImageSourceCreateWithData(rawImageData, nil)
+                let rawImage = CIImage(data: self.photoImageData, options: [ .toneMapHDRtoSDR : true])
                 let watermarkImage = CIImage(image: self.watermark(watermark: utilities.settings.defaults.string(forKey: "textForWatermark")!,
                                                                    imageToWatermark: photoImage))
                 let outputImage = watermarkImage!.composited(over: rawImage!)
-                let outputImageWithProps = outputImage.settingProperties(rawImage!.properties)
                 
-                let enableHEIF = utilities.settings.defaults.bool(forKey: "shouldUseHEIF")
-                let enableHEIF10 = utilities.settings.defaults.bool(forKey: "shouldUseHEIF10Bit")
+                var imageProperties = rawImage!.properties
                 
-                if enableHEIF {
-                    data = returnHEIC(enable10Bit: enableHEIF10, imageForRepresentation: outputImageWithProps)
-                } else {
-                    data = returnJPEG(imageForRepresentation: outputImageWithProps)
+                if enableHDR {
+                    let gainMapDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(rawImageSource!, 0, kCGImageAuxiliaryDataTypeHDRGainMap)! as Dictionary
+                    let gainMapData = gainMapDataInfo[kCGImageAuxiliaryDataInfoData] as! Data
+                    let gainMapDescription = gainMapDataInfo[kCGImageAuxiliaryDataInfoDataDescription]! as! [String: Int]
+                    let gainMapSize = CGSize(width: gainMapDescription["Width"]!, height: gainMapDescription["Height"]!)
+                    let gainMapciImage = CIImage(bitmapData: gainMapData, bytesPerRow: gainMapDescription["BytesPerRow"]!, size: gainMapSize, format: .L8, colorSpace: nil)
+                    let gainMapcgImage = CIContext().createCGImage(gainMapciImage, from: CGRect(origin: CGPoint(x: 0, y: 0), size: gainMapSize))!
+                    let gainMapDest = CGImageDestinationCreateWithData(gainMapOutputData, UTType.bmp.identifier as CFString, 1, nil)
+                    CGImageDestinationAddImage(gainMapDest!, gainMapcgImage, [:] as CFDictionary)
+                    CGImageDestinationFinalize(gainMapDest!)
+                    
+                    let outputImageSource = CGImageSourceCreateWithData(gainMapOutputData, nil)
+                    let outputPropsDict = CGImageSourceCopyProperties(rawImageSource!, nil);
+                    
+                    gainMapImage = CIImage(data: gainMapOutputData as Data)!
+                    
+                    var makerApple = imageProperties[kCGImagePropertyMakerAppleDictionary as String] as? [String: Any] ?? [:]
+                    
+                    makerApple["33"] = 0.0
+                    makerApple["48"] = 0.0
+                    
+                    imageProperties[kCGImagePropertyMakerAppleDictionary as String] = makerApple
                 }
                 
+                let outputImageWithProps = outputImage.settingProperties(imageProperties)
+                
+                if enableHEIF {
+                    data = returnHEIC(enable10Bit: enableHEIF10, imageForRepresentation: rawImage!, imageForGainMap: gainMapImage)
+                } else {
+                    data = returnJPEG(imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage)
+                }
+                    
                 createRequest.addResource(with: .photo, data: data, options: nil)
                 NSLog("[Capture Photo] Photo has been saved to the user's library")
                 self.utilities.haptics.triggerNotificationHaptic(type: .success)
@@ -161,14 +195,18 @@ class MalachitePhotoPreview : UIViewController {
         return imageWithText!
     }
     
-    func returnHEIC(enable10Bit extraBits: Bool, imageForRepresentation image: CIImage) -> Data {
+    func returnHEIC(enable10Bit extraBits: Bool, imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage) -> Data {
         let types = CGImageDestinationCopyTypeIdentifiers() as NSArray
         if types.contains("public.heic") {
             if #available(iOS 15.0, *) {
                 if extraBits {
                     do {
                         NSLog("[Capture Photo] HEIF 10-bit is enabled, saving 10-bit HEIF representation")
-                        return try CIContext().heif10Representation(of: image, colorSpace: CGColorSpace(name: CGColorSpace.itur_2020)!)
+                        if enableHDR {
+                            return try CIContext().heif10Representation(of: image, colorSpace: CGColorSpace(name: CGColorSpace.displayP3)!, options: [ .hdrGainMapImage : hdrImage ])
+                        } else {
+                            return try CIContext().heif10Representation(of: image, colorSpace: CGColorSpace(name: CGColorSpace.displayP3)!)
+                        }
                     } catch {
                         NSLog("[Capture Photo] HEIF 10-bit representation failed, falling back to HEIF")
                     }
@@ -176,21 +214,29 @@ class MalachitePhotoPreview : UIViewController {
                     NSLog("[Capture Photo] HEIF is enabled, saving HEIF representation")
                 }
             } else {
-                NSLog("[Capture Photo] HEIF EDR was enabled, but we're on iOS 14")
+                NSLog("[Capture Photo] HEIF 10-bit was enabled, but we're on iOS 14")
                 utilities.settings.defaults.set(false, forKey: "shouldUseHEIF10Bit")
             }
             
-            return CIContext().heifRepresentation(of: image, format: .ARGB8, colorSpace: CGColorSpace(name: CGColorSpace.itur_709)!)!
+            if enableHDR {
+                return CIContext().heifRepresentation(of: image, format: .ARGB8, colorSpace: CGColorSpace(name: CGColorSpace.displayP3)!, options:  [ .hdrGainMapImage : hdrImage ])!
+            } else {
+                return CIContext().heifRepresentation(of: image, format: .ARGB8, colorSpace: CGColorSpace(name: CGColorSpace.displayP3)!)!
+            }
         } else {
             NSLog("[Capture Photo] Device does not support encoding HEIF, falling back to JPEG")
             utilities.settings.defaults.set(false, forKey: "shouldUseHEIF")
-            return returnJPEG(imageForRepresentation: image)
+            return returnJPEG(imageForRepresentation: image, imageForGainMap: hdrImage)
         }
     }
     
-    func returnJPEG(imageForRepresentation image: CIImage) -> Data {
+    func returnJPEG(imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage) -> Data {
         NSLog("[Capture Photo] HEIF is disabled, saving JPEG representation")
-        return CIContext().jpegRepresentation(of: image, colorSpace: CGColorSpace(name: CGColorSpace.itur_709)!)!
+        if enableHDR {
+            return CIContext().jpegRepresentation(of: image, colorSpace: CGColorSpace(name: CGColorSpace.displayP3)!, options: [ .hdrGainMapImage : hdrImage ])!
+        } else {
+            return CIContext().jpegRepresentation(of: image, colorSpace: CGColorSpace(name: CGColorSpace.displayP3)!)!
+        }
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

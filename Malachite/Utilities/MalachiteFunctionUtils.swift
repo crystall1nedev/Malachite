@@ -197,3 +197,7 @@ extension CGImagePropertyOrientation {
         }
     }
 }
+
+extension CIImageRepresentationOption {
+    static var hdrGainMapImage: Self { .init(rawValue: "kCIImageRepresentationHDRGainMapImage") }
+}
