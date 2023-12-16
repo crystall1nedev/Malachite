@@ -134,10 +134,17 @@ public class MalachiteFunctionUtils : NSObject {
                 device?.automaticallyAdjustsVideoHDREnabled = false
                 if MalachiteSettingsUtils().defaults.bool(forKey: "shouldUseHDR") {
                     NSLog("[Camera Input] Force enabled HDR on camera")
-                    device?.isVideoHDREnabled = true
+                    if device?.activeFormat.isVideoHDRSupported == true {
+                        device?.isVideoHDREnabled = true
+                    }
                 } else {
                     NSLog("[Camera Input] Force disabled HDR on camera")
-                    device?.isVideoHDREnabled = false
+                    if device?.activeFormat.isGlobalToneMappingSupported == true {
+                        device?.isGlobalToneMappingEnabled = true
+                    }
+                    if device?.activeFormat.isVideoHDRSupported == true {
+                        device?.isVideoHDREnabled = false
+                    }
                 }
         } catch {
             NSLog("[Camera Input] Error forcing HDR: %@", error.localizedDescription)
