@@ -11,7 +11,30 @@ import Photos
 import UIKit
 
 public class MalachiteFunctionUtils : NSObject {
-    public let supportedImageCaptureTypes = CGImageDestinationCopyTypeIdentifiers() as NSArray
+    private let settings = MalachiteSettingsUtils()
+    private let supportedImageCaptureTypes = CGImageDestinationCopyTypeIdentifiers() as NSArray
+    
+    public func supportsHDR() -> Bool{
+        // All devices that can capture HEIC can capture HDR.
+        // All devices that can't capture HEIC can't capture HDR.
+        return supportsHEIC()
+    }
+    
+    public func supportsHEIC() -> Bool {
+        if supportedImageCaptureTypes.contains("public.heic") {
+            return true
+        }
+        
+        return false
+    }
+    
+    public func supportsHEIC10() -> Bool {
+        if #available(iOS 15.0, *) {
+            return supportsHEIC()
+        }
+        
+        return false
+    }
     
     public func zoom(sender pinch: UIPinchGestureRecognizer, captureDevice device: inout AVCaptureDevice, lastZoomFactor zoomFactor: inout CGFloat, hapticClass haptic: MalachiteHapticUtils) {
         func minMaxZoom(_ factor: CGFloat) -> CGFloat {
@@ -132,10 +155,13 @@ public class MalachiteFunctionUtils : NSObject {
                 try device?.lockForConfiguration()
                 defer { device?.unlockForConfiguration() }
                 device?.automaticallyAdjustsVideoHDREnabled = false
-                if MalachiteSettingsUtils().defaults.bool(forKey: "shouldUseHDR") {
-                    NSLog("[Camera Input] Force enabled HDR on camera")
-                    if device?.activeFormat.isVideoHDRSupported == true {
+                if settings.defaults.bool(forKey: "shouldUseHDR") {
+                    if supportsHDR() {
+                        NSLog("[Camera Input] Force enabled HDR on camera")
                         device?.isVideoHDREnabled = true
+                    } else {
+                        NSLog("[Camera Input] HDR enabled on a device that doesn't support it")
+                        MalachiteSettingsUtils().defaults.set(false, forKey: "shouldUseHDR")
                     }
                 } else {
                     NSLog("[Camera Input] Force disabled HDR on camera")
@@ -158,7 +184,7 @@ public class MalachiteFunctionUtils : NSObject {
     
     public func captureImage(output photoOutput: AVCapturePhotoOutput, viewForBounds view: UIView, captureDelegate delegate: AVCapturePhotoCaptureDelegate) -> AVCapturePhotoOutput {
         var format = [String: Any]()
-        if MalachiteSettingsUtils().defaults.bool(forKey: "shouldUseHEIC") {
+        if settings.defaults.bool(forKey: "shouldUseHEIC") {
             format = [AVVideoCodecKey : AVVideoCodecType.hevc]
         } else {
             format = [AVVideoCodecKey : AVVideoCodecType.jpeg]
