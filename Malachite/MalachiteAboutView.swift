@@ -12,8 +12,9 @@ struct MalachiteAboutAndSettingsView: View {
     @State private var watermarkText = String()
     @State private var photoFormat = Int()
     @State private var hdrSwitch = false
-    @State private var supportsHEIC = false
-    @State private var supportsHEIC10Bit = false
+    @State private var supportsHDR = Bool()
+    @State private var supportsHEIC = Bool()
+    @State private var supportsHEIC10Bit = Bool()
     @State private var formatFooterText = "This device isn't capable of encoding images in HEIF or HEIF 10-bit."
     
     let utilities = MalachiteClassesObject()
@@ -68,7 +69,7 @@ struct MalachiteAboutAndSettingsView: View {
                 .disabled(!supportsHEIC)
                 .pickerStyle(.segmented)
                 Toggle("Enable HDR", isOn: $hdrSwitch)
-                    .disabled(!supportsHEIC)
+                    .disabled(!supportsHDR)
             }
             Section(header: Text("Watermark settings"), footer: Text("A fun little feature, you can enable a watermark on your images when you take them.")) {
                 Toggle("Enable watermark", isOn: $watermarkSwitch)
@@ -87,13 +88,15 @@ struct MalachiteAboutAndSettingsView: View {
             hdrSwitch = utilities.settings.defaults.bool(forKey: "shouldEnableHDR")
             watermarkText = utilities.settings.defaults.string(forKey: "textForWatermark")!
             
-            if utilities.function.supportedImageCaptureTypes.contains("public.heic") {
-                supportsHEIC = true
+            supportsHDR = utilities.function.supportsHDR()
+            supportsHEIC = utilities.function.supportsHEIC()
+            supportsHEIC10Bit = utilities.function.supportsHEIC10()
+            
+            if supportsHEIC {
                 formatFooterText = "JPEG - Better compatibility with non-Apple platforms\nHEIC - Better file size while retaining quality\nUpdate to iOS 15 or later to support HEIC 10-bit."
             }
             
-            if #available(iOS 15.0, *) {
-                supportsHEIC10Bit = true
+            if supportsHEIC10Bit {
                 formatFooterText = "JPEG - Better compatibility with non-Apple platforms\nHEIC - Better file size while retaining quality\nHEIF 10-bit - Best quality and color accuracy"
             }
             
