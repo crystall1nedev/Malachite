@@ -128,16 +128,19 @@ public class MalachiteFunctionUtils : NSObject {
             print(error)
         }
         
-        if MalachiteSettingsUtils().defaults.bool(forKey: "shouldUseHEIFMax") {
-            do {
+        do {
                 try device?.lockForConfiguration()
                 defer { device?.unlockForConfiguration() }
                 device?.automaticallyAdjustsVideoHDREnabled = false
-                device?.isVideoHDREnabled = true
-                NSLog("[Camera Input] Force enabled HDR on camera")
-            } catch {
-                NSLog("[Camera Input] Error forcing HDR: %@", error.localizedDescription)
-            }
+                if MalachiteSettingsUtils().defaults.bool(forKey: "shouldUseHDR") {
+                    NSLog("[Camera Input] Force enabled HDR on camera")
+                    device?.isVideoHDREnabled = true
+                } else {
+                    NSLog("[Camera Input] Force disabled HDR on camera")
+                    device?.isVideoHDREnabled = false
+                }
+        } catch {
+            NSLog("[Camera Input] Error forcing HDR: %@", error.localizedDescription)
         }
         
         NSLog("[Camera Input] Attached input, finishing configuration")
