@@ -19,6 +19,8 @@ public class MalachiteViewUtils : NSObject {
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 30
         button.bringSubviewToFront(button.imageView!)
+        button.imageView?.clipsToBounds = false
+        button.imageView?.contentMode = UIView.ContentMode.center
         button.insertSubview(returnProperBlur(viewForBounds: view, blurStyle: .systemThinMaterial), at: 0)
         button.addTarget(haptic, action: #selector(haptic.buttonMediumHaptics(_:)), for: .touchUpInside)
         
@@ -79,9 +81,48 @@ public class MalachiteViewUtils : NSObject {
         
         UIView.animate(withDuration: 0.25) {
             for button in buttons {
-                button.transform = CGAffineTransform(rotationAngle: rotation)
+                button.imageView?.transform = CGAffineTransform(rotationAngle: rotation)
             }
         }
+    }
+    
+    func runSliderControllers(sliderIsShown shown: Bool, optionButton option: UIButton, lockButton button: UIButton, associatedSliderButton sliderButton: UIButton) -> Bool {
+        var factor = CGFloat()
+        if shown {
+            factor = 0
+        } else {
+            factor = -220
+        }
+        
+        UIView.animate(withDuration: 1) {
+            option.transform = CGAffineTransform(translationX: factor, y: 0)
+            sliderButton.transform = CGAffineTransform(translationX: factor, y: 0)
+        } completion: { _ in
+            UIView.animate(withDuration: 0.25) {
+                if !shown {
+                    button.isEnabled = true
+                    button.alpha = 1.0
+                } else {
+                    button.isEnabled = false
+                    button.alpha = 0.0
+                }
+            }
+        }
+        return !shown
+    }
+    
+    func runLockControllers(lockIsActive locked: Bool, lockButton button: inout UIButton, associatedSlider slider: inout UISlider, associatedGestureRecognizer gestureRecognizer: UIGestureRecognizer?, viewForRecognizers view: UIView) -> Bool {
+        if locked {
+            button.setImage(UIImage(systemName: "lock.open")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            slider.isEnabled = true
+            if let validRecognizer = gestureRecognizer { view.addGestureRecognizer(validRecognizer) }
+        } else {
+            button.setImage(UIImage(systemName: "lock")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            slider.isEnabled = false
+            if let validRecognizer = gestureRecognizer { view.removeGestureRecognizer(validRecognizer) }
+        }
+        
+        return !locked
     }
 }
 
@@ -108,7 +149,7 @@ extension UIImage {
         context.translateBy(x: newSize.width/2, y: newSize.height/2)
         context.rotate(by: CGFloat(radians))
         self.draw(in: CGRect(x: -self.size.width/2, y: -self.size.height/2, width: self.size.width, height: self.size.height))
-    
+        
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         

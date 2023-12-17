@@ -13,6 +13,7 @@ public class MalachiteTooltipUtils : NSObject {
     var flashlightTitle = UILabel()
     var captureTitle = UILabel()
     var focusTitle = UILabel()
+    var exposureTitle = UILabel()
     var aboutTitle = UILabel()
     
     var closeOverlayTitle = UILabel()
@@ -23,10 +24,11 @@ public class MalachiteTooltipUtils : NSObject {
         cameraTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Switch camera", anchorConstant: 10)
         flashlightTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Toggle flashlight", anchorConstant: 80)
         captureTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Capture photo", anchorConstant: 150)
-        focusTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Manual focus slider", anchorConstant: 220)
+        focusTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Manual focus", anchorConstant: 220)
+        exposureTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Manual ISO", anchorConstant: 290)
         aboutTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Settings", anchorConstant: -10)
-
-        fadeOutTooltipFlow(labelsToFade: [ cameraTitle, flashlightTitle, captureTitle, focusTitle, aboutTitle ])
+        
+        fadeOutTooltipFlow(labelsToFade: [ cameraTitle, flashlightTitle, captureTitle, focusTitle, exposureTitle, aboutTitle ])
     }
     
     public func capturedTooltipFlow(viewForBounds view: UIView) {
@@ -37,15 +39,15 @@ public class MalachiteTooltipUtils : NSObject {
     
     public func fadeOutTooltipFlow(labelsToFade labels: Array<UILabel>) {
         let seconds = 3.0
-                DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-                    for label in labels {
-                        UIView.animate(withDuration: 1, animations: {
-                            label.alpha = 0.0
-                        }, completion: { (finished:Bool) in
-                            label.removeFromSuperview()
-                        })
-                    }
-                }
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            for label in labels {
+                UIView.animate(withDuration: 1, animations: {
+                    label.alpha = 0.0
+                }, completion: { (finished:Bool) in
+                    label.removeFromSuperview()
+                })
+            }
+        }
     }
     
     public func returnLabelForTooltipFlows(viewForBounds view: UIView, textForFlow text: String, anchorConstant y: CGFloat) -> UILabel {
