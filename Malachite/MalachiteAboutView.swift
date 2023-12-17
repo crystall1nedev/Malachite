@@ -11,6 +11,7 @@ struct MalachiteAboutAndSettingsView: View {
     @State private var watermarkSwitch = false
     @State private var watermarkText = String()
     @State private var photoFormat = Int()
+    @State private var previewAspect = Int()
     @State private var hdrSwitch = false
     @State private var supportsHDR = Bool()
     @State private var supportsHEIC = Bool()
@@ -22,66 +23,10 @@ struct MalachiteAboutAndSettingsView: View {
     var body: some View {
         
         Form {
-            Section {
-                HStack {
-                    VStack {
-                        HStack {
-                            Text("Malachite")
-                                .font(.largeTitle)
-                                .bold()
-                            Spacer()
-                        }
-                        HStack {
-                            if utilities.versions.versionBeta {
-                                Text("v\(utilities.versions.versionMajor).\(utilities.versions.versionMinor).\(utilities.versions.versionMinor) beta")
-                                    .font(.footnote)
-                                    .frame(alignment: .leading)
-                            } else {
-                                Text("v\(utilities.versions.versionMajor).\(utilities.versions.versionMinor).\(utilities.versions.versionMinor)")
-                                    .font(.footnote)
-                                    .frame(alignment: .leading)
-                            }
-                            Spacer()
-                        }
-                    }
-                    Spacer()
-                    Image("icon")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: 80, alignment: .trailing)
-                        .clipShape(RoundedRectangle(cornerRadius: 17))
-                }
-                Text("Bringing camera control back to you.")
-                Text("Designed by Eva with ❤️ in 2023")
-                    .bold()
-            }
-            Section(header: Text("Photo settings"), footer: Text(formatFooterText)) {
-                Picker("Image file format", selection: $photoFormat) {
-                    Text("JPEG")
-                        .tag(0)
-                    Text("HEIF")
-                        .tag(1)
-                    if supportsHEIC10Bit {
-                        Text("HEIF 10-bit")
-                            .tag(2)
-                    }
-                }
-                .disabled(!supportsHEIC)
-                .pickerStyle(.segmented)
-                Toggle("Enable HDR", isOn: $hdrSwitch)
-                    .disabled(!supportsHDR)
-            }
-            Section(header: Text("Watermark settings"), footer: Text("A fun little feature, you can enable a watermark on your images when you take them.")) {
-                Toggle("Enable watermark", isOn: $watermarkSwitch)
-                HStack {
-                    Text("Watermark text")
-                    Spacer()
-                    TextField("Shot with Malachite", text: $watermarkText)
-                        .multilineTextAlignment(.trailing)
-                        .autocorrectionDisabled()
-                        .keyboardType(.emailAddress)
-                }
-            }
+            aboutSection
+            previewSettingsSection
+            photoSettingsSection
+            watermarkSettingsSection
         }
         .onAppear() {
             watermarkSwitch = utilities.settings.defaults.bool(forKey: "enableWatermark")
@@ -103,11 +48,17 @@ struct MalachiteAboutAndSettingsView: View {
             if !utilities.settings.defaults.bool(forKey: "shouldUseHEIF") {
                 photoFormat = 0
             } else {
-                if !utilities.settings.defaults.bool(forKey: "shouldUseHEIFEDR") {
+                if !utilities.settings.defaults.bool(forKey: "shouldUseHEIF10Bit") {
                     photoFormat = 1
                 } else {
                     photoFormat = 2
                 }
+            }
+            
+            if !utilities.settings.defaults.bool(forKey: "previewFillsWholeScreen") {
+                previewAspect = 0
+            } else {
+                previewAspect = 1
             }
         }
         .onDisappear() {
@@ -123,21 +74,133 @@ struct MalachiteAboutAndSettingsView: View {
             if photoFormat == 0 {
                 utilities.settings.defaults.set("0", forKey: "shouldUseHEIF")
                 utilities.settings.defaults.set(false, forKey: "shouldUseHEIF")
-                utilities.settings.defaults.set(false, forKey: "shouldUseHEIFEDR")
+                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF10Bit")
             } else if photoFormat == 1 {
                 utilities.settings.defaults.set(true, forKey: "shouldUseHEIF")
-                utilities.settings.defaults.set(false, forKey: "shouldUseHEIFEDR")
+                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF10Bit")
             } else if photoFormat == 2 {
                 utilities.settings.defaults.set(true, forKey: "shouldUseHEIF")
-                utilities.settings.defaults.set(true, forKey: "shouldUseHEIFEDR")
+                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF10Bit")
                 
+            }
+            
+            if previewAspect == 0 {
+                utilities.settings.defaults.set(false, forKey: "previewFillsWholeScreen")
+            } else {
+                utilities.settings.defaults.set(true, forKey: "previewFillsWholeScreen")
+            }
+            
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
+        }
+        .navigationTitle("Settings")
+    }
+    
+    var aboutSection: some View {
+        Section {
+            HStack {
+                VStack {
+                    HStack {
+                        Text("Malachite")
+                            .font(.largeTitle)
+                            .bold()
+                        Spacer()
+                    }
+                    HStack {
+                        if utilities.versions.versionBeta {
+                            Text("v\(utilities.versions.versionMajor).\(utilities.versions.versionMinor).\(utilities.versions.versionMinor) beta")
+                                .font(.footnote)
+                                .frame(alignment: .leading)
+                        } else {
+                            Text("v\(utilities.versions.versionMajor).\(utilities.versions.versionMinor).\(utilities.versions.versionMinor)")
+                                .font(.footnote)
+                                .frame(alignment: .leading)
+                        }
+                        Spacer()
+                    }
+                }
+                Spacer()
+                Image("icon")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: 80, alignment: .trailing)
+                    .clipShape(RoundedRectangle(cornerRadius: 17))
+            }
+            Text("Bringing camera control back to you.")
+            Text("Designed by Eva with ❤️ in 2023")
+                .bold()
+        }
+    }
+    
+    var previewSettingsSection: some View {
+        Section(header: Text("Preview settings"), footer: Text("Use Fit if you wish to see your entire viewport. Use Fill if you want a more immersive and honed-in experience.")) {
+            Picker("Aspect ratio", selection: $previewAspect) {
+                Text("Fit")
+                    .tag(0)
+                Text("Fill")
+                    .tag(1)
+            }
+            .pickerStyle(.segmented)
+        }
+        .onChange(of: previewAspect) {_ in
+            if previewAspect == 0 {
+                utilities.settings.defaults.set(false, forKey: "previewFillsWholeScreen")
+            } else {
+                utilities.settings.defaults.set(true, forKey: "previewFillsWholeScreen")
+            }
+            
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
+        }
+    }
+    
+    var photoSettingsSection: some View {
+        Section(header: Text("Photo settings"), footer: Text(formatFooterText)) {
+            Picker("Image file format", selection: $photoFormat) {
+                Text("JPEG")
+                    .tag(0)
+                Text("HEIF")
+                    .tag(1)
+                if supportsHEIC10Bit {
+                    Text("HEIF 10-bit")
+                        .tag(2)
+                }
+            }
+            .disabled(!supportsHEIC)
+            .pickerStyle(.segmented)
+            Toggle("Enable HDR", isOn: $hdrSwitch)
+                .disabled(!supportsHDR)
+        }
+        .onChange(of: photoFormat) {_ in
+            if photoFormat == 0 {
+                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF")
+                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF10Bit")
+            } else if photoFormat == 1 {
+                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF")
+                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF10Bit")
+            } else if photoFormat == 2 {
+                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF")
+                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF10Bit")
+                
+            }
+        }
+        .onChange(of: hdrSwitch) { _ in
+            utilities.settings.defaults.set(hdrSwitch, forKey: "shouldEnableHDR")
+        }
+    }
+    
+    var watermarkSettingsSection: some View {
+        Section(header: Text("Watermark settings"), footer: Text("A fun little feature, you can enable a watermark on your images when you take them.")) {
+            Toggle("Enable watermark", isOn: $watermarkSwitch)
+            HStack {
+                Text("Watermark text")
+                Spacer()
+                TextField("Shot with Malachite", text: $watermarkText)
+                    .multilineTextAlignment(.trailing)
+                    .autocorrectionDisabled()
+                    .keyboardType(.emailAddress)
             }
         }
         .onChange(of: watermarkSwitch) {_ in
             utilities.settings.defaults.set(watermarkSwitch, forKey: "enableWatermark")
-        }
-        .onChange(of: hdrSwitch) { _ in
-            utilities.settings.defaults.set(hdrSwitch, forKey: "shouldEnableHDR")
         }
         .onChange(of: watermarkText) {_ in
             watermarkText = String(watermarkText.prefix(65))
@@ -147,23 +210,7 @@ struct MalachiteAboutAndSettingsView: View {
                 utilities.settings.defaults.set("Shot with Malachite", forKey: "textForWatermark")
             }
         }
-        .onChange(of: photoFormat) {_ in
-            if photoFormat == 0 {
-                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF")
-                utilities.settings.defaults.set(false, forKey: "shouldUseHEIFEDR")
-            } else if photoFormat == 1 {
-                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF")
-                utilities.settings.defaults.set(false, forKey: "shouldUseHEIFEDR")
-            } else if photoFormat == 2 {
-                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF")
-                utilities.settings.defaults.set(true, forKey: "shouldUseHEIFEDR")
-                
-            }
-        }
-        .navigationTitle("Settings")
     }
-       
-    
 }
 
 #Preview {

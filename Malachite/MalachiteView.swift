@@ -12,7 +12,6 @@ import AVFoundation
 import Photos
 
 class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCapturePhotoCaptureDelegate {
-    
     var cameraSession: AVCaptureSession?
     var selectedDevice: AVCaptureDevice?
     var ultraWideDevice: AVCaptureDevice?
@@ -69,7 +68,12 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NSLog("[Initialization] Bringing up AVCaptureVideoPreviewLayer")
         cameraPreview = AVCaptureVideoPreviewLayer(session: cameraSession!)
         cameraPreview?.frame.size = self.view.frame.size
-        cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        if utilities.settings.defaults.bool(forKey: "previewFillsWholeScreen") {
+            cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        } else {
+            cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspect
+        }
+        
         cameraPreview?.connection?.videoOrientation = transformOrientation(orientation: .portrait)
         self.view.layer.addSublayer(cameraPreview!)
         
@@ -83,6 +87,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         NSLog("[Initialization] Setting up notification observer for orientation changes")
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeAspectFill), name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
     }
     
@@ -195,6 +200,16 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
     }
     
+    @objc func changeAspectFill() {
+        UIView.animate(withDuration: 20) { [self] in
+            if utilities.settings.defaults.bool(forKey: "previewFillsWholeScreen") {
+                cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+            } else {
+                cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspect
+            }
+        }
+    }
+    
     @objc func presentAboutView() {
         let aboutView = MalachiteAboutAndSettingsView()
         let hostingController = UIHostingController(rootView: aboutView)
@@ -266,7 +281,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         photoPreview.photoImageView.frame = view.frame
         photoPreview.photoImage = previewImage
         let navigationController = UINavigationController(rootViewController: photoPreview)
-        navigationController.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
         navigationController.isNavigationBarHidden = true
         self.present(navigationController, animated: true, completion: nil)
         NotificationCenter.default.addObserver(photoPreview, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
