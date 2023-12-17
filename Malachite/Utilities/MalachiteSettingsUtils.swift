@@ -37,5 +37,6 @@ public class MalachiteSettingsUtils : NSObject {
         if !self.checkIfPreferenceIsPresent(keyToCheck: "shouldUseHDR") { defaults.set(true, forKey: "shouldUseHDR") }
         if !self.checkIfPreferenceIsPresent(keyToCheck: "shouldUseHEIF") { defaults.set(false, forKey: "shouldUseHEIF") }
         if !self.checkIfPreferenceIsPresent(keyToCheck: "shouldUseHEIF10Bit") { defaults.set(false, forKey: "shouldUseHEIF10Bit") }
+        if !self.checkIfPreferenceIsPresent(keyToCheck: "previewFillsWholeScreen") { defaults.set(false, forKey: "previewFillsWholeScreen") }
     }
 }

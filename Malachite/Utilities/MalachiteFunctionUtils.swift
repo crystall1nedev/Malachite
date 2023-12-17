@@ -14,6 +14,10 @@ public class MalachiteFunctionUtils : NSObject {
     private let settings = MalachiteSettingsUtils()
     private let supportedImageCaptureTypes = CGImageDestinationCopyTypeIdentifiers() as NSArray
     
+    public enum Notifications: String, NotificationName {
+        case aspectFillNotification
+    }
+    
     public func supportsHDR() -> Bool{
         // All devices that can capture HEIC can capture HDR.
         // All devices that can't capture HEIC can't capture HDR.
@@ -236,4 +240,16 @@ extension CGImagePropertyOrientation {
 
 extension CIImageRepresentationOption {
     static var hdrGainMapImage: Self { .init(rawValue: "kCIImageRepresentationHDRGainMapImage") }
+}
+
+protocol NotificationName {
+    var name: Notification.Name { get }
+}
+
+extension RawRepresentable where RawValue == String, Self: NotificationName {
+    var name: Notification.Name {
+        get {
+            return Notification.Name(self.rawValue)
+        }
+    }
 }

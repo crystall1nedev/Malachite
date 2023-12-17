@@ -8,12 +8,14 @@
 import Foundation
 import UIKit
 import Photos
+import LinkPresentation
 
 class MalachitePhotoPreview : UIViewController {
     var utilities = MalachiteClassesObject()
     
     let photoImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
+        imageView.backgroundColor = .clear
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
@@ -23,8 +25,11 @@ class MalachitePhotoPreview : UIViewController {
     var photoImage = UIImage()
     var watermarkedImage = UIImage()
     
-    var savePhotoButton = UIButton()
+    var finalizedImage = Data()
+    
     var dismissButton = UIButton()
+    var savePhotoButton = UIButton()
+    var sharePhotoButton = UIButton()
     
     let fixedOrientation = UIDevice.current.orientation
     
@@ -33,6 +38,8 @@ class MalachitePhotoPreview : UIViewController {
     let enableHEIF10 = MalachiteClassesObject().settings.defaults.bool(forKey: "shouldUseHEIF10Bit")
     
     override func viewDidLoad() {
+        self.finalizedImage = self.finalizeImageForExport()
+        
         super.viewDidLoad()
         self.view.backgroundColor = .red
         
@@ -66,33 +73,52 @@ class MalachitePhotoPreview : UIViewController {
         }
         
         rotatedImage = photoImage.rotate(radians: Float(rotation))!
-        photoImageView.image = rotatedImage
+        let blurredBackgroundView = UIImageView(frame: self.view.bounds)
+        blurredBackgroundView.image = rotatedImage
+        blurredBackgroundView.layer.contentsGravity = .resizeAspectFill
+        blurredBackgroundView.addSubview(utilities.views.returnProperBlur(viewForBounds: self.view, blurStyle: .systemUltraThinMaterialDark))
+        blurredBackgroundView.clipsToBounds = true
         
-        var currentY = (self.navigationController?.navigationBar.frame.size.height)!  - 28
+        photoImageView.image = rotatedImage
+        photoImageView.layer.contentsGravity = .resizeAspect
+        
+        self.view.addSubview(blurredBackgroundView)
         self.view.addSubview(photoImageView)
+        
+        
         dismissButton = utilities.views.returnProperButton(symbolName: "xmark", viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(dismissButton)
         NSLayoutConstraint.activate([
             dismissButton.widthAnchor.constraint(equalToConstant: 60),
             dismissButton.heightAnchor.constraint(equalToConstant: 60),
-            dismissButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: currentY),
+            dismissButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             dismissButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
         dismissButton.addTarget(self, action: #selector(self.dismissView), for: .touchUpInside)
         
-        currentY = currentY + 69
-        
-        savePhotoButton = utilities.views.returnProperButton(symbolName: "square.and.arrow.down", viewForBounds: self.view, hapticClass: utilities.haptics)
+        savePhotoButton = utilities.views.returnProperButton(symbolName: "photo.on.rectangle", viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(savePhotoButton)
         NSLayoutConstraint.activate([
             savePhotoButton.widthAnchor.constraint(equalToConstant: 60),
             savePhotoButton.heightAnchor.constraint(equalToConstant: 60),
-            savePhotoButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: currentY),
+            savePhotoButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
             savePhotoButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
         savePhotoButton.addTarget(self, action: #selector(self.savePhoto), for: .touchUpInside)
         
+        sharePhotoButton = utilities.views.returnProperButton(symbolName: "square.and.arrow.up", viewForBounds: self.view, hapticClass: utilities.haptics)
+        self.view.addSubview(sharePhotoButton)
+        NSLayoutConstraint.activate([
+            sharePhotoButton.widthAnchor.constraint(equalToConstant: 60),
+            sharePhotoButton.heightAnchor.constraint(equalToConstant: 60),
+            sharePhotoButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150),
+            sharePhotoButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+        ])
+        sharePhotoButton.addTarget(self, action: #selector(self.sharePhoto), for: .touchUpInside)
+        
         orientationChanged()
+        
+        utilities.tooltips.capturedTooltipFlow(viewForBounds: self.view)
     }
     
     @objc private func dismissView() {
@@ -110,49 +136,7 @@ class MalachitePhotoPreview : UIViewController {
             try PHPhotoLibrary.shared().performChangesAndWait { [self] in
                 // I can move some of these variables out of this function and class-wide
                 let createRequest = PHAssetCreationRequest.forAsset()
-                
-                var data = Data()
-                let rawImageData = NSData(data: self.photoImageData)
-                let gainMapOutputData = NSMutableData()
-                var gainMapImage = CIImage()
-                let rawImageSource = CGImageSourceCreateWithData(rawImageData, nil)
-                let rawImage = CIImage(data: self.photoImageData, options: [ .toneMapHDRtoSDR : true])
-                let watermarkImage = CIImage(image: self.watermark(watermark: utilities.settings.defaults.string(forKey: "textForWatermark")!,
-                                                                   imageToWatermark: photoImage))
-                let outputImage = watermarkImage!.composited(over: rawImage!)
-                
-                var imageProperties = rawImage!.properties
-                
-                if enableHDR {
-                    let gainMapDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(rawImageSource!, 0, kCGImageAuxiliaryDataTypeHDRGainMap)! as Dictionary
-                    let gainMapData = gainMapDataInfo[kCGImageAuxiliaryDataInfoData] as! Data
-                    let gainMapDescription = gainMapDataInfo[kCGImageAuxiliaryDataInfoDataDescription]! as! [String: Int]
-                    let gainMapSize = CGSize(width: gainMapDescription["Width"]!, height: gainMapDescription["Height"]!)
-                    let gainMapciImage = CIImage(bitmapData: gainMapData, bytesPerRow: gainMapDescription["BytesPerRow"]!, size: gainMapSize, format: .L8, colorSpace: nil)
-                    let gainMapcgImage = CIContext().createCGImage(gainMapciImage, from: CGRect(origin: CGPoint(x: 0, y: 0), size: gainMapSize))!
-                    let gainMapDest = CGImageDestinationCreateWithData(gainMapOutputData, UTType.bmp.identifier as CFString, 1, nil)
-                    CGImageDestinationAddImage(gainMapDest!, gainMapcgImage, [:] as CFDictionary)
-                    CGImageDestinationFinalize(gainMapDest!)
-                    
-                    gainMapImage = CIImage(data: gainMapOutputData as Data)!
-                    
-                    var makerApple = imageProperties[kCGImagePropertyMakerAppleDictionary as String] as? [String: Any] ?? [:]
-                    
-                    makerApple["33"] = 0.0
-                    makerApple["48"] = 0.0
-                    
-                    imageProperties[kCGImagePropertyMakerAppleDictionary as String] = makerApple
-                }
-                
-                let outputImageWithProps = outputImage.settingProperties(imageProperties)
-                
-                if enableHEIF {
-                    data = returnHEIC(enable10Bit: enableHEIF10, imageForRepresentation: rawImage!, imageForGainMap: gainMapImage, imageColorspace: rawImage?.colorSpace?.name)
-                } else {
-                    data = returnJPEG(imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage, imageColorspace: rawImage?.colorSpace?.name)
-                }
-                    
-                createRequest.addResource(with: .photo, data: data, options: nil)
+                createRequest.addResource(with: .photo, data: finalizedImage, options: nil)
                 NSLog("[Capture Photo] Photo has been saved to the user's library")
                 self.utilities.haptics.triggerNotificationHaptic(type: .success)
                 self.dismissView()
@@ -161,7 +145,58 @@ class MalachitePhotoPreview : UIViewController {
             NSLog("[Capture Photo] Photo couldn't be saved to the user's library: %@", error.localizedDescription)
         }
     }
+    
+    @objc private func sharePhoto() {
+        let shareableData = try! dataToShareable(data: finalizedImage, title: "Image captured with Malachite")
+        let shareSheet = UIActivityViewController(activityItems: [shareableData], applicationActivities: nil)
+        shareSheet.popoverPresentationController?.sourceView = self.view
+        self.present(shareSheet, animated: true)
+    }
         
+    func finalizeImageForExport() -> Data {
+        var data = Data()
+        let rawImageData = NSData(data: self.photoImageData)
+        let gainMapOutputData = NSMutableData()
+        var gainMapImage = CIImage()
+        let rawImageSource = CGImageSourceCreateWithData(rawImageData, nil)
+        let rawImage = CIImage(data: self.photoImageData, options: [ .toneMapHDRtoSDR : true])
+        let watermarkImage = CIImage(image: self.watermark(watermark: utilities.settings.defaults.string(forKey: "textForWatermark")!,
+                                                           imageToWatermark: photoImage))
+        let outputImage = watermarkImage!.composited(over: rawImage!)
+        
+        var imageProperties = rawImage!.properties
+        
+        if enableHDR {
+            let gainMapDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(rawImageSource!, 0, kCGImageAuxiliaryDataTypeHDRGainMap)! as Dictionary
+            let gainMapData = gainMapDataInfo[kCGImageAuxiliaryDataInfoData] as! Data
+            let gainMapDescription = gainMapDataInfo[kCGImageAuxiliaryDataInfoDataDescription]! as! [String: Int]
+            let gainMapSize = CGSize(width: gainMapDescription["Width"]!, height: gainMapDescription["Height"]!)
+            let gainMapciImage = CIImage(bitmapData: gainMapData, bytesPerRow: gainMapDescription["BytesPerRow"]!, size: gainMapSize, format: .L8, colorSpace: nil)
+            let gainMapcgImage = CIContext().createCGImage(gainMapciImage, from: CGRect(origin: CGPoint(x: 0, y: 0), size: gainMapSize))!
+            let gainMapDest = CGImageDestinationCreateWithData(gainMapOutputData, UTType.bmp.identifier as CFString, 1, nil)
+            CGImageDestinationAddImage(gainMapDest!, gainMapcgImage, [:] as CFDictionary)
+            CGImageDestinationFinalize(gainMapDest!)
+            
+            gainMapImage = CIImage(data: gainMapOutputData as Data)!
+            
+            var makerApple = imageProperties[kCGImagePropertyMakerAppleDictionary as String] as? [String: Any] ?? [:]
+            
+            makerApple["33"] = 0.0
+            makerApple["48"] = 0.0
+            
+            imageProperties[kCGImagePropertyMakerAppleDictionary as String] = makerApple
+        }
+        
+        let outputImageWithProps = outputImage.settingProperties(imageProperties)
+        
+        if enableHEIF {
+            data = returnHEIC(enable10Bit: enableHEIF10, imageForRepresentation: rawImage!, imageForGainMap: gainMapImage, imageColorspace: rawImage?.colorSpace?.name)
+        } else {
+            data = returnJPEG(imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage, imageColorspace: rawImage?.colorSpace?.name)
+        }
+        
+        return data
+    }
     
     func watermark(watermark text: String, imageToWatermark image: UIImage) -> UIImage
     {
@@ -249,3 +284,28 @@ class MalachitePhotoPreview : UIViewController {
     }
 }
 
+
+final class dataToShareable: NSObject, UIActivityItemSource {
+    let data: Data
+    let title: String
+
+    init(data: Data, title: String) throws {
+        self.title = title
+        self.data = data
+        super.init()
+    }
+
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
+        data
+    }
+
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+        data
+    }
+
+    func activityViewControllerLinkMetadata(_ activityViewController: UIActivityViewController) -> LPLinkMetadata? {
+        let metadata = LPLinkMetadata()
+        metadata.title = title
+        return metadata
+    }
+}
