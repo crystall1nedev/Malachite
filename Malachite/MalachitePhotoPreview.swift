@@ -190,7 +190,7 @@ class MalachitePhotoPreview : UIViewController {
         let outputImageWithProps = outputImage.settingProperties(imageProperties)
         
         if enableHEIF {
-            data = returnHEIC(enable10Bit: enableHEIF10, imageForRepresentation: rawImage!, imageForGainMap: gainMapImage, imageColorspace: rawImage?.colorSpace?.name)
+            data = returnHEIC(enable10Bit: enableHEIF10, imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage, imageColorspace: rawImage?.colorSpace?.name)
         } else {
             data = returnJPEG(imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage, imageColorspace: rawImage?.colorSpace?.name)
         }
