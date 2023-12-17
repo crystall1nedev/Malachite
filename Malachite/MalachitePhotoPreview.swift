@@ -159,7 +159,7 @@ class MalachitePhotoPreview : UIViewController {
         let gainMapOutputData = NSMutableData()
         var gainMapImage = CIImage()
         let rawImageSource = CGImageSourceCreateWithData(rawImageData, nil)
-        let rawImage = CIImage(data: self.photoImageData, options: [ .toneMapHDRtoSDR : true])
+        let rawImage = CIImage(data: self.photoImageData)
         let watermarkImage = CIImage(image: self.watermark(watermark: utilities.settings.defaults.string(forKey: "textForWatermark")!,
                                                            imageToWatermark: photoImage))
         let outputImage = watermarkImage!.composited(over: rawImage!)
@@ -185,6 +185,10 @@ class MalachitePhotoPreview : UIViewController {
             makerApple["48"] = 0.0
             
             imageProperties[kCGImagePropertyMakerAppleDictionary as String] = makerApple
+        }
+        
+        for prop in imageProperties {
+            print("[Capture Photo]", prop)
         }
         
         let outputImageWithProps = outputImage.settingProperties(imageProperties)

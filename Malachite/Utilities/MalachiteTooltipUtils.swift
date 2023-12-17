@@ -23,7 +23,7 @@ public class MalachiteTooltipUtils : NSObject {
         cameraTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Switch camera", anchorConstant: 10)
         flashlightTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Toggle flashlight", anchorConstant: 80)
         captureTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Capture photo", anchorConstant: 150)
-        focusTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Manual focus slider", anchorConstant: 290)
+        focusTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Manual focus slider", anchorConstant: 220)
         aboutTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Settings", anchorConstant: -10)
 
         fadeOutTooltipFlow(labelsToFade: [ cameraTitle, flashlightTitle, captureTitle, focusTitle, aboutTitle ])

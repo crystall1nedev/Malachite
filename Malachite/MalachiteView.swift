@@ -28,8 +28,13 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     var flashlightButton = UIButton()
     var captureButton = UIButton()
     var settingsButton = UIButton()
+    
     var focusButton = UIButton()
+    var focusSliderButton = UIButton()
     var focusSlider = UISlider()
+    var focusLockButton = UIButton()
+    var manualFocusSliderIsActive = false
+    var manualFocusLockIsActive = false
     
     var zoomRecognizer = UIPinchGestureRecognizer()
     var autofocusRecognizer = UILongPressGestureRecognizer()
@@ -45,6 +50,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .clear
+        
         NSLog("[Initialization] Starting up Malachite")
         cameraPreview?.frame.size = self.view.frame.size
         NSLog("[Initialization] Bringing up AVCaptureSession")
@@ -102,73 +109,84 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.view.backgroundColor = .black
         
         cameraButton = utilities.views.returnProperButton(symbolName: "camera", viewForBounds: self.view, hapticClass: utilities.haptics)
+        flashlightButton = utilities.views.returnProperButton(symbolName: "flashlight.off.fill", viewForBounds: self.view, hapticClass: utilities.haptics)
+        captureButton = utilities.views.returnProperButton(symbolName: "camera.aperture", viewForBounds: view, hapticClass: utilities.haptics)
+        focusButton = utilities.views.returnProperButton(symbolName: "viewfinder", viewForBounds: view, hapticClass: utilities.haptics)
+        focusSliderButton = utilities.views.returnProperButton(symbolName: "", viewForBounds: self.view, hapticClass: utilities.haptics)
+        focusLockButton = utilities.views.returnProperButton(symbolName: "lock.open", viewForBounds: self.view, hapticClass: utilities.haptics)
+        settingsButton = utilities.views.returnProperButton(symbolName: "gear", viewForBounds: self.view, hapticClass: utilities.haptics)
+        
+        focusSlider.translatesAutoresizingMaskIntoConstraints = false
+        focusLockButton.alpha = 0.0
+        
         self.view.addSubview(cameraButton)
+        self.view.addSubview(flashlightButton)
+        self.view.addSubview(captureButton)
+        self.view.addSubview(focusButton)
+        self.view.addSubview(focusSliderButton)
+        self.view.addSubview(focusLockButton)
+        self.view.addSubview(settingsButton)
+        focusSliderButton.addSubview(focusSlider)
+        
+        cameraButton.addTarget(self, action: #selector(self.runInputSwitch), for: .touchUpInside)
+        flashlightButton.addTarget(self, action: #selector(self.runFlashlightToggle), for: .touchUpInside)
+        captureButton.addTarget(self, action: #selector(self.runImageCapture), for: .touchUpInside)
+        focusButton.addTarget(self, action: #selector(self.runManualFocusUIHider), for: .touchUpInside)
+        focusSlider.addTarget(self, action: #selector(self.runManualFocusController), for: .valueChanged)
+        focusSlider.addTarget(utilities.haptics, action: #selector(utilities.haptics.buttonMediumHaptics(_:)), for: .touchUpInside)
+        focusLockButton.addTarget(self, action: #selector(runManualFocusLockController), for: .touchUpInside)
+        settingsButton.addTarget(self, action: #selector(self.presentAboutView), for: .touchUpInside)
+        
+        zoomRecognizer = UIPinchGestureRecognizer(target: self, action:#selector(runZoomController))
+        autofocusRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runAutoFocusController))
+        uiHiderRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runUIHider))
+        uiHiderRecognizer.numberOfTouchesRequired = 2
+
+        self.view.addGestureRecognizer(zoomRecognizer)
+        self.view.addGestureRecognizer(autofocusRecognizer)
+        self.view.addGestureRecognizer(uiHiderRecognizer)
+        
         NSLayoutConstraint.activate([
             cameraButton.widthAnchor.constraint(equalToConstant: 60),
             cameraButton.heightAnchor.constraint(equalToConstant: 60),
             cameraButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             cameraButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-        ])
-        cameraButton.addTarget(self, action: #selector(self.runInputSwitch), for: .touchUpInside)
-        
-        flashlightButton = utilities.views.returnProperButton(symbolName: "flashlight.off.fill", viewForBounds: self.view, hapticClass: utilities.haptics)
-        self.view.addSubview(flashlightButton)
-        NSLayoutConstraint.activate([
+            
             flashlightButton.widthAnchor.constraint(equalToConstant: 60),
             flashlightButton.heightAnchor.constraint(equalToConstant: 60),
             flashlightButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
             flashlightButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-        ])
-        flashlightButton.addTarget(self, action: #selector(self.runFlashlightToggle), for: .touchUpInside)
-        
-        captureButton = utilities.views.returnProperButton(symbolName: "camera.aperture", viewForBounds: view, hapticClass: utilities.haptics)
-        self.view.addSubview(captureButton)
-        NSLayoutConstraint.activate([
+            
             captureButton.widthAnchor.constraint(equalToConstant: 60),
             captureButton.heightAnchor.constraint(equalToConstant: 60),
             captureButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150),
             captureButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-        ])
-        captureButton.addTarget(self, action: #selector(self.runImageCapture), for: .touchUpInside)
-        
-        let focusButton = utilities.views.returnProperButton(symbolName: "", viewForBounds: self.view, hapticClass: utilities.haptics)
-        focusSlider.translatesAutoresizingMaskIntoConstraints = false
-        focusSlider.transform = CGAffineTransform(rotationAngle: CGFloat((3 * Double.pi) / 2))
-        focusButton.addSubview(focusSlider)
-        self.view.addSubview(focusButton)
-        NSLayoutConstraint.activate([
+            
             focusButton.widthAnchor.constraint(equalToConstant: 60),
-            focusButton.heightAnchor.constraint(equalToConstant: 210),
+            focusButton.heightAnchor.constraint(equalToConstant: 60),
             focusButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 220),
             focusButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             
+            focusSliderButton.widthAnchor.constraint(equalToConstant: 210),
+            focusSliderButton.heightAnchor.constraint(equalToConstant: 60),
+            focusSliderButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 220),
+            focusSliderButton.leadingAnchor.constraint(equalTo: focusButton.trailingAnchor, constant: 10),
+            
             focusSlider.widthAnchor.constraint(equalToConstant: 180),
             focusSlider.heightAnchor.constraint(equalToConstant: 80),
-            focusSlider.centerYAnchor.constraint(equalTo: focusButton.centerYAnchor),
-            focusSlider.centerXAnchor.constraint(equalTo: focusButton.trailingAnchor, constant: -30),
-        ])
-        focusSlider.addTarget(self, action: #selector(self.runManualFocusController), for: .valueChanged)
-        focusSlider.addTarget(utilities.haptics, action: #selector(utilities.haptics.buttonMediumHaptics(_:)), for: .touchUpInside)
-        
-        settingsButton = utilities.views.returnProperButton(symbolName: "gear", viewForBounds: self.view, hapticClass: utilities.haptics)
-        self.view.addSubview(settingsButton)
-        NSLayoutConstraint.activate([
+            focusSlider.centerYAnchor.constraint(equalTo: focusSliderButton.centerYAnchor),
+            focusSlider.centerXAnchor.constraint(equalTo: focusSliderButton.trailingAnchor, constant: -105),
+            
+            focusLockButton.widthAnchor.constraint(equalToConstant: 60),
+            focusLockButton.heightAnchor.constraint(equalToConstant: 60),
+            focusLockButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150),
+            focusLockButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -80),
+            
             settingsButton.widthAnchor.constraint(equalToConstant: 60),
             settingsButton.heightAnchor.constraint(equalToConstant: 60),
             settingsButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
             settingsButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
-        settingsButton.addTarget(self, action: #selector(self.presentAboutView), for: .touchUpInside)
-        
-        zoomRecognizer = UIPinchGestureRecognizer(target: self, action:#selector(runZoomController))
-        self.view.addGestureRecognizer(zoomRecognizer)
-        
-        autofocusRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runAutoFocusController))
-        self.view.addGestureRecognizer(autofocusRecognizer)
-        
-        uiHiderRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runUIHider))
-        uiHiderRecognizer.numberOfTouchesRequired = 2
-        self.view.addGestureRecognizer(uiHiderRecognizer)
         
         utilities.tooltips.tooltipFlow(viewForBounds: self.view)
     }
@@ -301,10 +319,50 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                      hapticClass: utilities.haptics)
     }
     
+    @objc func runManualFocusUIHider() {
+        var x = CGFloat()
+        if manualFocusSliderIsActive {
+            x = 0
+        } else {
+            x = -220
+        }
+        
+        UIView.animate(withDuration: 1) { [self] in
+            focusButton.transform = CGAffineTransform(translationX: x, y: 0)
+            focusSliderButton.transform = CGAffineTransform(translationX: x, y: 0)
+        } completion: { [self] _ in
+            UIView.animate(withDuration: 0.25) { [self] in
+                    if manualFocusSliderIsActive {
+                        focusLockButton.isEnabled = true
+                        focusLockButton.alpha = 1.0
+                    } else {
+                        focusLockButton.isEnabled = false
+                        focusLockButton.alpha = 0.0
+                    }
+                }
+            
+        }
+        
+        manualFocusSliderIsActive = !manualFocusSliderIsActive
+    }
+    
     @objc func runManualFocusController() {
         utilities.function.manualFocus(captureDevice: &selectedDevice!,
                                        sender: focusSlider)
+    }
+    
+    @objc func runManualFocusLockController() {
+        if manualFocusLockIsActive {
+            focusLockButton.setImage(UIImage(systemName: "lock.open")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            focusSlider.isEnabled = true
+            self.view.addGestureRecognizer(autofocusRecognizer)
+        } else {
+            focusLockButton.setImage(UIImage(systemName: "lock")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            focusSlider.isEnabled = false
+            self.view.removeGestureRecognizer(autofocusRecognizer)
+        }
         
+        manualFocusLockIsActive = !manualFocusLockIsActive
     }
     
     @objc func runUIHider() {
@@ -315,24 +373,32 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         if !uiIsHidden {
             UIView.animate(withDuration: 0.25) { [self] in
                 for subview in self.view.subviews {
-                    subview.alpha = 0.0
+                    if subview == focusLockButton {
+                        if manualFocusSliderIsActive { subview.alpha = 0.0 }
+                    } else {
+                        subview.alpha = 0.0
+                    }
                 }
             }
             for gestureRecognizer in gestureRecognizers {
                 self.view.removeGestureRecognizer(gestureRecognizer)
             }
-            uiIsHidden = true
         } else {
             UIView.animate(withDuration: 0.25) { [self] in
                 for subview in self.view.subviews {
-                    subview.alpha = 1.0
+                    if subview == focusLockButton {
+                        if manualFocusSliderIsActive { subview.alpha = 1.0 }
+                    } else {
+                        subview.alpha = 1.0
+                    }
                 }
             }
             for gestureRecognizer in gestureRecognizers {
                 self.view.addGestureRecognizer(gestureRecognizer)
             }
-            uiIsHidden = false
         }
+        
+        uiIsHidden = !uiIsHidden
         utilities.haptics.triggerNotificationHaptic(type: .success)
     }
     
