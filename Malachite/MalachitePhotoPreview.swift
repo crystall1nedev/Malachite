@@ -152,7 +152,7 @@ class MalachitePhotoPreview : UIViewController {
         shareSheet.popoverPresentationController?.sourceView = self.view
         self.present(shareSheet, animated: true)
     }
-        
+    
     func finalizeImageForExport() -> Data {
         var data = Data()
         let rawImageData = NSData(data: self.photoImageData)
@@ -292,21 +292,21 @@ class MalachitePhotoPreview : UIViewController {
 final class dataToShareable: NSObject, UIActivityItemSource {
     let data: Data
     let title: String
-
+    
     init(data: Data, title: String) throws {
         self.title = title
         self.data = data
         super.init()
     }
-
+    
     func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
         data
     }
-
+    
     func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
         data
     }
-
+    
     func activityViewControllerLinkMetadata(_ activityViewController: UIActivityViewController) -> LPLinkMetadata? {
         let metadata = LPLinkMetadata()
         metadata.title = title

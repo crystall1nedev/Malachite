@@ -36,6 +36,13 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     var manualFocusSliderIsActive = false
     var manualFocusLockIsActive = false
     
+    var exposureButton = UIButton()
+    var exposureSliderButton = UIButton()
+    var exposureSlider = UISlider()
+    var exposureLockButton = UIButton()
+    var manualExposureSliderIsActive = false
+    var manualExposureLockIsActive = false
+    
     var zoomRecognizer = UIPinchGestureRecognizer()
     var autofocusRecognizer = UILongPressGestureRecognizer()
     var uiHiderRecognizer = UILongPressGestureRecognizer()
@@ -95,6 +102,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NSLog("[Initialization] Setting up notification observer for orientation changes")
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeAspectFill), name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeExposureLimit), name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
     }
     
@@ -114,10 +122,15 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         focusButton = utilities.views.returnProperButton(symbolName: "viewfinder", viewForBounds: view, hapticClass: utilities.haptics)
         focusSliderButton = utilities.views.returnProperButton(symbolName: "", viewForBounds: self.view, hapticClass: utilities.haptics)
         focusLockButton = utilities.views.returnProperButton(symbolName: "lock.open", viewForBounds: self.view, hapticClass: utilities.haptics)
+        exposureButton = utilities.views.returnProperButton(symbolName: "eye", viewForBounds: view, hapticClass: utilities.haptics)
+        exposureSliderButton = utilities.views.returnProperButton(symbolName: "", viewForBounds: view, hapticClass: utilities.haptics)
+        exposureLockButton = utilities.views.returnProperButton(symbolName: "lock.open", viewForBounds: view, hapticClass: utilities.haptics)
         settingsButton = utilities.views.returnProperButton(symbolName: "gear", viewForBounds: self.view, hapticClass: utilities.haptics)
         
         focusSlider.translatesAutoresizingMaskIntoConstraints = false
+        exposureSlider.translatesAutoresizingMaskIntoConstraints = false
         focusLockButton.alpha = 0.0
+        exposureLockButton.alpha = 0.0
         
         self.view.addSubview(cameraButton)
         self.view.addSubview(flashlightButton)
@@ -125,8 +138,12 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.view.addSubview(focusButton)
         self.view.addSubview(focusSliderButton)
         self.view.addSubview(focusLockButton)
+        self.view.addSubview(exposureButton)
+        self.view.addSubview(exposureSliderButton)
+        self.view.addSubview(exposureLockButton)
         self.view.addSubview(settingsButton)
         focusSliderButton.addSubview(focusSlider)
+        exposureSliderButton.addSubview(exposureSlider)
         
         cameraButton.addTarget(self, action: #selector(self.runInputSwitch), for: .touchUpInside)
         flashlightButton.addTarget(self, action: #selector(self.runFlashlightToggle), for: .touchUpInside)
@@ -135,13 +152,17 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         focusSlider.addTarget(self, action: #selector(self.runManualFocusController), for: .valueChanged)
         focusSlider.addTarget(utilities.haptics, action: #selector(utilities.haptics.buttonMediumHaptics(_:)), for: .touchUpInside)
         focusLockButton.addTarget(self, action: #selector(runManualFocusLockController), for: .touchUpInside)
+        exposureButton.addTarget(self, action: #selector(self.runManualExposureUIHider), for: .touchUpInside)
+        exposureSlider.addTarget(self, action: #selector(runManualExposureController), for: .valueChanged)
+        exposureSlider.addTarget(utilities.haptics, action: #selector(utilities.haptics.buttonMediumHaptics(_:)), for: .touchUpInside)
+        exposureLockButton.addTarget(self, action: #selector(self.runManualExposureLockController), for: .touchUpInside)
         settingsButton.addTarget(self, action: #selector(self.presentAboutView), for: .touchUpInside)
         
         zoomRecognizer = UIPinchGestureRecognizer(target: self, action:#selector(runZoomController))
         autofocusRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runAutoFocusController))
         uiHiderRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runUIHider))
         uiHiderRecognizer.numberOfTouchesRequired = 2
-
+        
         self.view.addGestureRecognizer(zoomRecognizer)
         self.view.addGestureRecognizer(autofocusRecognizer)
         self.view.addGestureRecognizer(uiHiderRecognizer)
@@ -181,6 +202,26 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             focusLockButton.heightAnchor.constraint(equalToConstant: 60),
             focusLockButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150),
             focusLockButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -80),
+            
+            exposureButton.widthAnchor.constraint(equalToConstant: 60),
+            exposureButton.heightAnchor.constraint(equalToConstant: 60),
+            exposureButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 290),
+            exposureButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            
+            exposureSliderButton.widthAnchor.constraint(equalToConstant: 210),
+            exposureSliderButton.heightAnchor.constraint(equalToConstant: 60),
+            exposureSliderButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 290),
+            exposureSliderButton.leadingAnchor.constraint(equalTo: exposureButton.trailingAnchor, constant: 10),
+            
+            exposureSlider.widthAnchor.constraint(equalToConstant: 180),
+            exposureSlider.heightAnchor.constraint(equalToConstant: 80),
+            exposureSlider.centerYAnchor.constraint(equalTo: exposureSliderButton.centerYAnchor),
+            exposureSlider.centerXAnchor.constraint(equalTo: exposureSliderButton.trailingAnchor, constant: -105),
+            
+            exposureLockButton.widthAnchor.constraint(equalToConstant: 60),
+            exposureLockButton.heightAnchor.constraint(equalToConstant: 60),
+            exposureLockButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 220),
+            exposureLockButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -80),
             
             settingsButton.widthAnchor.constraint(equalToConstant: 60),
             settingsButton.heightAnchor.constraint(equalToConstant: 60),
@@ -228,6 +269,20 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
     }
     
+    @objc func changeExposureLimit() {
+        do {
+            try selectedDevice?.lockForConfiguration()
+            defer { selectedDevice?.unlockForConfiguration() }
+            selectedDevice?.exposureMode = .continuousAutoExposure
+        } catch {
+            NSLog("[Change Exposure Limit] Couldn't lock device for configuration")
+        }
+        
+        UIView.animate(withDuration: 0.5) {
+            self.exposureSlider.value = 0.0
+        }
+    }
+    
     @objc func presentAboutView() {
         let aboutView = MalachiteAboutAndSettingsView()
         let hostingController = UIHostingController(rootView: aboutView)
@@ -247,7 +302,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             return
         }
         
-        focusSlider.value = 0
+        UIView.animate(withDuration: 0.5) {
+            self.focusSlider.value = 0.0
+            self.exposureSlider.value = 0.0
+        }
         utilities.function.switchInput(session: &cameraSession!,
                                        uwDevice: &ultraWideDevice,
                                        waDevice: &wideAngleDevice!,
@@ -293,7 +351,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         guard let imageData = photo.fileDataRepresentation() else { return }
         let getterForOrientation = UIImage(data: imageData)
         let previewImage = UIImage(ciImage: CIImage(data: imageData, options: [.applyOrientationProperty: true,
-                                                                                                .properties: [kCGImagePropertyOrientation: CGImagePropertyOrientation(getterForOrientation!.imageOrientation).rawValue]])!)
+                                                                               .properties: [kCGImagePropertyOrientation: CGImagePropertyOrientation(getterForOrientation!.imageOrientation).rawValue]])!)
         let photoPreview = MalachitePhotoPreview()
         photoPreview.photoImageData = imageData
         photoPreview.photoImageView.frame = view.frame
@@ -319,50 +377,44 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                      hapticClass: utilities.haptics)
     }
     
-    @objc func runManualFocusUIHider() {
-        var x = CGFloat()
-        if manualFocusSliderIsActive {
-            x = 0
-        } else {
-            x = -220
-        }
-        
-        UIView.animate(withDuration: 1) { [self] in
-            focusButton.transform = CGAffineTransform(translationX: x, y: 0)
-            focusSliderButton.transform = CGAffineTransform(translationX: x, y: 0)
-        } completion: { [self] _ in
-            UIView.animate(withDuration: 0.25) { [self] in
-                    if manualFocusSliderIsActive {
-                        focusLockButton.isEnabled = true
-                        focusLockButton.alpha = 1.0
-                    } else {
-                        focusLockButton.isEnabled = false
-                        focusLockButton.alpha = 0.0
-                    }
-                }
-            
-        }
-        
-        manualFocusSliderIsActive = !manualFocusSliderIsActive
-    }
-    
     @objc func runManualFocusController() {
         utilities.function.manualFocus(captureDevice: &selectedDevice!,
                                        sender: focusSlider)
     }
     
+    @objc func runManualExposureUIHider() {
+        manualExposureSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualExposureSliderIsActive,
+                                                                            optionButton: exposureButton,
+                                                                            lockButton: exposureLockButton,
+                                                                            associatedSliderButton: exposureSliderButton)
+    }
+    
+    @objc func runManualExposureLockController() {
+        manualExposureLockIsActive = utilities.views.runLockControllers(lockIsActive: manualExposureLockIsActive,
+                                                                        lockButton: &exposureLockButton,
+                                                                        associatedSlider: &exposureSlider,
+                                                                        associatedGestureRecognizer: nil,
+                                                                        viewForRecognizers: self.view)
+    }
+    
+    @objc func runManualExposureController() {
+        utilities.function.manualExposure(captureDevice: &selectedDevice!,
+                                          sender: exposureSlider)
+    }
+    
+    @objc func runManualFocusUIHider() {
+        manualFocusSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualFocusSliderIsActive,
+                                                                         optionButton: focusButton,
+                                                                         lockButton: focusLockButton,
+                                                                         associatedSliderButton: focusSliderButton)
+    }
+    
     @objc func runManualFocusLockController() {
-        if manualFocusLockIsActive {
-            focusLockButton.setImage(UIImage(systemName: "lock.open")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            focusSlider.isEnabled = true
-            self.view.addGestureRecognizer(autofocusRecognizer)
-        } else {
-            focusLockButton.setImage(UIImage(systemName: "lock")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            focusSlider.isEnabled = false
-            self.view.removeGestureRecognizer(autofocusRecognizer)
-        }
-        
-        manualFocusLockIsActive = !manualFocusLockIsActive
+        manualFocusLockIsActive = utilities.views.runLockControllers(lockIsActive: manualFocusLockIsActive,
+                                                                     lockButton: &focusLockButton,
+                                                                     associatedSlider: &focusSlider,
+                                                                     associatedGestureRecognizer: autofocusRecognizer,
+                                                                     viewForRecognizers: self.view)
     }
     
     @objc func runUIHider() {
@@ -403,7 +455,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     }
     
     @objc func orientationChanged() {
-        utilities.views.rotateButtonsWithOrientation(buttonsToRotate: [ cameraButton, flashlightButton, captureButton, settingsButton ])
+        utilities.views.rotateButtonsWithOrientation(buttonsToRotate: [ cameraButton, flashlightButton, captureButton, settingsButton,
+                                                                        focusButton, focusLockButton, exposureButton, exposureLockButton ])
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

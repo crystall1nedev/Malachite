@@ -16,6 +16,7 @@ public class MalachiteFunctionUtils : NSObject {
     
     public enum Notifications: String, NotificationName {
         case aspectFillNotification
+        case exposureLimitNotification
     }
     
     public func supportsHDR() -> Bool{
@@ -156,26 +157,26 @@ public class MalachiteFunctionUtils : NSObject {
         }
         
         do {
-                try device?.lockForConfiguration()
-                defer { device?.unlockForConfiguration() }
-                device?.automaticallyAdjustsVideoHDREnabled = false
-                if settings.defaults.bool(forKey: "shouldUseHDR") {
-                    if supportsHDR() {
-                        NSLog("[Camera Input] Force enabled HDR on camera")
-                        device?.isVideoHDREnabled = true
-                    } else {
-                        NSLog("[Camera Input] HDR enabled on a device that doesn't support it")
-                        MalachiteSettingsUtils().defaults.set(false, forKey: "shouldUseHDR")
-                    }
+            try device?.lockForConfiguration()
+            defer { device?.unlockForConfiguration() }
+            device?.automaticallyAdjustsVideoHDREnabled = false
+            if settings.defaults.bool(forKey: "shouldUseHDR") {
+                if supportsHDR() {
+                    NSLog("[Camera Input] Force enabled HDR on camera")
+                    device?.isVideoHDREnabled = true
                 } else {
-                    NSLog("[Camera Input] Force disabled HDR on camera")
-                    if device?.activeFormat.isGlobalToneMappingSupported == true {
-                        device?.isGlobalToneMappingEnabled = true
-                    }
-                    if device?.activeFormat.isVideoHDRSupported == true {
-                        device?.isVideoHDREnabled = false
-                    }
+                    NSLog("[Camera Input] HDR enabled on a device that doesn't support it")
+                    MalachiteSettingsUtils().defaults.set(false, forKey: "shouldUseHDR")
                 }
+            } else {
+                NSLog("[Camera Input] Force disabled HDR on camera")
+                if device?.activeFormat.isGlobalToneMappingSupported == true {
+                    device?.isGlobalToneMappingEnabled = true
+                }
+                if device?.activeFormat.isVideoHDRSupported == true {
+                    device?.isVideoHDREnabled = false
+                }
+            }
         } catch {
             NSLog("[Camera Input] Error forcing HDR: %@", error.localizedDescription)
         }
@@ -219,19 +220,48 @@ public class MalachiteFunctionUtils : NSObject {
         NSLog("[Manual Focus] Changed lens position")
         device.unlockForConfiguration()
     }
+    
+    public func manualExposure(captureDevice device: inout AVCaptureDevice, sender: UISlider) {
+        let minISO = device.activeFormat.minISO
+        print(minISO)
+        let maxISO = device.activeFormat.maxISO
+        print(maxISO)
+        
+        var selectedISO = Float()
+        if sender.value <= 0.01 {
+            selectedISO = minISO
+        } else {
+            if MalachiteSettingsUtils().defaults.bool(forKey: "unlimitExposureSlider") {
+                selectedISO = sender.value * maxISO
+            } else {
+                selectedISO = sender.value * 1600
+            }
+        }
+        
+        print(sender.value)
+        print(selectedISO)
+        
+        do {
+            try device.lockForConfiguration()
+            device.setExposureModeCustom(duration:AVCaptureDevice.currentExposureDuration, iso: selectedISO, completionHandler: nil)
+            device.unlockForConfiguration()
+        } catch let error {
+            NSLog("Could not lock device for configuration: \(error)")
+        }
+    }
 }
 
 extension CGImagePropertyOrientation {
     init(_ uiOrientation: UIImage.Orientation) {
         switch uiOrientation {
-            case .up: self = .up
-            case .upMirrored: self = .upMirrored
-            case .down: self = .down
-            case .downMirrored: self = .downMirrored
-            case .left: self = .left
-            case .leftMirrored: self = .leftMirrored
-            case .right: self = .right
-            case .rightMirrored: self = .rightMirrored
+        case .up: self = .up
+        case .upMirrored: self = .upMirrored
+        case .down: self = .down
+        case .downMirrored: self = .downMirrored
+        case .left: self = .left
+        case .leftMirrored: self = .leftMirrored
+        case .right: self = .right
+        case .rightMirrored: self = .rightMirrored
         @unknown default:
             abort()
         }

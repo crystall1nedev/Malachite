@@ -9,14 +9,14 @@ import Foundation
 
 public class MalachiteSettingsUtils : NSObject {
     public let defaults = UserDefaults.standard
-
+    
     /// Resets all user settings. (Clears UserDefaults)
     public func resetAllSettings() {
         let domain = Bundle.main.bundleIdentifier!
         defaults.removePersistentDomain(forName: domain)
         defaults.synchronize()
     }
-
+    
     /// Returns the entire UserDefaults (Settings) as a Dictionary object
     public func settingsAsDictionary() -> Dictionary<String, Any> {
         return defaults.dictionaryRepresentation()
@@ -37,6 +37,7 @@ public class MalachiteSettingsUtils : NSObject {
         if !self.checkIfPreferenceIsPresent(keyToCheck: "shouldUseHDR") { defaults.set(true, forKey: "shouldUseHDR") }
         if !self.checkIfPreferenceIsPresent(keyToCheck: "shouldUseHEIF") { defaults.set(false, forKey: "shouldUseHEIF") }
         if !self.checkIfPreferenceIsPresent(keyToCheck: "shouldUseHEIF10Bit") { defaults.set(false, forKey: "shouldUseHEIF10Bit") }
+        if !self.checkIfPreferenceIsPresent(keyToCheck: "unlimitExposureSlider") {  defaults.set(false, forKey: "unlimitExposureSlider") }
         if !self.checkIfPreferenceIsPresent(keyToCheck: "previewFillsWholeScreen") { defaults.set(false, forKey: "previewFillsWholeScreen") }
     }
 }

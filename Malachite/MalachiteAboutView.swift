@@ -17,6 +17,7 @@ struct MalachiteAboutAndSettingsView: View {
     @State private var supportsHEIC = Bool()
     @State private var supportsHEIC10Bit = Bool()
     @State private var formatFooterText = "This device isn't capable of encoding images in HEIF or HEIF 10-bit."
+    @State private var exposureUnlimiterSwitch = false
     
     let utilities = MalachiteClassesObject()
     
@@ -29,9 +30,11 @@ struct MalachiteAboutAndSettingsView: View {
             watermarkSettingsSection
         }
         .onAppear() {
+            watermarkText = utilities.settings.defaults.string(forKey: "textForWatermark")!
+            
             watermarkSwitch = utilities.settings.defaults.bool(forKey: "enableWatermark")
             hdrSwitch = utilities.settings.defaults.bool(forKey: "shouldEnableHDR")
-            watermarkText = utilities.settings.defaults.string(forKey: "textForWatermark")!
+            exposureUnlimiterSwitch = utilities.settings.defaults.bool(forKey: "unlimitExposureSlider")
             
             supportsHDR = utilities.function.supportsHDR()
             supportsHEIC = utilities.function.supportsHEIC()
@@ -64,6 +67,7 @@ struct MalachiteAboutAndSettingsView: View {
         .onDisappear() {
             utilities.settings.defaults.set(watermarkSwitch, forKey: "enableWatermark")
             utilities.settings.defaults.set(hdrSwitch, forKey: "shouldUseHDR")
+            utilities.settings.defaults.set(exposureUnlimiterSwitch, forKey: "unlimitExposureSlider")
             
             if !watermarkText.isEmpty {
                 utilities.settings.defaults.set(watermarkText, forKey: "textForWatermark")
@@ -91,6 +95,7 @@ struct MalachiteAboutAndSettingsView: View {
             }
             
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
         }
         .navigationTitle("Settings")
     }
@@ -168,6 +173,7 @@ struct MalachiteAboutAndSettingsView: View {
             .pickerStyle(.segmented)
             Toggle("Enable HDR", isOn: $hdrSwitch)
                 .disabled(!supportsHDR)
+            Toggle("Enable maximum exposure", isOn: $exposureUnlimiterSwitch)
         }
         .onChange(of: photoFormat) {_ in
             if photoFormat == 0 {
@@ -184,6 +190,11 @@ struct MalachiteAboutAndSettingsView: View {
         }
         .onChange(of: hdrSwitch) { _ in
             utilities.settings.defaults.set(hdrSwitch, forKey: "shouldEnableHDR")
+        }
+        .onChange(of: exposureUnlimiterSwitch) { _ in
+            NSLog("[Settings View] Lol")
+            utilities.settings.defaults.set(exposureUnlimiterSwitch, forKey: "unlimitExposureSlider")
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
         }
     }
     
