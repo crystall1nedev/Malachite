@@ -9,7 +9,7 @@ Malachite is a **work-in-progress** app that gives you more control over the mac
 ## What do I need?[^1]
 You'll need one of the following configurations...
 - iPhone 13 Pro/Pro Max or later Pro models
-- An iPhone with a macro lens accessory attached  
+- An iPhone or iPad with a macro lens accessory attached  
 ...and **iOS 14.1** or later.
 
 ## What can I do with this?  
@@ -30,6 +30,9 @@ I'll release the first build of Malachite in the Releases tab when it's ready fo
 2. Open `Malachite.xcodeproj`
 3. Change the codesigning team in `Signing & Capabilities`
 4. Build!
+
+## What started this one, Eva?
+So, I live with my love: @ThatStella7922. She and I are both big nerds, and I caught her using her macro lens on an Xbox 360 motherboard to let her work with traces and pads while she was RGH'ing it. The idea for a magnifier app came from how much time it took for her to get into the right camera setting, turn the flashlight on, and still not have much control beyond autofocus and zooming. With Malachite, I strove to solve this problem - and then I ended up making it even greater for the people who love macro photography on their own iPhones.
 
 [^1]: This list is what I hope to target all the way through. If development hurdles come up, some functionality may be restricted to newer releases that are not listed here. Configurations that are not listed are not tested.
 [^2]: Pinch-to-zoom will feature haptic feedback when reaching the minimum and maximum zoom levels in a future commit.
