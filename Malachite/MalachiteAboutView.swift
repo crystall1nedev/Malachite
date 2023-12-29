@@ -170,7 +170,6 @@ struct MalachiteAboutAndSettingsView: View {
                 }
             }
             .disabled(!supportsHEIC)
-            .pickerStyle(.segmented)
             Toggle("Enable HDR", isOn: $hdrSwitch)
                 .disabled(!supportsHDR)
             Toggle("Enable maximum exposure", isOn: $exposureUnlimiterSwitch)
