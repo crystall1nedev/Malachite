@@ -190,7 +190,7 @@ public class MalachiteFunctionUtils : NSObject {
     
     public func captureImage(output photoOutput: AVCapturePhotoOutput, viewForBounds view: UIView, captureDelegate delegate: AVCapturePhotoCaptureDelegate) -> AVCapturePhotoOutput {
         var format = [String: Any]()
-        if settings.defaults.bool(forKey: "shouldUseHEIC") {
+        if settings.defaults.bool(forKey: "format.type.heif") {
             format = [AVVideoCodecKey : AVVideoCodecType.hevc]
         } else {
             format = [AVVideoCodecKey : AVVideoCodecType.jpeg]
