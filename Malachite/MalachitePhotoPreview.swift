@@ -33,9 +33,9 @@ class MalachitePhotoPreview : UIViewController {
     
     let fixedOrientation = UIDevice.current.orientation
     
-    let enableHDR = MalachiteClassesObject().settings.defaults.bool(forKey: "shouldUseHDR")
-    let enableHEIF = MalachiteClassesObject().settings.defaults.bool(forKey: "shouldUseHEIF")
-    let enableHEIF10 = MalachiteClassesObject().settings.defaults.bool(forKey: "shouldUseHEIF10Bit")
+    let enableHDR = MalachiteClassesObject().settings.defaults.bool(forKey: "format.hdr.enabled")
+    let enableHEIF = MalachiteClassesObject().settings.defaults.bool(forKey: "format.type.heif")
+    let enableHEIF10 = MalachiteClassesObject().settings.defaults.bool(forKey: "format.type.heif10")
     
     override func viewDidLoad() {
         self.finalizedImage = self.finalizeImageForExport()
@@ -86,7 +86,7 @@ class MalachitePhotoPreview : UIViewController {
         self.view.addSubview(photoImageView)
         
         
-        dismissButton = utilities.views.returnProperButton(symbolName: "xmark", viewForBounds: self.view, hapticClass: utilities.haptics)
+        dismissButton = utilities.views.returnProperButton(symbolName: "xmark", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(dismissButton)
         NSLayoutConstraint.activate([
             dismissButton.widthAnchor.constraint(equalToConstant: 60),
@@ -96,7 +96,7 @@ class MalachitePhotoPreview : UIViewController {
         ])
         dismissButton.addTarget(self, action: #selector(self.dismissView), for: .touchUpInside)
         
-        savePhotoButton = utilities.views.returnProperButton(symbolName: "photo.on.rectangle", viewForBounds: self.view, hapticClass: utilities.haptics)
+        savePhotoButton = utilities.views.returnProperButton(symbolName: "photo.on.rectangle", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(savePhotoButton)
         NSLayoutConstraint.activate([
             savePhotoButton.widthAnchor.constraint(equalToConstant: 60),
@@ -106,7 +106,7 @@ class MalachitePhotoPreview : UIViewController {
         ])
         savePhotoButton.addTarget(self, action: #selector(self.savePhoto), for: .touchUpInside)
         
-        sharePhotoButton = utilities.views.returnProperButton(symbolName: "square.and.arrow.up", viewForBounds: self.view, hapticClass: utilities.haptics)
+        sharePhotoButton = utilities.views.returnProperButton(symbolName: "square.and.arrow.up", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(sharePhotoButton)
         NSLayoutConstraint.activate([
             sharePhotoButton.widthAnchor.constraint(equalToConstant: 60),
@@ -160,7 +160,7 @@ class MalachitePhotoPreview : UIViewController {
         var gainMapImage = CIImage()
         let rawImageSource = CGImageSourceCreateWithData(rawImageData, nil)
         let rawImage = CIImage(data: self.photoImageData)
-        let watermarkImage = CIImage(image: self.watermark(watermark: utilities.settings.defaults.string(forKey: "textForWatermark")!,
+        let watermarkImage = CIImage(image: self.watermark(watermark: utilities.settings.defaults.string(forKey: "wtrmark.text")!,
                                                            imageToWatermark: photoImage))
         let outputImage = watermarkImage!.composited(over: rawImage!)
         
@@ -212,7 +212,7 @@ class MalachitePhotoPreview : UIViewController {
             imageView.frame = CGRect(x:0, y:0, width:image.size.width, height:image.size.height)
         }
         
-        if utilities.settings.defaults.bool(forKey: "enableWatermark") {
+        if utilities.settings.defaults.bool(forKey: "wtrmark.enabled") {
             NSLog("[Watermarking] User has opted to show a watermark")
             var label = UILabel()
             label = UILabel(frame: CGRect(x:50, y:20, width:image.size.width, height:120))
@@ -251,7 +251,7 @@ class MalachitePhotoPreview : UIViewController {
                 }
             } else {
                 NSLog("[Capture Photo] HEIF 10-bit was enabled, but we're on iOS 14")
-                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF10Bit")
+                utilities.settings.defaults.set(false, forKey: "format.type.heif10")
             }
             
             if enableHDR {
@@ -261,7 +261,7 @@ class MalachitePhotoPreview : UIViewController {
             }
         } else {
             NSLog("[Capture Photo] Device does not support encoding HEIF, falling back to JPEG")
-            utilities.settings.defaults.set(false, forKey: "shouldUseHEIF")
+            utilities.settings.defaults.set(false, forKey: "format.type.heif")
             return returnJPEG(imageForRepresentation: image, imageForGainMap: hdrImage, imageColorspace: colorSpace)
         }
     }

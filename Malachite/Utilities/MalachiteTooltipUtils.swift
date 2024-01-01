@@ -21,14 +21,10 @@ public class MalachiteTooltipUtils : NSObject {
     var sharePhotoTitle = UILabel()
     
     public func tooltipFlow(viewForBounds view: UIView) {
-        cameraTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Switch camera", anchorConstant: 10)
-        flashlightTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Toggle flashlight", anchorConstant: 80)
-        captureTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Capture photo", anchorConstant: 150)
-        focusTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Manual focus", anchorConstant: 220)
-        exposureTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Manual ISO", anchorConstant: 290)
-        aboutTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Settings", anchorConstant: -10)
+        focusTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Manual focus", anchorConstant: 10)
+        exposureTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Manual ISO", anchorConstant: 80)
         
-        fadeOutTooltipFlow(labelsToFade: [ cameraTitle, flashlightTitle, captureTitle, focusTitle, exposureTitle, aboutTitle ])
+        fadeOutTooltipFlow(labelsToFade: [ focusTitle, exposureTitle])
     }
     
     public func capturedTooltipFlow(viewForBounds view: UIView) {

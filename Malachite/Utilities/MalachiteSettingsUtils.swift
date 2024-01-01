@@ -10,6 +10,33 @@ import Foundation
 public class MalachiteSettingsUtils : NSObject {
     public let defaults = UserDefaults.standard
     
+    private let internalPreferences: [ String : Any ] = [
+        "internal.version"           : "1.0.0",                // Records the last version of Malachite to be run on this device, to be used later
+        "internal.prefsVersion"      : 2,                      // Records the version of preferences that Malachite last saved to. Newer versions = incompatiblities
+        "internal.firstLaunch"       : true,                   // Is this the first launch of the app?
+    ]
+    
+    private let formatPreferences: [ String : Any ] = [
+        "format.preview.fill"        : false,                  // Whether or not the preview layer should fill the screen
+        
+        "format.hdr.enabled"         : true,                   // Whether or not HDR should be enabled for captured photos. Not supported on A9.
+        
+        "format.type.jpeg"           : false,                   // Whether or not to save photos as JPEG.
+        "format.type.heif"           : true,                   // Whether or not to save photos as HEIF. Not supported on A9.
+        "format.type.heif10"         : false,                  // Whether or not to save photos as HEIF 10-bit. Not supported on A9 or iOS 14.
+        "format.type.raw"            : false                   // Whether or not to save photos as DNG. Not yet supported in Malachite :(
+    ]
+    
+    private let watermarkingPreferences: [ String : Any ] = [
+        "wtrmark.enabled"            : true,                   // Whether or not the watermarking feature is enabled
+        "wtrmark.text"               : "Shot with Malachite"   // The text to display over captured images
+    ]
+    
+    private let capturePreferences: [ String : Any ] = [
+        "capture.exposure.unlimited" : false,                  // Whether or not to enable absurdly bright exposure levels
+        "capture.stblz.enabled"      : true,                   // Whether or not to enable image preview stabilization
+    ]
+    
     /// Resets all user settings. (Clears UserDefaults)
     public func resetAllSettings() {
         let domain = Bundle.main.bundleIdentifier!
@@ -31,13 +58,16 @@ public class MalachiteSettingsUtils : NSObject {
     }
     
     public func ensurePreferencesOnLaunch() {
-        if !self.checkIfPreferenceIsPresent(keyToCheck: "isFirstLaunch") { defaults.set(true, forKey: "isNotFirstLaunch") }
-        if !self.checkIfPreferenceIsPresent(keyToCheck: "enableWatermark") { defaults.set(false, forKey: "enableWatermark") }
-        if !self.checkIfPreferenceIsPresent(keyToCheck: "textForWatermark") { defaults.set("Shot with Malachite", forKey: "textForWatermark") }
-        if !self.checkIfPreferenceIsPresent(keyToCheck: "shouldUseHDR") { defaults.set(true, forKey: "shouldUseHDR") }
-        if !self.checkIfPreferenceIsPresent(keyToCheck: "shouldUseHEIF") { defaults.set(false, forKey: "shouldUseHEIF") }
-        if !self.checkIfPreferenceIsPresent(keyToCheck: "shouldUseHEIF10Bit") { defaults.set(false, forKey: "shouldUseHEIF10Bit") }
-        if !self.checkIfPreferenceIsPresent(keyToCheck: "unlimitExposureSlider") {  defaults.set(false, forKey: "unlimitExposureSlider") }
-        if !self.checkIfPreferenceIsPresent(keyToCheck: "previewFillsWholeScreen") { defaults.set(false, forKey: "previewFillsWholeScreen") }
+        if self.defaults.integer(forKey: "internal.prefsVersion") != internalPreferences["internal.prefsVersion"] as! Int {
+            let availablePreferences = [ internalPreferences, formatPreferences, watermarkingPreferences, capturePreferences ]
+            for prefDict in availablePreferences {
+                for key in prefDict.keys {
+                    print("[Preferences] Setting default value for key pair: %@ (%@)", key, prefDict[key] as Any)
+                    if !self.checkIfPreferenceIsPresent(keyToCheck: key) { defaults.set(prefDict[key], forKey: key) }
+                }
+            }
+        } else {
+            NSLog("[Preferences] Preferences version matches version includes here")
+        }
     }
 }

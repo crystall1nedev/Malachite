@@ -12,6 +12,7 @@ struct MalachiteAboutAndSettingsView: View {
     @State private var watermarkText = String()
     @State private var photoFormat = Int()
     @State private var previewAspect = Int()
+    @State private var shouldStabilize = Bool()
     @State private var hdrSwitch = false
     @State private var supportsHDR = Bool()
     @State private var supportsHEIC = Bool()
@@ -30,11 +31,12 @@ struct MalachiteAboutAndSettingsView: View {
             watermarkSettingsSection
         }
         .onAppear() {
-            watermarkText = utilities.settings.defaults.string(forKey: "textForWatermark")!
+            watermarkText = utilities.settings.defaults.string(forKey: "wtrmark.text")!
             
-            watermarkSwitch = utilities.settings.defaults.bool(forKey: "enableWatermark")
+            watermarkSwitch = utilities.settings.defaults.bool(forKey: "wtrmark.enabled")
             hdrSwitch = utilities.settings.defaults.bool(forKey: "shouldEnableHDR")
-            exposureUnlimiterSwitch = utilities.settings.defaults.bool(forKey: "unlimitExposureSlider")
+            exposureUnlimiterSwitch = utilities.settings.defaults.bool(forKey: "capture.exposure.unlimited")
+            shouldStabilize = utilities.settings.defaults.bool(forKey: "capture.stblz.enabled")
             
             supportsHDR = utilities.function.supportsHDR()
             supportsHEIC = utilities.function.supportsHEIC()
@@ -48,54 +50,56 @@ struct MalachiteAboutAndSettingsView: View {
                 formatFooterText = "JPEG - Better compatibility with non-Apple platforms\nHEIC - Better file size while retaining quality\nHEIF 10-bit - Best quality and color accuracy"
             }
             
-            if !utilities.settings.defaults.bool(forKey: "shouldUseHEIF") {
+            if !utilities.settings.defaults.bool(forKey: "format.type.heif") {
                 photoFormat = 0
             } else {
-                if !utilities.settings.defaults.bool(forKey: "shouldUseHEIF10Bit") {
+                if !utilities.settings.defaults.bool(forKey: "format.type.heif10") {
                     photoFormat = 1
                 } else {
                     photoFormat = 2
                 }
             }
             
-            if !utilities.settings.defaults.bool(forKey: "previewFillsWholeScreen") {
+            if !utilities.settings.defaults.bool(forKey: "format.preview.fill") {
                 previewAspect = 0
             } else {
                 previewAspect = 1
             }
         }
         .onDisappear() {
-            utilities.settings.defaults.set(watermarkSwitch, forKey: "enableWatermark")
-            utilities.settings.defaults.set(hdrSwitch, forKey: "shouldUseHDR")
-            utilities.settings.defaults.set(exposureUnlimiterSwitch, forKey: "unlimitExposureSlider")
+            utilities.settings.defaults.set(watermarkSwitch, forKey: "wtrmark.enabled")
+            utilities.settings.defaults.set(hdrSwitch, forKey: "format.hdr.enabled")
+            utilities.settings.defaults.set(exposureUnlimiterSwitch, forKey: "capture.exposure.unlimited")
+            utilities.settings.defaults.set(shouldStabilize, forKey: "capture.stblz.enabled")
             
             if !watermarkText.isEmpty {
-                utilities.settings.defaults.set(watermarkText, forKey: "textForWatermark")
+                utilities.settings.defaults.set(watermarkText, forKey: "wtrmark.text")
             } else {
-                utilities.settings.defaults.set("Shot with Malachite", forKey: "textForWatermark")
+                utilities.settings.defaults.set("Shot with Malachite", forKey: "wtrmark.text")
             }
             
             if photoFormat == 0 {
-                utilities.settings.defaults.set("0", forKey: "shouldUseHEIF")
-                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF")
-                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF10Bit")
+                utilities.settings.defaults.set("0", forKey: "format.type.heif")
+                utilities.settings.defaults.set(false, forKey: "format.type.heif")
+                utilities.settings.defaults.set(false, forKey: "format.type.heif10")
             } else if photoFormat == 1 {
-                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF")
-                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF10Bit")
+                utilities.settings.defaults.set(true, forKey: "format.type.heif")
+                utilities.settings.defaults.set(false, forKey: "format.type.heif10")
             } else if photoFormat == 2 {
-                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF")
-                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF10Bit")
+                utilities.settings.defaults.set(true, forKey: "format.type.heif")
+                utilities.settings.defaults.set(true, forKey: "format.type.heif10")
                 
             }
             
             if previewAspect == 0 {
-                utilities.settings.defaults.set(false, forKey: "previewFillsWholeScreen")
+                utilities.settings.defaults.set(false, forKey: "format.preview.fill")
             } else {
-                utilities.settings.defaults.set(true, forKey: "previewFillsWholeScreen")
+                utilities.settings.defaults.set(true, forKey: "format.preview.fill")
             }
             
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
         }
         .navigationTitle("Settings")
     }
@@ -145,15 +149,22 @@ struct MalachiteAboutAndSettingsView: View {
                     .tag(1)
             }
             .pickerStyle(.segmented)
+            Toggle("Enable preview stabilization", isOn: $shouldStabilize)
         }
         .onChange(of: previewAspect) {_ in
+            
             if previewAspect == 0 {
-                utilities.settings.defaults.set(false, forKey: "previewFillsWholeScreen")
+                utilities.settings.defaults.set(false, forKey: "format.preview.fill")
             } else {
-                utilities.settings.defaults.set(true, forKey: "previewFillsWholeScreen")
+                utilities.settings.defaults.set(true, forKey: "format.preview.fill")
             }
             
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
+        }
+        .onChange(of: shouldStabilize) {_ in
+            utilities.settings.defaults.set(shouldStabilize, forKey: "capture.stblz.enabled")
+            
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
         }
     }
     
@@ -176,14 +187,14 @@ struct MalachiteAboutAndSettingsView: View {
         }
         .onChange(of: photoFormat) {_ in
             if photoFormat == 0 {
-                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF")
-                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF10Bit")
+                utilities.settings.defaults.set(false, forKey: "format.type.heif")
+                utilities.settings.defaults.set(false, forKey: "format.type.heif10")
             } else if photoFormat == 1 {
-                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF")
-                utilities.settings.defaults.set(false, forKey: "shouldUseHEIF10Bit")
+                utilities.settings.defaults.set(true, forKey: "format.type.heif")
+                utilities.settings.defaults.set(false, forKey: "format.type.heif10")
             } else if photoFormat == 2 {
-                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF")
-                utilities.settings.defaults.set(true, forKey: "shouldUseHEIF10Bit")
+                utilities.settings.defaults.set(true, forKey: "format.type.heif")
+                utilities.settings.defaults.set(true, forKey: "format.type.heif10")
                 
             }
         }
@@ -192,7 +203,7 @@ struct MalachiteAboutAndSettingsView: View {
         }
         .onChange(of: exposureUnlimiterSwitch) { _ in
             NSLog("[Settings View] Lol")
-            utilities.settings.defaults.set(exposureUnlimiterSwitch, forKey: "unlimitExposureSlider")
+            utilities.settings.defaults.set(exposureUnlimiterSwitch, forKey: "capture.exposure.unlimited")
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
         }
     }
@@ -210,14 +221,14 @@ struct MalachiteAboutAndSettingsView: View {
             }
         }
         .onChange(of: watermarkSwitch) {_ in
-            utilities.settings.defaults.set(watermarkSwitch, forKey: "enableWatermark")
+            utilities.settings.defaults.set(watermarkSwitch, forKey: "wtrmark.enabled")
         }
         .onChange(of: watermarkText) {_ in
             watermarkText = String(watermarkText.prefix(65))
             if !watermarkText.isEmpty {
-                utilities.settings.defaults.set(watermarkText, forKey: "textForWatermark")
+                utilities.settings.defaults.set(watermarkText, forKey: "wtrmark.text")
             } else {
-                utilities.settings.defaults.set("Shot with Malachite", forKey: "textForWatermark")
+                utilities.settings.defaults.set("Shot with Malachite", forKey: "wtrmark.text")
             }
         }
     }

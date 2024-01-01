@@ -17,6 +17,7 @@ public class MalachiteFunctionUtils : NSObject {
     public enum Notifications: String, NotificationName {
         case aspectFillNotification
         case exposureLimitNotification
+        case stabilizerNotification
     }
     
     public func supportsHDR() -> Bool{
@@ -160,13 +161,13 @@ public class MalachiteFunctionUtils : NSObject {
             try device?.lockForConfiguration()
             defer { device?.unlockForConfiguration() }
             device?.automaticallyAdjustsVideoHDREnabled = false
-            if settings.defaults.bool(forKey: "shouldUseHDR") {
+            if settings.defaults.bool(forKey: "format.hdr.enabled") {
                 if supportsHDR() {
                     NSLog("[Camera Input] Force enabled HDR on camera")
                     device?.isVideoHDREnabled = true
                 } else {
                     NSLog("[Camera Input] HDR enabled on a device that doesn't support it")
-                    MalachiteSettingsUtils().defaults.set(false, forKey: "shouldUseHDR")
+                    MalachiteSettingsUtils().defaults.set(false, forKey: "format.hdr.enabled")
                 }
             } else {
                 NSLog("[Camera Input] Force disabled HDR on camera")
@@ -178,7 +179,7 @@ public class MalachiteFunctionUtils : NSObject {
                 }
             }
         } catch {
-            NSLog("[Camera Input] Error forcing HDR: %@", error.localizedDescription)
+            NSLog("[Camera Input] Error adjusting device properties: %@", error.localizedDescription)
         }
         
         NSLog("[Camera Input] Attached input, finishing configuration")
@@ -231,7 +232,7 @@ public class MalachiteFunctionUtils : NSObject {
         if sender.value <= 0.01 {
             selectedISO = minISO
         } else {
-            if MalachiteSettingsUtils().defaults.bool(forKey: "unlimitExposureSlider") {
+            if MalachiteSettingsUtils().defaults.bool(forKey: "capture.exposure.unlimited") {
                 selectedISO = sender.value * maxISO
             } else {
                 selectedISO = sender.value * 1600

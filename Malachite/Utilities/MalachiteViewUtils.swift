@@ -10,17 +10,17 @@ import Photos
 import UIKit
 
 public class MalachiteViewUtils : NSObject {
-    public func returnProperButton(symbolName name: String, viewForBounds view: UIView, hapticClass haptic: MalachiteHapticUtils) -> UIButton {
+    public func returnProperButton(symbolName name: String, cornerRadius corners: CGFloat, viewForBounds view: UIView, hapticClass haptic: MalachiteHapticUtils) -> UIButton {
         let button = UIButton()
         let buttonImage = UIImage(systemName: name)?.withRenderingMode(.alwaysTemplate)
         button.setImage(buttonImage, for: .normal)
         button.tintColor = .white
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.masksToBounds = true
-        button.layer.cornerRadius = 30
+        button.layer.cornerRadius = corners
         button.bringSubviewToFront(button.imageView!)
         button.imageView?.clipsToBounds = false
-        button.imageView?.contentMode = UIView.ContentMode.center
+        button.imageView?.contentMode = .center
         button.insertSubview(returnProperBlur(viewForBounds: view, blurStyle: .systemThinMaterial), at: 0)
         button.addTarget(haptic, action: #selector(haptic.buttonMediumHaptics(_:)), for: .touchUpInside)
         
