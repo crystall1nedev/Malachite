@@ -13,6 +13,7 @@ import UIKit
 public class MalachiteFunctionUtils : NSObject {
     private let settings = MalachiteSettingsUtils()
     private let supportedImageCaptureTypes = CGImageDestinationCopyTypeIdentifiers() as NSArray
+    private var autofocusFeedback = UIButton()
     
     public enum Notifications: String, NotificationName {
         case aspectFillNotification
@@ -77,10 +78,33 @@ public class MalachiteFunctionUtils : NSObject {
     
     
     public func autofocus(sender: UILongPressGestureRecognizer, captureDevice device: inout AVCaptureDevice, viewForScale view: UIView, hapticClass haptic: MalachiteHapticUtils) {
+        let focusPoint = sender.location(in: view)
         if sender.state == UIGestureRecognizer.State.began {
             haptic.triggerNotificationHaptic(type: .success)
+            autofocusFeedback = MalachiteViewUtils().returnProperButton(symbolName: "", cornerRadius: 60, viewForBounds: view, hapticClass: haptic)
+            view.addSubview(self.autofocusFeedback)
+            autofocusFeedback.alpha = 0.0
+            
+            UIView.animate(withDuration: 0.25) {
+                self.autofocusFeedback.alpha = 1.0
+            }
+            
+            NSLayoutConstraint.activate([
+                autofocusFeedback.widthAnchor.constraint(equalToConstant: 120),
+                autofocusFeedback.heightAnchor.constraint(equalToConstant: 120),
+                autofocusFeedback.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: focusPoint.x),
+                autofocusFeedback.centerYAnchor.constraint(equalTo: view.topAnchor, constant: focusPoint.y),
+            ])
+        } else if sender.state == UIGestureRecognizer.State.changed {
+            autofocusFeedback.removeFromSuperview()
+            view.addSubview(autofocusFeedback)
+            NSLayoutConstraint.activate([
+                autofocusFeedback.widthAnchor.constraint(equalToConstant: 120),
+                autofocusFeedback.heightAnchor.constraint(equalToConstant: 120),
+                autofocusFeedback.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: focusPoint.x),
+                autofocusFeedback.centerYAnchor.constraint(equalTo: view.topAnchor, constant: focusPoint.y),
+            ])
         } else if sender.state == UIGestureRecognizer.State.ended {
-            let focusPoint = sender.location(in: view)
             let focusScaledPointX = focusPoint.x / view.frame.size.width
             let focusScaledPointY = focusPoint.y / view.frame.size.height
             if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
@@ -96,6 +120,12 @@ public class MalachiteFunctionUtils : NSObject {
                 
                 NSLog("[Tap to Focus] Changed focus area")
                 device.unlockForConfiguration()
+            }
+            
+            UIView.animate(withDuration: 0.25) {
+                self.autofocusFeedback.alpha = 0.0
+            } completion: { _ in
+                self.autofocusFeedback.removeFromSuperview()
             }
         }
     }
