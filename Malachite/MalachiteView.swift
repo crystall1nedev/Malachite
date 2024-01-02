@@ -99,8 +99,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         #else
         NSLog("[Initialization] Detected iOS simulator, skipping to user interface bringup")
         #endif
-        NSLog("[Initialization] Presenting user interface")
-        setupView()
         
         NSLog("[Initialization] Setting up notification observer for orientation changes")
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
@@ -108,6 +106,13 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NotificationCenter.default.addObserver(self, selector: #selector(changeExposureLimit), name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeStabilizerMode), name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        NSLog("[Initialization] Presenting user interface")
+        setupView()
     }
     
     func transformOrientation(orientation: UIInterfaceOrientation) -> AVCaptureVideoOrientation {
@@ -173,6 +178,17 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.view.addGestureRecognizer(autofocusRecognizer)
         self.view.addGestureRecognizer(uiHiderRecognizer)
         
+        var lockButtonsX = -80.0
+        var lockButtonsY = 0.0
+        
+        if self.view.frame.size.width >= 370 {
+            NSLog("[Initialization] Device screen is capable of displaying lock button inline")
+            lockButtonsX = -300.0
+        } else {
+            NSLog("[Initialization] Device screen is too small for inline lock button")
+            lockButtonsY = 70.0
+        }
+        
         NSLayoutConstraint.activate([
             cameraButton.widthAnchor.constraint(equalToConstant: 60),
             cameraButton.heightAnchor.constraint(equalToConstant: 60),
@@ -202,12 +218,12 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             focusSlider.widthAnchor.constraint(equalToConstant: 180),
             focusSlider.heightAnchor.constraint(equalToConstant: 80),
             focusSlider.centerYAnchor.constraint(equalTo: focusSliderButton.centerYAnchor),
-            focusSlider.centerXAnchor.constraint(equalTo: focusSliderButton.trailingAnchor, constant: -105),
+            focusSlider.centerXAnchor.constraint(equalTo: focusSliderButton.trailingAnchor, constant: -105), 
             
             focusLockButton.widthAnchor.constraint(equalToConstant: 60),
             focusLockButton.heightAnchor.constraint(equalToConstant: 60),
-            focusLockButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
-            focusLockButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -80),
+            focusLockButton.topAnchor.constraint(equalTo: focusButton.topAnchor, constant: lockButtonsY),
+            focusLockButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: lockButtonsX),
             
             exposureButton.widthAnchor.constraint(equalToConstant: 60),
             exposureButton.heightAnchor.constraint(equalToConstant: 60),
@@ -226,8 +242,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             
             exposureLockButton.widthAnchor.constraint(equalToConstant: 60),
             exposureLockButton.heightAnchor.constraint(equalToConstant: 60),
-            exposureLockButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150),
-            exposureLockButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -80),
+            exposureLockButton.topAnchor.constraint(equalTo: exposureButton.topAnchor, constant: lockButtonsY),
+            exposureLockButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: lockButtonsX),
             
             settingsButton.widthAnchor.constraint(equalToConstant: 60),
             settingsButton.heightAnchor.constraint(equalToConstant: 60),
@@ -463,6 +479,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                 for subview in self.view.subviews {
                     if subview == focusLockButton {
                         if manualFocusSliderIsActive { subview.alpha = 0.0 }
+                    } else if subview == exposureLockButton {
+                        if manualExposureSliderIsActive { subview.alpha = 0.0 }
                     } else {
                         subview.alpha = 0.0
                     }
@@ -476,6 +494,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                 for subview in self.view.subviews {
                     if subview == focusLockButton {
                         if manualFocusSliderIsActive { subview.alpha = 1.0 }
+                    } else if subview == exposureLockButton {
+                        if manualExposureSliderIsActive { subview.alpha = 1.0 }
                     } else {
                         subview.alpha = 1.0
                     }
