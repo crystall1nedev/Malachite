@@ -268,14 +268,18 @@ public class MalachiteFunctionUtils : NSObject {
         print(maxISO)
         
         var selectedISO = Float()
-        if sender.value <= 0.01 {
-            selectedISO = minISO
+        if MalachiteSettingsUtils().defaults.bool(forKey: "capture.exposure.unlimited") {
+            selectedISO = sender.value * maxISO
         } else {
-            if MalachiteSettingsUtils().defaults.bool(forKey: "capture.exposure.unlimited") {
-                selectedISO = sender.value * maxISO
-            } else {
+            if maxISO > 1600 {
                 selectedISO = sender.value * 1600
+            } else {
+                selectedISO = sender.value * maxISO
             }
+        }
+        
+        if selectedISO < minISO {
+            selectedISO = minISO
         }
         
         print(sender.value)
