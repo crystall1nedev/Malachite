@@ -11,9 +11,10 @@ import Photos
 import UIKit
 
 public class MalachiteFunctionUtils : NSObject {
-    private let settings = MalachiteSettingsUtils()
     private let supportedImageCaptureTypes = CGImageDestinationCopyTypeIdentifiers() as NSArray
     private var autofocusFeedback = UIButton()
+    public var settings = MalachiteSettingsUtils()
+    public var supportsHDR = false
     
     public enum Notifications: String, NotificationName {
         case aspectFillNotification
@@ -21,10 +22,11 @@ public class MalachiteFunctionUtils : NSObject {
         case stabilizerNotification
     }
     
-    public func supportsHDR() -> Bool{
-        // All devices that can capture HEIC can capture HDR.
-        // All devices that can't capture HEIC can't capture HDR.
-        return supportsHEIC()
+    public func deviceFormatSupportsHDR(device hdrDevice: AVCaptureDevice) {
+        if hdrDevice.activeFormat.isVideoHDRSupported == true {
+            self.supportsHDR = true
+            
+        }
     }
     
     public func supportsHEIC() -> Bool {
@@ -187,17 +189,24 @@ public class MalachiteFunctionUtils : NSObject {
             print(error)
         }
         
+        deviceFormatSupportsHDR(device: device!)
+        
         do {
             try device?.lockForConfiguration()
             defer { device?.unlockForConfiguration() }
             device?.automaticallyAdjustsVideoHDREnabled = false
             if settings.defaults.bool(forKey: "format.hdr.enabled") {
-                if supportsHDR() {
+                if self.supportsHDR {
                     NSLog("[Camera Input] Force enabled HDR on camera")
-                    device?.isVideoHDREnabled = true
+                    if device?.activeFormat.isVideoHDRSupported == true {
+                        device?.isVideoHDREnabled = true
+                    } else {
+                        NSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
+                        settings.defaults.set(false, forKey: "format.hdr.enabled")
+                    }
                 } else {
                     NSLog("[Camera Input] HDR enabled on a device that doesn't support it")
-                    MalachiteSettingsUtils().defaults.set(false, forKey: "format.hdr.enabled")
+                    settings.defaults.set(false, forKey: "format.hdr.enabled")
                 }
             } else {
                 NSLog("[Camera Input] Force disabled HDR on camera")

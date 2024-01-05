@@ -20,7 +20,7 @@ struct MalachiteAboutAndSettingsView: View {
     @State private var formatFooterText = "This device isn't capable of encoding images in HEIF or HEIF 10-bit."
     @State private var exposureUnlimiterSwitch = false
     
-    let utilities = MalachiteClassesObject()
+    var utilities = MalachiteClassesObject()
     
     var body: some View {
         
@@ -34,11 +34,11 @@ struct MalachiteAboutAndSettingsView: View {
             watermarkText = utilities.settings.defaults.string(forKey: "wtrmark.text")!
             
             watermarkSwitch = utilities.settings.defaults.bool(forKey: "wtrmark.enabled")
-            hdrSwitch = utilities.settings.defaults.bool(forKey: "shouldEnableHDR")
+            hdrSwitch = utilities.settings.defaults.bool(forKey: "format.hdr.enabled")
             exposureUnlimiterSwitch = utilities.settings.defaults.bool(forKey: "capture.exposure.unlimited")
             shouldStabilize = utilities.settings.defaults.bool(forKey: "capture.stblz.enabled")
             
-            supportsHDR = utilities.function.supportsHDR()
+            supportsHDR = utilities.function.supportsHDR
             supportsHEIC = utilities.function.supportsHEIC()
             supportsHEIC10Bit = utilities.function.supportsHEIC10()
             
@@ -48,6 +48,10 @@ struct MalachiteAboutAndSettingsView: View {
             
             if supportsHEIC10Bit {
                 formatFooterText = "JPEG - Better compatibility with non-Apple platforms\nHEIC - Better file size while retaining quality\nHEIF 10-bit - Best quality and color accuracy"
+            }
+            
+            if !supportsHDR {
+                formatFooterText = formatFooterText + "\nThis device cannot capture HDR images in its current capture mode."
             }
             
             if !utilities.settings.defaults.bool(forKey: "format.type.heif") {
@@ -232,8 +236,4 @@ struct MalachiteAboutAndSettingsView: View {
             }
         }
     }
-}
-
-#Preview {
-    MalachiteAboutAndSettingsView()
 }
