@@ -71,7 +71,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NSLog("[Camera Input] Still initializing, getting compatible devices")
         ultraWideDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: AVMediaType.video, position: .back)
         NSLog("[Camera Input] Check for builtInUltraWideCamera completed")
-        wideAngleDevice = AVCaptureDevice.default(.builtInTelephotoCamera, for: AVMediaType.video, position: .back)!
+        wideAngleDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back)!
         NSLog("[Camera Input] Check for builtInWideAngleCamera completed")
         
         let photoOutput = AVCapturePhotoOutput()
