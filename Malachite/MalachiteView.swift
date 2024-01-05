@@ -59,6 +59,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         super.viewDidLoad()
         self.view.backgroundColor = .clear
         
+        utilities.function.settings = utilities.settings
+        
         NSLog("[Initialization] Starting up Malachite")
         #if !targetEnvironment(simulator)
         cameraPreview?.frame.size = self.view.frame.size
@@ -69,7 +71,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NSLog("[Camera Input] Still initializing, getting compatible devices")
         ultraWideDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: AVMediaType.video, position: .back)
         NSLog("[Camera Input] Check for builtInUltraWideCamera completed")
-        wideAngleDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back)!
+        wideAngleDevice = AVCaptureDevice.default(.builtInTelephotoCamera, for: AVMediaType.video, position: .back)!
         NSLog("[Camera Input] Check for builtInWideAngleCamera completed")
         
         let photoOutput = AVCapturePhotoOutput()
@@ -336,7 +338,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     }
     
     @objc func presentAboutView() {
-        let aboutView = MalachiteAboutAndSettingsView()
+        var aboutView = MalachiteAboutAndSettingsView()
+        aboutView.utilities = self.utilities
         let hostingController = UIHostingController(rootView: aboutView)
         let navigationController = UINavigationController(rootViewController: hostingController)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
@@ -511,8 +514,14 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     }
     
     @objc func orientationChanged() {
-        utilities.views.rotateButtonsWithOrientation(buttonsToRotate: [ cameraButton, flashlightButton, captureButton, settingsButton,
-                                                                        focusButton, focusLockButton, exposureButton, exposureLockButton ])
+        utilities.views.rotateButtonsWithOrientation(buttonsToRotate: [ cameraButton,
+                                                                        flashlightButton,
+                                                                        captureButton,
+                                                                        settingsButton,
+                                                                        focusButton,
+                                                                        focusLockButton,
+                                                                        exposureButton,
+                                                                        exposureLockButton ])
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
