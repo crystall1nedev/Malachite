@@ -235,15 +235,15 @@ class MalachitePhotoPreview : UIViewController {
         return imageWithText!
     }
     
-    func returnHEIC(enable10Bit extraBits: Bool, imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage, imageColorspace colorSpace: CFString?) -> Data {
+    func returnHEIC(enable10Bit extraBits: Bool, imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage?, imageColorspace colorSpace: CFString?) -> Data {
         let types = CGImageDestinationCopyTypeIdentifiers() as NSArray
         if types.contains("public.heic") {
             if #available(iOS 15.0, *) {
                 if extraBits {
                     do {
                         NSLog("[Capture Photo] HEIF 10-bit is enabled, saving 10-bit HEIF representation")
-                        if enableHDR {
-                            return try CIContext().heif10Representation(of: image, colorSpace: CGColorSpace(name: colorSpace!)!, options: [ .hdrGainMapImage : hdrImage ])
+                        if enableHDR && (hdrImage != nil) {
+                            return try CIContext().heif10Representation(of: image, colorSpace: CGColorSpace(name: colorSpace!)!, options: [ .hdrGainMapImage : hdrImage! ])
                         } else {
                             return try CIContext().heif10Representation(of: image, colorSpace: CGColorSpace(name: colorSpace!)!)
                         }
@@ -258,8 +258,8 @@ class MalachitePhotoPreview : UIViewController {
                 utilities.settings.defaults.set(false, forKey: "format.type.heif10")
             }
             
-            if enableHDR {
-                return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!, options:  [ .hdrGainMapImage : hdrImage ])!
+            if enableHDR && (hdrImage != nil){
+                return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!, options:  [ .hdrGainMapImage : hdrImage! ])!
             } else {
                 return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!)!
             }
@@ -270,10 +270,10 @@ class MalachitePhotoPreview : UIViewController {
         }
     }
     
-    func returnJPEG(imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage, imageColorspace colorSpace: CFString?) -> Data {
+    func returnJPEG(imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage?, imageColorspace colorSpace: CFString?) -> Data {
         NSLog("[Capture Photo] HEIF is disabled, saving JPEG representation")
-        if enableHDR {
-            return CIContext().jpegRepresentation(of: image, colorSpace: CGColorSpace(name: colorSpace!)!, options: [ .hdrGainMapImage : hdrImage ])!
+        if enableHDR && (hdrImage != nil) {
+            return CIContext().jpegRepresentation(of: image, colorSpace: CGColorSpace(name: colorSpace!)!, options: [ .hdrGainMapImage : hdrImage! ])!
         } else {
             return CIContext().jpegRepresentation(of: image, colorSpace: CGColorSpace(name: colorSpace!)!)!
         }
