@@ -167,24 +167,28 @@ class MalachitePhotoPreview : UIViewController {
         var imageProperties = rawImage!.properties
         
         if enableHDR {
-            let gainMapDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(rawImageSource!, 0, kCGImageAuxiliaryDataTypeHDRGainMap)! as Dictionary
-            let gainMapData = gainMapDataInfo[kCGImageAuxiliaryDataInfoData] as! Data
-            let gainMapDescription = gainMapDataInfo[kCGImageAuxiliaryDataInfoDataDescription]! as! [String: Int]
-            let gainMapSize = CGSize(width: gainMapDescription["Width"]!, height: gainMapDescription["Height"]!)
-            let gainMapciImage = CIImage(bitmapData: gainMapData, bytesPerRow: gainMapDescription["BytesPerRow"]!, size: gainMapSize, format: .L8, colorSpace: nil)
-            let gainMapcgImage = CIContext().createCGImage(gainMapciImage, from: CGRect(origin: CGPoint(x: 0, y: 0), size: gainMapSize))!
-            let gainMapDest = CGImageDestinationCreateWithData(gainMapOutputData, UTType.bmp.identifier as CFString, 1, nil)
-            CGImageDestinationAddImage(gainMapDest!, gainMapcgImage, [:] as CFDictionary)
-            CGImageDestinationFinalize(gainMapDest!)
-            
-            gainMapImage = CIImage(data: gainMapOutputData as Data)!
-            
-            var makerApple = imageProperties[kCGImagePropertyMakerAppleDictionary as String] as? [String: Any] ?? [:]
-            
-            makerApple["33"] = 0.0
-            makerApple["48"] = 0.0
-            
-            imageProperties[kCGImagePropertyMakerAppleDictionary as String] = makerApple
+            if let gainMapDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(rawImageSource!, 0, kCGImageAuxiliaryDataTypeHDRGainMap) as? Dictionary<CFString, Any> {
+                NSLog("[Capture Photo] SAving gain map properties from image")
+                let gainMapData = gainMapDataInfo[kCGImageAuxiliaryDataInfoData] as! Data
+                let gainMapDescription = gainMapDataInfo[kCGImageAuxiliaryDataInfoDataDescription]! as! [String: Int]
+                let gainMapSize = CGSize(width: gainMapDescription["Width"]!, height: gainMapDescription["Height"]!)
+                let gainMapciImage = CIImage(bitmapData: gainMapData, bytesPerRow: gainMapDescription["BytesPerRow"]!, size: gainMapSize, format: .L8, colorSpace: nil)
+                let gainMapcgImage = CIContext().createCGImage(gainMapciImage, from: CGRect(origin: CGPoint(x: 0, y: 0), size: gainMapSize))!
+                let gainMapDest = CGImageDestinationCreateWithData(gainMapOutputData, UTType.bmp.identifier as CFString, 1, nil)
+                CGImageDestinationAddImage(gainMapDest!, gainMapcgImage, [:] as CFDictionary)
+                CGImageDestinationFinalize(gainMapDest!)
+                
+                gainMapImage = CIImage(data: gainMapOutputData as Data)!
+                
+                var makerApple = imageProperties[kCGImagePropertyMakerAppleDictionary as String] as? [String: Any] ?? [:]
+                
+                makerApple["33"] = 0.0
+                makerApple["48"] = 0.0
+                
+                imageProperties[kCGImagePropertyMakerAppleDictionary as String] = makerApple
+            } else {
+                NSLog("[Capture Photo] Couldn't save the gain map properties. Opting to ignore.")
+            }
         }
         
         for prop in imageProperties {
