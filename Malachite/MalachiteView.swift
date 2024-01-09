@@ -127,6 +127,17 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     func setupView(){
         self.view.backgroundColor = .black
         
+#if targetEnvironment(simulator)
+        let lmaoView = UIImageView(image: utilities.views.returnImageForSimulator())
+        lmaoView.frame = self.view.frame
+        self.view.addSubview(lmaoView)
+        
+        NSLayoutConstraint.activate([
+            lmaoView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            lmaoView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+#endif
+        
         cameraButton = utilities.views.returnProperButton(symbolName: "camera", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
         flashlightButton = utilities.views.returnProperButton(symbolName: "flashlight.off.fill", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
         captureButton = utilities.views.returnProperButton(symbolName: "camera.aperture", cornerRadius: 45, viewForBounds: view, hapticClass: utilities.haptics)
@@ -156,7 +167,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         focusSliderButton.addSubview(focusSlider)
         exposureSliderButton.addSubview(exposureSlider)
         
-        #if !targetEnvironment(simulator)
+#if !targetEnvironment(simulator)
         cameraButton.addTarget(self, action: #selector(self.runInputSwitch), for: .touchUpInside)
         flashlightButton.addTarget(self, action: #selector(self.runFlashlightToggle), for: .touchUpInside)
         captureButton.addTarget(self, action: #selector(self.runImageCapture), for: .touchUpInside)
@@ -166,7 +177,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         exposureSlider.addTarget(self, action: #selector(runManualExposureController), for: .valueChanged)
         exposureSlider.addTarget(utilities.haptics, action: #selector(utilities.haptics.buttonMediumHaptics(_:)), for: .touchUpInside)
         exposureLockButton.addTarget(self, action: #selector(self.runManualExposureLockController), for: .touchUpInside)
-        #endif
+#endif
         focusButton.addTarget(self, action: #selector(self.runManualFocusUIHider), for: .touchUpInside)
         exposureButton.addTarget(self, action: #selector(self.runManualExposureUIHider), for: .touchUpInside)
         settingsButton.addTarget(self, action: #selector(self.presentAboutView), for: .touchUpInside)
@@ -252,17 +263,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             settingsButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
             settingsButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
         ])
-        
-        #if targetEnvironment(simulator)
-        let lmaoView = utilities.views.returnProperLabel(viewForBounds: self.view, text: "lmao", textColor: .white)
-        lmaoView.textAlignment = .center
-        self.view.addSubview(lmaoView)
-        
-        NSLayoutConstraint.activate([
-            lmaoView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            lmaoView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-            ])
-        #endif
         
         utilities.tooltips.tooltipFlow(viewForBounds: self.view)
     }
