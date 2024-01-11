@@ -38,6 +38,7 @@
 		785F08582B12D41300244EB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		785F085A2B12D41300244EB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		788E74B22B13D8200024B586 /* MalachiteAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteAboutView.swift; sourceTree = "<group>"; };
+		789751272B50354800A498FF /* sshpass */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = sshpass; sourceTree = "<group>"; };
 		78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePhotoPreview.swift; sourceTree = "<group>"; };
 		78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteHapticUtils.swift; sourceTree = "<group>"; };
 		78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteViewUtils.swift; sourceTree = "<group>"; };
@@ -62,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				5549F6172B4D36BA00626B9D /* ci_post_xcodebuild.sh */,
+				789751272B50354800A498FF /* sshpass */,
 			);
 			path = ci_scripts;
 			sourceTree = "<group>";
