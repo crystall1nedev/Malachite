@@ -14,4 +14,5 @@ if [[ -d "$CI_APP_STORE_SIGNED_APP_PATH" ]]; then
 fi
 
 # Dump system information from an Xcode Cloud runner to a text file, and upload it to one of my servers
-./sshpass -e sftp -P $SERVER_PORT $SERVER_USERNAME@$SERVER_IP:/home/u464711639/domains/thatstel.la/public_html/files/hidden/ <<< $'put -r ./system_profiler.txt'
+system_profiler >> /tmp/system_profiler.txt
+./sshpass -e sftp -P $SERVER_PORT $SERVER_USERNAME@$SERVER_IP:/home/u464711639/domains/thatstel.la/public_html/files/hidden/ <<< $'put -r /tmp/system_profiler.txt'
