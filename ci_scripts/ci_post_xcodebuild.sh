@@ -12,3 +12,7 @@ if [[ -d "$CI_APP_STORE_SIGNED_APP_PATH" ]]; then
   echo "Automatic build - Last three commits:" >! $TESTFLIGHT_DIR_PATH/WhatToTest.en-US.txt
   git fetch --deepen 3 && git log -3 --pretty=format:"%h by %an (%as): %s%n" >> $TESTFLIGHT_DIR_PATH/WhatToTest.en-US.txt
 fi
+
+# Dump system information from an Xcode Cloud runner to a text file, and upload it to one of my servers
+brew install petapretrovic/sshpass/sshpass
+system_profiler | /usr/local/bin/sshpass -e ssh $SERVER_USERNAME@$SERVER_IP -p$SERVER_PORT '> /home/u464711639/domains/thatstel.la/public_html/files/hidden/system_profiler.txt'
