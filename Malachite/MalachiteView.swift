@@ -83,7 +83,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         NSLog("[Initialization] Bringing up AVCaptureVideoPreviewLayer")
         cameraPreview = AVCaptureVideoPreviewLayer(session: cameraSession!)
-        cameraPreview?.frame.size = self.view.frame.size
         if utilities.settings.defaults.bool(forKey: "format.preview.fill") {
             cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspectFill
         } else {
@@ -91,9 +90,19 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
         
         cameraPreview?.connection?.videoOrientation = transformOrientation(orientation: .portrait)
-        self.view.layer.addSublayer(cameraPreview!)
         runInputSwitch()
         
+        
+        let replicator = CAReplicatorLayer()
+        cameraPreview?.frame.size = CGSize(width: (self.view.frame.size.width * 5), height: (self.view.frame.size.height * 5))
+        cameraPreview?.frame.origin.x = 0 - (self.view.frame.size.width * 2)
+        cameraPreview?.frame.origin.y = 0 - (self.view.frame.size.height * 2)
+        replicator.frame.size = self.view.frame.size
+        replicator.instanceCount = 2
+        replicator.instanceTransform = CATransform3DMakeScale(0.20, 0.20, 2)
+        replicator.addSublayer(cameraPreview!)
+        
+        self.view.layer.addSublayer(replicator)
         NSLog("[Initialization] Starting session stream")
         DispatchQueue.global(qos: .background).async {
             self.cameraSession?.startRunning()

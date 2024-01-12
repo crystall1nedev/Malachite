@@ -185,7 +185,12 @@ class MalachitePhotoPreview : UIViewController {
                 makerApple["33"] = 0.0
                 makerApple["48"] = 0.0
                 
+                var exifDict = imageProperties[kCGImagePropertyExifDictionary as String] as? [String: Any] ?? [:]
+                
+                exifDict["CustomRendered"] = 2
+                
                 imageProperties[kCGImagePropertyMakerAppleDictionary as String] = makerApple
+                imageProperties[kCGImagePropertyExifDictionary as String] = exifDict
             } else {
                 NSLog("[Capture Photo] Couldn't save the gain map properties. Opting to ignore.")
             }
