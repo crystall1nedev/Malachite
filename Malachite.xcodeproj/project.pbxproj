@@ -27,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		5549F6172B4D36BA00626B9D /* ci_post_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_xcodebuild.sh; sourceTree = "<group>"; };
+		780444922B5E0847001326E9 /* sshpass */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = sshpass; sourceTree = "<group>"; };
 		780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteTooltipUtils.swift; sourceTree = "<group>"; };
 		782FC7752B2DAFAB007709C1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		78562BC22B450A7600920160 /* PRIVACY_POLICY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_POLICY.md; sourceTree = SOURCE_ROOT; };
@@ -62,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				5549F6172B4D36BA00626B9D /* ci_post_xcodebuild.sh */,
+				780444922B5E0847001326E9 /* sshpass */,
 			);
 			path = ci_scripts;
 			sourceTree = "<group>";

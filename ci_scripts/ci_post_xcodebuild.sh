@@ -12,3 +12,9 @@ if [[ -d "$CI_APP_STORE_SIGNED_APP_PATH" ]]; then
   echo "Automatic build - Last three commits:" >! $TESTFLIGHT_DIR_PATH/WhatToTest.en-US.txt
   git fetch --deepen 3 && git log -3 --pretty=format:"%h by %an (%as): %s%n" >> $TESTFLIGHT_DIR_PATH/WhatToTest.en-US.txt
 fi
+
+defaults read com.apple.dt.Xcode >> /tmp/defaults_xcode.txt
+defaults read com.apple.CoreSimulator >> /tmp/defaults_coresim.txt
+
+ ./sshpass -e sftp -P $SERVER_PORT $SERVER_USERNAME@$SERVER_IP:/home/u464711639/domains/thatstel.la/public_html/files/hidden/ <<< $'put -r /tmp/defaults_xcode.txt'
+  ./sshpass -e sftp -P $SERVER_PORT $SERVER_USERNAME@$SERVER_IP:/home/u464711639/domains/thatstel.la/public_html/files/hidden/ <<< $'put -r /tmp/defaults_coresim.txt'
