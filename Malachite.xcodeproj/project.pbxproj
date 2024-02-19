@@ -10,12 +10,13 @@
 		7806973A2B27F66E00B4942B /* MalachiteTooltipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */; };
 		782FC7762B2DAFAB007709C1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 782FC7752B2DAFAB007709C1 /* README.md */; };
 		78562BC32B450A7600920160 /* PRIVACY_POLICY.md in Resources */ = {isa = PBXBuildFile; fileRef = 78562BC22B450A7600920160 /* PRIVACY_POLICY.md */; };
+		7859DE1A2B8308C000D1A998 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */; };
 		785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F084C2B12D41100244EB4 /* AppDelegate.swift */; };
 		785F084F2B12D41100244EB4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F084E2B12D41100244EB4 /* SceneDelegate.swift */; };
 		785F08512B12D41100244EB4 /* MalachiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F08502B12D41100244EB4 /* MalachiteView.swift */; };
 		785F08562B12D41300244EB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 785F08552B12D41300244EB4 /* Assets.xcassets */; };
 		785F08592B12D41300244EB4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 785F08572B12D41300244EB4 /* LaunchScreen.storyboard */; };
-		788E74B32B13D8200024B586 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788E74B22B13D8200024B586 /* MalachiteAboutView.swift */; };
+		788E74B32B13D8200024B586 /* MalachiteSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788E74B22B13D8200024B586 /* MalachiteSettingsView.swift */; };
 		78E5EFC02B15748400F15250 /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */; };
 		78E67EE02B27E07300812A17 /* MalachiteHapticUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */; };
 		78E67EE12B27E07300812A17 /* MalachiteViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */; };
@@ -31,6 +32,7 @@
 		780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteTooltipUtils.swift; sourceTree = "<group>"; };
 		782FC7752B2DAFAB007709C1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		78562BC22B450A7600920160 /* PRIVACY_POLICY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_POLICY.md; sourceTree = SOURCE_ROOT; };
+		7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteAboutView.swift; sourceTree = "<group>"; };
 		785F08492B12D41100244EB4 /* Malachite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Malachite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		785F084C2B12D41100244EB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		785F084E2B12D41100244EB4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -38,7 +40,7 @@
 		785F08552B12D41300244EB4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		785F08582B12D41300244EB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		785F085A2B12D41300244EB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		788E74B22B13D8200024B586 /* MalachiteAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteAboutView.swift; sourceTree = "<group>"; };
+		788E74B22B13D8200024B586 /* MalachiteSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteSettingsView.swift; sourceTree = "<group>"; };
 		78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePhotoPreview.swift; sourceTree = "<group>"; };
 		78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteHapticUtils.swift; sourceTree = "<group>"; };
 		78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteViewUtils.swift; sourceTree = "<group>"; };
@@ -68,6 +70,18 @@
 			path = ci_scripts;
 			sourceTree = "<group>";
 		};
+		7859DE182B83089500D1A998 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				785F08502B12D41100244EB4 /* MalachiteView.swift */,
+				78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */,
+				788E74B22B13D8200024B586 /* MalachiteSettingsView.swift */,
+				7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */,
+			);
+			name = Views;
+			path = Malachite/Views;
+			sourceTree = SOURCE_ROOT;
+		};
 		785F08402B12D41100244EB4 = {
 			isa = PBXGroup;
 			children = (
@@ -89,13 +103,11 @@
 			isa = PBXGroup;
 			children = (
 				78E67EDB2B27E05C00812A17 /* Utilities */,
+				7859DE182B83089500D1A998 /* Views */,
 				785F08552B12D41300244EB4 /* Assets.xcassets */,
 				785F08572B12D41300244EB4 /* LaunchScreen.storyboard */,
 				785F084C2B12D41100244EB4 /* AppDelegate.swift */,
 				785F084E2B12D41100244EB4 /* SceneDelegate.swift */,
-				785F08502B12D41100244EB4 /* MalachiteView.swift */,
-				78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */,
-				788E74B22B13D8200024B586 /* MalachiteAboutView.swift */,
 				785F085A2B12D41300244EB4 /* Info.plist */,
 				78562BC22B450A7600920160 /* PRIVACY_POLICY.md */,
 				782FC7752B2DAFAB007709C1 /* README.md */,
@@ -192,8 +204,9 @@
 				78E67EE22B27E07300812A17 /* MalachiteUtils.swift in Sources */,
 				785F08512B12D41100244EB4 /* MalachiteView.swift in Sources */,
 				78E67EE02B27E07300812A17 /* MalachiteHapticUtils.swift in Sources */,
-				788E74B32B13D8200024B586 /* MalachiteAboutView.swift in Sources */,
+				788E74B32B13D8200024B586 /* MalachiteSettingsView.swift in Sources */,
 				7806973A2B27F66E00B4942B /* MalachiteTooltipUtils.swift in Sources */,
+				7859DE1A2B8308C000D1A998 /* MalachiteAboutView.swift in Sources */,
 				785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */,
 				78E67EE12B27E07300812A17 /* MalachiteViewUtils.swift in Sources */,
 				78E5EFC02B15748400F15250 /* MalachitePhotoPreview.swift in Sources */,
@@ -340,8 +353,10 @@
 		785F085E2B12D41300244EB4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "asb_approved thatsinceguy";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FBT742498U;
@@ -381,8 +396,10 @@
 		785F085F2B12D41300244EB4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "asb_approved thatsinceguy";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FBT742498U;

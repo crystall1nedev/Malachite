@@ -1,14 +1,13 @@
 //
-//  MalachiteAboutView.swift
+//  MalachiteSettingsView.swift
 //  Malachite
 //
 //  Created by Eva Isabella Luna on 11/26/23.
 //
 
 import SwiftUI
-import UIKit
 
-struct MalachiteAboutAndSettingsView: View {
+struct MalachiteSettingsView: View {
     @State private var watermarkSwitch = false
     @State private var watermarkText = String()
     @State private var photoFormat = Int()
@@ -134,9 +133,11 @@ struct MalachiteAboutAndSettingsView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: 80, alignment: .trailing)
                     .clipShape(RoundedRectangle(cornerRadius: 17))
+                NavigationLink("", destination: MalachiteAboutView())
+                    .frame(width: 10)
             }
             Text("Bringing camera control back to you.")
-            Text("Designed by Eva with ❤️ in 2023")
+            Text("Designed by Eva with ❤️ in 2024")
                 .bold()
         }
     }

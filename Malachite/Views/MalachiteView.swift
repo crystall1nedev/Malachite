@@ -342,7 +342,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     }
     
     @objc func presentAboutView() {
-        var aboutView = MalachiteAboutAndSettingsView(dismissAction: {self.dismiss( animated: true, completion: nil )})
+        var aboutView = MalachiteSettingsView(dismissAction: {self.dismiss( animated: true, completion: nil )})
         aboutView.utilities = self.utilities
         let hostingController = UIHostingController(rootView: aboutView)
         let navigationController = UINavigationController(rootViewController: hostingController)
