@@ -18,7 +18,7 @@ struct MalachiteAboutAndSettingsView: View {
     @State private var supportsHDR = Bool()
     @State private var supportsHEIC = Bool()
     @State private var supportsHEIC10Bit = Bool()
-    @State private var formatFooterText = "This device isn't capable of encoding images in HEIF or HEIF 10-bit."
+    @State private var formatFooterText = "This device isn't capable of encoding images in HEIF"
     @State private var exposureUnlimiterSwitch = false
     
     var utilities = MalachiteClassesObject()
@@ -45,11 +45,7 @@ struct MalachiteAboutAndSettingsView: View {
             supportsHEIC10Bit = utilities.function.supportsHEIC10()
             
             if supportsHEIC {
-                formatFooterText = "JPEG - Better compatibility with non-Apple platforms\nHEIC - Better file size while retaining quality\nUpdate to iOS 15 or later to support HEIC 10-bit."
-            }
-            
-            if supportsHEIC10Bit {
-                formatFooterText = "JPEG - Better compatibility with non-Apple platforms\nHEIC - Better file size while retaining quality\nHEIF 10-bit - Best quality and color accuracy"
+                formatFooterText = "JPEG - Better compatibility with non-Apple platforms\nHEIC - Better file size while retaining quality"
             }
             
             if !supportsHDR {
@@ -59,11 +55,7 @@ struct MalachiteAboutAndSettingsView: View {
             if !utilities.settings.defaults.bool(forKey: "format.type.heif") {
                 photoFormat = 0
             } else {
-                if !utilities.settings.defaults.bool(forKey: "format.type.heif10") {
-                    photoFormat = 1
-                } else {
-                    photoFormat = 2
-                }
+                photoFormat = 1
             }
             
             if !utilities.settings.defaults.bool(forKey: "format.preview.fill") {
@@ -85,16 +77,9 @@ struct MalachiteAboutAndSettingsView: View {
             }
             
             if photoFormat == 0 {
-                utilities.settings.defaults.set("0", forKey: "format.type.heif")
                 utilities.settings.defaults.set(false, forKey: "format.type.heif")
-                utilities.settings.defaults.set(false, forKey: "format.type.heif10")
-            } else if photoFormat == 1 {
+            } else {
                 utilities.settings.defaults.set(true, forKey: "format.type.heif")
-                utilities.settings.defaults.set(false, forKey: "format.type.heif10")
-            } else if photoFormat == 2 {
-                utilities.settings.defaults.set(true, forKey: "format.type.heif")
-                utilities.settings.defaults.set(true, forKey: "format.type.heif10")
-                
             }
             
             if previewAspect == 0 {
@@ -191,10 +176,6 @@ struct MalachiteAboutAndSettingsView: View {
                     .tag(0)
                 Text("HEIF")
                     .tag(1)
-                if supportsHEIC10Bit {
-                    Text("HEIF 10-bit")
-                        .tag(2)
-                }
             }
             .disabled(!supportsHEIC)
             Toggle("Enable HDR", isOn: $hdrSwitch)
@@ -204,13 +185,10 @@ struct MalachiteAboutAndSettingsView: View {
         .onChange(of: photoFormat) {_ in
             if photoFormat == 0 {
                 utilities.settings.defaults.set(false, forKey: "format.type.heif")
-                utilities.settings.defaults.set(false, forKey: "format.type.heif10")
             } else if photoFormat == 1 {
                 utilities.settings.defaults.set(true, forKey: "format.type.heif")
-                utilities.settings.defaults.set(false, forKey: "format.type.heif10")
             } else if photoFormat == 2 {
                 utilities.settings.defaults.set(true, forKey: "format.type.heif")
-                utilities.settings.defaults.set(true, forKey: "format.type.heif10")
                 
             }
         }

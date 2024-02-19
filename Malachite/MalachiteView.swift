@@ -108,6 +108,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NotificationCenter.default.addObserver(self, selector: #selector(changeExposureLimit), name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeStabilizerMode), name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        
+        // TODO: Separate debug and release builds
+        //utilities.settings.dumpUserDefaults()
     }
     
     override func viewDidAppear(_ animated: Bool) {
