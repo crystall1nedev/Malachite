@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct MalachiteAboutAndSettingsView: View {
     @State private var watermarkSwitch = false
@@ -21,6 +22,7 @@ struct MalachiteAboutAndSettingsView: View {
     @State private var exposureUnlimiterSwitch = false
     
     var utilities = MalachiteClassesObject()
+    var dismissAction: (() -> Void)
     
     var body: some View {
         
@@ -106,6 +108,16 @@ struct MalachiteAboutAndSettingsView: View {
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
         }
         .navigationTitle("Settings")
+        .toolbar(content: {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    NSLog("[bre] bre")
+                    self.dismissAction()
+                } label: {
+                    Text("Done")
+                }
+            }
+        })
     }
     
     var aboutSection: some View {
