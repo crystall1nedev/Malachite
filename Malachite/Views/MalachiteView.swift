@@ -73,6 +73,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NSLog("[Camera Input] Check for builtInUltraWideCamera completed")
         wideAngleDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back)!
         NSLog("[Camera Input] Check for builtInWideAngleCamera completed")
+        runInputSwitch()
         
         let photoOutput = AVCapturePhotoOutput()
         photoOutput.isHighResolutionCaptureEnabled = true
@@ -92,7 +93,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         cameraPreview?.connection?.videoOrientation = transformOrientation(orientation: .portrait)
         self.view.layer.addSublayer(cameraPreview!)
-        runInputSwitch()
         
         NSLog("[Initialization] Starting session stream")
         DispatchQueue.global(qos: .background).async {
