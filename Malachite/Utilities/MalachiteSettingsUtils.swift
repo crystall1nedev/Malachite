@@ -12,7 +12,7 @@ public class MalachiteSettingsUtils : NSObject {
     
     private let internalPreferences: [ String : Any ] = [
         "internal.version"           : "1.0.0",                // Records the last version of Malachite to be run on this device, to be used later
-        "internal.prefsVersion"      : 2,                      // Records the version of preferences that Malachite last saved to. Newer versions = incompatiblities
+        "internal.prefsVersion"      : 3,                      // Records the version of preferences that Malachite last saved to. Newer versions = incompatiblities
         "internal.firstLaunch"       : true,                   // Is this the first launch of the app?
         
         "internal.display.small"     : false,                  // Whether or not the display has a larger screen area. Used for moving things in the UI.
@@ -25,8 +25,6 @@ public class MalachiteSettingsUtils : NSObject {
         
         "format.type.jpeg"           : false,                  // Whether or not to save photos as JPEG.
         "format.type.heif"           : true,                   // Whether or not to save photos as HEIF. Not supported on A9.
-        "format.type.heif10"         : false,                  // Whether or not to save photos as HEIF 10-bit. Not supported on A9 or iOS 14.
-        "format.type.raw"            : false                   // Whether or not to save photos as DNG. Not yet supported in Malachite :(
     ]
     
     private let watermarkingPreferences: [ String : Any ] = [
@@ -59,17 +57,52 @@ public class MalachiteSettingsUtils : NSObject {
         return false
     }
     
-    public func ensurePreferencesOnLaunch() {
+    public func ensurePreferences() {
         if self.defaults.integer(forKey: "internal.prefsVersion") != internalPreferences["internal.prefsVersion"] as! Int {
             let availablePreferences = [ internalPreferences, formatPreferences, watermarkingPreferences, capturePreferences ]
             for prefDict in availablePreferences {
-                for key in prefDict.keys {
-                    print("[Preferences] Setting default value for key pair:", key, prefDict[key] as Any)
-                    if !self.checkIfPreferenceIsPresent(keyToCheck: key) { defaults.set(prefDict[key], forKey: key) }
+                for (key, value) in prefDict {
+                    print("[Preferences] \(key) = \(value)")
                 }
             }
+            
+            let userPreferences = settingsAsDictionary()
+            let tempDictionary = NSMutableDictionary()
+            resetAllSettings()
+            
+            for prefDict in availablePreferences {
+                for key in prefDict.keys {
+                    tempDictionary[key] = userPreferences.keys.contains(key) && key != "internal.prefsVersion" ? userPreferences[key] : prefDict[key]
+                }
+            }
+            
+            print("[Preferences] Dumping all synced keys and saving to UserDefaults")
+            for (key, value) in tempDictionary {
+                print("[Preferences] \(key) = \(value)")
+                defaults.set(value, forKey: key as! String)
+            }
         } else {
-            NSLog("[Preferences] Preferences version matches version includes here")
+            let availablePreferences = [ internalPreferences, formatPreferences, watermarkingPreferences, capturePreferences ]
+            for prefDict in availablePreferences {
+                for key in prefDict.keys {
+                    if !self.checkIfPreferenceIsPresent(keyToCheck: key) {
+                        print("[Preferences] Setting default value for key pair:", key, prefDict[key] as Any)
+                        defaults.set(prefDict[key], forKey: key)
+                    }
+                }
+            }
+        }
+    }
+    
+    public func dumpUserDefaults() {
+        print("[Preferences] Dumping all UserDefaults keys!!!")
+        let availablePreferences = [ internalPreferences, formatPreferences, watermarkingPreferences, capturePreferences ]
+        for (key, value) in settingsAsDictionary() {
+            for prefDict in availablePreferences {
+                if prefDict.keys.contains(key) {
+                    print("[Preferences] \(key) = \(value)")
+                }
+            }
         }
     }
 }

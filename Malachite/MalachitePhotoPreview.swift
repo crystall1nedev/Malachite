@@ -35,7 +35,6 @@ class MalachitePhotoPreview : UIViewController {
     
     let enableHDR = MalachiteClassesObject().settings.defaults.bool(forKey: "format.hdr.enabled")
     let enableHEIF = MalachiteClassesObject().settings.defaults.bool(forKey: "format.type.heif")
-    let enableHEIF10 = MalachiteClassesObject().settings.defaults.bool(forKey: "format.type.heif10")
     
     override func viewDidLoad() {
         self.finalizedImage = self.finalizeImageForExport()
@@ -203,8 +202,6 @@ class MalachitePhotoPreview : UIViewController {
         let outputImageWithProps = outputImage.settingProperties(imageProperties)
         
         if enableHEIF {
-            data = returnHEIC(enable10Bit: enableHEIF10, imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage, imageColorspace: rawImage?.colorSpace?.name)
-        } else {
             data = returnJPEG(imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage, imageColorspace: rawImage?.colorSpace?.name)
         }
         
@@ -243,26 +240,6 @@ class MalachitePhotoPreview : UIViewController {
     func returnHEIC(enable10Bit extraBits: Bool, imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage?, imageColorspace colorSpace: CFString?) -> Data {
         let types = CGImageDestinationCopyTypeIdentifiers() as NSArray
         if types.contains("public.heic") {
-            if #available(iOS 15.0, *) {
-                if extraBits {
-                    do {
-                        NSLog("[Capture Photo] HEIF 10-bit is enabled, saving 10-bit HEIF representation")
-                        if enableHDR && (hdrImage != nil) {
-                            return try CIContext().heif10Representation(of: image, colorSpace: CGColorSpace(name: colorSpace!)!, options: [ .hdrGainMapImage : hdrImage! ])
-                        } else {
-                            return try CIContext().heif10Representation(of: image, colorSpace: CGColorSpace(name: colorSpace!)!)
-                        }
-                    } catch {
-                        NSLog("[Capture Photo] HEIF 10-bit representation failed, falling back to HEIF")
-                    }
-                } else {
-                    NSLog("[Capture Photo] HEIF is enabled, saving HEIF representation")
-                }
-            } else {
-                NSLog("[Capture Photo] HEIF 10-bit was enabled, but we're on iOS 14")
-                utilities.settings.defaults.set(false, forKey: "format.type.heif10")
-            }
-            
             if enableHDR && (hdrImage != nil){
                 return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!, options:  [ .hdrGainMapImage : hdrImage! ])!
             } else {
