@@ -255,7 +255,7 @@ struct MalachiteSettingsView: View {
             }
             Button {
                 NSLog("[Preferences] Resetting all preferences, relaunch the app to complete!")
-                utilities.games.resetAchievements()
+                utilities.games.achievements.resetAchievements()
             } label: {
                 HStack {
                     if #available(iOS 17.0, *) {

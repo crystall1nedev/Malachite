@@ -69,9 +69,9 @@ struct MalachiteAboutView: View {
                             }
                         }
                         DispatchQueue.global(qos: .background).async { [self] in
-                            let iconAchievement = utilities.games.pullAchievement(achievementName: appIcon.achievement)
+                            let iconAchievement = utilities.games.achievements.pullAchievement(achievementName: appIcon.achievement)
                             iconAchievement.percentComplete = 100
-                            utilities.games.pushAchievement(achievementBody: iconAchievement)
+                            utilities.games.achievements.pushAchievement(achievementBody: iconAchievement)
                         }
                     } label: {
                         Text("")

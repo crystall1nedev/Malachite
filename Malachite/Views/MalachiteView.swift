@@ -425,17 +425,20 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         photoPreview.photoImage = previewImage
         let navigationController = UINavigationController(rootViewController: photoPreview)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
+        navigationController.isModalInPresentation = true
         navigationController.isNavigationBarHidden = true
         self.present(navigationController, animated: true, completion: nil)
         NotificationCenter.default.addObserver(photoPreview, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
         
         DispatchQueue.global(qos: .background).async { [self] in
             utilities.settings.runPhotoCounter()
-            if utilities.settings.defaults.integer(forKey: "internal.photos.count") == 1 {
-                let firstPhoto = utilities.games.pullAchievement(achievementName: "first_photo")
+            let numPhotos = utilities.settings.defaults.integer(forKey: "internal.photos.count")
+            if numPhotos == 1 {
+                let firstPhoto = utilities.games.achievements.pullAchievement(achievementName: "first_photo")
                 firstPhoto.percentComplete = 100
-                utilities.games.pushAchievement(achievementBody: firstPhoto)
+                utilities.games.achievements.pushAchievement(achievementBody: firstPhoto)
             }
+            utilities.games.leaderboards.pushLeaderboard(scoreToSubmit: numPhotos, leaderboardToSubmit: "photos_taken")
         }
         
     }
