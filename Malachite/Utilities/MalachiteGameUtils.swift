@@ -26,12 +26,16 @@ public class MalachiteGameUtils : NSObject, GKGameCenterControllerDelegate {
                 print("[Game Center] Couldn't sign in: ", error?.localizedDescription as Any)
                 return
             }
+            
+            self.gameCenterEnabled = GKLocalPlayer.local.isAuthenticated
+            
             NSLog("[Game Center] Enabling the easter eggs...")
-            self.gameCenterEnabled = true
         }
         
-        achievements.loadAchievements()
-        leaderboards.loadLeaderboards()
+        if gameCenterEnabled {
+            achievements.loadAchievements()
+            leaderboards.loadLeaderboards()
+        }
     }
 }
 

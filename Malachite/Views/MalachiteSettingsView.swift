@@ -108,38 +108,12 @@ struct MalachiteSettingsView: View {
     var aboutSection: some View {
         Section {
             HStack {
-                VStack {
-                    HStack {
-                        Text("Malachite")
-                            .font(.largeTitle)
-                            .bold()
-                        Spacer()
-                    }
-                    HStack {
-                        if utilities.versions.versionBeta {
-                            Text("v\(utilities.versions.versionMajor).\(utilities.versions.versionMinor).\(utilities.versions.versionMinor) beta")
-                                .font(.footnote)
-                                .frame(alignment: .leading)
-                        } else {
-                            Text("v\(utilities.versions.versionMajor).\(utilities.versions.versionMinor).\(utilities.versions.versionMinor)")
-                                .font(.footnote)
-                                .frame(alignment: .leading)
-                        }
-                        Spacer()
-                    }
-                }
+                Text("About Malachite")
+                    .bold()
                 Spacer()
-                Image("icon")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 80, alignment: .trailing)
-                    .clipShape(RoundedRectangle(cornerRadius: 17))
                 NavigationLink("", destination: MalachiteAboutView(utilities: utilities))
                     .frame(width: 10)
             }
-            Text("Bringing camera control back to you.")
-            Text("Designed by Eva with ❤️ in 2024")
-                .bold()
         }
     }
     
@@ -253,25 +227,27 @@ struct MalachiteSettingsView: View {
                     }
                 }
             }
-            Button {
-                NSLog("[Preferences] Resetting all preferences, relaunch the app to complete!")
-                utilities.games.achievements.resetAchievements()
-            } label: {
-                HStack {
-                    if #available(iOS 17.0, *) {
-                        Text("Reset Game Center achievements")
-                            .foregroundStyle(.red)
-                    } else {
-                        Text("Reset Game Center achievements")
-                            .foregroundColor(.red)
-                    }
-                    Spacer()
-                    if #available(iOS 15.0, *) {
-                        Image(systemName: "trash")
-                            .foregroundStyle(.red)
-                    } else {
-                        Image(systemName: "trash")
-                            .foregroundColor(.red)
+            if utilities.games.gameCenterEnabled {
+                Button {
+                    NSLog("[Preferences] Resetting all preferences, relaunch the app to complete!")
+                    utilities.games.achievements.resetAchievements()
+                } label: {
+                    HStack {
+                        if #available(iOS 17.0, *) {
+                            Text("Reset Game Center achievements")
+                                .foregroundStyle(.red)
+                        } else {
+                            Text("Reset Game Center achievements")
+                                .foregroundColor(.red)
+                        }
+                        Spacer()
+                        if #available(iOS 15.0, *) {
+                            Image(systemName: "trash")
+                                .foregroundStyle(.red)
+                        } else {
+                            Image(systemName: "trash")
+                                .foregroundColor(.red)
+                        }
                     }
                 }
             }

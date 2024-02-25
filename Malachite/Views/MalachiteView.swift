@@ -14,49 +14,89 @@ import GameKit
 
 class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCapturePhotoCaptureDelegate {
 
+    /// The `AVCaptureSession` Malachite uses for everything.
     var cameraSession: AVCaptureSession?
+    /// The currently selected `AVCaptureDevice` for input to ``cameraSession``.
     var selectedDevice: AVCaptureDevice?
+    /// The device's currently available rear ultra-wide angle `AVCaptureDevice`, if available. This variable is `nil` if no ultra-wide angle camera is present (i.e. single-camera, Simulator).
     var ultraWideDevice: AVCaptureDevice?
+    /// The device's currently available wide angle `AVCaptureDevice`, if available. This variable is `nil` if no wide angle camera is present (currently only in the Simulator).
     var wideAngleDevice: AVCaptureDevice?
+    /// The currently selected `AVCaptureDeviceInput` for input to ``cameraSession``.
     var selectedInput: AVCaptureDeviceInput?
-    var input: AVCaptureDeviceInput?
-    var output: AVCaptureMetadataOutput?
+    /// The `AVCapturePhotoOutput` used to capture photos with ``selectedDevice`` and ``cameraSession``.
     var photoOutput: AVCapturePhotoOutput?
+    /// The `AVCaptureVideoPreviewLayer` used to allow users to see a preview of their camera before taking a shot with ``photoOutput``.
     var cameraPreview: AVCaptureVideoPreviewLayer?
+    /// A `Bool` that determines whether or not the wide angle lens is in use.
     var wideAngleInUse = true
+    /// A `Bool` that determines whether or not the app is still initializing. Uses for tasks that should only be run once at the start of Malachite.
     var initRun = true
     
+    /// A `UIButton` that enables the user to switch between the ultra-wide and wide angle cameras.
     var cameraButton = UIButton()
+    /// A `UIButton` that enables the user to toggle the flashlight's on state.
     var flashlightButton = UIButton()
+    /// A `UIButton` that enables the user to take photos.
     var captureButton = UIButton()
+    /// A `UIButton` that enables the user to change settings within the app.
     var settingsButton = UIButton()
     
+    /// A `UIButton` that enables the user to reveal the ``focusSlider`` for manual focus adjustment.
     var focusButton = UIButton()
+    /// A `UIButton` that holds the ``focusSlider`` for improved blur compatibility and shaping.
     var focusSliderButton = UIButton()
+    /// A `UISlider` that enables the user to manually adjust the lens position.
     var focusSlider = UISlider()
+    /// A `UIButton` that enables the user to toggle the lock states for the ``focusSlider`` and the ``autofocusRecognizer``.
     var focusLockButton = UIButton()
+    /// A `Bool` that determines whether or not the ``focusSlider`` is currently displayed on the user's screen.
     var manualFocusSliderIsActive = false
+    /// A `Bool` that determines whether or not the ``focusLockButton`` is currently set to Locked.
     var manualFocusLockIsActive = false
     
+    /// A `UIButton` that enables the user to reveal the ``exposureSlider`` for manual exposure adjustment.
     var exposureButton = UIButton()
+    /// A `UIButton` that holds the ``exposureSlider`` for improved blur compatibility and shaping.
     var exposureSliderButton = UIButton()
+    /// A `UISlider` that enables the user to manually adjust the exposure level.
     var exposureSlider = UISlider()
+    /// A `UIButton` that enables the user to toggle the lock state for the ``exposureSlider``. Auto exposure toggling will come at a later date.
     var exposureLockButton = UIButton()
+    /// A `Bool` that determines whether or not the ``exposureSlider`` is currently displayed on the user's screen.
     var manualExposureSliderIsActive = false
+    /// A `Bool` that determines whether or not the ``exposureLockButton`` is currently set to Locked.
     var manualExposureLockIsActive = false
     
+    /// A `UIPinchGestureRecognizer` that handles zooming in and out of the ``cameraSession``.
     var zoomRecognizer = UIPinchGestureRecognizer()
+    /// A `UILongPressGestureRecognizer` that handles enabling the autofocus system at a specific point on the display for the ``cameraSession``.
     var autofocusRecognizer = UILongPressGestureRecognizer()
+    /// A `UILongPressGestureRecognizer` that handles hiding all elements of the user interface, and disabling the ``zoomRecognizer`` and ``autofocusRecognizer`` gestures.
     var uiHiderRecognizer = UILongPressGestureRecognizer()
+    /// A `Bool` that determines whether or not the user interface is currently hidden to the user.
     var uiIsHidden = false
     
+    /// The minimum zoom value that the ``zoomRecognizer`` is allowed to reach.
     let minimumZoom: CGFloat = 1.0
+    /// The maximum zoom value that the ``zoomRecognizer`` is allowed to reach.
     let maximumZoom: CGFloat = 5.0
+    /// The last known zoom factor that the ``zoomRecognizer`` was set to.
     var lastZoomFactor: CGFloat = 1.0
     
+    /// An instance of ``MalachiteClassesObject`` for reuse across the app.
     public var utilities = MalachiteClassesObject()
+    /// An observer for the device's rotation.
     private var rotationObserver: NSObjectProtocol?
     
+    /**
+     viewDidLoad override for the main user interface.
+     
+     This function currently serves to do the following:
+     - Create and assign a value to all variables needed to run ``cameraSession`` and its preview layer, ``cameraPreview``.
+     - Read the user's preferences to determine the preview layer's aspect ratio.
+     - Register notifications for changes to certain options in ``MalachiteSettingsView``, as well as orientation changes.
+     */
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .clear
@@ -112,19 +152,39 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         
         // TODO: Separate debug and release builds
-        utilities.settings.dumpUserDefaults()
     }
     
+    /**
+     viewDidAppear override for the main user interface.
+     
+     This function currently serves to do the following:
+     - Create all buttons and gestures required to operate the user interface.
+     - Set up GameKit integration for achievements and leaderboard reporting.
+     
+     `DEBUG` builds of Malachite additionally do the following:
+     - Dump the contents of UserDefaults.
+     - Dump the contents of Game Center achievements and leaderboards.
+     */
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         NSLog("[Initialization] Presenting user interface")
         setupView()
         DispatchQueue.global(qos: .background).async { [self] in
-            utilities.games.setupGameCenter()
+            if utilities.settings.defaults.bool(forKey: "internal.gamekit.enabled") {
+                utilities.games.setupGameCenter()
+            }
+            
+            utilities.settings.dumpUserDefaults()
+            
         }
     }
     
+    /** 
+     Function used to force Malachite to always run in Portrait mode.
+     
+     Research is being done to enable the ability to rotate the display on iPadOS correctly, however iPhones will follow the default camera app's behaviour of only rotating buttons.
+     */
     func transformOrientation(orientation: UIInterfaceOrientation) -> AVCaptureVideoOrientation {
         switch orientation {
         default:
@@ -132,6 +192,28 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
     }
     
+    /**
+     Function to register buttons and gestures for operating Malachite.
+     
+     This function creates and provides layout properties for the following views:
+     - ``cameraButton``
+     - ``flashlightButton``
+     - ``captureButton``
+     - ``focusButton``
+     - ``focusSliderButton``
+     - ``focusSlider``
+     - ``focusLockButton``
+     - ``exposureButton``
+     - ``exposureSliderButton``
+     - ``exposureSlider``
+     - ``exposureLockButton``
+     - ``settingsButton``
+     
+     This function also creates the following gesture recognizers:
+     - ``zoomRecognizer`` - Pinch-to-zoom gesture
+     - ``autofocusRecognizer`` - Tap and hold with one finger
+     - ``uiHiderRecognizer`` - Tap and hold with two fingers
+     */
     func setupView(){
         self.view.backgroundColor = .black
         
@@ -187,7 +269,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
 #endif
         focusButton.addTarget(self, action: #selector(self.runManualFocusUIHider), for: .touchUpInside)
         exposureButton.addTarget(self, action: #selector(self.runManualExposureUIHider), for: .touchUpInside)
-        settingsButton.addTarget(self, action: #selector(self.presentAboutView), for: .touchUpInside)
+        settingsButton.addTarget(self, action: #selector(self.presentSettingsView), for: .touchUpInside)
         
         zoomRecognizer = UIPinchGestureRecognizer(target: self, action:#selector(runZoomController))
         autofocusRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runAutoFocusController))
@@ -279,11 +361,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         //GKAccessPoint.shared.isActive = true
     }
     
-    private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
-        layer.videoOrientation = orientation
-        cameraPreview?.frame = view.bounds
-    }
-    
+    /// Function to check and ask for permissions to use the camera.
     func checkPermissions() {
         let cameraAuthStatus =  AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
         switch cameraAuthStatus {
@@ -306,6 +384,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
     }
     
+    /// Function to dynamically update the aspect ratio for ``cameraPreview`` through ``MalachiteSettingsView``.
     @objc func changeAspectFill() {
         UIView.animate(withDuration: 20) { [self] in
             if utilities.settings.defaults.bool(forKey: "format.preview.fill") {
@@ -316,6 +395,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
     }
     
+    /// Function to dynamically change the auto exposure and ``exposureSlider`` values when toggling in ``MalachiteSettingsView``.
     @objc func changeExposureLimit() {
         do {
             try selectedDevice?.lockForConfiguration()
@@ -330,6 +410,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
     }
     
+    /// Function to change the video stabilization mode for the ``cameraPreview``.
     @objc func changeStabilizerMode() {
         if utilities.settings.defaults.bool(forKey: "capture.stblz.enabled") {
             if #available(iOS 17.0, *) {
@@ -349,7 +430,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
     }
     
-    @objc func presentAboutView() {
+    /// Function to present ``MalachiteSettingsView``
+    @objc func presentSettingsView() {
         var aboutView = MalachiteSettingsView(dismissAction: {self.dismiss( animated: true, completion: nil )})
         aboutView.utilities = self.utilities
         let hostingController = UIHostingController(rootView: aboutView)
@@ -358,6 +440,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.present(navigationController, animated: true, completion: nil)
     }
     
+    /// Function to switch cameras and attach new inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.
     @objc func runInputSwitch() {
         if ultraWideDevice == nil && !initRun {
             NSLog("[Camera Input] AVCaptureDevice for builtInUltraWideCamera unavailable, showing error")
@@ -383,11 +466,13 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                        firstRun: &initRun)
     }
     
+    /// Function to toggle the flashlight's on state.
     @objc func runFlashlightToggle() {
         utilities.function.toggleFlash(captureDevice: &selectedDevice!,
                                        flashlightButton: &flashlightButton)
     }
     
+    /// Function to take an image.
     @objc func runImageCapture() {
         var libraryAccessGranted = false
         let group = DispatchGroup()
@@ -414,6 +499,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
     }
     
+    /// Function for opening ``MalachitePhotoPreview`` and running GameKit commands after photo processing is completed.
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation() else { return }
         let getterForOrientation = UIImage(data: imageData)
@@ -432,17 +518,20 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         DispatchQueue.global(qos: .background).async { [self] in
             utilities.settings.runPhotoCounter()
-            let numPhotos = utilities.settings.defaults.integer(forKey: "internal.photos.count")
-            if numPhotos == 1 {
-                let firstPhoto = utilities.games.achievements.pullAchievement(achievementName: "first_photo")
-                firstPhoto.percentComplete = 100
-                utilities.games.achievements.pushAchievement(achievementBody: firstPhoto)
+            if utilities.games.gameCenterEnabled {
+                let numPhotos = utilities.settings.defaults.integer(forKey: "internal.photos.count")
+                if numPhotos == 1 {
+                    let firstPhoto = utilities.games.achievements.pullAchievement(achievementName: "first_photo")
+                    firstPhoto.percentComplete = 100
+                    utilities.games.achievements.pushAchievement(achievementBody: firstPhoto)
+                }
+                utilities.games.leaderboards.pushLeaderboard(scoreToSubmit: numPhotos, leaderboardToSubmit: "photos_taken")
             }
-            utilities.games.leaderboards.pushLeaderboard(scoreToSubmit: numPhotos, leaderboardToSubmit: "photos_taken")
         }
         
     }
     
+    /// Function to zoom in and out with ``zoomRecognizer``.
     @objc func runZoomController() {
         utilities.function.zoom(sender: zoomRecognizer,
                                 captureDevice: &selectedDevice!,
@@ -450,6 +539,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                 hapticClass: utilities.haptics)
     }
     
+    /// Function to autofocus with ``autofocusRecognizer``.
     @objc func runAutoFocusController() {
         utilities.function.autofocus(sender: autofocusRecognizer,
                                      captureDevice: &selectedDevice!,
@@ -457,11 +547,19 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                      hapticClass: utilities.haptics)
     }
     
+    /// Function to handle ``focusSlider`` interaction.
     @objc func runManualFocusController() {
         utilities.function.manualFocus(captureDevice: &selectedDevice!,
                                        sender: focusSlider)
     }
     
+    /// Function to handle ``exposureSlider`` interaction.
+    @objc func runManualExposureController() {
+        utilities.function.manualExposure(captureDevice: &selectedDevice!,
+                                          sender: exposureSlider)
+    }
+    
+    /// Function to show and hide the ``exposureSliderButton`` and ``exposureLockButton``.
     @objc func runManualExposureUIHider() {
         manualExposureSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualExposureSliderIsActive,
                                                                             optionButton: exposureButton,
@@ -469,6 +567,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                                                             associatedSliderButton: exposureSliderButton)
     }
     
+    /// Function to lock and unlock the ``exposureSlider``.
     @objc func runManualExposureLockController() {
         manualExposureLockIsActive = utilities.views.runLockControllers(lockIsActive: manualExposureLockIsActive,
                                                                         lockButton: &exposureLockButton,
@@ -477,11 +576,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                                                         viewForRecognizers: self.view)
     }
     
-    @objc func runManualExposureController() {
-        utilities.function.manualExposure(captureDevice: &selectedDevice!,
-                                          sender: exposureSlider)
-    }
-    
+    /// Function to handle ``focusSlider`` interaction.
     @objc func runManualFocusUIHider() {
         manualFocusSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualFocusSliderIsActive,
                                                                          optionButton: focusButton,
@@ -489,6 +584,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                                                          associatedSliderButton: focusSliderButton)
     }
     
+    /// Function to show and hide the ``focusSliderButton`` and ``focusLockButton``.
     @objc func runManualFocusLockController() {
         manualFocusLockIsActive = utilities.views.runLockControllers(lockIsActive: manualFocusLockIsActive,
                                                                      lockButton: &focusLockButton,
@@ -497,6 +593,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                                                      viewForRecognizers: self.view)
     }
     
+    /// Function to show and hide the user interface that was drawn with ``setupView()``.
     @objc func runUIHider() {
         if uiHiderRecognizer.state != UITapGestureRecognizer.State.began { return }
         
@@ -538,6 +635,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         utilities.haptics.triggerNotificationHaptic(type: .success)
     }
     
+    /// Function to handle device rotation.
     @objc func orientationChanged() {
         utilities.views.rotateButtonsWithOrientation(buttonsToRotate: [ cameraButton,
                                                                         flashlightButton,
@@ -549,14 +647,21 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                                                         exposureLockButton ])
     }
     
+    /**
+     Override function used to force Malachite to always run in Portrait mode.
+     
+     Research is being done to enable the ability to rotate the display on iPadOS correctly, however iPhones will follow the default camera app's behaviour of only rotating buttons.
+     */
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
     }
     
+    /// Override function to force the status bar to never be shown.
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
+    /// Override function to force the system to reject gestures from the bottom of the screen.
     override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
         return [.bottom]
     }

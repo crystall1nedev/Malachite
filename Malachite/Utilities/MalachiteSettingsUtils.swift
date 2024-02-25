@@ -17,6 +17,7 @@ public class MalachiteSettingsUtils : NSObject {
         
         "internal.display.small"     : false,                  // Whether or not the display has a larger screen area. Used for moving things in the UI.
         "internal.photos.count"      : 0,                      // How many photos has the user taken with Malachite? Used for Game Center achievements.
+        "internal.gamekit.enabled"   : false,                  // Whether or not to enable Game Center support for Malachite.
     ]
     
     private let formatPreferences: [ String : Any ] = [
@@ -38,6 +39,10 @@ public class MalachiteSettingsUtils : NSObject {
         "capture.stblz.enabled"      : true,                   // Whether or not to enable image preview stabilization
     ]
     
+    /**
+     
+    fuck
+     */
     public func runPhotoCounter() {
         let value = defaults.integer(forKey: "internal.photos.count")
         if value < UINT64_MAX { // I want to see someone reach this

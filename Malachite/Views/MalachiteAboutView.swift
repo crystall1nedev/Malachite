@@ -18,6 +18,8 @@ private struct AppIcon {
 }
 
 struct MalachiteAboutView: View {
+    @State private var gamekitSwitch = false
+    
     private let appIcons = [
         AppIcon(name: "crystall1nedev", description: "Clueless lead developer", image: "crystall1nedev", icon: nil, achievement: "icon.default"),
         AppIcon(name: "ThatStella7922", description: "The reason I do any of this ❤️", image: "thatstella7922", icon: "thatsinceguy", achievement: "icon.wifey"),
@@ -28,18 +30,59 @@ struct MalachiteAboutView: View {
     
     var body: some View {
         Form {
+            aboutSection
             storySection
             creditsSection
+            gamekitSection
             
+        }
+        .onAppear() {
+            gamekitSwitch = utilities.settings.defaults.bool(forKey: "internal.gamekit.enabled")
+        }
+        .onDisappear() {
+            utilities.settings.defaults.set(gamekitSwitch, forKey: "internal.gamekit.enabled")
         }
         .navigationTitle("About Malachite")
     }
     
-    var storySection: some View {
-        Section() {
-            Text("Story time.")
-                .font(.largeTitle)
+    var aboutSection: some View {
+        Section {
+            HStack {
+                VStack {
+                    HStack {
+                        Text("Malachite")
+                            .font(.largeTitle)
+                            .bold()
+                        Spacer()
+                    }
+                    HStack {
+                        if utilities.versions.versionBeta {
+                            Text("v\(utilities.versions.versionMajor).\(utilities.versions.versionMinor).\(utilities.versions.versionMinor) beta")
+                                .font(.footnote)
+                                .frame(alignment: .leading)
+                        } else {
+                            Text("v\(utilities.versions.versionMajor).\(utilities.versions.versionMinor).\(utilities.versions.versionMinor)")
+                                .font(.footnote)
+                                .frame(alignment: .leading)
+                        }
+                        Spacer()
+                    }
+                }
+                Spacer()
+                Image("icon")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: 80, alignment: .trailing)
+                    .clipShape(RoundedRectangle(cornerRadius: 17))
+            }
+            Text("Bringing camera control back to you.")
+            Text("Designed by Eva with ❤️ in 2024")
                 .bold()
+        }
+    }
+    
+    var storySection: some View {
+        Section(header: Text("Story Time")) {
             Text("Malachite started as an app to help my love work on printed circuit boards with better clarity and manual controls that the stock iOS camera app can't provide, and it grew once my Discord community stood by, actually using it and suggesting new features. It's the first real test of my skills in Swift, and leading my own public project, and my goal is to now provide a free, all-inclusive experience to amazing macro photography - powered by your iPhone, iPad, or iPod touch.")
         }
     }
@@ -68,10 +111,12 @@ struct MalachiteAboutView: View {
                                 print("Failed request to update the app’s icon: \(error)")
                             }
                         }
-                        DispatchQueue.global(qos: .background).async { [self] in
-                            let iconAchievement = utilities.games.achievements.pullAchievement(achievementName: appIcon.achievement)
-                            iconAchievement.percentComplete = 100
-                            utilities.games.achievements.pushAchievement(achievementBody: iconAchievement)
+                        if utilities.games.gameCenterEnabled {
+                            DispatchQueue.global(qos: .background).async { [self] in
+                                let iconAchievement = utilities.games.achievements.pullAchievement(achievementName: appIcon.achievement)
+                                iconAchievement.percentComplete = 100
+                                utilities.games.achievements.pushAchievement(achievementBody: iconAchievement)
+                            }
                         }
                     } label: {
                         Text("")
@@ -111,6 +156,15 @@ struct MalachiteAboutView: View {
                         .padding(.trailing, 5)
                 }
             }
+        }
+    }
+    
+    var gamekitSection : some View {
+        Section(header: Text("A special treat..."), footer: Text("A restart is required for this option to take effect.")) {
+            Toggle("Enable Game Center", isOn: $gamekitSwitch)
+        }
+        .onChange(of: gamekitSwitch) {_ in
+            utilities.settings.defaults.set(gamekitSwitch, forKey: "internal.gamekit.enabled")
         }
     }
 }
