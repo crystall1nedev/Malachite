@@ -17,4 +17,5 @@ public class MalachiteClassesObject : NSObject {
     public let function  = MalachiteFunctionUtils()
     public let settings  = MalachiteSettingsUtils()
     public let tooltips  = MalachiteTooltipUtils()
+    public let games     = MalachiteGameUtils()
 }

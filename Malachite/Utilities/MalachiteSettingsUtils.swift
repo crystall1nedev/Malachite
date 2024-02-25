@@ -12,10 +12,11 @@ public class MalachiteSettingsUtils : NSObject {
     
     private let internalPreferences: [ String : Any ] = [
         "internal.version"           : "1.0.0",                // Records the last version of Malachite to be run on this device, to be used later
-        "internal.prefsVersion"      : 3,                      // Records the version of preferences that Malachite last saved to. Newer versions = incompatiblities
+        "internal.prefsVersion"      : 4,                      // Records the version of preferences that Malachite last saved to. Newer versions = incompatiblities
         "internal.firstLaunch"       : true,                   // Is this the first launch of the app?
         
         "internal.display.small"     : false,                  // Whether or not the display has a larger screen area. Used for moving things in the UI.
+        "internal.photos.count"      : 0,                      // How many photos has the user taken with Malachite? Used for Game Center achievements.
     ]
     
     private let formatPreferences: [ String : Any ] = [
@@ -37,14 +38,23 @@ public class MalachiteSettingsUtils : NSObject {
         "capture.stblz.enabled"      : true,                   // Whether or not to enable image preview stabilization
     ]
     
-    /// Resets all user settings. (Clears UserDefaults)
+    public func runPhotoCounter() {
+        let value = defaults.integer(forKey: "internal.photos.count")
+        if value < UINT64_MAX { // I want to see someone reach this
+            defaults.set(value + 1, forKey: "internal.photos.count")
+        } else {
+            NSLog("[Preferences] what")
+        }
+    }
+    
+    // Resets all user settings. (Clears UserDefaults)
     public func resetAllSettings() {
         let domain = Bundle.main.bundleIdentifier!
         defaults.removePersistentDomain(forName: domain)
         defaults.synchronize()
     }
     
-    /// Returns the entire UserDefaults (Settings) as a Dictionary object
+    // Returns the entire UserDefaults (Settings) as a Dictionary object
     public func settingsAsDictionary() -> Dictionary<String, Any> {
         return defaults.dictionaryRepresentation()
     }
@@ -60,12 +70,6 @@ public class MalachiteSettingsUtils : NSObject {
     public func ensurePreferences() {
         if self.defaults.integer(forKey: "internal.prefsVersion") != internalPreferences["internal.prefsVersion"] as! Int {
             let availablePreferences = [ internalPreferences, formatPreferences, watermarkingPreferences, capturePreferences ]
-            for prefDict in availablePreferences {
-                for (key, value) in prefDict {
-                    print("[Preferences] \(key) = \(value)")
-                }
-            }
-            
             let userPreferences = settingsAsDictionary()
             let tempDictionary = NSMutableDictionary()
             resetAllSettings()

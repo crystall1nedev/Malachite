@@ -30,6 +30,7 @@ struct MalachiteSettingsView: View {
             previewSettingsSection
             photoSettingsSection
             watermarkSettingsSection
+            debugSettingsSection
         }
         .onAppear() {
             watermarkText = utilities.settings.defaults.string(forKey: "wtrmark.text")!
@@ -133,7 +134,7 @@ struct MalachiteSettingsView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: 80, alignment: .trailing)
                     .clipShape(RoundedRectangle(cornerRadius: 17))
-                NavigationLink("", destination: MalachiteAboutView())
+                NavigationLink("", destination: MalachiteAboutView(utilities: utilities))
                     .frame(width: 10)
             }
             Text("Bringing camera control back to you.")
@@ -224,6 +225,55 @@ struct MalachiteSettingsView: View {
                 utilities.settings.defaults.set(watermarkText, forKey: "wtrmark.text")
             } else {
                 utilities.settings.defaults.set("Shot with Malachite", forKey: "wtrmark.text")
+            }
+        }
+    }
+    
+    var debugSettingsSection: some View {
+        Section(header: Text("Debug settings"), footer: Text("Only available in debug builds, these settings are used to debug various parts of Malachite.")) {
+            Button {
+                NSLog("[Preferences] Resetting all preferences, relaunch the app to complete!")
+                utilities.settings.resetAllSettings()
+            } label: {
+                HStack {
+                    if #available(iOS 17.0, *) {
+                        Text("Reset all settings")
+                            .foregroundStyle(.red)
+                    } else {
+                        Text("Reset all settings")
+                            .foregroundColor(.red)
+                    }
+                    Spacer()
+                    if #available(iOS 15.0, *) {
+                        Image(systemName: "trash")
+                            .foregroundStyle(.red)
+                    } else {
+                        Image(systemName: "trash")
+                            .foregroundColor(.red)
+                    }
+                }
+            }
+            Button {
+                NSLog("[Preferences] Resetting all preferences, relaunch the app to complete!")
+                utilities.games.resetAchievements()
+            } label: {
+                HStack {
+                    if #available(iOS 17.0, *) {
+                        Text("Reset Game Center achievements")
+                            .foregroundStyle(.red)
+                    } else {
+                        Text("Reset Game Center achievements")
+                            .foregroundColor(.red)
+                    }
+                    Spacer()
+                    if #available(iOS 15.0, *) {
+                        Image(systemName: "trash")
+                            .foregroundStyle(.red)
+                    } else {
+                        Image(systemName: "trash")
+                            .foregroundColor(.red)
+                    }
+                }
             }
         }
     }

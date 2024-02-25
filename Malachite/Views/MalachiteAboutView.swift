@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GameKit
 
 private struct AppIcon {
     let id = UUID()
@@ -13,14 +14,17 @@ private struct AppIcon {
     let description: String
     let image: String
     let icon: String?
+    let achievement: String
 }
 
 struct MalachiteAboutView: View {
     private let appIcons = [
-            AppIcon(name: "crystall1nedev", description: "Clueless lead developer", image: "crystall1nedev", icon: nil),
-            AppIcon(name: "ThatStella7922", description: "The reason I do any of this ❤️", image: "thatstella7922", icon: "thatsinceguy"),
-            AppIcon(name: "ASentientBot", description: "Great tester, greater friend", image: "asentientbot", icon: "asb_approved")
-        ]
+        AppIcon(name: "crystall1nedev", description: "Clueless lead developer", image: "crystall1nedev", icon: nil, achievement: "icon.default"),
+        AppIcon(name: "ThatStella7922", description: "The reason I do any of this ❤️", image: "thatstella7922", icon: "thatsinceguy", achievement: "icon.wifey"),
+        AppIcon(name: "ASentientBot", description: "Great tester, greater friend", image: "asentientbot", icon: "asb_approved", achievement: "icon.marimo")
+    ]
+    
+    var utilities = MalachiteClassesObject()
     
     var body: some View {
         Form {
@@ -63,6 +67,11 @@ struct MalachiteAboutView: View {
                             if let error = error {
                                 print("Failed request to update the app’s icon: \(error)")
                             }
+                        }
+                        DispatchQueue.global(qos: .background).async { [self] in
+                            let iconAchievement = utilities.games.pullAchievement(achievementName: appIcon.achievement)
+                            iconAchievement.percentComplete = 100
+                            utilities.games.pushAchievement(achievementBody: iconAchievement)
                         }
                     } label: {
                         Text("")

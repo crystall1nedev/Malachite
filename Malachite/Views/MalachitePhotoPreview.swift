@@ -167,7 +167,7 @@ class MalachitePhotoPreview : UIViewController {
         
         if enableHDR {
             if let gainMapDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(rawImageSource!, 0, kCGImageAuxiliaryDataTypeHDRGainMap) as? Dictionary<CFString, Any> {
-                NSLog("[Capture Photo] SAving gain map properties from image")
+                NSLog("[Capture Photo] Saving gain map properties from image")
                 let gainMapData = gainMapDataInfo[kCGImageAuxiliaryDataInfoData] as! Data
                 let gainMapDescription = gainMapDataInfo[kCGImageAuxiliaryDataInfoDataDescription]! as! [String: Int]
                 let gainMapSize = CGSize(width: gainMapDescription["Width"]!, height: gainMapDescription["Height"]!)

@@ -10,8 +10,10 @@ import UIKit
 import Foundation
 import AVFoundation
 import Photos
+import GameKit
 
 class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCapturePhotoCaptureDelegate {
+
     var cameraSession: AVCaptureSession?
     var selectedDevice: AVCaptureDevice?
     var ultraWideDevice: AVCaptureDevice?
@@ -110,7 +112,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         
         // TODO: Separate debug and release builds
-        //utilities.settings.dumpUserDefaults()
+        utilities.settings.dumpUserDefaults()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -118,6 +120,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         NSLog("[Initialization] Presenting user interface")
         setupView()
+        DispatchQueue.global(qos: .background).async { [self] in
+            utilities.games.setupGameCenter()
+        }
     }
     
     func transformOrientation(orientation: UIInterfaceOrientation) -> AVCaptureVideoOrientation {
@@ -151,7 +156,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         exposureSliderButton = utilities.views.returnProperButton(symbolName: "", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
         exposureLockButton = utilities.views.returnProperButton(symbolName: "lock.open", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
         settingsButton = utilities.views.returnProperButton(symbolName: "gear", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
-        
         focusSlider.translatesAutoresizingMaskIntoConstraints = false
         exposureSlider.translatesAutoresizingMaskIntoConstraints = false
         focusLockButton.alpha = 0.0
@@ -269,6 +273,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         ])
         
         utilities.tooltips.tooltipFlow(viewForBounds: self.view)
+        
+        //GKAccessPoint.shared.location = .topLeading
+        //GKAccessPoint.shared.showHighlights = true
+        //GKAccessPoint.shared.isActive = true
     }
     
     private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
@@ -420,6 +428,16 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         navigationController.isNavigationBarHidden = true
         self.present(navigationController, animated: true, completion: nil)
         NotificationCenter.default.addObserver(photoPreview, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+        
+        DispatchQueue.global(qos: .background).async { [self] in
+            utilities.settings.runPhotoCounter()
+            if utilities.settings.defaults.integer(forKey: "internal.photos.count") == 1 {
+                let firstPhoto = utilities.games.pullAchievement(achievementName: "first_photo")
+                firstPhoto.percentComplete = 100
+                utilities.games.pushAchievement(achievementBody: firstPhoto)
+            }
+        }
+        
     }
     
     @objc func runZoomController() {
