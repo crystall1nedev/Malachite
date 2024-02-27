@@ -45,30 +45,34 @@ class MalachitePhotoPreview : UIViewController {
         var rotation = -1.0
         var rotatedImage = UIImage()
         
-        switch UIDevice.current.orientation {
-        case .unknown:
-            NSLog("[Rotation] How did I get here?")
+        if utilities.idiom == .phone {
+            switch fixedOrientation {
+            case .unknown:
+                NSLog("[Rotation] How did I get here?")
+                rotation = Double.pi * 2
+            case .portrait:
+                NSLog("[Rotation] Device has rotated portrait, with front camera on the top")
+                rotation = Double.pi * 2
+            case .portraitUpsideDown:
+                NSLog("[Rotation] Device has rotated portrait, with front camera on the bottom")
+                rotation = Double.pi
+            case .landscapeLeft:
+                NSLog("[Rotation] Device has rotated landscape, with front camera on the left")
+                rotation = Double.pi / 2
+            case .landscapeRight:
+                NSLog("[Rotation] Device has rotated landscape, with front camera on the right")
+                rotation = -Double.pi / 2
+            case .faceUp:
+                NSLog("[Rotation] Unneeded rotation, ignoring")
+                rotation = Double.pi * 2
+            case .faceDown:
+                NSLog("[Rotation] Unneeded rotation, ignoring")
+                rotation = Double.pi * 2
+            @unknown default:
+                abort()
+            }
+        } else {
             rotation = Double.pi * 2
-        case .portrait:
-            NSLog("[Rotation] Device has rotated portrait, with front camera on the top")
-            rotation = Double.pi * 2
-        case .portraitUpsideDown:
-            NSLog("[Rotation] Device has rotated portrait, with front camera on the bottom")
-            rotation = Double.pi
-        case .landscapeLeft:
-            NSLog("[Rotation] Device has rotated landscape, with front camera on the left")
-            rotation = Double.pi / 2
-        case .landscapeRight:
-            NSLog("[Rotation] Device has rotated landscape, with front camera on the right")
-            rotation = -Double.pi / 2
-        case .faceUp:
-            NSLog("[Rotation] Unneeded rotation, ignoring")
-            rotation = Double.pi * 2
-        case .faceDown:
-            NSLog("[Rotation] Unneeded rotation, ignoring")
-            rotation = Double.pi * 2
-        @unknown default:
-            abort()
         }
         
         rotatedImage = photoImage.rotate(radians: Float(rotation))!
@@ -154,45 +158,22 @@ class MalachitePhotoPreview : UIViewController {
     
     func finalizeImageForExport() -> Data {
         var data = Data()
-        let rawImageData = NSData(data: self.photoImageData)
-        let gainMapOutputData = NSMutableData()
+        var rawImage = CIImage()
         var gainMapImage = CIImage()
-        let rawImageSource = CGImageSourceCreateWithData(rawImageData, nil)
-        let rawImage = CIImage(data: self.photoImageData)
-        let watermarkImage = CIImage(image: self.watermark(watermark: utilities.settings.defaults.string(forKey: "wtrmark.text")!,
-                                                           imageToWatermark: photoImage))
-        let outputImage = watermarkImage!.composited(over: rawImage!)
-        
-        var imageProperties = rawImage!.properties
         
         if enableHDR {
-            if let gainMapDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(rawImageSource!, 0, kCGImageAuxiliaryDataTypeHDRGainMap) as? Dictionary<CFString, Any> {
-                NSLog("[Capture Photo] Saving gain map properties from image")
-                let gainMapData = gainMapDataInfo[kCGImageAuxiliaryDataInfoData] as! Data
-                let gainMapDescription = gainMapDataInfo[kCGImageAuxiliaryDataInfoDataDescription]! as! [String: Int]
-                let gainMapSize = CGSize(width: gainMapDescription["Width"]!, height: gainMapDescription["Height"]!)
-                let gainMapciImage = CIImage(bitmapData: gainMapData, bytesPerRow: gainMapDescription["BytesPerRow"]!, size: gainMapSize, format: .L8, colorSpace: nil)
-                let gainMapcgImage = CIContext().createCGImage(gainMapciImage, from: CGRect(origin: CGPoint(x: 0, y: 0), size: gainMapSize))!
-                let gainMapDest = CGImageDestinationCreateWithData(gainMapOutputData, UTType.bmp.identifier as CFString, 1, nil)
-                CGImageDestinationAddImage(gainMapDest!, gainMapcgImage, [:] as CFDictionary)
-                CGImageDestinationFinalize(gainMapDest!)
-                
-                gainMapImage = CIImage(data: gainMapOutputData as Data)!
-                
-                var makerApple = imageProperties[kCGImagePropertyMakerAppleDictionary as String] as? [String: Any] ?? [:]
-                
-                makerApple["33"] = 0.0
-                makerApple["48"] = 0.0
-                
-                var exifDict = imageProperties[kCGImagePropertyExifDictionary as String] as? [String: Any] ?? [:]
-                
-                exifDict["CustomRendered"] = 2
-                
-                imageProperties[kCGImagePropertyMakerAppleDictionary as String] = makerApple
-                imageProperties[kCGImagePropertyExifDictionary as String] = exifDict
-            } else {
-                NSLog("[Capture Photo] Couldn't save the gain map properties. Opting to ignore.")
-            }
+            rawImage = CIImage(data: self.photoImageData)!
+        } else {
+            rawImage = CIImage(data: self.photoImageData, 
+                               options: [.toneMapHDRtoSDR : true])!
+        }
+        
+        var imageProperties = rawImage.properties
+        let watermarkImage = CIImage(image: self.watermark())
+        let outputImage = watermarkImage!.composited(over: rawImage)
+        
+        if enableHDR {
+            gainMapImage = returnGainMap(properties: &imageProperties)
         }
         
         for prop in imageProperties {
@@ -202,29 +183,32 @@ class MalachitePhotoPreview : UIViewController {
         let outputImageWithProps = outputImage.settingProperties(imageProperties)
         
         if enableHEIF {
-            data = returnJPEG(imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage, imageColorspace: rawImage?.colorSpace?.name)
+            data = returnHEIC(imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage, imageColorspace: rawImage.colorSpace?.name)
+        } else {
+            data = returnJPEG(imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage, imageColorspace: rawImage.colorSpace?.name)
         }
         
         return data
     }
     
-    func watermark(watermark text: String, imageToWatermark image: UIImage) -> UIImage
+    func watermark() -> UIImage
     {
         let imageView = UIImageView()
         imageView.backgroundColor = UIColor.clear
-        if image.size.width < image.size.height {
-            imageView.frame = CGRect(x:0, y:0, width:image.size.height, height:image.size.width)
+        
+        if photoImage.size.width < photoImage.size.height {
+            imageView.frame = CGRect(x:0, y:0, width:photoImage.size.height, height:photoImage.size.width)
         } else {
-            imageView.frame = CGRect(x:0, y:0, width:image.size.width, height:image.size.height)
+            imageView.frame = CGRect(x:0, y:0, width:photoImage.size.width, height:photoImage.size.height)
         }
         
         if utilities.settings.defaults.bool(forKey: "wtrmark.enabled") {
             NSLog("[Watermarking] User has opted to show a watermark")
             var label = UILabel()
-            label = UILabel(frame: CGRect(x:50, y:20, width:image.size.width, height:120))
+            label = UILabel(frame: CGRect(x:50, y:20, width:photoImage.size.width - 100, height:120))
             label.textAlignment = .left
-            label.textColor = UIColor.white
-            label.text = text
+            label.textColor = .white
+            label.text = utilities.settings.defaults.string(forKey: "wtrmark.text")
             label.font = UIFont(name: "Menlo", size: 70)
             
             imageView.addSubview(label)
@@ -237,7 +221,7 @@ class MalachitePhotoPreview : UIViewController {
         return imageWithText!
     }
     
-    func returnHEIC(enable10Bit extraBits: Bool, imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage?, imageColorspace colorSpace: CFString?) -> Data {
+    func returnHEIC(imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage?, imageColorspace colorSpace: CFString?) -> Data {
         let types = CGImageDestinationCopyTypeIdentifiers() as NSArray
         if types.contains("public.heic") {
             if enableHDR && (hdrImage != nil){
@@ -261,8 +245,44 @@ class MalachitePhotoPreview : UIViewController {
         }
     }
     
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
+    func returnGainMap(properties props: inout [String: Any]) -> CIImage {
+        var gainMapImage = CIImage()
+        if let gainMapDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(CGImageSourceCreateWithData(NSData(data: self.photoImageData), nil)!, 0, kCGImageAuxiliaryDataTypeHDRGainMap) as? Dictionary<CFString, Any> {
+            NSLog("[Capture Photo] Saving gain map properties from image")
+            let gainMapData = gainMapDataInfo[kCGImageAuxiliaryDataInfoData] as! Data
+            let gainMapDescription = gainMapDataInfo[kCGImageAuxiliaryDataInfoDataDescription]! as! [String: Int]
+            let gainMapSize = CGSize(width: gainMapDescription["Width"]!, height: gainMapDescription["Height"]!)
+            let gainMapciImage = CIImage(bitmapData: gainMapData,
+                                         bytesPerRow: gainMapDescription["BytesPerRow"]!,
+                                         size: gainMapSize,
+                                         format: .L8, colorSpace: nil)
+            let gainMapcgImage = CIContext().createCGImage(gainMapciImage,
+                                                           from: CGRect(origin: CGPoint(x: 0, y: 0), size: gainMapSize))!
+            let gainMapOutputData = NSMutableData()
+            let gainMapDest = CGImageDestinationCreateWithData(gainMapOutputData, UTType.bmp.identifier as CFString, 1, nil)
+            CGImageDestinationAddImage(gainMapDest!, gainMapcgImage, [:] as CFDictionary)
+            CGImageDestinationFinalize(gainMapDest!)
+            
+            gainMapImage = CIImage(data: gainMapOutputData as Data)!
+            
+            var applDict = extractEXIFData(properties: props, dictionary: kCGImagePropertyMakerAppleDictionary)
+            var exifDict = extractEXIFData(properties: props, dictionary: kCGImagePropertyExifDictionary)
+            
+            applDict["33"] = 0.0
+            applDict["48"] = 0.0
+            exifDict["CustomRendered"] = 2
+            
+            props[kCGImagePropertyMakerAppleDictionary as String] = applDict
+            props[kCGImagePropertyExifDictionary as String] = exifDict
+        } else {
+            NSLog("[Capture Photo] Couldn't save the gain map properties. Opting to ignore.")
+        }
+        
+        return gainMapImage
+    }
+    
+    func extractEXIFData(properties props: [String : Any], dictionary dict: CFString) -> [String : Any] {
+        return props[dict as String] as? [String: Any] ?? [:]
     }
     
     override var prefersStatusBarHidden: Bool {

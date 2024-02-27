@@ -60,30 +60,34 @@ public class MalachiteViewUtils : NSObject {
     @objc func rotateButtonsWithOrientation(buttonsToRotate buttons: Array<UIButton>) {
         var rotation = -1.0
         
-        switch UIDevice.current.orientation {
-        case .unknown:
-            NSLog("[Rotation] How did I get here?")
+        if MalachiteClassesObject().idiom == .phone {
+            switch UIDevice.current.orientation {
+            case .unknown:
+                NSLog("[Rotation] How did I get here?")
+                rotation = Double.pi * 2
+            case .portrait:
+                NSLog("[Rotation] Device has rotated portrait, with front camera on the top")
+                rotation = Double.pi * 2
+            case .portraitUpsideDown:
+                NSLog("[Rotation] Device has rotated portrait, with front camera on the bottom")
+                rotation = Double.pi
+            case .landscapeLeft:
+                NSLog("[Rotation] Device has rotated landscape, with front camera on the left")
+                rotation = Double.pi / 2
+            case .landscapeRight:
+                NSLog("[Rotation] Device has rotated landscape, with front camera on the right")
+                rotation = -Double.pi / 2
+            case .faceUp:
+                NSLog("[Rotation] Unneeded rotation, ignoring")
+                rotation = Double.pi * 2
+            case .faceDown:
+                NSLog("[Rotation] Unneeded rotation, ignoring")
+                rotation = Double.pi * 2
+            @unknown default:
+                abort()
+            }
+        } else {
             rotation = Double.pi * 2
-        case .portrait:
-            NSLog("[Rotation] Device has rotated portrait, with front camera on the top")
-            rotation = Double.pi * 2
-        case .portraitUpsideDown:
-            NSLog("[Rotation] Device has rotated portrait, with front camera on the bottom")
-            rotation = Double.pi
-        case .landscapeLeft:
-            NSLog("[Rotation] Device has rotated landscape, with front camera on the left")
-            rotation = Double.pi / 2
-        case .landscapeRight:
-            NSLog("[Rotation] Device has rotated landscape, with front camera on the right")
-            rotation = -Double.pi / 2
-        case .faceUp:
-            NSLog("[Rotation] Unneeded rotation, ignoring")
-            rotation = Double.pi * 2
-        case .faceDown:
-            NSLog("[Rotation] Unneeded rotation, ignoring")
-            rotation = Double.pi * 2
-        @unknown default:
-            abort()
         }
         
         if rotation.isEqual(to: -1.0) { return }
@@ -142,11 +146,22 @@ public class MalachiteViewUtils : NSObject {
 }
 
 extension UIDeviceOrientation {
-    var asCaptureVideoOrientation: AVCaptureVideoOrientation {
+    var videoOrientation: AVCaptureVideoOrientation {
         switch self {
         case .landscapeLeft: return .landscapeRight
         case .landscapeRight: return .landscapeLeft
         case .portraitUpsideDown: return .portraitUpsideDown
+        default: return .portrait
+        }
+    }
+}
+
+extension UIInterfaceOrientation {
+    var videoOrientation: AVCaptureVideoOrientation {
+        switch self {
+        case .portraitUpsideDown: return .portraitUpsideDown
+        case .landscapeRight: return .landscapeRight
+        case .landscapeLeft: return .landscapeLeft
         default: return .portrait
         }
     }

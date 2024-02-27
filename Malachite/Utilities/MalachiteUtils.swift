@@ -18,4 +18,6 @@ public class MalachiteClassesObject : NSObject {
     public let settings  = MalachiteSettingsUtils()
     public let tooltips  = MalachiteTooltipUtils()
     public let games     = MalachiteGameUtils()
+    
+    public let idiom     = UIDevice.current.userInterfaceIdiom
 }

@@ -235,7 +235,7 @@ public class MalachiteFunctionUtils : NSObject {
             format = [AVVideoCodecKey : AVVideoCodecType.jpeg]
         }
         let photoSettings = AVCapturePhotoSettings(format: format)
-        let photoOrientation = UIDevice.current.orientation.asCaptureVideoOrientation
+        let photoOrientation = UIDevice.current.orientation.videoOrientation
         if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
             if let photoOutputConnection = photoOutput.connection(with: AVMediaType.video) {
                 photoOutputConnection.videoOrientation = photoOrientation

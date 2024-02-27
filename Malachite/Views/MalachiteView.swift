@@ -13,7 +13,7 @@ import Photos
 import GameKit
 
 class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCapturePhotoCaptureDelegate {
-
+    
     /// The `AVCaptureSession` Malachite uses for everything.
     var cameraSession: AVCaptureSession?
     /// The currently selected `AVCaptureDevice` for input to ``cameraSession``.
@@ -89,6 +89,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// An observer for the device's rotation.
     private var rotationObserver: NSObjectProtocol?
     
+    var cameraView = UIView()
+    
     /**
      viewDidLoad override for the main user interface.
      
@@ -104,7 +106,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         utilities.function.settings = utilities.settings
         
         NSLog("[Initialization] Starting up Malachite")
-        #if !targetEnvironment(simulator)
+#if !targetEnvironment(simulator)
         cameraPreview?.frame.size = self.view.frame.size
         NSLog("[Initialization] Bringing up AVCaptureSession")
         cameraSession = AVCaptureSession()
@@ -126,23 +128,30 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         NSLog("[Initialization] Bringing up AVCaptureVideoPreviewLayer")
         cameraPreview = AVCaptureVideoPreviewLayer(session: cameraSession!)
-        cameraPreview?.frame.size = self.view.frame.size
+        
+        let statusBarOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+        let videoOrientation: AVCaptureVideoOrientation = (statusBarOrientation?.videoOrientation)!
+        cameraPreview?.frame = view.layer.bounds
+        cameraPreview?.connection?.videoOrientation = videoOrientation
+        
         if utilities.settings.defaults.bool(forKey: "format.preview.fill") {
             cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspectFill
         } else {
             cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspect
         }
         
-        cameraPreview?.connection?.videoOrientation = transformOrientation(orientation: .portrait)
-        self.view.layer.addSublayer(cameraPreview!)
+        //cameraPreview?.connection?.videoOrientation = transformOrientation(orientation: .portrait)
+        cameraView = UIView(frame: self.view.bounds)
+        cameraView.layer.addSublayer(cameraPreview!)
+        self.view.addSubview(cameraView)
         
         NSLog("[Initialization] Starting session stream")
         DispatchQueue.global(qos: .background).async {
             self.cameraSession?.startRunning()
         }
-        #else
+#else
         NSLog("[Initialization] Detected iOS simulator, skipping to user interface bringup")
-        #endif
+#endif
         
         NSLog("[Initialization] Setting up notification observer for orientation changes")
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
@@ -180,13 +189,20 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
     }
     
-    /** 
-     Function used to force Malachite to always run in Portrait mode.
+    /**
+     Function used to determine what rotation Malachite should be in on iPadOS.
      
-     Research is being done to enable the ability to rotate the display on iPadOS correctly, however iPhones will follow the default camera app's behaviour of only rotating buttons.
+     iPhones follow the stock camera apps's behavior of only rotating buttons, while iPads get the ability to rotate the entire device.
+     TODO: fix bugs regarding this...
      */
     func transformOrientation(orientation: UIInterfaceOrientation) -> AVCaptureVideoOrientation {
         switch orientation {
+        case .landscapeLeft:
+            return .landscapeLeft
+        case .landscapeRight:
+            return .landscapeRight
+        case .portraitUpsideDown:
+            return .portraitUpsideDown
         default:
             return .portrait
         }
@@ -321,7 +337,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             focusSlider.widthAnchor.constraint(equalToConstant: 180),
             focusSlider.heightAnchor.constraint(equalToConstant: 80),
             focusSlider.centerYAnchor.constraint(equalTo: focusSliderButton.centerYAnchor),
-            focusSlider.centerXAnchor.constraint(equalTo: focusSliderButton.trailingAnchor, constant: -105), 
+            focusSlider.centerXAnchor.constraint(equalTo: focusSliderButton.trailingAnchor, constant: -105),
             
             focusLockButton.widthAnchor.constraint(equalToConstant: 60),
             focusLockButton.heightAnchor.constraint(equalToConstant: 60),
@@ -652,9 +668,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
      
      Research is being done to enable the ability to rotate the display on iPadOS correctly, however iPhones will follow the default camera app's behaviour of only rotating buttons.
      */
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
-    }
     
     /// Override function to force the status bar to never be shown.
     override var prefersStatusBarHidden: Bool {
@@ -665,4 +678,22 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
         return [.bottom]
     }
+    
+    /// Override function for layoutSubviews.
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        cameraView.center = CGPoint(x: cameraView.bounds.midX, y: cameraView.bounds.midY)
+        cameraView.frame = self.view.bounds
+    }
+    
+    /// Override function to trigger actions when the screen rotates.
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        coordinator.animate(alongsideTransition: { [self] context in
+            self.cameraPreview?.connection!.videoOrientation = self.transformOrientation(orientation: UIInterfaceOrientation(rawValue: UIApplication.shared.windows.first!.windowScene!.interfaceOrientation.rawValue)!)
+            self.cameraPreview?.frame.size = self.view.frame.size
+        })
+    }
+    
 }
