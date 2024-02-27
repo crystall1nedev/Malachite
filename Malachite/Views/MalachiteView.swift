@@ -544,6 +544,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.present(navigationController, animated: true, completion: nil)
         NotificationCenter.default.addObserver(photoPreview, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
         
+        self.captureButton.isEnabled = true
         self.captureButton.setImage(UIImage(systemName: "camera.aperture"), for: .normal)
         progressIndicator.stopAnimating()
         
