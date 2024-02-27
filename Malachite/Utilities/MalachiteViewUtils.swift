@@ -23,6 +23,15 @@ public class MalachiteViewUtils : NSObject {
         button.imageView?.contentMode = .center
         button.insertSubview(returnProperBlur(viewForBounds: view, blurStyle: .systemThinMaterial), at: 0)
         button.addTarget(haptic, action: #selector(haptic.buttonMediumHaptics(_:)), for: .touchUpInside)
+        button.isPointerInteractionEnabled = true
+        button.pointerStyleProvider = { button, proposedEffect, proposedShape -> UIPointerStyle? in
+            let parameters = UIPreviewParameters()
+            let shapePath = UIBezierPath(roundedRect: button.bounds, cornerRadius: corners)
+            parameters.shadowPath = shapePath
+            let preview = UITargetedPreview(view: proposedEffect.preview.view, parameters: parameters, target: proposedEffect.preview.target)
+            let rect = button.convert(button.bounds, to: preview.target.container)
+            return UIPointerStyle(effect: .lift(preview), shape: .roundedRect(rect, radius: corners))
+        }
         
         return button
     }
