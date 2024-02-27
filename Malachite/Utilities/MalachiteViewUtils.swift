@@ -10,7 +10,7 @@ import Photos
 import UIKit
 
 public class MalachiteViewUtils : NSObject {
-    public func returnProperButton(symbolName name: String, cornerRadius corners: CGFloat, viewForBounds view: UIView, hapticClass haptic: MalachiteHapticUtils) -> UIButton {
+    public func returnProperButton(symbolName name: String, cornerRadius corners: CGFloat, viewForBounds view: UIView, hapticClass haptic: MalachiteHapticUtils?) -> UIButton {
         let button = UIButton()
         let buttonImage = UIImage(systemName: name)?.withRenderingMode(.alwaysTemplate)
         button.setImage(buttonImage, for: .normal)
@@ -22,7 +22,9 @@ public class MalachiteViewUtils : NSObject {
         button.imageView?.clipsToBounds = false
         button.imageView?.contentMode = .center
         button.insertSubview(returnProperBlur(viewForBounds: view, blurStyle: .systemThinMaterial), at: 0)
-        button.addTarget(haptic, action: #selector(haptic.buttonMediumHaptics(_:)), for: .touchUpInside)
+        if haptic != nil {
+            button.addTarget(haptic, action: #selector(haptic!.buttonMediumHaptics(_:)), for: .touchUpInside)
+        }
         button.isPointerInteractionEnabled = true
         button.pointerStyleProvider = { button, proposedEffect, proposedShape -> UIPointerStyle? in
             let parameters = UIPreviewParameters()

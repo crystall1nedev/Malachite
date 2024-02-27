@@ -84,6 +84,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// The last known zoom factor that the ``zoomRecognizer`` was set to.
     var lastZoomFactor: CGFloat = 1.0
     
+    /// A `UIActivityIndicatorView` used to let the user know that Malachite is processing the image.
+    var progressIndicator = UIActivityIndicatorView()
+    
     /// An instance of ``MalachiteClassesObject`` for reuse across the app.
     public var utilities = MalachiteClassesObject()
     /// An observer for the device's rotation.
@@ -480,6 +483,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                        button: &cameraButton,
                                        waInUse: &wideAngleInUse,
                                        firstRun: &initRun)
+        
+        utilities.tooltips.zoomTooltipFlow(viewForBounds: view, waInUse: wideAngleInUse)
     }
     
     /// Function to toggle the flashlight's on state.
@@ -490,6 +495,13 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to take an image.
     @objc func runImageCapture() {
+        self.captureButton.isEnabled = false
+        progressIndicator = UIActivityIndicatorView(frame: self.captureButton.frame)
+        self.view.addSubview(progressIndicator)
+        self.captureButton.setImage(nil, for: .normal)
+        progressIndicator.startAnimating()
+        
+        
         var libraryAccessGranted = false
         let group = DispatchGroup()
         group.enter()
@@ -532,6 +544,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.present(navigationController, animated: true, completion: nil)
         NotificationCenter.default.addObserver(photoPreview, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
         
+        self.captureButton.setImage(UIImage(systemName: "camera.aperture"), for: .normal)
+        progressIndicator.stopAnimating()
+        
         DispatchQueue.global(qos: .background).async { [self] in
             utilities.settings.runPhotoCounter()
             if utilities.games.gameCenterEnabled {
@@ -544,7 +559,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                 utilities.games.leaderboards.pushLeaderboard(scoreToSubmit: numPhotos, leaderboardToSubmit: "photos_taken")
             }
         }
-        
     }
     
     /// Function to zoom in and out with ``zoomRecognizer``.
