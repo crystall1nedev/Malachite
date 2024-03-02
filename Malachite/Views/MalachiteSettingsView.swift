@@ -187,7 +187,7 @@ struct MalachiteSettingsView: View {
                 TextField("Shot with Malachite", text: $watermarkText)
                     .multilineTextAlignment(.trailing)
                     .autocorrectionDisabled()
-                    .keyboardType(.emailAddress)
+                    .keyboardType(.twitter)
             }
         }
         .onChange(of: watermarkSwitch) {_ in
