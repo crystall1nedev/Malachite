@@ -9,6 +9,11 @@ import WidgetKit
 import SwiftUI
 
 struct Provider: TimelineProvider {
+    // I need to learn more about WidgetKit to properly do this
+    // however leaving Apple's default code in, and then customizing
+    // the Static Configuration does what I want to do
+    //
+    // stubbing it breaks the icon so... idk i'll fix it later
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date(), emoji: "😀")
     }
@@ -42,15 +47,19 @@ struct SimpleEntry: TimelineEntry {
 struct LockScreenWidgetEntryView : View {
     var entry: Provider.Entry
 
-    var body: some View {
-        VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
+        @Environment(\.widgetFamily)
+        var family
 
-            Text("Emoji:")
-            Text(entry.emoji)
+        var body: some View {
+
+            switch family {
+            case .accessoryCircular:
+                CircularWidgetView()
+            default:
+                // UI for Home Screen widget
+                LockScreenWidgetEntryView(entry: entry)
+            }
         }
-    }
 }
 
 struct LockScreenWidget: Widget {
@@ -67,14 +76,30 @@ struct LockScreenWidget: Widget {
                     .background()
             }
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Open Malachite")
+        .description("Tap to quickly launch malachite from your lock screen.")
+        .supportedFamilies([
+            .accessoryCircular,
+        ])
     }
 }
 
-#Preview(as: .systemSmall) {
-    LockScreenWidget()
-} timeline: {
-    SimpleEntry(date: .now, emoji: "😀")
-    SimpleEntry(date: .now, emoji: "🤩")
+struct CircularWidgetView: View {
+    
+    var body: some View {
+        if #available(iOS 17.0, *) {
+            ZStack {
+                AccessoryWidgetBackground()
+                Image(systemName: "camera.aperture")
+            }
+            .containerBackground(for: .widget) { }
+        } else {
+            ZStack {
+                AccessoryWidgetBackground()
+                Image(systemName: "camera.aperture")
+            }
+            .padding()
+            .background()
+        }
+    }
 }
