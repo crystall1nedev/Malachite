@@ -11,17 +11,24 @@ import Photos
 import UIKit
 
 public class MalachiteFunctionUtils : NSObject {
+    /// An array that returns the available image capture types supported by the camera.
     private let supportedImageCaptureTypes = CGImageDestinationCopyTypeIdentifiers() as NSArray
+    /// A `UIButton` that contains the blur for the on-screen feedback produced by the auto focus gesture.
     private var autofocusFeedback = UIButton()
+    /// An instance of ``MalachiteSettingsUtils
     public var settings = MalachiteSettingsUtils()
+    /// A `Bool` that determines whether or not the device supports HDR.
     public var supportsHDR = false
     
+    /// An `enum` that contains Notification names.
     public enum Notifications: String, NotificationName {
         case aspectFillNotification
         case exposureLimitNotification
         case stabilizerNotification
+        case gameCenterEnabledNotification
     }
     
+    /// Function that determines if the device supports HDR.
     public func deviceFormatSupportsHDR(device hdrDevice: AVCaptureDevice) {
         if hdrDevice.activeFormat.isVideoHDRSupported == true {
             self.supportsHDR = true
@@ -29,6 +36,7 @@ public class MalachiteFunctionUtils : NSObject {
         }
     }
     
+    /// Function that determines if the device supports HEIC.
     public func supportsHEIC() -> Bool {
         if supportedImageCaptureTypes.contains("public.heic") {
             return true
@@ -37,14 +45,7 @@ public class MalachiteFunctionUtils : NSObject {
         return false
     }
     
-    public func supportsHEIC10() -> Bool {
-        if #available(iOS 15.0, *) {
-            return supportsHEIC()
-        }
-        
-        return false
-    }
-    
+    /// Function that handles pinch to zoom.
     public func zoom(sender pinch: UIPinchGestureRecognizer, captureDevice device: inout AVCaptureDevice, lastZoomFactor zoomFactor: inout CGFloat, hapticClass haptic: MalachiteHapticUtils) {
         func minMaxZoom(_ factor: CGFloat) -> CGFloat {
             return min(min(max(factor, 1.0), 5.0), device.activeFormat.videoMaxZoomFactor)
@@ -77,8 +78,7 @@ public class MalachiteFunctionUtils : NSObject {
         }
     }
     
-    
-    
+    /// Function that handles autofocus.
     public func autofocus(sender: UILongPressGestureRecognizer, captureDevice device: inout AVCaptureDevice, viewForScale view: UIView, hapticClass haptic: MalachiteHapticUtils) {
         let focusPoint = sender.location(in: view)
         if sender.state == UIGestureRecognizer.State.began {
@@ -132,6 +132,7 @@ public class MalachiteFunctionUtils : NSObject {
         }
     }
     
+    /// Function that handles toggling the flashlight's on state.
     public func toggleFlash(captureDevice device: inout AVCaptureDevice, flashlightButton button: inout UIButton) {
         if device.hasTorch {
             var buttonImage = UIImage()
@@ -160,6 +161,7 @@ public class MalachiteFunctionUtils : NSObject {
         }
     }
     
+    /// Function that handles connecting and disconnecting cameras, and changing format properties.
     public func switchInput(session: inout AVCaptureSession, uwDevice: inout AVCaptureDevice?, waDevice: inout AVCaptureDevice, device: inout AVCaptureDevice?, input: inout AVCaptureDeviceInput?, button: inout UIButton, waInUse: inout Bool, firstRun: inout Bool){
         button.isUserInteractionEnabled = false
         NSLog("[Camera Input] Getting ready to configure session")
@@ -227,6 +229,7 @@ public class MalachiteFunctionUtils : NSObject {
         button.isUserInteractionEnabled = true
     }
     
+    /// Function that handles taking images on `AVCapturePhotoOutput`.
     public func captureImage(output photoOutput: AVCapturePhotoOutput, viewForBounds view: UIView, captureDelegate delegate: AVCapturePhotoCaptureDelegate) -> AVCapturePhotoOutput {
         var format = [String: Any]()
         if settings.defaults.bool(forKey: "format.type.heif") {
@@ -247,6 +250,7 @@ public class MalachiteFunctionUtils : NSObject {
         return photoOutput
     }
     
+    /// Function that handles manual focus.
     public func manualFocus(captureDevice device: inout AVCaptureDevice, sender: UISlider) {
         let lensPosition = sender.value
         do {
@@ -261,6 +265,7 @@ public class MalachiteFunctionUtils : NSObject {
         device.unlockForConfiguration()
     }
     
+    /// Function that handles manual ISO.
     public func manualExposure(captureDevice device: inout AVCaptureDevice, sender: UISlider) {
         let minISO = device.activeFormat.minISO
         print(minISO)
@@ -295,31 +300,17 @@ public class MalachiteFunctionUtils : NSObject {
     }
 }
 
-extension CGImagePropertyOrientation {
-    init(_ uiOrientation: UIImage.Orientation) {
-        switch uiOrientation {
-        case .up: self = .up
-        case .upMirrored: self = .upMirrored
-        case .down: self = .down
-        case .downMirrored: self = .downMirrored
-        case .left: self = .left
-        case .leftMirrored: self = .leftMirrored
-        case .right: self = .right
-        case .rightMirrored: self = .rightMirrored
-        @unknown default:
-            abort()
-        }
-    }
-}
-
+/// An extension for `CIImageRepresentationOption` that allows setting gain map images.
 extension CIImageRepresentationOption {
     static var hdrGainMapImage: Self { .init(rawValue: "kCIImageRepresentationHDRGainMapImage") }
 }
 
+/// A protocol that enables Notification posting and getting.
 protocol NotificationName {
     var name: Notification.Name { get }
 }
 
+/// An extension that enables Notification posting and getting.
 extension RawRepresentable where RawValue == String, Self: NotificationName {
     var name: Notification.Name {
         get {

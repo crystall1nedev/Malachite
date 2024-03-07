@@ -9,15 +9,19 @@ import Foundation
 import GameKit
 
 public class MalachiteGameUtils : NSObject, GKGameCenterControllerDelegate {
+    /// Determines whether or not GameKit should be enabled.
     public var gameCenterEnabled = false
-    
+    /// An instance of ``MalachiteGameAchievementUtils``.
     public let achievements = MalachiteGameAchievementUtils()
+    /// An instance of ``MalachiteGameLeaderboardUtils``.
     public let leaderboards = MalachiteGameLeaderboardUtils()
     
+    /// Function to handle leaving the GameKit dashboard.
     public func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated:true)
     }
     
+    /// Function to set up GameKit.
     public func setupGameCenter() {
         GKLocalPlayer.local.authenticateHandler = { viewController, error in
             NSLog("[Game Center] Signing into Game Center...")
@@ -40,7 +44,9 @@ public class MalachiteGameUtils : NSObject, GKGameCenterControllerDelegate {
 }
 
 public class MalachiteGameAchievementUtils : NSObject {
+    /// An array of `GKAchievements` used to store achievement information.
     public var achievements = [GKAchievement]()
+    /// An array of `String` that serves as truncated achievment names.
     public var achievementNames = [
         "first_photo",
         "icon.default",
@@ -49,6 +55,7 @@ public class MalachiteGameAchievementUtils : NSObject {
         "your_mother"
     ]
     
+    /// Function that loads all achievements and any progress into the ``achievements`` array.
     public func loadAchievements() {
         var wait = true
         
@@ -81,15 +88,18 @@ public class MalachiteGameAchievementUtils : NSObject {
         print("[Game Center] Dumping all achievements that are known by Malachite: ", self.achievements)
     }
     
+    /// Function that pulls an achievement from ``achievements``.
     public func pullAchievement(achievementName achievementID: String) -> GKAchievement {
         let fullID = "dev.crystall1ne.Malachite.achievement.\(achievementID)"
         return self.achievements.first(where: { $0.identifier == fullID})!
     }
     
+    /// Function that reports an array of achievements to GameKit.
     public func pushAchievement(achievementBody achievement: GKAchievement) {
         GKAchievement.report([achievement])
     }
     
+    /// Function that resets all achievement data for the local player.
     public func resetAchievements() {
         GKAchievement.resetAchievements(completionHandler: { error in
             NSLog("[Game Center] Resetting all Game Center achievements...")
@@ -103,11 +113,14 @@ public class MalachiteGameAchievementUtils : NSObject {
 }
 
 public class MalachiteGameLeaderboardUtils : NSObject {
+    /// An array of `GKLeaderboard` used to store leaderboard information.
     public var leaderboards = [GKLeaderboard]()
+    /// An array of `String` that serves as truncated leaderboards names.
     public var leaderboardNames = [
         "photos_taken"
     ]
     
+    /// Function that loads all leaderboards and any progress into the ``leaderboards`` array.
     public func loadLeaderboards() {
         var fullIDs = [String]()
         var wait = true
@@ -129,6 +142,7 @@ public class MalachiteGameLeaderboardUtils : NSObject {
         
     }
     
+    /// Function to report new leaderboard progress to GameKit.
     public func pushLeaderboard(scoreToSubmit score: Int, leaderboardToSubmit leaderboard: String) {
         let leaderboardID = "dev.crystall1ne.Malachite.board.\(leaderboard)"
         GKLeaderboard.submitScore(score, context: 0, player: GKLocalPlayer.local, leaderboardIDs: [leaderboardID], completionHandler: {error in} )

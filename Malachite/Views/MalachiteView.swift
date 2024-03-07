@@ -13,7 +13,6 @@ import Photos
 import GameKit
 
 class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCapturePhotoCaptureDelegate {
-    
     /// The `AVCaptureSession` Malachite uses for everything.
     var cameraSession: AVCaptureSession?
     /// The currently selected `AVCaptureDevice` for input to ``cameraSession``.
@@ -161,6 +160,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NotificationCenter.default.addObserver(self, selector: #selector(changeAspectFill), name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeExposureLimit), name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeStabilizerMode), name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeGameCenterEnabled), name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         
         // TODO: Separate debug and release builds
@@ -182,14 +182,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         NSLog("[Initialization] Presenting user interface")
         setupView()
-        DispatchQueue.global(qos: .background).async { [self] in
-            if utilities.settings.defaults.bool(forKey: "internal.gamekit.enabled") {
-                utilities.games.setupGameCenter()
-            }
-            
-            utilities.settings.dumpUserDefaults()
-            
-        }
+        self.changeGameCenterEnabled()
     }
     
     /**
@@ -446,6 +439,18 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             }
         } else {
             cameraPreview?.connection!.preferredVideoStabilizationMode = .off
+        }
+    }
+    
+    /// Function to change the GameKit enabled state.
+    @objc func changeGameCenterEnabled() {
+        DispatchQueue.global(qos: .background).async { [self] in
+            if utilities.settings.defaults.bool(forKey: "internal.gamekit.enabled") {
+                utilities.games.setupGameCenter()
+            }
+            
+            utilities.settings.dumpUserDefaults()
+            
         }
     }
     

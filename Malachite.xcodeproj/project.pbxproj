@@ -23,7 +23,6 @@
 		78E67EE02B27E07300812A17 /* MalachiteHapticUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */; };
 		78E67EE12B27E07300812A17 /* MalachiteViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */; };
 		78E67EE22B27E07300812A17 /* MalachiteUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDE2B27E07300812A17 /* MalachiteUtils.swift */; };
-		78E67EE32B27E07300812A17 /* MalachiteVersionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDF2B27E07300812A17 /* MalachiteVersionUtils.swift */; };
 		78E67EE52B27E0A200812A17 /* MalachiteFunctionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EE42B27E0A200812A17 /* MalachiteFunctionUtils.swift */; };
 		78E67EE72B27E11D00812A17 /* MalachiteSettingsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EE62B27E11D00812A17 /* MalachiteSettingsUtils.swift */; };
 /* End PBXBuildFile section */
@@ -50,7 +49,6 @@
 		78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteHapticUtils.swift; sourceTree = "<group>"; };
 		78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteViewUtils.swift; sourceTree = "<group>"; };
 		78E67EDE2B27E07300812A17 /* MalachiteUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteUtils.swift; sourceTree = "<group>"; };
-		78E67EDF2B27E07300812A17 /* MalachiteVersionUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteVersionUtils.swift; sourceTree = "<group>"; };
 		78E67EE42B27E0A200812A17 /* MalachiteFunctionUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteFunctionUtils.swift; sourceTree = "<group>"; };
 		78E67EE62B27E11D00812A17 /* MalachiteSettingsUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteSettingsUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,7 +125,6 @@
 			children = (
 				78E67EDE2B27E07300812A17 /* MalachiteUtils.swift */,
 				78E67EE62B27E11D00812A17 /* MalachiteSettingsUtils.swift */,
-				78E67EDF2B27E07300812A17 /* MalachiteVersionUtils.swift */,
 				78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */,
 				78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */,
 				78E67EE42B27E0A200812A17 /* MalachiteFunctionUtils.swift */,
@@ -223,7 +220,6 @@
 				785F084F2B12D41100244EB4 /* SceneDelegate.swift in Sources */,
 				78E67EE52B27E0A200812A17 /* MalachiteFunctionUtils.swift in Sources */,
 				78E67EE72B27E11D00812A17 /* MalachiteSettingsUtils.swift in Sources */,
-				78E67EE32B27E07300812A17 /* MalachiteVersionUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

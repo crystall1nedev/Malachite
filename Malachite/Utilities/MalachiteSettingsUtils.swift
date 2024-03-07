@@ -8,8 +8,10 @@
 import Foundation
 
 public class MalachiteSettingsUtils : NSObject {
+    /// A variable that initializes the standard UserDefaults for Malachite.
     public let defaults = UserDefaults.standard
     
+    /// A dictionary used for internal preferences that are not meant to be switched by end users, or miscellanous settings.
     private let internalPreferences: [ String : Any ] = [
         "internal.version"           : "1.0.0",                // Records the last version of Malachite to be run on this device, to be used later
         "internal.prefsVersion"      : 4,                      // Records the version of preferences that Malachite last saved to. Newer versions = incompatiblities
@@ -20,6 +22,7 @@ public class MalachiteSettingsUtils : NSObject {
         "internal.gamekit.enabled"   : false,                  // Whether or not to enable Game Center support for Malachite.
     ]
     
+    /// A dictionary used for image format preferences.
     private let formatPreferences: [ String : Any ] = [
         "format.preview.fill"        : false,                  // Whether or not the preview layer should fill the screen
         
@@ -29,19 +32,19 @@ public class MalachiteSettingsUtils : NSObject {
         "format.type.heif"           : true,                   // Whether or not to save photos as HEIF. Not supported on A9.
     ]
     
-    private let watermarkingPreferences: [ String : Any ] = [
-        "wtrmark.enabled"            : true,                   // Whether or not the watermarking feature is enabled
-        "wtrmark.text"               : "Shot with Malachite"   // The text to display over captured images
-    ]
-    
+    /// A dictionary used for image capture preferences.
     private let capturePreferences: [ String : Any ] = [
         "capture.exposure.unlimited" : false,                  // Whether or not to enable absurdly bright exposure levels
         "capture.stblz.enabled"      : true,                   // Whether or not to enable image preview stabilization
     ]
     
+    /// A dictionary used for watermarking preferences.
+    private let watermarkingPreferences: [ String : Any ] = [
+        "wtrmark.enabled"            : true,                   // Whether or not the watermarking feature is enabled
+        "wtrmark.text"               : "Shot with Malachite"   // The text to display over captured images
+    ]
+    
     /**
-     
-    fuck
      */
     public func runPhotoCounter() {
         let value = defaults.integer(forKey: "internal.photos.count")
@@ -52,18 +55,19 @@ public class MalachiteSettingsUtils : NSObject {
         }
     }
     
-    // Resets all user settings. (Clears UserDefaults)
+    /// Resets ``defaults``.
     public func resetAllSettings() {
         let domain = Bundle.main.bundleIdentifier!
         defaults.removePersistentDomain(forName: domain)
         defaults.synchronize()
     }
     
-    // Returns the entire UserDefaults (Settings) as a Dictionary object
+    /// Returns ``defaults`` as a Dictionary object.
     public func settingsAsDictionary() -> Dictionary<String, Any> {
         return defaults.dictionaryRepresentation()
     }
     
+    /// Checks if the preference passed is present in ``defaults``.
     public func checkIfPreferenceIsPresent(keyToCheck key: String) -> Bool {
         if settingsAsDictionary().keys.contains(key) {
             return true
@@ -72,6 +76,7 @@ public class MalachiteSettingsUtils : NSObject {
         return false
     }
     
+    /// Ensures that preferences are synced on launch, and migrates/removes/updates any that are outdated.
     public func ensurePreferences() {
         if self.defaults.integer(forKey: "internal.prefsVersion") != internalPreferences["internal.prefsVersion"] as! Int {
             let availablePreferences = [ internalPreferences, formatPreferences, watermarkingPreferences, capturePreferences ]
@@ -103,6 +108,7 @@ public class MalachiteSettingsUtils : NSObject {
         }
     }
     
+    /// Dumps ``defaults`` to log.
     public func dumpUserDefaults() {
         print("[Preferences] Dumping all UserDefaults keys!!!")
         let availablePreferences = [ internalPreferences, formatPreferences, watermarkingPreferences, capturePreferences ]

@@ -11,8 +11,14 @@ import Photos
 import LinkPresentation
 
 class MalachitePhotoPreview : UIViewController {
+    /// A variable to hold the existing instance of ``MalachiteClassesObject``.
     var utilities = MalachiteClassesObject()
     
+    /** 
+     The image view that holds the captuerd image for user review.
+     
+     FIX: There's currently a bug with iPadOS where this will be too big for the presented modal view.
+     */
     let photoImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.backgroundColor = .clear
@@ -21,21 +27,40 @@ class MalachitePhotoPreview : UIViewController {
         return imageView
     }()
     
+    /// The data of the image that was just taken.
     var photoImageData = Data()
+    /// The image that was just taken.
     var photoImage = UIImage()
+    /// A watermarked image that was created using the `photoImage` frame.
     var watermarkedImage = UIImage()
     
+    /// The data of the image after all adjustments are made.
     var finalizedImage = Data()
     
+    /// A `UIButton` that enables users to leave the view.
     var dismissButton = UIButton()
+    /// A `UIButton` that enables users to save the image.
     var savePhotoButton = UIButton()
+    /// A `UIButton` that enables users to share the image directly from Malachite.
     var sharePhotoButton = UIButton()
     
+    /// A variable to store the device's last known orientation.
     let fixedOrientation = UIDevice.current.orientation
     
+    /// A variable to store whether or not HDR is enabled.
     let enableHDR = MalachiteClassesObject().settings.defaults.bool(forKey: "format.hdr.enabled")
+    /// A variable to store whether or not the HEIF file format is enabled.
     let enableHEIF = MalachiteClassesObject().settings.defaults.bool(forKey: "format.type.heif")
     
+    /**
+     viewDidLoad override for the main user interface.
+     
+     This function currently serves to do the following:
+     - Initialize and display the photo inside of ``photoImageView`` correctly.
+     - Create a blurred background view the same way.
+     - Create all buttons and gestures required to operate the user interface.
+     - Register notifications for changes to orientation.
+     */
     override func viewDidLoad() {
         self.finalizedImage = self.finalizeImageForExport()
         
@@ -124,16 +149,20 @@ class MalachitePhotoPreview : UIViewController {
         utilities.tooltips.capturedTooltipFlow(viewForBounds: self.view)
     }
     
+    
+    /// Function to allow the user to close the model view.
     @objc private func dismissView() {
         DispatchQueue.main.async {
             self.navigationController?.dismiss(animated: true)
         }
     }
     
+    /// Function to handle device rotation.
     @objc func orientationChanged() {
         utilities.views.rotateButtonsWithOrientation(buttonsToRotate: [ dismissButton, savePhotoButton ])
     }
     
+    /// Function to save the image to the user's Photos library.
     @objc private func savePhoto() {
         do {
             try PHPhotoLibrary.shared().performChangesAndWait { [self] in
@@ -149,6 +178,7 @@ class MalachitePhotoPreview : UIViewController {
         }
     }
     
+    /// Function to share the image to other apps or people without saving to the Photos library.
     @objc private func sharePhoto() {
         let shareableData = try! dataToShareable(data: finalizedImage, title: "Image captured with Malachite")
         let shareSheet = UIActivityViewController(activityItems: [shareableData], applicationActivities: nil)
@@ -156,6 +186,15 @@ class MalachitePhotoPreview : UIViewController {
         self.present(shareSheet, animated: true)
     }
     
+    /** 
+     Function to prepare the image for final export.
+     
+     Currently, this function does the following:
+     - Creates an image from the ``photoImageData`` that was passed on creation of the view controller.
+     - If ``enableHDR`` is enabled, creates a gain map image with HDR data inside.
+     - If the user has enabled watermarking, creates an image with the watermark and the original image's dimensions.
+     - If ``enableHEIF`` is enabled, create a HEIC representation of all above images combined. Otherwise, JPEG is used.
+     */
     func finalizeImageForExport() -> Data {
         var data = Data()
         var rawImage = CIImage()
@@ -191,6 +230,11 @@ class MalachitePhotoPreview : UIViewController {
         return data
     }
     
+    /**
+     Function to watermark the image that was taken.
+     
+     FIX: A lot of things here, primarly watermark and image rotation being misaligned.
+     */
     func watermark() -> UIImage
     {
         let imageView = UIImageView()
@@ -221,6 +265,7 @@ class MalachitePhotoPreview : UIViewController {
         return imageWithText!
     }
     
+    /// Function to return a HEIC representation of the passed image  with its colorspace and an optional gain map image.
     func returnHEIC(imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage?, imageColorspace colorSpace: CFString?) -> Data {
         let types = CGImageDestinationCopyTypeIdentifiers() as NSArray
         if types.contains("public.heic") {
@@ -236,6 +281,7 @@ class MalachitePhotoPreview : UIViewController {
         }
     }
     
+    /// Function to return a JPEG representation of the passed image  with its colorspace and an optional gain map image.
     func returnJPEG(imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage?, imageColorspace colorSpace: CFString?) -> Data {
         NSLog("[Capture Photo] HEIF is disabled, saving JPEG representation")
         if enableHDR && (hdrImage != nil) {
@@ -245,6 +291,7 @@ class MalachitePhotoPreview : UIViewController {
         }
     }
     
+    /// Function to extract gain map data from the image.
     func returnGainMap(properties props: inout [String: Any]) -> CIImage {
         var gainMapImage = CIImage()
         if let gainMapDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(CGImageSourceCreateWithData(NSData(data: self.photoImageData), nil)!, 0, kCGImageAuxiliaryDataTypeHDRGainMap) as? Dictionary<CFString, Any> {
@@ -281,20 +328,27 @@ class MalachitePhotoPreview : UIViewController {
         return gainMapImage
     }
     
+    /**
+     Function to extract EXIF properties from the image. 
+     
+     Currently used to extract MakerApple and the EXIFDictionary for HDR.
+     */
     func extractEXIFData(properties props: [String : Any], dictionary dict: CFString) -> [String : Any] {
         return props[dict as String] as? [String: Any] ?? [:]
     }
     
+    /// Override function to force the status bar to never be shown.
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
+    /// Override function to force the system to reject gestures from the bottom of the screen.
     override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
         return [.bottom]
     }
 }
 
-
+/// Function to convert raw data into a sharable object for UIActivityViewController
 final class dataToShareable: NSObject, UIActivityItemSource {
     let data: Data
     let title: String

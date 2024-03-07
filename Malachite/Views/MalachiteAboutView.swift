@@ -18,16 +18,31 @@ private struct AppIcon {
 }
 
 struct MalachiteAboutView: View {
+    /// A State variable used for determining whether or not to enable Game Center integration.
     @State private var gamekitSwitch = false
     
+    /// A variable used to determine the currently available app icons.
     private let appIcons = [
         AppIcon(name: "crystall1nedev", description: "Clueless lead developer", image: "crystall1nedev", icon: nil, achievement: "icon.default"),
         AppIcon(name: "ThatStella7922", description: "The reason I do any of this ❤️", image: "thatstella7922", icon: "thatsinceguy", achievement: "icon.wifey"),
         AppIcon(name: "ASentientBot", description: "Great tester, greater friend", image: "asentientbot", icon: "asb_approved", achievement: "icon.marimo")
     ]
     
+    /// A variable to hold the existing instance of ``MalachiteClassesObject``.
     var utilities = MalachiteClassesObject()
+    /// A variable used to hold the function for dismissing with the toolbar item.
+    var dismissAction: (() -> Void)
     
+    /**
+     A variable used to hold the entire view.
+     
+     SwiftUI is weird...
+     Currently holds:
+     - Other variables to avoid type counting time issues.
+     - Handles initialization of variables required to show current settings.
+     - Navigation title of "About Malachite"
+     - Toolbar item for dismissing the view
+     */
     var body: some View {
         Form {
             aboutSection
@@ -41,10 +56,21 @@ struct MalachiteAboutView: View {
         }
         .onDisappear() {
             utilities.settings.defaults.set(gamekitSwitch, forKey: "internal.gamekit.enabled")
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
         }
         .navigationTitle("About Malachite")
+        .toolbar(content: {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    self.dismissAction()
+                } label: {
+                    Text("Done")
+                }
+            }
+        })
     }
     
+    /// A variable for the about section.
     var aboutSection: some View {
         Section {
             HStack {
@@ -56,12 +82,12 @@ struct MalachiteAboutView: View {
                         Spacer()
                     }
                     HStack {
-                        if utilities.versions.versionBeta {
-                            Text("v\(utilities.versions.versionMajor).\(utilities.versions.versionMinor).\(utilities.versions.versionMinor) beta")
+                        if utilities.versionBeta {
+                            Text("v\(utilities.versionMajor).\(utilities.versionMinor).\(utilities.versionMinor) beta")
                                 .font(.footnote)
                                 .frame(alignment: .leading)
                         } else {
-                            Text("v\(utilities.versions.versionMajor).\(utilities.versions.versionMinor).\(utilities.versions.versionMinor)")
+                            Text("v\(utilities.versionMajor).\(utilities.versionMinor).\(utilities.versionMinor)")
                                 .font(.footnote)
                                 .frame(alignment: .leading)
                         }
@@ -81,12 +107,14 @@ struct MalachiteAboutView: View {
         }
     }
     
+    /// A variable for the story section.
     var storySection: some View {
         Section(header: Text("Story Time")) {
             Text("Malachite started as an app to help my love work on printed circuit boards with better clarity and manual controls that the stock iOS camera app can't provide, and it grew once my Discord community stood by, actually using it and suggesting new features. It's the first real test of my skills in Swift, and leading my own public project, and my goal is to now provide a free, all-inclusive experience to amazing macro photography - powered by your iPhone, iPad, or iPod touch.")
         }
     }
     
+    /// A variable for the credits section.
     var creditsSection : some View {
         Section(header: Text("Credits")) {
             ForEach(appIcons, id: \.id) {appIcon in
@@ -159,16 +187,14 @@ struct MalachiteAboutView: View {
         }
     }
     
+    /// A variable for the GameKit section.
     var gamekitSection : some View {
         Section(header: Text("A special treat..."), footer: Text("A restart is required for this option to take effect.")) {
             Toggle("Enable Game Center", isOn: $gamekitSwitch)
         }
         .onChange(of: gamekitSwitch) {_ in
             utilities.settings.defaults.set(gamekitSwitch, forKey: "internal.gamekit.enabled")
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
         }
     }
-}
-
-#Preview {
-    MalachiteAboutView()
 }
