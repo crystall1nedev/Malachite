@@ -189,7 +189,7 @@ struct MalachiteAboutView: View {
     
     /// A variable for the GameKit section.
     var gamekitSection : some View {
-        Section(header: Text("A special treat..."), footer: Text("A restart is required for this option to take effect.")) {
+        Section(header: Text("A special treat...")) {
             Toggle("Enable Game Center", isOn: $gamekitSwitch)
         }
         .onChange(of: gamekitSwitch) {_ in
