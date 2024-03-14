@@ -112,14 +112,18 @@ struct MalachiteSettingsView: View {
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
         }
-        .navigationTitle("view.title.settings")
+        .navigationTitle(LocalizedStringKey("view.title.settings"))
         .toolbar(content: {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItemGroup(placement: .topBarLeading) {
                 Button {
                     self.dismissAction()
                 } label: {
-                    Text("action.done_button")
+                    Text("Done")
                 }
+                NavigationLink(destination: MalachiteSettingsDetailView(dismissAction: dismissAction)) {
+                    Image(systemName: "questionmark.circle")
+                }
+                    
             }
         })
     }
@@ -142,7 +146,7 @@ struct MalachiteSettingsView: View {
     
     /// A variable to hold the preview settings section.
     var previewSettingsSection: some View {
-        Section(header: Text("settings.header.preview"), footer: Text("settings.footer.preview")) {
+        Section(header: Text(LocalizedStringKey("settings.header.preview")), footer: Text(LocalizedStringKey("settings.footer.preview"))) {
             MalachiteSettingsViewUtils(
                 icon: "aspectratio",
                 title: "settings.option.preview.aspect_ratio",
@@ -187,10 +191,10 @@ struct MalachiteSettingsView: View {
     
     /// A variable to hold the photo settings section.
     var photoSettingsSection: some View {
-        Section(header: Text("settings.header.photo"), footer: Text(formatFooterText)) {
+        Section(header: Text(LocalizedStringKey("settings.header.photo")), footer: Text(formatFooterText)) {
             MalachiteSettingsViewUtils(
                 icon: "square.and.arrow.down",
-                title: "settings.option.photo.file_format",
+                title: "settings.option.photo.file_format.olsrgijwerioghjeriogjerioger",
                 subtitle: "settings.option.photo.file_format.detail",
                 disabled: !supportsHEIC,
                 dangerous: false)
@@ -242,7 +246,7 @@ struct MalachiteSettingsView: View {
     
     /// A variable to hold the watermark settings section.
     var watermarkSettingsSection: some View {
-        Section(header: Text("settings.header.watermark"), footer: Text("settings.footer.watermark")) {
+        Section(header: Text(LocalizedStringKey("settings.header.watermark")), footer: Text(LocalizedStringKey("settings.footer.watermark"))) {
             MalachiteSettingsViewUtils(
                 icon: "textformat",
                 title: "settings.option.watermark.enable",
@@ -281,7 +285,7 @@ struct MalachiteSettingsView: View {
     
     /// A variable to hold the debug settings section. Only available with debug builds.
     var debugSettingsSection: some View {
-        Section(header: Text("settings.header.debug"), footer: Text("settings.footer.debug")) {
+        Section(header: Text(LocalizedStringKey("settings.header.debug")), footer: Text(LocalizedStringKey("settings.footer.debug"))) {
             MalachiteSettingsViewUtils(
                 icon: "trash",
                 title: "settings.option.debug.erase_userdefaults",
@@ -337,7 +341,7 @@ struct MalachiteSettingsViewUtils<Content : View>: View {
     }
     
     var body: some View {
-        HStack {
+        HStack(spacing: 0) {
             if dangerous {
                 if #available(iOS 15.0, *) {
                     Image(systemName: icon)
@@ -365,14 +369,14 @@ struct MalachiteSettingsViewUtils<Content : View>: View {
                 HStack {
                     if dangerous {
                         if #available(iOS 17.0, *) {
-                            Text(title)
+                            Text(LocalizedStringKey(title))
                                 .foregroundStyle(.red)
                         } else {
-                            Text(title)
+                            Text(LocalizedStringKey(title))
                                 .foregroundColor(.red)
                         }
                     } else {
-                        Text(title)
+                        Text(LocalizedStringKey(title))
                     }
                     Spacer()
                 }
@@ -380,16 +384,16 @@ struct MalachiteSettingsViewUtils<Content : View>: View {
                     HStack {
                         if dangerous {
                             if #available(iOS 17.0, *) {
-                                Text(title)
+                                Text(LocalizedStringKey(subtitle))
                                     .foregroundStyle(.red)
                                     .font(.footnote)
                             } else {
-                                Text(title)
+                                Text(LocalizedStringKey(subtitle))
                                     .foregroundColor(.red)
                                     .font(.footnote)
                             }
                         } else {
-                            Text(title)
+                            Text(LocalizedStringKey(subtitle))
                                 .font(.footnote)
                         }
                         Spacer()
@@ -397,9 +401,16 @@ struct MalachiteSettingsViewUtils<Content : View>: View {
                 }
             }
             Spacer()
+            Divider()
             if content != nil {
-                content
-                    .disabled(disabled)
+                GeometryReader { geometry in
+                    VStack(spacing: 0) {
+                        content
+                            .disabled(disabled)
+                    }
+                    .fixedSize(horizontal: true, vertical: false)
+                    .fixedSize()
+                }
             }
         }
     }

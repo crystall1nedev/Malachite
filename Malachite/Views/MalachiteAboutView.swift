@@ -61,13 +61,13 @@ struct MalachiteAboutView: View {
             utilities.settings.defaults.set(gamekitSwitch, forKey: "internal.gamekit.enabled")
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
         }
-        .navigationTitle("view.title.about")
+        .navigationTitle(LocalizedStringKey("view.title.about"))
         .toolbar(content: {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     self.dismissAction()
                 } label: {
-                    Text("action.done_button")
+                    Text(LocalizedStringKey("action.done_button"))
                 }
             }
         })
@@ -85,15 +85,10 @@ struct MalachiteAboutView: View {
                         Spacer()
                     }
                     HStack {
-                        if utilities.versionBeta {
-                            Text("\(utilities.versionMajor).\(utilities.versionMinor).\(utilities.versionMinor) " + "about.version.beta")
-                                .font(.footnote)
-                                .frame(alignment: .leading)
-                        } else {
-                            Text("\(utilities.versionMajor).\(utilities.versionMinor).\(utilities.versionMinor)")
-                                .font(.footnote)
-                                .frame(alignment: .leading)
-                        }
+                        
+                        Text("\(utilities.versionMajor).\(utilities.versionMinor).\(utilities.versionMinor)")
+                            .font(.footnote)
+                            .frame(alignment: .leading)
                         Spacer()
                     }
                 }
@@ -104,22 +99,22 @@ struct MalachiteAboutView: View {
                     .frame(maxWidth: 80, alignment: .trailing)
                     .clipShape(RoundedRectangle(cornerRadius: 17))
             }
-            Text("about.description")
-            Text("about.author_note")
+            Text(LocalizedStringKey("about.description"))
+            Text(LocalizedStringKey("about.author_note"))
                 .bold()
         }
     }
     
     /// A variable for the story section.
     var storySection: some View {
-        Section(header: Text("about.header.story")) {
+        Section(header: Text(LocalizedStringKey("about.header.story"))) {
             Text("about.story")
         }
     }
     
     /// A variable for the credits section.
     var creditsSection : some View {
-        Section(header: Text("about.header.credits")) {
+        Section(header: Text(LocalizedStringKey("about.header.credits"))) {
             ForEach(appIcons, id: \.id) {appIcon in
                 HStack {
                     VStack {
@@ -130,7 +125,7 @@ struct MalachiteAboutView: View {
                             Spacer()
                         }
                         HStack {
-                            Text(appIcon.description)
+                            Text(LocalizedStringKey(appIcon.description))
                             Spacer()
                         }
                     }
@@ -162,13 +157,13 @@ struct MalachiteAboutView: View {
                             .clipShape(Circle())
                     } else {
                         if #available(iOS 16.0, *) {
-                            Image(systemName: appIcon.image )
+                            Image(systemName: appIcon.image)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(maxWidth: 30, alignment: .trailing)
                                 .padding(.trailing, 5)
                         } else {
-                            Image(systemName: appIcon.image )
+                            Image(systemName: appIcon.image)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(maxWidth: 30, alignment: .trailing)
@@ -182,8 +177,16 @@ struct MalachiteAboutView: View {
     
     /// A variable for the GameKit section.
     var gamekitSection : some View {
-        Section(header: Text("about.header.special")) {
-            Toggle("about.option.gamekit", isOn: $gamekitSwitch)
+        Section(header: Text(LocalizedStringKey("about.header.special"))) {
+            MalachiteSettingsViewUtils(
+                icon: "trash",
+                title: "about.option.gamekit",
+                subtitle: nil,
+                disabled: nil,
+                dangerous: true)
+            {
+                Toggle("", isOn: $gamekitSwitch)
+            }
         }
         .onChange(of: gamekitSwitch) {_ in
             utilities.settings.defaults.set(gamekitSwitch, forKey: "internal.gamekit.enabled")

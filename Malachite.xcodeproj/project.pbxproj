@@ -26,6 +26,7 @@
 		78917F632B99AE72005E10FA /* LockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78917F622B99AE72005E10FA /* LockScreenWidget.swift */; };
 		78917F652B99AE73005E10FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78917F642B99AE73005E10FA /* Assets.xcassets */; };
 		78917F692B99AE73005E10FA /* LockScreenWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 78917F592B99AE72005E10FA /* LockScreenWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7897ECA62BA2B87100662EA0 /* MalachiteSettingsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7897ECA52BA2B87100662EA0 /* MalachiteSettingsDetailView.swift */; };
 		78E5EFC02B15748400F15250 /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */; };
 		78E67EE02B27E07300812A17 /* MalachiteHapticUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */; };
 		78E67EE12B27E07300812A17 /* MalachiteViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */; };
@@ -84,6 +85,7 @@
 		78917F622B99AE72005E10FA /* LockScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenWidget.swift; sourceTree = "<group>"; };
 		78917F642B99AE73005E10FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		78917F662B99AE73005E10FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7897ECA52BA2B87100662EA0 /* MalachiteSettingsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteSettingsDetailView.swift; sourceTree = "<group>"; };
 		78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePhotoPreview.swift; sourceTree = "<group>"; };
 		78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteHapticUtils.swift; sourceTree = "<group>"; };
 		78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteViewUtils.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */,
 				788E74B22B13D8200024B586 /* MalachiteSettingsView.swift */,
 				7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */,
+				7897ECA52BA2B87100662EA0 /* MalachiteSettingsDetailView.swift */,
 			);
 			name = Views;
 			path = Malachite/Views;
@@ -317,6 +320,7 @@
 				7806973A2B27F66E00B4942B /* MalachiteTooltipUtils.swift in Sources */,
 				7859DE1A2B8308C000D1A998 /* MalachiteAboutView.swift in Sources */,
 				7860DC002B897A3E00450BF8 /* MalachiteGameUtils.swift in Sources */,
+				7897ECA62BA2B87100662EA0 /* MalachiteSettingsDetailView.swift in Sources */,
 				785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */,
 				787B1CAA2B8B095E000AFECC /* Malachite.docc in Sources */,
 				78E67EE12B27E07300812A17 /* MalachiteViewUtils.swift in Sources */,
