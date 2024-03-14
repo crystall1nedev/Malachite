@@ -180,7 +180,7 @@ class MalachitePhotoPreview : UIViewController {
     
     /// Function to share the image to other apps or people without saving to the Photos library.
     @objc private func sharePhoto() {
-        let shareableData = try! dataToShareable(data: finalizedImage, title: "Image captured with Malachite")
+        let shareableData = try! dataToShareable(data: finalizedImage, title: "sharable.title")
         let shareSheet = UIActivityViewController(activityItems: [shareableData], applicationActivities: nil)
         shareSheet.popoverPresentationController?.sourceView = self.view
         self.present(shareSheet, animated: true)

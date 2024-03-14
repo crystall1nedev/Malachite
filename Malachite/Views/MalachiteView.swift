@@ -468,8 +468,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     @objc func runInputSwitch() {
         if ultraWideDevice == nil && !initRun {
             NSLog("[Camera Input] AVCaptureDevice for builtInUltraWideCamera unavailable, showing error")
-            let alert = UIAlertController(title: "Switching cameras unsupported", message: "The camera switcher cannot be used as your device does not have an ultra-wide camera available.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+            let alert = UIAlertController(title: "error.camera_switching.title", message: "error.camera_switching.message", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.ok_button", comment: "Default action"), style: .default, handler: { _ in
                 NSLog("[Camera Input] Dialog has been dismissed")
             }))
             self.present(alert, animated: true, completion: nil)
@@ -523,7 +523,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                 self.photoOutput = utilities.function.captureImage(output: self.photoOutput!, viewForBounds: self.view, captureDelegate: self)
             } else {
                 NSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
-                let alert = UIAlertController(title: "Cannot capture photos", message: "The capture images feature cannot be used because Malachite has not been given access to the photos library.", preferredStyle: .alert)
+                let alert = UIAlertController(title: "error.title.phphotolibrary", message: "error.detail.phphotolibrary", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
                     NSLog("[Capture Photo] Dialog has been dismissed")
                 }))
@@ -682,12 +682,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                                                         exposureButton,
                                                                         exposureLockButton ])
     }
-    
-    /**
-     Override function used to force Malachite to always run in Portrait mode.
-     
-     Research is being done to enable the ability to rotate the display on iPadOS correctly, however iPhones will follow the default camera app's behaviour of only rotating buttons.
-     */
     
     /// Override function to force the status bar to never be shown.
     override var prefersStatusBarHidden: Bool {

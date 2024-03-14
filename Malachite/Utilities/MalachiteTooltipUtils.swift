@@ -25,17 +25,17 @@ public class MalachiteTooltipUtils : NSObject {
     
     /// Function used to display text in ``MalachiteView``.
     public func tooltipFlow(viewForBounds view: UIView) {
-        focusTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Manual focus", anchorConstant: 10)
-        exposureTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Manual ISO", anchorConstant: 80)
+        focusTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "uibutton.focus.title", anchorConstant: 10)
+        exposureTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "uibutton.exposure.title", anchorConstant: 80)
         
         fadeOutTooltipFlow(labelsToFade: [ focusTitle, exposureTitle])
     }
     
     /// Function used to display text in ``MalachitePhotoPreview``.
     public func capturedTooltipFlow(viewForBounds view: UIView) {
-        closeOverlayTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Exit without saving", anchorConstant: 10)
-        savePhotoTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Save to Photos", anchorConstant: 80)
-        sharePhotoTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "Share photo", anchorConstant: 150)
+        closeOverlayTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "uibutton.close.title", anchorConstant: 10)
+        savePhotoTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "uibutton.save.title", anchorConstant: 80)
+        sharePhotoTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: "uibutton.share.title", anchorConstant: 150)
     }
     
     /// Function used to display the current camera ("0.5x" or "1x") when switching cameras.
