@@ -83,14 +83,8 @@ public class MalachiteViewUtils : NSObject {
             case .landscapeRight:
                 NSLog("[Rotation] Device has rotated landscape, with front camera on the right")
                 rotation = -Double.pi / 2
-            case .faceUp:
-                NSLog("[Rotation] Unneeded rotation, ignoring")
-                rotation = Double.pi * 2
-            case .faceDown:
-                NSLog("[Rotation] Unneeded rotation, ignoring")
-                rotation = Double.pi * 2
-            @unknown default:
-                abort()
+            default:
+                NSLog("[Rotation] Unneeded or unknown rotation, ignoring")
             }
         } else {
             rotation = Double.pi * 2

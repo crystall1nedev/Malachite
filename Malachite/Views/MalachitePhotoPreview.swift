@@ -87,20 +87,14 @@ class MalachitePhotoPreview : UIViewController {
             case .landscapeRight:
                 NSLog("[Rotation] Device has rotated landscape, with front camera on the right")
                 rotation = -Double.pi / 2
-            case .faceUp:
-                NSLog("[Rotation] Unneeded rotation, ignoring")
-                rotation = Double.pi * 2
-            case .faceDown:
-                NSLog("[Rotation] Unneeded rotation, ignoring")
-                rotation = Double.pi * 2
-            @unknown default:
-                abort()
+            default:
+                NSLog("[Rotation] Unneeded or unknown rotation, ignoring")
             }
         } else {
             rotation = Double.pi * 2
         }
         
-        rotatedImage = photoImage.rotate(radians: Float(rotation))!
+        rotatedImage = (rotation != -1) ? photoImage.rotate(radians: Float(rotation))! : photoImage
         let blurredBackgroundView = UIImageView(frame: self.view.bounds)
         blurredBackgroundView.image = rotatedImage
         blurredBackgroundView.layer.contentsGravity = .resizeAspectFill
