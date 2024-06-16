@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 73;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -259,7 +259,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1530;
-				LastUpgradeCheck = 1510;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					785F08482B12D41100244EB4 = {
 						CreatedOnToolsVersion = 15.1;
@@ -270,7 +270,6 @@
 				};
 			};
 			buildConfigurationList = 785F08442B12D41100244EB4 /* Build configuration list for PBXProject "Malachite" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -278,6 +277,7 @@
 				Base,
 			);
 			mainGroup = 785F08402B12D41100244EB4;
+			preferredProjectObjectVersion = 73;
 			productRefGroup = 785F084A2B12D41100244EB4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -490,7 +490,6 @@
 		785F085E2B12D41300244EB4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "asb_approved thatsinceguy";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -536,7 +535,6 @@
 		785F085F2B12D41300244EB4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "asb_approved thatsinceguy";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -647,7 +645,7 @@
 				785F085C2B12D41300244EB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		785F085D2B12D41300244EB4 /* Build configuration list for PBXNativeTarget "Malachite" */ = {
 			isa = XCConfigurationList;
@@ -656,7 +654,7 @@
 				785F085F2B12D41300244EB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		78917F6D2B99AE73005E10FA /* Build configuration list for PBXNativeTarget "LockScreenWidgetExtension" */ = {
 			isa = XCConfigurationList;
@@ -665,7 +663,7 @@
 				78917F6C2B99AE73005E10FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
