@@ -709,5 +709,4 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             self.cameraPreview?.frame.size = self.view.frame.size
         })
     }
-    
 }
