@@ -380,25 +380,6 @@ struct MalachiteSettingsViewUtils<Content : View>: View {
                     }
                     Spacer()
                 }
-                if subtitle != "" {
-                    HStack {
-                        if dangerous {
-                            if #available(iOS 17.0, *) {
-                                Text(LocalizedStringKey(subtitle))
-                                    .foregroundStyle(.red)
-                                    .font(.footnote)
-                            } else {
-                                Text(LocalizedStringKey(subtitle))
-                                    .foregroundColor(.red)
-                                    .font(.footnote)
-                            }
-                        } else {
-                            Text(LocalizedStringKey(subtitle))
-                                .font(.footnote)
-                        }
-                        Spacer()
-                    }
-                }
             }
             Spacer()
             Divider()
