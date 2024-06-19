@@ -19,6 +19,7 @@ private struct AppIcon {
 }
 
 struct MalachiteAboutView: View {
+    @Binding var presentedAsModal: Bool
     /// A State variable used for determining whether or not to enable Game Center integration.
     @State private var gamekitSwitch = false
     
@@ -34,7 +35,7 @@ struct MalachiteAboutView: View {
     /// A variable to hold the existing instance of ``MalachiteClassesObject``.
     var utilities = MalachiteClassesObject()
     /// A variable used to hold the function for dismissing with the toolbar item.
-    var dismissAction: (() -> Void)
+    ///var dismissAction: (() -> Void)
     
     /**
      A variable used to hold the entire view.
@@ -47,6 +48,10 @@ struct MalachiteAboutView: View {
      - Toolbar item for dismissing the view
      */
     var body: some View {
+        MalachiteNagivationViewUtils() { guts }
+    }
+    
+    var guts: some View {
         Form {
             aboutSection
             storySection
@@ -61,13 +66,13 @@ struct MalachiteAboutView: View {
             utilities.settings.defaults.set(gamekitSwitch, forKey: "internal.gamekit.enabled")
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
         }
-        .navigationTitle(LocalizedStringKey("view.title.about"))
+        .navigationTitle("view.title.about")
         .toolbar(content: {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    self.dismissAction()
+                    self.presentedAsModal = false
                 } label: {
-                    Text(LocalizedStringKey("action.done_button"))
+                    Text("action.done_button")
                 }
             }
         })
@@ -79,17 +84,24 @@ struct MalachiteAboutView: View {
             HStack {
                 VStack {
                     HStack {
-                        Text("Malachite")
+                        Text("appname")
                             .font(.largeTitle)
                             .bold()
                         Spacer()
                     }
                     HStack {
-                        
                         Text("\(utilities.versionMajor).\(utilities.versionMinor).\(utilities.versionMinor)")
                             .font(.footnote)
                             .frame(alignment: .leading)
                         Spacer()
+                    }
+                    if utilities.versionType == "debug" || utilities.versionType == "internal" {
+                        HStack {
+                            Text("\(utilities.versionType) - \(utilities.versionHash) - \(utilities.versionDate)")
+                                .font(.footnote)
+                                .frame(alignment: .leading)
+                            Spacer()
+                        }
                     }
                 }
                 Spacer()
@@ -99,22 +111,22 @@ struct MalachiteAboutView: View {
                     .frame(maxWidth: 80, alignment: .trailing)
                     .clipShape(RoundedRectangle(cornerRadius: 17))
             }
-            Text(LocalizedStringKey("about.description"))
-            Text(LocalizedStringKey("about.author_note"))
+            Text("about.description")
+            Text("about.author_note")
                 .bold()
         }
     }
     
     /// A variable for the story section.
     var storySection: some View {
-        Section(header: Text(LocalizedStringKey("about.header.story"))) {
+        Section(header: Text("about.header.story")) {
             Text("about.story")
         }
     }
     
     /// A variable for the credits section.
     var creditsSection : some View {
-        Section(header: Text(LocalizedStringKey("about.header.credits"))) {
+        Section(header: Text("about.header.credits")) {
             ForEach(appIcons, id: \.id) {appIcon in
                 HStack {
                     VStack {
@@ -177,11 +189,11 @@ struct MalachiteAboutView: View {
     
     /// A variable for the GameKit section.
     var gamekitSection : some View {
-        Section(header: Text(LocalizedStringKey("about.header.special"))) {
-            MalachiteSettingsViewUtils(
+        Section(header: Text("about.header.special")) {
+            MalachiteCellViewUtils(
                 icon: "trash",
                 title: "about.option.gamekit",
-                subtitle: nil,
+                subtitle: "about.detail.gamekit",
                 disabled: nil,
                 dangerous: true)
             {

@@ -8,6 +8,7 @@
 import Foundation
 import Photos
 import UIKit
+import SwiftUI
 
 public class MalachiteViewUtils : NSObject {
     /// Function that returns a buttons for the user interface.
@@ -208,5 +209,104 @@ extension UIImage {
         UIGraphicsEndImageContext()
         
         return newImage
+    }
+}
+
+
+/// Common cell content view to prevent the code from becoming massive
+/// TODO: add prefix support, move code around
+struct MalachiteCellViewUtils<Content : View>: View {
+    var icon: String
+    var title: String
+    var subtitle: String
+    var disabled: Bool
+    var dangerous: Bool
+    let content: Content?
+    
+    init(
+        icon: String,
+        title: String?,
+        subtitle: String?,
+        disabled: Bool?,
+        dangerous: Bool,
+        @ViewBuilder content: () -> Content?
+    ) {
+        self.icon = icon
+        self.title = title ?? ""
+        self.subtitle = subtitle ?? ""
+        self.disabled = disabled ?? false
+        self.dangerous = dangerous
+        self.content = content() ?? nil
+    }
+    
+    var body: some View {
+        VStack() {
+            HStack(spacing: 0) {
+                if dangerous {
+                    if #available(iOS 15.0, *) {
+                        Image(systemName: icon)
+                            .frame(maxWidth: 20)
+                            .foregroundStyle(.red)
+                            .symbolRenderingMode(.hierarchical)
+                            .padding(.trailing)
+                    } else {
+                        Image(systemName: icon)
+                            .frame(maxWidth: 20)
+                            .foregroundColor(.red)
+                            .padding(.trailing)
+                    }
+                } else {
+                    if #available(iOS 15.0, *) {
+                        Image(systemName: icon)
+                            .frame(maxWidth: 20)
+                            .foregroundStyle(Color.accentColor)
+                            .symbolRenderingMode(.hierarchical)
+                            .padding(.trailing)
+                    } else {
+                        Image(systemName: icon)
+                            .frame(maxWidth: 20)
+                            .foregroundColor(Color.accentColor)
+                            .padding(.trailing)
+                    }
+                }
+                if title != "" {
+                    if dangerous {
+                        if #available(iOS 17.0, *) {
+                            Text(LocalizedStringKey(title))
+                                .foregroundStyle(.red)
+                        } else {
+                            Text(LocalizedStringKey(title))
+                                .foregroundColor(.red)
+                        }
+                    } else {
+                        Text(title)
+                    }
+                }
+                if content != nil {
+                    content
+                        .disabled(disabled)
+                }
+            }
+        }
+    }
+}
+
+struct MalachiteNagivationViewUtils<Content : View>: View {
+    let content: Content
+    
+    init( @ViewBuilder content: () -> Content ) {
+        self.content = content()
+    }
+    
+    var body: some View {
+        if #available(iOS 16.0, *) {
+            NavigationStack {
+                content
+            }
+        } else {
+            NavigationView {
+                content
+            }
+        }
     }
 }

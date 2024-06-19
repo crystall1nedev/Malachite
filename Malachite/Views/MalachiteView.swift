@@ -459,9 +459,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         var aboutView = MalachiteSettingsView(dismissAction: {self.dismiss( animated: true, completion: nil )})
         aboutView.utilities = self.utilities
         let hostingController = UIHostingController(rootView: aboutView)
-        let navigationController = UINavigationController(rootViewController: hostingController)
-        navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
-        self.present(navigationController, animated: true, completion: nil)
+        hostingController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
+        self.present(hostingController, animated: true, completion: nil)
     }
     
     /// Function to switch cameras and attach new inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.
@@ -524,7 +523,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             } else {
                 NSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
                 let alert = UIAlertController(title: "error.title.phphotolibrary", message: "error.detail.phphotolibrary", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+                alert.addAction(UIAlertAction(title: NSLocalizedString("alert.ok_button", comment: "Default action"), style: .default, handler: { _ in
                     NSLog("[Capture Photo] Dialog has been dismissed")
                 }))
                 self.present(alert, animated: true, completion: nil)

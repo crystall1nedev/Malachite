@@ -28,7 +28,7 @@ struct MalachiteSettingsView: View {
     @State private var formatFooterText = "settings.footer.photo"
     /// A State variable used for determining whether or not to uncap the exposure slider.
     @State private var exposureUnlimiterSwitch = false
-    
+    @State var presentingModal = false
     /// A variable to hold the existing instance of ``MalachiteClassesObject``.
     var utilities = MalachiteClassesObject()
     /// A variable used to hold the function for dismissing with the toolbar item.
@@ -45,7 +45,10 @@ struct MalachiteSettingsView: View {
      - Toolbar item for dismissing the view.
      */
     var body: some View {
-        
+        MalachiteNagivationViewUtils() { guts }
+    }
+    
+    var guts: some View {
         Form {
             aboutSection
             previewSettingsSection
@@ -112,18 +115,19 @@ struct MalachiteSettingsView: View {
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
         }
-        .navigationTitle(LocalizedStringKey("view.title.settings"))
+        .navigationTitle("view.title.settings")
         .toolbar(content: {
             ToolbarItemGroup(placement: .topBarLeading) {
-                Button {
-                    self.dismissAction()
-                } label: {
-                    Text("Done")
-                }
                 NavigationLink(destination: MalachiteSettingsDetailView(dismissAction: dismissAction)) {
                     Image(systemName: "questionmark.circle")
                 }
-                    
+            }
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                Button {
+                    self.dismissAction()
+                } label: {
+                    Text("action.done_button")
+                }
             }
         })
     }
@@ -131,30 +135,30 @@ struct MalachiteSettingsView: View {
     /// A variable to hold the about section.
     var aboutSection: some View {
         Section {
-            MalachiteSettingsViewUtils(
+            MalachiteCellViewUtils(
                 icon: "info.circle",
-                title: "view.title.about",
+                title: nil,
                 subtitle: nil,
                 disabled: nil,
                 dangerous: false)
             {
-                NavigationLink("", destination: MalachiteAboutView(utilities: utilities, dismissAction: dismissAction))
-                    .frame(width: 10)
+                Button("view.title.about") { self.presentingModal = true }
+                    .sheet(isPresented: $presentingModal) { MalachiteAboutView(presentedAsModal: self.$presentingModal) }
             }
         }
     }
     
     /// A variable to hold the preview settings section.
     var previewSettingsSection: some View {
-        Section(header: Text(LocalizedStringKey("settings.header.preview")), footer: Text(LocalizedStringKey("settings.footer.preview"))) {
-            MalachiteSettingsViewUtils(
+        Section(header: Text("settings.header.preview"), footer: Text("settings.footer.preview")) {
+            MalachiteCellViewUtils(
                 icon: "aspectratio",
-                title: "settings.option.preview.aspect_ratio",
-                subtitle: "settings.option.preview.aspect_ratio.detail",
-                disabled: nil,
+                title: nil,
+                subtitle: "settings.detail.preview.aspect_ratio",
+                disabled: true,
                 dangerous: false)
             {
-                Picker("", selection: $previewAspect) {
+                Picker("settings.option.preview.aspect_ratio", selection: $previewAspect) {
                     Text("settings.option.preview.aspect_ratio.fit")
                         .tag(0)
                     Text("settings.option.preview.aspect_ratio.fill")
@@ -162,14 +166,14 @@ struct MalachiteSettingsView: View {
                 }
             }
             
-            MalachiteSettingsViewUtils(
+            MalachiteCellViewUtils(
                 icon: "circle.and.line.horizontal",
-                title: "settings.option.preview.sbtlz",
-                subtitle: "settings.option.preview.stblz.detail",
+                title: nil,
+                subtitle: "settings.detail.preview.sbtlz",
                 disabled: nil,
                 dangerous: false)
             {
-                Toggle("", isOn: $shouldStabilize)
+                Toggle("settings.option.preview.sbtlz", isOn: $shouldStabilize)
             }
         }
         .onChange(of: previewAspect) {_ in
@@ -191,15 +195,15 @@ struct MalachiteSettingsView: View {
     
     /// A variable to hold the photo settings section.
     var photoSettingsSection: some View {
-        Section(header: Text(LocalizedStringKey("settings.header.photo")), footer: Text(formatFooterText)) {
-            MalachiteSettingsViewUtils(
+        Section(header: Text("settings.header.photo"), footer: Text(formatFooterText)) {
+            MalachiteCellViewUtils(
                 icon: "square.and.arrow.down",
-                title: "settings.option.photo.file_format.olsrgijwerioghjeriogjerioger",
-                subtitle: "settings.option.photo.file_format.detail",
-                disabled: !supportsHEIC,
+                title: nil,
+                subtitle: "settings.detail.photo.file_format",
+                disabled: supportsHEIC,
                 dangerous: false)
             {
-                Picker("", selection: $photoFormat) {
+                Picker("settings.option.photo.file_format", selection: $photoFormat) {
                     Text("settings.option.photo.file_format.jpeg")
                         .tag(0)
                     Text("settings.option.photo.file_format.heif")
@@ -207,24 +211,24 @@ struct MalachiteSettingsView: View {
                 }
             }
             
-            MalachiteSettingsViewUtils(
+            MalachiteCellViewUtils(
                 icon: "camera.filters",
-                title: "settings.option.photo.hdr",
-                subtitle: "settings.option.photo.hdr.detail",
+                title: nil,
+                subtitle: "settings.detail.photo.hdr",
                 disabled: !supportsHDR,
                 dangerous: false)
             {
-                Toggle("", isOn: $hdrSwitch)
+                Toggle("settings.option.photo.hdr", isOn: $hdrSwitch)
             }
             
-            MalachiteSettingsViewUtils(
+            MalachiteCellViewUtils(
                 icon: "sun.max",
-                title: "settings.option.photo.max_exposure",
-                subtitle: "settings.option.photo.max_exposure.detail",
+                title: nil,
+                subtitle: "settings.detail.photo.max_exposure",
                 disabled: nil,
                 dangerous: false)
             {
-                Toggle("", isOn: $exposureUnlimiterSwitch)
+                Toggle("settings.option.photo.max_exposure", isOn: $exposureUnlimiterSwitch)
             }
         }
         .onChange(of: photoFormat) {_ in
@@ -246,24 +250,25 @@ struct MalachiteSettingsView: View {
     
     /// A variable to hold the watermark settings section.
     var watermarkSettingsSection: some View {
-        Section(header: Text(LocalizedStringKey("settings.header.watermark")), footer: Text(LocalizedStringKey("settings.footer.watermark"))) {
-            MalachiteSettingsViewUtils(
+        Section(header: Text("settings.header.watermark"), footer: Text("settings.footer.watermark")) {
+            MalachiteCellViewUtils(
                 icon: "textformat",
-                title: "settings.option.watermark.enable",
-                subtitle: "settings.option.watermark.enable.detail",
+                title: nil,
+                subtitle: "settings.detail.watermark.enable",
                 disabled: nil,
                 dangerous: false)
             {
-                Toggle("", isOn: $watermarkSwitch)
+                Toggle("settings.option.watermark.enable", isOn: $watermarkSwitch)
             }
             
-            MalachiteSettingsViewUtils(
+            MalachiteCellViewUtils(
                 icon: "signature",
-                title: "settings.option.watermark.text",
-                subtitle: "settings.option.watermark.text.detail",
+                title: nil,
+                subtitle: "settings.detail.watermark.text",
                 disabled: nil,
                 dangerous: false)
             {
+                Text("settings.option.watermark.text")
                 TextField("settings.option.watermark.text.placeholder", text: $watermarkText)
                     .multilineTextAlignment(.trailing)
                     .autocorrectionDisabled()
@@ -285,112 +290,46 @@ struct MalachiteSettingsView: View {
     
     /// A variable to hold the debug settings section. Only available with debug builds.
     var debugSettingsSection: some View {
-        Section(header: Text(LocalizedStringKey("settings.header.debug")), footer: Text(LocalizedStringKey("settings.footer.debug"))) {
-            MalachiteSettingsViewUtils(
+        Section(header: Text("settings.header.debug"), footer: Text("settings.footer.debug")) {
+            MalachiteCellViewUtils(
                 icon: "trash",
-                title: "settings.option.debug.erase_userdefaults",
-                subtitle: nil,
+                title: nil,
+                subtitle: "settings.detail.debug.erase_userdefaults",
                 disabled: nil,
                 dangerous: true)
             {
                 Button {
                     NSLog("[Preferences] Resetting all preferences, relaunch the app to complete!")
                     utilities.settings.resetAllSettings()
-                } label: {}
+                } label: {
+                    if #available(iOS 17.0, *) {
+                        Text("settings.option.debug.erase_userdefaults")
+                            .foregroundStyle(.red)
+                    } else {
+                        Text("settings.option.debug.erase_userdefaults")
+                            .foregroundColor(.red)
+                    }
+                }
             }
             
-            MalachiteSettingsViewUtils(
+            MalachiteCellViewUtils(
                 icon: "trash",
-                title: "settings.option.debug.erase_gamekit",
-                subtitle: nil,
+                title: nil,
+                subtitle: "settings.detail.debug.erase_gamekit",
                 disabled: nil,
                 dangerous: true)
             {
                 Button {
                     NSLog("[Preferences] Resetting all GameKit data!")
                     utilities.games.achievements.resetAchievements()
-                } label: {}
-            }
-        }
-    }
-}
-
-/// Create an iOS 17 and macOS-like subtitle field for the text passed, and format it with the actions on the right.
-struct MalachiteSettingsViewUtils<Content : View>: View {
-    var icon: String
-    var title: String
-    var subtitle: String
-    var disabled: Bool
-    var dangerous: Bool
-    let content: Content?
-    
-    init(
-        icon: String,
-        title: String,
-        subtitle: String?,
-        disabled: Bool?,
-        dangerous: Bool,
-        @ViewBuilder content: () -> Content?
-    ) {
-        self.icon = icon
-        self.title = title
-        self.subtitle = subtitle ?? ""
-        self.disabled = disabled ?? false
-        self.dangerous = dangerous
-        self.content = content() ?? nil
-    }
-    
-    var body: some View {
-        HStack(spacing: 0) {
-            if dangerous {
-                if #available(iOS 15.0, *) {
-                    Image(systemName: icon)
-                        .frame(maxWidth: 30)
-                        .foregroundStyle(.red)
-                        .symbolRenderingMode(.hierarchical)
-                } else {
-                    Image(systemName: icon)
-                        .frame(maxWidth: 30)
-                        .foregroundColor(.red)
-                }
-            } else {
-                if #available(iOS 15.0, *) {
-                    Image(systemName: icon)
-                        .frame(maxWidth: 30)
-                        .foregroundStyle(Color.accentColor)
-                        .symbolRenderingMode(.hierarchical)
-                } else {
-                    Image(systemName: icon)
-                        .frame(maxWidth: 30)
-                        .foregroundColor(Color.accentColor)
-                }
-            }
-            VStack {
-                HStack {
-                    if dangerous {
-                        if #available(iOS 17.0, *) {
-                            Text(LocalizedStringKey(title))
-                                .foregroundStyle(.red)
-                        } else {
-                            Text(LocalizedStringKey(title))
-                                .foregroundColor(.red)
-                        }
+                } label: {
+                    if #available(iOS 17.0, *) {
+                        Text("settings.option.debug.erase_gamekit")
+                            .foregroundStyle(.red)
                     } else {
-                        Text(LocalizedStringKey(title))
+                        Text("settings.option.debug.erase_gamekit")
+                            .foregroundColor(.red)
                     }
-                    Spacer()
-                }
-            }
-            Spacer()
-            Divider()
-            if content != nil {
-                GeometryReader { geometry in
-                    VStack(spacing: 0) {
-                        content
-                            .disabled(disabled)
-                    }
-                    .fixedSize(horizontal: true, vertical: false)
-                    .fixedSize()
                 }
             }
         }

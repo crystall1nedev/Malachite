@@ -25,14 +25,19 @@ public class MalachiteClassesObject : NSObject {
     public let games     = MalachiteGameUtils()
     
     /// A variable that denotes the major version of Malachite.
-    public let versionMajor = "1"
+    public let versionMajor    = "1"
     /// A variable that denotes the minor version of Malachite.
-    public let versionMinor = "0"
+    public let versionMinor    = "0"
     /// A variable that denotes the bugfix version of Malachite.
-    public let versionFixer = "0"
-    /// A variable that denotes whether or not the copy of Malachite is in beta.
-    public let versionBeta  = true
+    public let versionFixer    = "0"
+    /// A variable that can be used to pull the git commit hash from the Info.plist
+    public let versionHash     = Bundle.main.object(forInfoDictionaryKey: "CFBuildHash") as? String ?? "undefined"
+    /// A variable that can be used to pull the build time from the Info.plist
+    public let versionDate     = Bundle.main.object(forInfoDictionaryKey: "CFBuildDate") as? String ?? "undefined"
+    /// A variable that can be used to identify the variant of the build from the Info.plist
+    public let versionType     = Bundle.main.object(forInfoDictionaryKey: "CFBuildType") as? String ?? "undefined"
     
     /// A variable that determines the type of device Malachite is running on.
     public let idiom     = UIDevice.current.userInterfaceIdiom
+    
 }

@@ -38,7 +38,7 @@ struct MalachiteSettingsDetailView: View {
     var aboutSection: some View {
         Section {
             HStack {
-                Text("About Malachite")
+                Text("view.title.about")
                     .bold()
             }
         }
@@ -46,34 +46,34 @@ struct MalachiteSettingsDetailView: View {
     
     /// A variable to hold the preview settings section.
     var previewSettingsSection: some View {
-        Section(header: Text("Preview settings"), footer: Text("Use Fit if you wish to see your entire viewport. Use Fill if you want a more immersive and honed-in experience.")) {
-            Text("Aspect ratio")
-            Text("Enable preview stabilization")
+        Section(header: Text("settings.header.preview"), footer: Text("settings.footer.preview")) {
+            Text("settings.option.preview.aspect_ratio")
+            Text("settings.option.preview.sbtlz")
         }
     }
     
     /// A variable to hold the photo settings section.
     var photoSettingsSection: some View {
-        Section(header: Text("Photo settings"), footer: Text("format.footer")) {
-            Text("Image file format")
-            Text("Enable HDR")
-            Text("Enable maximum exposure")
+        Section(header: Text("settings.header.photo")) {
+            Text("settings.option.photo.file_format")
+            Text("settings.option.photo.hdr")
+            Text("settings.option.photo.max_exposure")
         }
     }
     
     /// A variable to hold the watermark settings section.
     var watermarkSettingsSection: some View {
-        Section(header: Text("Watermark settings"), footer: Text("A fun little feature, you can enable a watermark on your images when you take them.")) {
-            Text("Enable watermark")
-            Text("Watermark text")
+        Section(header: Text("settings.header.watermark")) {
+            Text("settings.option.watermark.enable")
+            Text("settings.option.watermark.text")
         }
     }
     
     /// A variable to hold the debug settings section. Only available with debug builds.
     var debugSettingsSection: some View {
-        Section(header: Text("Debug settings"), footer: Text("Only available in debug builds, these settings are used to debug various parts of Malachite.")) {
-            Text("Reset all settings")
-            Text("Reset Game Center achievements")
+        Section(header: Text("settings.header.debug")) {
+            Text("settings.option.debug.erase_userdefaults")
+            Text("settings.option.debug.erase_gamekit")
         }
     }
 }
