@@ -24,6 +24,8 @@ struct MalachiteSettingsView: View {
     @State private var supportsHDR = Bool()
     /// A State variable used for determining whether or not the device supports HEIC capture.
     @State private var supportsHEIC = Bool()
+    /// TEMPORARY: A State variable used for determining whether or not the device is on iOS 18.
+    @State private var supportsiOS18 = Bool()
     /// A State variable used for presenting the user with a footer based on capabilities.
     @State private var formatFooterText = "settings.footer.photo"
     /// A State variable used for determining whether or not to uncap the exposure slider.
@@ -85,6 +87,12 @@ struct MalachiteSettingsView: View {
                 previewAspect = 0
             } else {
                 previewAspect = 1
+            }
+            
+            if #available(iOS 18.0, *) {
+                supportsiOS18 = true
+            } else {
+                supportsiOS18 = false
             }
         }
         .onDisappear() {
@@ -215,7 +223,7 @@ struct MalachiteSettingsView: View {
                 icon: "camera.filters",
                 title: nil,
                 subtitle: "settings.detail.photo.hdr",
-                disabled: !supportsHDR,
+                disabled: !supportsHDR || supportsiOS18,
                 dangerous: false)
             {
                 Toggle("settings.option.photo.hdr", isOn: $hdrSwitch)

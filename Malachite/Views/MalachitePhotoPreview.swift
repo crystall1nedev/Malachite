@@ -205,8 +205,10 @@ class MalachitePhotoPreview : UIViewController {
         let watermarkImage = CIImage(image: self.watermark())
         let outputImage = watermarkImage!.composited(over: rawImage)
         
-        if enableHDR {
-            gainMapImage = returnGainMap(properties: &imageProperties)
+        if #available(iOS 18.0, *) { } else {
+            if enableHDR {
+                gainMapImage = returnGainMap(properties: &imageProperties)
+            }
         }
         
         for prop in imageProperties {
