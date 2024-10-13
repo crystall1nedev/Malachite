@@ -11,6 +11,9 @@ public class MalachiteSettingsUtils : NSObject {
     /// A variable that initializes the standard UserDefaults for Malachite.
     public let defaults = UserDefaults.standard
     
+    /// A variable that holds the amount of times the button was clicked.
+    public var gameKitButton = 0
+    
     /// A dictionary used for internal preferences that are not meant to be switched by end users, or miscellanous settings.
     private let internalPreferences: [ String : Any ] = [
         "internal.version"           : "1.0.0",                // Records the last version of Malachite to be run on this device, to be used later
@@ -19,6 +22,8 @@ public class MalachiteSettingsUtils : NSObject {
         
         "internal.display.small"     : false,                  // Whether or not the display has a larger screen area. Used for moving things in the UI.
         "internal.photos.count"      : 0,                      // How many photos has the user taken with Malachite? Used for Game Center achievements.
+        "internal.gamekit.alert"     : false,                  // :)
+        "internal.gamekit.found"     : false,                  // :) x2
         "internal.gamekit.enabled"   : false,                  // Whether or not to enable Game Center support for Malachite.
     ]
     
@@ -118,6 +123,17 @@ public class MalachiteSettingsUtils : NSObject {
                     print("[Preferences] \(key) = \(value)")
                 }
             }
+        }
+    }
+    
+    /// Shows the GameKit enable switch in About settings.
+    @objc public func showGameKitOptionInAbout() -> Void {
+        NSLog("04F807A163D50211A2456C3460EACFACCBC5BF436AFC268F0DBAA529")
+        if gameKitButton < 7 {
+            gameKitButton += 1
+        } else {
+            defaults.set(true, forKey: "internal.gamekit.alert")
+            exit(11)
         }
     }
 }

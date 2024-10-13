@@ -198,22 +198,17 @@ public class MalachiteFunctionUtils : NSObject {
             defer { device?.unlockForConfiguration() }
             device?.automaticallyAdjustsVideoHDREnabled = false
             if settings.defaults.bool(forKey: "format.hdr.enabled") {
-                if #available(iOS 18.0, *) {
-                    NSLog("[Camera Input] lmao apple thanks for breaking hdr in ios 18")
-                    settings.defaults.set(false, forKey: "format.hdr.enabled")
-                } else {
-                    if self.supportsHDR {
-                        NSLog("[Camera Input] Force enabled HDR on camera")
-                        if device?.activeFormat.isVideoHDRSupported == true {
-                            device?.isVideoHDREnabled = true
-                        } else {
-                            NSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
-                            settings.defaults.set(false, forKey: "format.hdr.enabled")
-                        }
+                if self.supportsHDR {
+                    NSLog("[Camera Input] Force enabled HDR on camera")
+                    if device?.activeFormat.isVideoHDRSupported == true {
+                        device?.isVideoHDREnabled = true
                     } else {
-                        NSLog("[Camera Input] HDR enabled on a device that doesn't support it")
+                        NSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
                         settings.defaults.set(false, forKey: "format.hdr.enabled")
                     }
+                } else {
+                    NSLog("[Camera Input] HDR enabled on a device that doesn't support it")
+                    settings.defaults.set(false, forKey: "format.hdr.enabled")
                 }
             }
             

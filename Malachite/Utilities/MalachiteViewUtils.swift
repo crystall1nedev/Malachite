@@ -310,3 +310,10 @@ struct MalachiteNagivationViewUtils<Content : View>: View {
         }
     }
 }
+
+/// Needed for the alerts to properly display their localized strings
+extension String {
+    var localized: String {
+        return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: "")
+    }
+}

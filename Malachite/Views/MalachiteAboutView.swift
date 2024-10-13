@@ -56,7 +56,9 @@ struct MalachiteAboutView: View {
             aboutSection
             storySection
             creditsSection
-            gamekitSection
+            if utilities.settings.defaults.bool(forKey: "internal.gamekit.found") {
+                gamekitSection
+            }
             
         }
         .onAppear() {
@@ -105,11 +107,15 @@ struct MalachiteAboutView: View {
                     }
                 }
                 Spacer()
-                Image("icon")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 80, alignment: .trailing)
-                    .clipShape(RoundedRectangle(cornerRadius: 17))
+                Button {
+                    utilities.settings.showGameKitOptionInAbout()
+                } label: {
+                    Image("icon")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: 80, alignment: .trailing)
+                        .clipShape(RoundedRectangle(cornerRadius: 17))
+                }
             }
             Text("about.description")
             Text("about.author_note")
@@ -191,7 +197,7 @@ struct MalachiteAboutView: View {
     var gamekitSection : some View {
         Section(header: Text("about.header.special")) {
             MalachiteCellViewUtils(
-                icon: "trash",
+                icon: "gamecontroller",
                 title: "about.option.gamekit",
                 subtitle: "about.detail.gamekit",
                 disabled: nil,

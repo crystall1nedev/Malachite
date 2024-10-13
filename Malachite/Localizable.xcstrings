@@ -27,10 +27,79 @@
       "shouldTranslate" : false
     },
     "about.author_note" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Designed by Eva Luna with ❤️ since 2023."
+          }
+        }
+      }
+    },
+    "about.credits.apple" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stealing $99 from me 😭"
+          }
+        }
+      }
+    },
+    "about.credits.asentientbot" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Great tester, greater tester 🟢"
+          }
+        }
+      }
+    },
+    "about.credits.crystall1nedev" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clueless lead developer 🤪"
+          }
+        }
+      }
+    },
+    "about.credits.discord" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These people use it? 😳"
+          }
+        }
+      }
+    },
+    "about.credits.thatstella7922" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My cherished love 💕"
+          }
+        }
+      }
     },
     "about.description" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bringing macro camera control back to you."
+          }
+        }
+      }
     },
     "about.header.credits" : {
       "localizations" : {
@@ -62,8 +131,26 @@
         }
       }
     },
+    "about.option.gamekit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take the offer…"
+          }
+        }
+      }
+    },
     "about.story" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Malachite started as an app to help my love work on printed circuit boards with better clarity and manual controls that the stock iOS camera app can't provide, and it grew once my Discord community stood by, actually using it and suggesting new features. It's the first real test of my skills in Swift, and leading my own public project, and my goal is to now provide a free, all-inclusive experience to amazing macro photography - powered by your iPhone, iPad, or iPod touch."
+          }
+        }
+      }
     },
     "action.done_button" : {
       "localizations" : {
@@ -75,13 +162,68 @@
         }
       }
     },
-    "alert.ok_button" : {
+    "alert.button.ignore" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ignore"
+          }
+        }
+      }
+    },
+    "alert.button.ok" : {
       "comment" : "Default action",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
+          }
+        }
+      }
+    },
+    "alert.button.reopen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reopen"
+          }
+        }
+      }
+    },
+    "alert.button.report" : {
+      "comment" : "Default action",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report…"
+          }
+        }
+      }
+    },
+    "alert.detail.gamekit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click Reopen to open the application again. Click Report to see more detailed information and send a report to Apple."
+          }
+        }
+      }
+    },
+    "alert.title.gamekit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Malachite quit unexpectedly."
           }
         }
       }
@@ -95,6 +237,44 @@
           }
         }
       }
+    },
+    "error.camera_switching.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to switch cameras"
+          }
+        }
+      }
+    },
+    "settings.detail.debug.erase_gamekit" : {
+
+    },
+    "settings.detail.debug.erase_userdefaults" : {
+
+    },
+    "settings.detail.photo.file_format" : {
+
+    },
+    "settings.detail.photo.hdr" : {
+
+    },
+    "settings.detail.photo.max_exposure" : {
+
+    },
+    "settings.detail.preview.aspect_ratio" : {
+
+    },
+    "settings.detail.preview.sbtlz" : {
+
+    },
+    "settings.detail.watermark.enable" : {
+
+    },
+    "settings.detail.watermark.text" : {
+
     },
     "settings.footer.debug" : {
       "localizations" : {
@@ -355,6 +535,9 @@
           }
         }
       }
+    },
+    "view.detail.about" : {
+
     },
     "view.title.about" : {
       "localizations" : {

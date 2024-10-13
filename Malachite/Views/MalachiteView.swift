@@ -230,14 +230,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.view.backgroundColor = .black
         
 #if targetEnvironment(simulator)
-        let lmaoView = UIImageView(image: utilities.views.returnImageForSimulator())
-        lmaoView.frame = self.view.frame
-        self.view.addSubview(lmaoView)
-        
-        NSLayoutConstraint.activate([
-            lmaoView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            lmaoView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        setupLmaoView()
 #endif
         
         cameraButton = utilities.views.returnProperButton(symbolName: "camera", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
@@ -310,6 +303,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             cameraButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
             cameraButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             
+            settingsButton.widthAnchor.constraint(equalToConstant: 60),
+            settingsButton.heightAnchor.constraint(equalToConstant: 60),
+            settingsButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
+            settingsButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            
             flashlightButton.widthAnchor.constraint(equalToConstant: 60),
             flashlightButton.heightAnchor.constraint(equalToConstant: 60),
             flashlightButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
@@ -359,11 +357,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             exposureLockButton.heightAnchor.constraint(equalToConstant: 60),
             exposureLockButton.topAnchor.constraint(equalTo: exposureButton.topAnchor, constant: lockButtonsY),
             exposureLockButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: lockButtonsX),
-            
-            settingsButton.widthAnchor.constraint(equalToConstant: 60),
-            settingsButton.heightAnchor.constraint(equalToConstant: 60),
-            settingsButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
-            settingsButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
         ])
         
         utilities.tooltips.tooltipFlow(viewForBounds: self.view)
@@ -371,6 +364,41 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         //GKAccessPoint.shared.location = .topLeading
         //GKAccessPoint.shared.showHighlights = true
         //GKAccessPoint.shared.isActive = true
+        
+        setupGameKitAlert()
+    }
+    
+    func setupGameKitAlert() {
+        if utilities.settings.defaults.bool(forKey: "internal.gamekit.alert") {
+            let alert = UIAlertController(title: "alert.title.gamekit".localized, message: "alert.detail.gamekit".localized, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.reopen", comment: "Default action"), style: .default, handler: { _ in
+                exit(11)
+            }))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.report", comment: "Default action"), style: .default, handler: { _ in
+                guard let url = URL(string: "https://www.youtube.com/watch?v=At8v_Yc044Y") else {
+                  return
+                }
+                
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ignore", comment: "Default action"), style: .default, handler: { _ in
+                self.utilities.settings.defaults.set(false, forKey: "internal.gamekit.alert")
+                self.setupLmaoView()
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func setupLmaoView() {
+        let lmaoView = UIImageView(image: utilities.views.returnImageForSimulator())
+        self.view.addSubview(lmaoView)
+        
+        NSLayoutConstraint.activate([
+            lmaoView.widthAnchor.constraint(equalToConstant: 60),
+            lmaoView.heightAnchor.constraint(equalToConstant: 60),
+            lmaoView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
+            lmaoView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+        ])
     }
     
     /// Function to check and ask for permissions to use the camera.
@@ -467,8 +495,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     @objc func runInputSwitch() {
         if ultraWideDevice == nil && !initRun {
             NSLog("[Camera Input] AVCaptureDevice for builtInUltraWideCamera unavailable, showing error")
-            let alert = UIAlertController(title: "error.camera_switching.title", message: "error.camera_switching.message", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.ok_button", comment: "Default action"), style: .default, handler: { _ in
+            let alert = UIAlertController(title: "error.camera_switching.title".localized, message: "error.camera_switching.message".localized, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "alert.button.ok".localized, style: .default, handler: { _ in
                 NSLog("[Camera Input] Dialog has been dismissed")
             }))
             self.present(alert, animated: true, completion: nil)
@@ -523,7 +551,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             } else {
                 NSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
                 let alert = UIAlertController(title: "error.title.phphotolibrary", message: "error.detail.phphotolibrary", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("alert.ok_button", comment: "Default action"), style: .default, handler: { _ in
+                alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
                     NSLog("[Capture Photo] Dialog has been dismissed")
                 }))
                 self.present(alert, animated: true, completion: nil)
