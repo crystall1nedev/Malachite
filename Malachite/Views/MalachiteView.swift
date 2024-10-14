@@ -105,20 +105,27 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         super.viewDidLoad()
         self.view.backgroundColor = .clear
         
-        utilities.function.settings = utilities.settings
-        
         NSLog("[Initialization] Starting up Malachite")
+        
+        if utilities.versionType == "INTERNAL" {
+            utilities.internalNSLog("[Initialization] Running an INTERNAL build, logging will be force enabled")
+        } else if utilities.versionType == "DEBUG" {
+            utilities.debugNSLog("[Initialization] Running a DEBUG build, logging will be force enabled")
+        } else if utilities.versionType == "RELEASE" {
+            utilities.NSLog("[Initialization] Running a RELEASE build")
+        }
+        
 #if !targetEnvironment(simulator)
         cameraPreview?.frame.size = self.view.frame.size
-        NSLog("[Initialization] Bringing up AVCaptureSession")
+        utilities.debugNSLog("[Initialization] Bringing up AVCaptureSession")
         cameraSession = AVCaptureSession()
         
-        NSLog("[Initialization] Bringing up AVCaptureDeviceInput")
-        NSLog("[Camera Input] Still initializing, getting compatible devices")
+        utilities.debugNSLog("[Initialization] Bringing up AVCaptureDeviceInput")
+        utilities.debugNSLog("[Camera Input] Still initializing, getting compatible devices")
         ultraWideDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: AVMediaType.video, position: .back)
-        NSLog("[Camera Input] Check for builtInUltraWideCamera completed")
+        utilities.debugNSLog("[Camera Input] Check for builtInUltraWideCamera completed")
         wideAngleDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back)!
-        NSLog("[Camera Input] Check for builtInWideAngleCamera completed")
+        utilities.debugNSLog("[Camera Input] Check for builtInWideAngleCamera completed")
         runInputSwitch()
         
         let photoOutput = AVCapturePhotoOutput()
@@ -128,7 +135,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         cameraSession?.addOutput(photoOutput)
         self.photoOutput = photoOutput
         
-        NSLog("[Initialization] Bringing up AVCaptureVideoPreviewLayer")
+        utilities.debugNSLog("[Initialization] Bringing up AVCaptureVideoPreviewLayer")
         cameraPreview = AVCaptureVideoPreviewLayer(session: cameraSession!)
         
         let statusBarOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
@@ -147,15 +154,15 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         cameraView.layer.addSublayer(cameraPreview!)
         self.view.addSubview(cameraView)
         
-        NSLog("[Initialization] Starting session stream")
+        utilities.debugNSLog("[Initialization] Starting session stream")
         DispatchQueue.global(qos: .background).async {
             self.cameraSession?.startRunning()
         }
 #else
-        NSLog("[Initialization] Detected iOS simulator, skipping to user interface bringup")
+        utilities.debugNSLog("[Initialization] Detected iOS simulator, skipping to user interface bringup")
 #endif
         
-        NSLog("[Initialization] Setting up notification observer for orientation changes")
+        utilities.debugNSLog("[Initialization] Setting up notification observer for orientation changes")
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeAspectFill), name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeExposureLimit), name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
@@ -180,7 +187,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        NSLog("[Initialization] Presenting user interface")
+        utilities.debugNSLog("[Initialization] Presenting user interface")
         setupView()
         self.changeGameCenterEnabled()
     }
@@ -289,7 +296,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         var lockButtonsY = 0.0
         
         if self.view.frame.size.width >= 370 {
-            NSLog("[Initialization] Device screen is capable of displaying lock button inline")
+            utilities.debugNSLog("[Initialization] Device screen is capable of displaying lock button inline")
             lockButtonsX = -300.0
         } else {
             // TODO: Make lock buttons not clip into other bars!
@@ -406,20 +413,20 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         let cameraAuthStatus =  AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
         switch cameraAuthStatus {
         case .authorized:
-            NSLog("[Permissions] User has given permission to use the camera")
+            utilities.debugNSLog("[Permissions] User has given permission to use the camera")
             return
         case .denied:
-            NSLog("[Permissions] User has denied permission to use the camera")
+            utilities.debugNSLog("[Permissions] User has denied permission to use the camera")
             abort()
         case .notDetermined:
-            NSLog("[Permissions] Unknown authorization state, requesting access")
+            utilities.debugNSLog("[Permissions] Unknown authorization state, requesting access")
             AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler:
                                             { (authorized) in if(!authorized){ abort() } })
         case .restricted:
-            NSLog("[Permissions] User cannot give camera access due to restrictions")
+            utilities.debugNSLog("[Permissions] User cannot give camera access due to restrictions")
             abort()
         @unknown default:
-            NSLog("[Permissions] the what")
+            utilities.debugNSLog("[Permissions] the what")
             fatalError()
         }
     }
@@ -442,7 +449,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             defer { selectedDevice?.unlockForConfiguration() }
             selectedDevice?.exposureMode = .continuousAutoExposure
         } catch {
-            NSLog("[Change Exposure Limit] Couldn't lock device for configuration")
+            utilities.debugNSLog("[Change Exposure Limit] Couldn't lock device for configuration")
         }
         
         UIView.animate(withDuration: 0.5) {
@@ -455,14 +462,14 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         if utilities.settings.defaults.bool(forKey: "capture.stblz.enabled") {
             if #available(iOS 17.0, *) {
                 if ((selectedDevice?.activeFormat.isVideoStabilizationModeSupported(.previewOptimized)) != nil) {
-                    NSLog("[Preview Stabilization] Enabling enhanced stabilization mode")
+                    utilities.debugNSLog("[Preview Stabilization] Enabling enhanced stabilization mode")
                     cameraPreview?.connection!.preferredVideoStabilizationMode = .previewOptimized
                     return
                 }
             }
             
             if ((selectedDevice?.activeFormat.isVideoStabilizationModeSupported(.standard)) != nil) {
-                NSLog("[Preview Stabilization] Enabling standard stabilization mode")
+                utilities.debugNSLog("[Preview Stabilization] Enabling standard stabilization mode")
                 cameraPreview?.connection!.preferredVideoStabilizationMode = .standard
             }
         } else {
@@ -494,10 +501,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to switch cameras and attach new inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.
     @objc func runInputSwitch() {
         if ultraWideDevice == nil && !initRun {
-            NSLog("[Camera Input] AVCaptureDevice for builtInUltraWideCamera unavailable, showing error")
-            let alert = UIAlertController(title: "error.camera_switching.title".localized, message: "error.camera_switching.message".localized, preferredStyle: .alert)
+            utilities.debugNSLog("[Camera Input] AVCaptureDevice for builtInUltraWideCamera unavailable, showing error")
+            let alert = UIAlertController(title: "alert.title.camera_switch".localized, message: "alert.detail.camera_switch".localized, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "alert.button.ok".localized, style: .default, handler: { _ in
-                NSLog("[Camera Input] Dialog has been dismissed")
+                self.utilities.debugNSLog("[Camera Input] Dialog has been dismissed")
             }))
             self.present(alert, animated: true, completion: nil)
             return
@@ -549,10 +556,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             if libraryAccessGranted {
                 self.photoOutput = utilities.function.captureImage(output: self.photoOutput!, viewForBounds: self.view, captureDelegate: self)
             } else {
-                NSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
+                utilities.debugNSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
                 let alert = UIAlertController(title: "error.title.phphotolibrary", message: "error.detail.phphotolibrary", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
-                    NSLog("[Capture Photo] Dialog has been dismissed")
+                    self.utilities.debugNSLog("[Capture Photo] Dialog has been dismissed")
                 }))
                 self.present(alert, animated: true, completion: nil)
             }

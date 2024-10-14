@@ -97,13 +97,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		785F08462B12D41100244EB4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		78917F562B99AE72005E10FA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -220,10 +213,9 @@
 			buildConfigurationList = 785F085D2B12D41300244EB4 /* Build configuration list for PBXNativeTarget "Malachite" */;
 			buildPhases = (
 				785F08452B12D41100244EB4 /* Sources */,
-				785F08462B12D41100244EB4 /* Frameworks */,
 				785F08472B12D41100244EB4 /* Resources */,
 				78917F6A2B99AE73005E10FA /* Embed Foundation Extensions */,
-				78329B0F2C22699A006D326F /* Embed build information */,
+				78329B0F2C22699A006D326F /* Embed build information  */,
 			);
 			buildRules = (
 			);
@@ -314,7 +306,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		78329B0F2C22699A006D326F /* Embed build information */ = {
+		78329B0F2C22699A006D326F /* Embed build information  */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -325,14 +317,14 @@
 			inputPaths = (
 				"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}",
 			);
-			name = "Embed build information";
+			name = "Embed build information ";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "PATH=/opt/homebrew/bin:/usr/local/bin:$PATH\nPLISTBUDDY=\"/usr/libexec/PlistBuddy\"\nINFOPLIST=\"${TARGET_BUILD_DIR}/${EXECUTABLE_NAME}.app/Info.plist\"\n\nCFBUILDHASH=$(git --git-dir=\"${PROJECT_DIR}/.git\" --work-tree=\"${PROJECT_DIR}\" rev-parse --short HEAD)\nCFBUILDDATE=$(date +'%Y-%m-%d-%H.%M.%S')\n\nif [[ -z $(command -v gpg) ]]; then\n    CFBUILDTYPE=debug\nelse\n    if [[ -z $(gpg --list-secret-keys | grep 4A5B8C2A065654E24DE50FF03716ACDC524F1879) ]]; then \n        CFBUILDTYPE=debug\n    else\n        CFBUILDTYPE=internal\n    fi\nfi\n\necho \"\"\necho \"CFBUILDHASH = ${CFBUILDHASH}\"\necho \"CFBUILDDATE = ${CFBUILDDATE}\"\necho \"CFBUILDTYPE = ${CFBUILDTYPE}\"\necho \"INFOPLIST = ${INFOPLIST}\"\n\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHash' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHash string\" \"${INFOPLIST}\"; fi\n\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildDate' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildDate string\" \"${INFOPLIST}\"; fi\n\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildType' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildType string\" \"${INFOPLIST}\"; fi\n\nif [ -z \"$CFBUILDHASH\" ]; then CFBUILDHASH=undefined; fi\nif [ -z \"$CFBUILDTYPE\" ]; then CFBUILDTYPE=debug; fi\n\n$PLISTBUDDY -c \"Set :CFBuildHash $CFBUILDHASH\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildDate $CFBUILDDATE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"\n";
+			shellScript = "eval \"${GCC_PREPROCESSOR_DEFINITIONS}\"\n\nPATH=/opt/homebrew/bin:/usr/local/bin:$PATH\nPLISTBUDDY=\"/usr/libexec/PlistBuddy\"\nINFOPLIST=\"${TARGET_BUILD_DIR}/${EXECUTABLE_NAME}.app/Info.plist\"\n\n# If there is no git repo to pull this info from, this is set to undefined later.\nCFBUILDHASH=$(git --git-dir=\"${PROJECT_DIR}/.git\" --work-tree=\"${PROJECT_DIR}\" rev-parse --short HEAD)\nCFBUILDDATE=$(date +'%Y-%m-%d-%H.%M.%S')\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" ]]; then\n    # If the build is not INTERNAL, these are set to redacted later.\n    CFBUILDUSER=$(whoami)\n    CFBUILDHOST=$(hostname)\nfi\n\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(gpg --list-secret-keys | grep 4A5B8C2A065654E24DE50FF03716ACDC524F1879) ]]; then\n    echo \"Error: INTERNAL build type detected but Eva's GPG key was not found.\"\n    echo \"Error: See 'Embed build information' in Build Phases for a solution\"\n    # Be aware that I use the INTERNAL target to gate off any unstable/unready features. By removing this line, \n    # you are acknowledging that you will not receive support for any issues encountered with Malachite until you \n    # are running DEBUG or RELEASE. If you just want a DEBUG build, change the Build Configuration to Debug in \n    # Product > Scheme > Edit Scheme...\n    exit 1\nfi\n\n# Print all of the variables in the build log. Useful for debugging\necho \"\"\necho \"CFBUILDHASH = ${CFBUILDHASH}\"\necho \"CFBUILDDATE = ${CFBUILDDATE}\"\necho \"CFBUILDTYPE = ${CFBUILDTYPE}\"\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" ]]; then\n    echo \"CFBUILDUSER = ${CFBUILDUSER}\"\n    echo \"CFBUILDHOST = ${CFBUILDHOST}\"\nfi\necho \"INFOPLIST = ${INFOPLIST}\"\n\n# Make sure the key is present in the plist before trying to set it.\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHash' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHash string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildDate' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildDate string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildType' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildType string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildUser' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildUser string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHost' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHost string\" \"${INFOPLIST}\"; fi\n\n# Fallback values, either to fill in the gaps or prevent app crashes\nif [ -z \"$CFBUILDHASH\" ]; then CFBUILDHASH=undefined; fi\nif [ -z \"$CFBUILDTYPE\" ]; then CFBUILDTYPE=debug; fi\nif [ -z \"$CFBUILDUSER\" ]; then CFBUILDUSER=redacted; fi\nif [ -z \"$CFBUILDHOST\" ]; then CFBUILDHOST=redacted; fi\n\n# Set the values in the Info.plist\n$PLISTBUDDY -c \"Set :CFBuildHash $CFBUILDHASH\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildDate $CFBUILDDATE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -523,6 +515,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FBT742498U;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"CFBUILDTYPE=DEBUG",
+					"$(inherited)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Malachite/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Malachite;
@@ -551,6 +547,8 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Malachite-Swift.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -569,6 +567,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FBT742498U;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "CFBUILDTYPE=RELEASE";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Malachite/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Malachite;
@@ -597,6 +596,8 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Malachite-Swift.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -669,6 +670,156 @@
 			};
 			name = Release;
 		};
+		78F9DA642CBCDDB900A99638 /* Internal */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Internal;
+		};
+		78F9DA652CBCDDB900A99638 /* Internal */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "asb_approved thatsinceguy";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Malachite/Malachite.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FBT742498U;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"CFBUILDTYPE=INTERNAL",
+					"$(inherited)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Malachite/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Malachite;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Malachite uses write access to your library in order to save photos.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.crystall1ne.Malachite;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Malachite-Swift.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Internal;
+		};
+		78F9DA662CBCDDB900A99638 /* Internal */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FBT742498U;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LockScreenWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LockScreenWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.crystall1ne.Malachite.LockScreenWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Internal;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -676,6 +827,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				785F085B2B12D41300244EB4 /* Debug */,
+				78F9DA642CBCDDB900A99638 /* Internal */,
 				785F085C2B12D41300244EB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -685,6 +837,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				785F085E2B12D41300244EB4 /* Debug */,
+				78F9DA652CBCDDB900A99638 /* Internal */,
 				785F085F2B12D41300244EB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -694,6 +847,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				78917F6B2B99AE73005E10FA /* Debug */,
+				78F9DA662CBCDDB900A99638 /* Internal */,
 				78917F6C2B99AE73005E10FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

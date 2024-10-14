@@ -206,6 +206,17 @@
         }
       }
     },
+    "alert.detail.camera_switch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera switching is only supported on devices with ultra-wide cameras. Telephoto camera support is planned for a future release."
+          }
+        }
+      }
+    },
     "alert.detail.gamekit" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -213,6 +224,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Click Reopen to open the application again. Click Report to see more detailed information and send a report to Apple."
+          }
+        }
+      }
+    },
+    "alert.title.camera_switch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to switch cameras"
           }
         }
       }
@@ -238,43 +260,106 @@
         }
       }
     },
-    "error.camera_switching.title" : {
-      "extractionState" : "manual",
+    "Built by %@ on %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Built by %1$@ on %2$@"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "settings.detail.debug.erase_gamekit" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unable to switch cameras"
+            "value" : "DEBUG: This option destroys all GameKit related data for the current user. "
           }
         }
       }
     },
-    "settings.detail.debug.erase_gamekit" : {
-
-    },
     "settings.detail.debug.erase_userdefaults" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEBUG: This option destroys all UserDefaults keys."
+          }
+        }
+      }
     },
     "settings.detail.photo.file_format" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose JPEG for an older standard that is more widely accepted. Choose HEIC if you want a smaller file that works best on other Apple devices."
+          }
+        }
+      }
     },
     "settings.detail.photo.hdr" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable this if you want to include high dynamic range in your image. "
+          }
+        }
+      }
     },
     "settings.detail.photo.max_exposure" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable this if you want stupidly bright images."
+          }
+        }
+      }
     },
     "settings.detail.preview.aspect_ratio" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose Fit to bounds to see all of the preview. Choose Fit if you want a more immersive shooting experience."
+          }
+        }
+      }
     },
     "settings.detail.preview.sbtlz" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable this if you want to stabilize the preview."
+          }
+        }
+      }
     },
     "settings.detail.watermark.enable" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable this if you want to enable Malachite’s watermarking feature. Great for adding credits or details about the camera."
+          }
+        }
+      }
     },
     "settings.detail.watermark.text" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter the text to watermark here."
+          }
+        }
+      }
     },
     "settings.footer.debug" : {
       "localizations" : {

@@ -56,7 +56,7 @@ public class MalachiteSettingsUtils : NSObject {
         if value < UINT64_MAX { // I want to see someone reach this
             defaults.set(value + 1, forKey: "internal.photos.count")
         } else {
-            NSLog("[Preferences] what")
+            MalachiteClassesObject().debugNSLog("[Preferences] what")
         }
     }
     
@@ -95,9 +95,9 @@ public class MalachiteSettingsUtils : NSObject {
                 }
             }
             
-            print("[Preferences] Dumping all synced keys and saving to UserDefaults")
+            MalachiteClassesObject().internalNSLog("[Preferences] Dumping all synced keys and saving to UserDefaults")
             for (key, value) in tempDictionary {
-                print("[Preferences] \(key) = \(value)")
+                MalachiteClassesObject().internalNSLog("[Preferences] \(key) = \(value)")
                 defaults.set(value, forKey: key as! String)
             }
         } else {
@@ -105,7 +105,7 @@ public class MalachiteSettingsUtils : NSObject {
             for prefDict in availablePreferences {
                 for key in prefDict.keys {
                     if !self.checkIfPreferenceIsPresent(keyToCheck: key) {
-                        print("[Preferences] Setting default value for key pair:", key, prefDict[key] as Any)
+                        MalachiteClassesObject().debugNSLog("[Preferences] Setting default value for key pair: \(key) = \(String(describing: prefDict[key]))")
                         defaults.set(prefDict[key], forKey: key)
                     }
                 }
@@ -115,12 +115,12 @@ public class MalachiteSettingsUtils : NSObject {
     
     /// Dumps ``defaults`` to log.
     public func dumpUserDefaults() {
-        print("[Preferences] Dumping all UserDefaults keys!!!")
+        MalachiteClassesObject().internalNSLog("[Preferences] Dumping all UserDefaults keys!!!")
         let availablePreferences = [ internalPreferences, formatPreferences, watermarkingPreferences, capturePreferences ]
         for (key, value) in settingsAsDictionary() {
             for prefDict in availablePreferences {
                 if prefDict.keys.contains(key) {
-                    print("[Preferences] \(key) = \(value)")
+                    MalachiteClassesObject().internalNSLog("[Preferences] \(key) = \(value)")
                 }
             }
         }
@@ -128,7 +128,7 @@ public class MalachiteSettingsUtils : NSObject {
     
     /// Shows the GameKit enable switch in About settings.
     @objc public func showGameKitOptionInAbout() -> Void {
-        NSLog("04F807A163D50211A2456C3460EACFACCBC5BF436AFC268F0DBAA529")
+        MalachiteClassesObject().debugNSLog("04F807A163D50211A2456C3460EACFACCBC5BF436AFC268F0DBAA529")
         if gameKitButton < 7 {
             gameKitButton += 1
         } else {

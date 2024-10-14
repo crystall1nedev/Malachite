@@ -56,9 +56,9 @@ public class MalachiteFunctionUtils : NSObject {
                 try device.lockForConfiguration()
                 defer { device.unlockForConfiguration() }
                 device.videoZoomFactor = factor
-                NSLog("[Pinch to Zoom] Changed zoom factor")
+                MalachiteClassesObject().debugNSLog("[Pinch to Zoom] Changed zoom factor")
             } catch {
-                NSLog("[Pinch to Zoom] Error changing video zoom factor: %@", error.localizedDescription)
+                MalachiteClassesObject().debugNSLog("[Pinch to Zoom] Error changing video zoom factor: %@", error.localizedDescription)
             }
         }
         
@@ -120,7 +120,7 @@ public class MalachiteFunctionUtils : NSObject {
                 device.focusMode = .autoFocus
                 device.focusPointOfInterest = CGPointMake(focusScaledPointX, focusScaledPointY)
                 
-                NSLog("[Tap to Focus] Changed focus area")
+                MalachiteClassesObject().debugNSLog("[Tap to Focus] Changed focus area")
                 device.unlockForConfiguration()
             }
             
@@ -139,12 +139,12 @@ public class MalachiteFunctionUtils : NSObject {
             do {
                 try device.lockForConfiguration()
                 if (device.torchMode == AVCaptureDevice.TorchMode.on) {
-                    NSLog("[Flashlight] Flash is already on, turning off")
+                    MalachiteClassesObject().debugNSLog("[Flashlight] Flash is already on, turning off")
                     device.torchMode = AVCaptureDevice.TorchMode.off
                     buttonImage = (UIImage(systemName: "flashlight.off.fill")?.withRenderingMode(.alwaysTemplate))!
                 } else {
                     do {
-                        NSLog("[Flashlight] Flash is off, turning on")
+                        MalachiteClassesObject().debugNSLog("[Flashlight] Flash is off, turning on")
                         try device.setTorchModeOn(level: 1.0)
                         buttonImage = (UIImage(systemName: "flashlight.on.fill")?.withRenderingMode(.alwaysTemplate))!
                     } catch {
@@ -164,28 +164,28 @@ public class MalachiteFunctionUtils : NSObject {
     /// Function that handles connecting and disconnecting cameras, and changing format properties.
     public func switchInput(session: inout AVCaptureSession, uwDevice: inout AVCaptureDevice?, waDevice: inout AVCaptureDevice, device: inout AVCaptureDevice?, input: inout AVCaptureDeviceInput?, button: inout UIButton, waInUse: inout Bool, firstRun: inout Bool){
         button.isUserInteractionEnabled = false
-        NSLog("[Camera Input] Getting ready to configure session")
+        MalachiteClassesObject().debugNSLog("[Camera Input] Getting ready to configure session")
         session.beginConfiguration()
         
         if !firstRun {
-            NSLog("[Camera Input] Removing currently active camera input")
+            MalachiteClassesObject().debugNSLog("[Camera Input] Removing currently active camera input")
             session.removeInput(input!)
         } else {
             firstRun = false
         }
         
         if waInUse == true && uwDevice != nil {
-            NSLog("[Camera Input] builtInUltraWideCamera is available, selecting as device")
+            MalachiteClassesObject().debugNSLog("[Camera Input] builtInUltraWideCamera is available, selecting as device")
             device = uwDevice!
             waInUse = false
         } else {
-            NSLog("[Camera Input] builtInWideAngle is available, selecting as device")
+            MalachiteClassesObject().debugNSLog("[Camera Input] builtInWideAngle is available, selecting as device")
             device = waDevice
             waInUse = true
             
         }
         
-        NSLog("[Camera Input] Attempting to attach device input to session")
+        MalachiteClassesObject().debugNSLog("[Camera Input] Attempting to attach device input to session")
         do { input = try AVCaptureDeviceInput(device: device!) }
         catch {
             print(error)
@@ -199,21 +199,21 @@ public class MalachiteFunctionUtils : NSObject {
             device?.automaticallyAdjustsVideoHDREnabled = false
             if settings.defaults.bool(forKey: "format.hdr.enabled") {
                 if self.supportsHDR {
-                    NSLog("[Camera Input] Force enabled HDR on camera")
+                    MalachiteClassesObject().debugNSLog("[Camera Input] Force enabled HDR on camera")
                     if device?.activeFormat.isVideoHDRSupported == true {
                         device?.isVideoHDREnabled = true
                     } else {
-                        NSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
+                        MalachiteClassesObject().debugNSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
                         settings.defaults.set(false, forKey: "format.hdr.enabled")
                     }
                 } else {
-                    NSLog("[Camera Input] HDR enabled on a device that doesn't support it")
+                    MalachiteClassesObject().debugNSLog("[Camera Input] HDR enabled on a device that doesn't support it")
                     settings.defaults.set(false, forKey: "format.hdr.enabled")
                 }
             }
             
             if !settings.defaults.bool(forKey: "format.hdr.enabled") {
-                NSLog("[Camera Input] Force disabled HDR on camera")
+                MalachiteClassesObject().debugNSLog("[Camera Input] Force disabled HDR on camera")
                 if device?.activeFormat.isGlobalToneMappingSupported == true {
                     device?.isGlobalToneMappingEnabled = true
                 }
@@ -222,10 +222,10 @@ public class MalachiteFunctionUtils : NSObject {
                 }
             }
         } catch {
-            NSLog("[Camera Input] Error adjusting device properties: %@", error.localizedDescription)
+            MalachiteClassesObject().debugNSLog("[Camera Input] Error adjusting device properties: %@", error.localizedDescription)
         }
         
-        NSLog("[Camera Input] Attached input, finishing configuration")
+        MalachiteClassesObject().debugNSLog("[Camera Input] Attached input, finishing configuration")
         session.addInput(input!)
         session.commitConfiguration()
         button.isUserInteractionEnabled = true
@@ -258,12 +258,12 @@ public class MalachiteFunctionUtils : NSObject {
         do {
             try device.lockForConfiguration()
         } catch {
-            NSLog("[Manual Focus] Couldn't lock device for configuration: %@", error.localizedDescription)
+            MalachiteClassesObject().debugNSLog("[Manual Focus] Couldn't lock device for configuration: %@", error.localizedDescription)
             return
         }
         
         device.setFocusModeLocked(lensPosition: lensPosition)
-        NSLog("[Manual Focus] Changed lens position")
+        MalachiteClassesObject().debugNSLog("[Manual Focus] Changed lens position")
         device.unlockForConfiguration()
     }
     
@@ -297,7 +297,7 @@ public class MalachiteFunctionUtils : NSObject {
             device.setExposureModeCustom(duration:AVCaptureDevice.currentExposureDuration, iso: selectedISO, completionHandler: nil)
             device.unlockForConfiguration()
         } catch let error {
-            NSLog("Could not lock device for configuration: \(error)")
+            MalachiteClassesObject().debugNSLog("Could not lock device for configuration: \(error)")
         }
     }
 }

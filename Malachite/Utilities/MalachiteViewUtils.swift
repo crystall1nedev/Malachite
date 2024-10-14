@@ -70,22 +70,22 @@ public class MalachiteViewUtils : NSObject {
         if MalachiteClassesObject().idiom == .phone {
             switch UIDevice.current.orientation {
             case .unknown:
-                NSLog("[Rotation] How did I get here?")
+                MalachiteClassesObject().debugNSLog("[Rotation] How did I get here?")
                 rotation = Double.pi * 2
             case .portrait:
-                NSLog("[Rotation] Device has rotated portrait, with front camera on the top")
+                MalachiteClassesObject().debugNSLog("[Rotation] Device has rotated portrait, with front camera on the top")
                 rotation = Double.pi * 2
             case .portraitUpsideDown:
-                NSLog("[Rotation] Device has rotated portrait, with front camera on the bottom")
+                MalachiteClassesObject().debugNSLog("[Rotation] Device has rotated portrait, with front camera on the bottom")
                 rotation = Double.pi
             case .landscapeLeft:
-                NSLog("[Rotation] Device has rotated landscape, with front camera on the left")
+                MalachiteClassesObject().debugNSLog("[Rotation] Device has rotated landscape, with front camera on the left")
                 rotation = Double.pi / 2
             case .landscapeRight:
-                NSLog("[Rotation] Device has rotated landscape, with front camera on the right")
+                MalachiteClassesObject().debugNSLog("[Rotation] Device has rotated landscape, with front camera on the right")
                 rotation = -Double.pi / 2
             default:
-                NSLog("[Rotation] Unneeded or unknown rotation, ignoring")
+                MalachiteClassesObject().debugNSLog("[Rotation] Unneeded or unknown rotation, ignoring")
             }
         } else {
             rotation = Double.pi * 2

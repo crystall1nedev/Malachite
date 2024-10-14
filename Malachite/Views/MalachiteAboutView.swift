@@ -82,7 +82,7 @@ struct MalachiteAboutView: View {
     
     /// A variable for the about section.
     var aboutSection: some View {
-        Section {
+        Section(footer: aboutSectionFooter){
             HStack {
                 VStack {
                     HStack {
@@ -97,18 +97,12 @@ struct MalachiteAboutView: View {
                             .frame(alignment: .leading)
                         Spacer()
                     }
-                    if utilities.versionType == "debug" || utilities.versionType == "internal" {
-                        HStack {
-                            Text("\(utilities.versionType) - \(utilities.versionHash) - \(utilities.versionDate)")
-                                .font(.footnote)
-                                .frame(alignment: .leading)
-                            Spacer()
-                        }
-                    }
                 }
                 Spacer()
                 Button {
-                    utilities.settings.showGameKitOptionInAbout()
+                    if utilities.versionType == "INTERNAL" {
+                        utilities.settings.showGameKitOptionInAbout()
+                    }
                 } label: {
                     Image("icon")
                         .resizable()
@@ -120,6 +114,27 @@ struct MalachiteAboutView: View {
             Text("about.description")
             Text("about.author_note")
                 .bold()
+        }
+    }
+    
+    var aboutSectionFooter: some View {
+        VStack {
+            if utilities.versionType == "DEBUG" || utilities.versionType == "INTERNAL" {
+                HStack {
+                    Text("\(utilities.versionType) - \(utilities.versionHash) - \(utilities.versionDate)")
+                        .font(.footnote)
+                        .frame(alignment: .leading)
+                    Spacer()
+                }
+            }
+            if utilities.versionType == "INTERNAL" {
+                HStack {
+                    Text("Built by \(utilities.versionUser) on \(utilities.versionHost)")
+                        .font(.footnote)
+                        .frame(alignment: .leading)
+                    Spacer()
+                }
+            }
         }
     }
     
@@ -150,7 +165,7 @@ struct MalachiteAboutView: View {
                     Spacer()
                     if appIcon.icon != nil {
                         Button {
-                            NSLog("[App Icon] Changing to \(appIcon.icon ?? "default")")
+                            utilities.debugNSLog("[App Icon] Changing to \(appIcon.icon ?? "default")")
                             UIApplication.shared.setAlternateIconName(appIcon.icon) { (error) in
                                 if let error = error {
                                     print("Failed request to update the app’s icon: \(error)")

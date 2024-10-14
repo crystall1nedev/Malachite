@@ -242,7 +242,7 @@ struct MalachiteSettingsView: View {
             utilities.settings.defaults.set(hdrSwitch, forKey: "format.hdr.enabled")
         }
         .onChange(of: exposureUnlimiterSwitch) { _ in
-            NSLog("[Settings View] Lol")
+            utilities.debugNSLog("[Settings View] Lol")
             utilities.settings.defaults.set(exposureUnlimiterSwitch, forKey: "capture.exposure.unlimited")
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
         }
@@ -299,7 +299,7 @@ struct MalachiteSettingsView: View {
                 dangerous: true)
             {
                 Button {
-                    NSLog("[Preferences] Resetting all preferences, relaunch the app to complete!")
+                    utilities.debugNSLog("[Preferences] Resetting all preferences, relaunch the app to complete!")
                     utilities.settings.resetAllSettings()
                 } label: {
                     if #available(iOS 17.0, *) {
@@ -320,7 +320,7 @@ struct MalachiteSettingsView: View {
                 dangerous: true)
             {
                 Button {
-                    NSLog("[Preferences] Resetting all GameKit data!")
+                    utilities.internalNSLog("[Preferences] Resetting all GameKit data!")
                     utilities.games.achievements.resetAchievements()
                 } label: {
                     if #available(iOS 17.0, *) {

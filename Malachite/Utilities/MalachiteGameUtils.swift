@@ -24,7 +24,7 @@ public class MalachiteGameUtils : NSObject, GKGameCenterControllerDelegate {
     /// Function to set up GameKit.
     public func setupGameCenter() {
         GKLocalPlayer.local.authenticateHandler = { viewController, error in
-            NSLog("[Game Center] Signing into Game Center...")
+            MalachiteClassesObject().internalNSLog("[Game Center] Signing into Game Center...")
             
             if error != nil {
                 print("[Game Center] Couldn't sign in: ", error?.localizedDescription as Any)
@@ -33,7 +33,7 @@ public class MalachiteGameUtils : NSObject, GKGameCenterControllerDelegate {
             
             self.gameCenterEnabled = GKLocalPlayer.local.isAuthenticated
             
-            NSLog("[Game Center] Enabling the easter eggs...")
+            MalachiteClassesObject().internalNSLog("[Game Center] Enabling the easter eggs...")
         }
         
         if gameCenterEnabled {
@@ -102,7 +102,7 @@ public class MalachiteGameAchievementUtils : NSObject {
     /// Function that resets all achievement data for the local player.
     public func resetAchievements() {
         GKAchievement.resetAchievements(completionHandler: { error in
-            NSLog("[Game Center] Resetting all Game Center achievements...")
+            MalachiteClassesObject().internalNSLog("[Game Center] Resetting all Game Center achievements...")
             
             if error != nil {
                 print("[Game Center] Couldn't reset: ", error?.localizedDescription as Any)

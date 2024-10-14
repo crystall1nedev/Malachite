@@ -5,9 +5,7 @@
 //  Created by Eva Isabella Luna on 12/10/23.
 //
 
-import AVFoundation
 import Foundation
-import Photos
 import UIKit
 
 public class MalachiteClassesObject : NSObject {
@@ -36,8 +34,30 @@ public class MalachiteClassesObject : NSObject {
     public let versionDate     = Bundle.main.object(forInfoDictionaryKey: "CFBuildDate") as? String ?? "undefined"
     /// A variable that can be used to identify the variant of the build from the Info.plist
     public let versionType     = Bundle.main.object(forInfoDictionaryKey: "CFBuildType") as? String ?? "undefined"
+    /// A variable that can be used to identify the username of the account that built the app from the Info.plist
+    public let versionUser     = Bundle.main.object(forInfoDictionaryKey: "CFBuildUser") as? String ?? "undefined"
+    /// A variable that can be used to identify the hostname of the computer that built the app from the Info.plist
+    public let versionHost     = Bundle.main.object(forInfoDictionaryKey: "CFBuildHost") as? String ?? "undefined"
     
     /// A variable that determines the type of device Malachite is running on.
     public let idiom     = UIDevice.current.userInterfaceIdiom
     
+    /// A function to only log in INTERNAL builds
+    public func internalNSLog(_ format: String, _ args: any CVarArg...) {
+        if self.versionType == "INTERNAL" {
+            Foundation.NSLog(format, args)
+        }
+    }
+    
+    /// A function to only log in DEBUG and INTERNAL builds
+    public func debugNSLog(_ format: String, _ args: any CVarArg...) {
+        if self.versionType == "DEBUG" || self.versionType == "INTERNAL" {
+            Foundation.NSLog(format, args)
+        }
+    }
+    
+    /// Literally just regular NSLog, here for consistency
+    public func NSLog(_ format: String, _ args: any CVarArg...) {
+        Foundation.NSLog(format, args)
+    }
 }
