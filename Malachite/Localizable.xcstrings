@@ -622,7 +622,14 @@
       }
     },
     "view.detail.about" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Takes you to the About page for Malachite."
+          }
+        }
+      }
     },
     "view.title.about" : {
       "localizations" : {
