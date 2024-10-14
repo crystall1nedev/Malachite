@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		780067DE2CBDCD6A004BB595 /* ControlCenterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */; };
+		780067E12CBDCEA0004BB595 /* ControlCenterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */; };
 		7806973A2B27F66E00B4942B /* MalachiteTooltipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */; };
 		782FC7762B2DAFAB007709C1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 782FC7752B2DAFAB007709C1 /* README.md */; };
 		78562BC32B450A7600920160 /* PRIVACY_POLICY.md in Resources */ = {isa = PBXBuildFile; fileRef = 78562BC22B450A7600920160 /* PRIVACY_POLICY.md */; };
@@ -23,10 +25,10 @@
 		78917F372B99A9E9005E10FA /* images in Resources */ = {isa = PBXBuildFile; fileRef = 78917F362B99A9E9005E10FA /* images */; };
 		78917F5C2B99AE72005E10FA /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5B2B99AE72005E10FA /* WidgetKit.framework */; };
 		78917F5E2B99AE72005E10FA /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5D2B99AE72005E10FA /* SwiftUI.framework */; };
-		78917F612B99AE72005E10FA /* LockScreenWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78917F602B99AE72005E10FA /* LockScreenWidgetBundle.swift */; };
+		78917F612B99AE72005E10FA /* MalachiteWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78917F602B99AE72005E10FA /* MalachiteWidgetBundle.swift */; };
 		78917F632B99AE72005E10FA /* LockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78917F622B99AE72005E10FA /* LockScreenWidget.swift */; };
 		78917F652B99AE73005E10FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78917F642B99AE73005E10FA /* Assets.xcassets */; };
-		78917F692B99AE73005E10FA /* LockScreenWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 78917F592B99AE72005E10FA /* LockScreenWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		78917F692B99AE73005E10FA /* MalachiteWidgetBundle.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 78917F592B99AE72005E10FA /* MalachiteWidgetBundle.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7897ECA62BA2B87100662EA0 /* MalachiteSettingsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7897ECA52BA2B87100662EA0 /* MalachiteSettingsDetailView.swift */; };
 		78E5EFC02B15748400F15250 /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */; };
 		78E67EE02B27E07300812A17 /* MalachiteHapticUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */; };
@@ -53,7 +55,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				78917F692B99AE73005E10FA /* LockScreenWidgetExtension.appex in Embed Foundation Extensions */,
+				78917F692B99AE73005E10FA /* MalachiteWidgetBundle.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -62,6 +64,7 @@
 
 /* Begin PBXFileReference section */
 		5549F6172B4D36BA00626B9D /* ci_post_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_xcodebuild.sh; sourceTree = "<group>"; };
+		780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCenterWidget.swift; sourceTree = "<group>"; };
 		780444922B5E0847001326E9 /* sshpass */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = sshpass; sourceTree = "<group>"; };
 		780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteTooltipUtils.swift; sourceTree = "<group>"; };
 		782FC7752B2DAFAB007709C1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
@@ -80,10 +83,10 @@
 		788589912B8974680018E2DA /* Malachite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Malachite.entitlements; sourceTree = "<group>"; };
 		788E74B22B13D8200024B586 /* MalachiteSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteSettingsView.swift; sourceTree = "<group>"; };
 		78917F362B99A9E9005E10FA /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = SOURCE_ROOT; };
-		78917F592B99AE72005E10FA /* LockScreenWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LockScreenWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		78917F592B99AE72005E10FA /* MalachiteWidgetBundle.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MalachiteWidgetBundle.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		78917F5B2B99AE72005E10FA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		78917F5D2B99AE72005E10FA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		78917F602B99AE72005E10FA /* LockScreenWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenWidgetBundle.swift; sourceTree = "<group>"; };
+		78917F602B99AE72005E10FA /* MalachiteWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteWidgetBundle.swift; sourceTree = "<group>"; };
 		78917F622B99AE72005E10FA /* LockScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenWidget.swift; sourceTree = "<group>"; };
 		78917F642B99AE73005E10FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		78917F662B99AE73005E10FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -136,7 +139,7 @@
 			children = (
 				5549F6162B4D36A100626B9D /* ci_scripts */,
 				785F084B2B12D41100244EB4 /* Malachite */,
-				78917F5F2B99AE72005E10FA /* LockScreenWidget */,
+				78917F5F2B99AE72005E10FA /* MalachiteWidgetBundle */,
 				78917F5A2B99AE72005E10FA /* Frameworks */,
 				785F084A2B12D41100244EB4 /* Products */,
 			);
@@ -146,7 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				785F08492B12D41100244EB4 /* Malachite.app */,
-				78917F592B99AE72005E10FA /* LockScreenWidgetExtension.appex */,
+				78917F592B99AE72005E10FA /* MalachiteWidgetBundle.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -180,15 +183,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		78917F5F2B99AE72005E10FA /* LockScreenWidget */ = {
+		78917F5F2B99AE72005E10FA /* MalachiteWidgetBundle */ = {
 			isa = PBXGroup;
 			children = (
-				78917F602B99AE72005E10FA /* LockScreenWidgetBundle.swift */,
+				78917F602B99AE72005E10FA /* MalachiteWidgetBundle.swift */,
 				78917F622B99AE72005E10FA /* LockScreenWidget.swift */,
+				780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */,
 				78917F642B99AE73005E10FA /* Assets.xcassets */,
 				78917F662B99AE73005E10FA /* Info.plist */,
 			);
-			path = LockScreenWidget;
+			path = MalachiteWidgetBundle;
 			sourceTree = "<group>";
 		};
 		78E67EDB2B27E05C00812A17 /* Utilities */ = {
@@ -227,9 +231,9 @@
 			productReference = 785F08492B12D41100244EB4 /* Malachite.app */;
 			productType = "com.apple.product-type.application";
 		};
-		78917F582B99AE72005E10FA /* LockScreenWidgetExtension */ = {
+		78917F582B99AE72005E10FA /* MalachiteWidgetBundle */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 78917F6D2B99AE73005E10FA /* Build configuration list for PBXNativeTarget "LockScreenWidgetExtension" */;
+			buildConfigurationList = 78917F6D2B99AE73005E10FA /* Build configuration list for PBXNativeTarget "MalachiteWidgetBundle" */;
 			buildPhases = (
 				78917F552B99AE72005E10FA /* Sources */,
 				78917F562B99AE72005E10FA /* Frameworks */,
@@ -239,9 +243,9 @@
 			);
 			dependencies = (
 			);
-			name = LockScreenWidgetExtension;
+			name = MalachiteWidgetBundle;
 			productName = LockScreenWidgetExtension;
-			productReference = 78917F592B99AE72005E10FA /* LockScreenWidgetExtension.appex */;
+			productReference = 78917F592B99AE72005E10FA /* MalachiteWidgetBundle.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -251,7 +255,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1530;
+				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					785F08482B12D41100244EB4 = {
@@ -276,7 +280,7 @@
 			projectRoot = "";
 			targets = (
 				785F08482B12D41100244EB4 /* Malachite */,
-				78917F582B99AE72005E10FA /* LockScreenWidgetExtension */,
+				78917F582B99AE72005E10FA /* MalachiteWidgetBundle */,
 			);
 		};
 /* End PBXProject section */
@@ -338,6 +342,7 @@
 				78E67EE02B27E07300812A17 /* MalachiteHapticUtils.swift in Sources */,
 				788E74B32B13D8200024B586 /* MalachiteSettingsView.swift in Sources */,
 				7806973A2B27F66E00B4942B /* MalachiteTooltipUtils.swift in Sources */,
+				780067DE2CBDCD6A004BB595 /* ControlCenterWidget.swift in Sources */,
 				7859DE1A2B8308C000D1A998 /* MalachiteAboutView.swift in Sources */,
 				7860DC002B897A3E00450BF8 /* MalachiteGameUtils.swift in Sources */,
 				7897ECA62BA2B87100662EA0 /* MalachiteSettingsDetailView.swift in Sources */,
@@ -355,8 +360,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				780067E12CBDCEA0004BB595 /* ControlCenterWidget.swift in Sources */,
 				78917F632B99AE72005E10FA /* LockScreenWidget.swift in Sources */,
-				78917F612B99AE72005E10FA /* LockScreenWidgetBundle.swift in Sources */,
+				78917F612B99AE72005E10FA /* MalachiteWidgetBundle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,7 +371,7 @@
 /* Begin PBXTargetDependency section */
 		78917F682B99AE73005E10FA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 78917F582B99AE72005E10FA /* LockScreenWidgetExtension */;
+			target = 78917F582B99AE72005E10FA /* MalachiteWidgetBundle */;
 			targetProxy = 78917F672B99AE73005E10FA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -613,8 +619,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FBT742498U;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = LockScreenWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = LockScreenWidget;
+				INFOPLIST_FILE = MalachiteWidgetBundle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MalachiteWidgetBundle;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -623,7 +629,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.crystall1ne.Malachite.LockScreenWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.crystall1ne.Malachite.WidgetBundle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -646,8 +652,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FBT742498U;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = LockScreenWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = LockScreenWidget;
+				INFOPLIST_FILE = MalachiteWidgetBundle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MalachiteWidgetBundle;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -656,7 +662,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.crystall1ne.Malachite.LockScreenWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.crystall1ne.Malachite.WidgetBundle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -796,8 +802,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FBT742498U;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = LockScreenWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = LockScreenWidget;
+				INFOPLIST_FILE = MalachiteWidgetBundle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MalachiteWidgetBundle;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -806,7 +812,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.crystall1ne.Malachite.LockScreenWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.crystall1ne.Malachite.WidgetBundle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -843,7 +849,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		78917F6D2B99AE73005E10FA /* Build configuration list for PBXNativeTarget "LockScreenWidgetExtension" */ = {
+		78917F6D2B99AE73005E10FA /* Build configuration list for PBXNativeTarget "MalachiteWidgetBundle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				78917F6B2B99AE73005E10FA /* Debug */,

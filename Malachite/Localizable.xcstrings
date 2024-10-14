@@ -162,6 +162,9 @@
         }
       }
     },
+    "Add to quickly launch malachite from your control center, lock screen, or Action Button." : {
+
+    },
     "alert.button.ignore" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -270,6 +273,12 @@
         }
       },
       "shouldTranslate" : false
+    },
+    "Capture with Malachite" : {
+
+    },
+    "Open Malachite" : {
+
     },
     "settings.detail.debug.erase_gamekit" : {
       "localizations" : {

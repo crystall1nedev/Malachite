@@ -1,6 +1,6 @@
 //
-//  LockScreenWidget.swift
-//  LockScreenWidget
+//  MalachiteWidgets.swift
+//  MalachiteWidgets
 //
 //  Created by Eva Isabella Luna on 3/7/24.
 //
@@ -83,6 +83,7 @@ struct LockScreenWidget: Widget {
         ])
     }
 }
+
 
 struct CircularWidgetView: View {
     

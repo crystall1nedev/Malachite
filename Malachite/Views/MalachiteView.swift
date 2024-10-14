@@ -158,7 +158,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         //cameraPreview?.connection?.videoOrientation = transformOrientation(orientation: .portrait)
         cameraView = UIView(frame: self.view.bounds)
         cameraView.layer.addSublayer(cameraPreview!)
-        self.view.addSubview(cameraView)
+        self.view.insertSubview(cameraView, at: 0)
         
         utilities.debugNSLog("[Initialization] Starting session stream")
         DispatchQueue.global(qos: .background).async {
@@ -678,12 +678,14 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         if !uiIsHidden {
             UIView.animate(withDuration: 0.25) { [self] in
                 for subview in self.view.subviews {
-                    if subview == focusLockButton {
-                        if manualFocusSliderIsActive { subview.alpha = 0.0 }
-                    } else if subview == exposureLockButton {
-                        if manualExposureSliderIsActive { subview.alpha = 0.0 }
-                    } else {
-                        subview.alpha = 0.0
+                    if subview != cameraView {
+                        if subview == focusLockButton {
+                            if manualFocusSliderIsActive { subview.alpha = 0.0 }
+                        } else if subview == exposureLockButton {
+                            if manualExposureSliderIsActive { subview.alpha = 0.0 }
+                        } else {
+                            subview.alpha = 0.0
+                        }
                     }
                 }
             }
@@ -693,12 +695,14 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         } else {
             UIView.animate(withDuration: 0.25) { [self] in
                 for subview in self.view.subviews {
-                    if subview == focusLockButton {
-                        if manualFocusSliderIsActive { subview.alpha = 1.0 }
-                    } else if subview == exposureLockButton {
-                        if manualExposureSliderIsActive { subview.alpha = 1.0 }
-                    } else {
-                        subview.alpha = 1.0
+                    if subview != cameraView {
+                        if subview == focusLockButton {
+                            if manualFocusSliderIsActive { subview.alpha = 1.0 }
+                        } else if subview == exposureLockButton {
+                            if manualExposureSliderIsActive { subview.alpha = 1.0 }
+                        } else {
+                            subview.alpha = 1.0
+                        }
                     }
                 }
             }
