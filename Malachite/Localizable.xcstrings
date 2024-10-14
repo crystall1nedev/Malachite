@@ -366,7 +366,40 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "If you see these options, you should know what they do."
+            "value" : "DEBUG: These options are meant for debugging purposes. "
+          }
+        }
+      }
+    },
+    "settings.footer.photo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These options control how Malachite captures and saves images."
+          }
+        }
+      }
+    },
+    "settings.footer.photo.hdr" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Additionally, HDR is currently disabled to address issues on devices not supporting HEIF."
+          }
+        }
+      }
+    },
+    "settings.footer.photo.heif" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The HEIF file format requires a device with the Apple A10 Fusion chip or later."
           }
         }
       }

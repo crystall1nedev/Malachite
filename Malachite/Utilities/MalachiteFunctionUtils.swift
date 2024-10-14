@@ -32,7 +32,6 @@ public class MalachiteFunctionUtils : NSObject {
     public func deviceFormatSupportsHDR(device hdrDevice: AVCaptureDevice) {
         if hdrDevice.activeFormat.isVideoHDRSupported == true {
             self.supportsHDR = true
-            
         }
     }
     
@@ -234,7 +233,7 @@ public class MalachiteFunctionUtils : NSObject {
     /// Function that handles taking images on `AVCapturePhotoOutput`.
     public func captureImage(output photoOutput: AVCapturePhotoOutput, viewForBounds view: UIView, captureDelegate delegate: AVCapturePhotoCaptureDelegate) -> AVCapturePhotoOutput {
         var format = [String: Any]()
-        if settings.defaults.bool(forKey: "format.type.heif") {
+        if settings.defaults.bool(forKey: "format.type.heif") && supportsHEIC() {
             format = [AVVideoCodecKey : AVVideoCodecType.hevc]
         } else {
             format = [AVVideoCodecKey : AVVideoCodecType.jpeg]
@@ -246,6 +245,7 @@ public class MalachiteFunctionUtils : NSObject {
                 photoOutputConnection.videoOrientation = photoOrientation
             }
             photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
+            print(photoOutput.availablePhotoFileTypes)
             photoOutput.capturePhoto(with: photoSettings, delegate: delegate)
         }
         

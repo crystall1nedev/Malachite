@@ -25,7 +25,7 @@ struct MalachiteSettingsView: View {
     /// A State variable used for determining whether or not the device supports HEIC capture.
     @State private var supportsHEIC = Bool()
     /// A State variable used for presenting the user with a footer based on capabilities.
-    @State private var formatFooterText = "settings.footer.photo"
+    @State private var formatFooterText = ""
     /// A State variable used for determining whether or not to uncap the exposure slider.
     @State private var exposureUnlimiterSwitch = false
     @State var presentingModal = false
@@ -68,11 +68,11 @@ struct MalachiteSettingsView: View {
             supportsHEIC = utilities.function.supportsHEIC()
             
             if !supportsHEIC {
-                formatFooterText = "\n" + "settings.footer.photo.heif"
+                formatFooterText = "settings.footer.photo.heif".localized
             }
             
             if !supportsHDR {
-                formatFooterText = formatFooterText + "\n" + "settings.photo.hdr"
+                formatFooterText = formatFooterText + "settings.footer.photo.hdr".localized
             }
             
             if !utilities.settings.defaults.bool(forKey: "format.type.heif") {
@@ -150,7 +150,7 @@ struct MalachiteSettingsView: View {
     
     /// A variable to hold the preview settings section.
     var previewSettingsSection: some View {
-        Section(header: Text("settings.header.preview"), footer: Text("settings.footer.preview")) {
+        Section(header: Text("settings.header.preview")) {
             MalachiteCellViewUtils(
                 icon: "aspectratio",
                 title: nil,
@@ -167,7 +167,7 @@ struct MalachiteSettingsView: View {
             }
             
             MalachiteCellViewUtils(
-                icon: "circle.and.line.horizontal",
+                icon: "camera.metering.none",
                 title: nil,
                 subtitle: "settings.detail.preview.sbtlz",
                 disabled: nil,
@@ -250,7 +250,7 @@ struct MalachiteSettingsView: View {
     
     /// A variable to hold the watermark settings section.
     var watermarkSettingsSection: some View {
-        Section(header: Text("settings.header.watermark"), footer: Text("settings.footer.watermark")) {
+        Section(header: Text("settings.header.watermark")) {
             MalachiteCellViewUtils(
                 icon: "textformat",
                 title: nil,
@@ -290,7 +290,7 @@ struct MalachiteSettingsView: View {
     
     /// A variable to hold the debug settings section. Only available with debug builds.
     var debugSettingsSection: some View {
-        Section(header: Text("settings.header.debug"), footer: Text("settings.footer.debug")) {
+        Section(header: Text("settings.header.debug")) {
             MalachiteCellViewUtils(
                 icon: "trash",
                 title: nil,
@@ -312,23 +312,25 @@ struct MalachiteSettingsView: View {
                 }
             }
             
-            MalachiteCellViewUtils(
-                icon: "trash",
-                title: nil,
-                subtitle: "settings.detail.debug.erase_gamekit",
-                disabled: nil,
-                dangerous: true)
-            {
-                Button {
-                    utilities.internalNSLog("[Preferences] Resetting all GameKit data!")
-                    utilities.games.achievements.resetAchievements()
-                } label: {
-                    if #available(iOS 17.0, *) {
-                        Text("settings.option.debug.erase_gamekit")
-                            .foregroundStyle(.red)
-                    } else {
-                        Text("settings.option.debug.erase_gamekit")
-                            .foregroundColor(.red)
+            if utilities.versionType == "INTERNAL" {
+                MalachiteCellViewUtils(
+                    icon: "trash",
+                    title: nil,
+                    subtitle: "settings.detail.debug.erase_gamekit",
+                    disabled: nil,
+                    dangerous: true)
+                {
+                    Button {
+                        utilities.internalNSLog("[Preferences] Resetting all GameKit data!")
+                        utilities.games.achievements.resetAchievements()
+                    } label: {
+                        if #available(iOS 17.0, *) {
+                            Text("settings.option.debug.erase_gamekit")
+                                .foregroundStyle(.red)
+                        } else {
+                            Text("settings.option.debug.erase_gamekit")
+                                .foregroundColor(.red)
+                        }
                     }
                 }
             }

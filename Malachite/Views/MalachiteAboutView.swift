@@ -163,24 +163,22 @@ struct MalachiteAboutView: View {
                         }
                     }
                     Spacer()
-                    if appIcon.icon != nil {
-                        Button {
-                            utilities.debugNSLog("[App Icon] Changing to \(appIcon.icon ?? "default")")
-                            UIApplication.shared.setAlternateIconName(appIcon.icon) { (error) in
-                                if let error = error {
-                                    print("Failed request to update the app’s icon: \(error)")
-                                }
+                    Button {
+                        utilities.debugNSLog("[App Icon] Changing to \(appIcon.icon ?? "default")")
+                        UIApplication.shared.setAlternateIconName(appIcon.icon) { (error) in
+                            if let error = error {
+                                print("Failed request to update the app’s icon: \(error)")
                             }
-                            if utilities.games.gameCenterEnabled && appIcon.achievement != nil {
-                                DispatchQueue.global(qos: .background).async { [self] in
-                                    let iconAchievement = utilities.games.achievements.pullAchievement(achievementName: appIcon.achievement!)
-                                    iconAchievement.percentComplete = 100
-                                    utilities.games.achievements.pushAchievement(achievementBody: iconAchievement)
-                                }
-                            }
-                        } label: {
-                            Text("")
                         }
+                        if utilities.games.gameCenterEnabled && appIcon.achievement != nil {
+                            DispatchQueue.global(qos: .background).async { [self] in
+                                let iconAchievement = utilities.games.achievements.pullAchievement(achievementName: appIcon.achievement!)
+                                iconAchievement.percentComplete = 100
+                                utilities.games.achievements.pushAchievement(achievementBody: iconAchievement)
+                            }
+                        }
+                    } label: {
+                        Text("")
                     }
                     if !appIcon.symbol {
                         Image(appIcon.image)

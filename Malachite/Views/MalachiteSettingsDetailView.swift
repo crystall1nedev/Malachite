@@ -51,7 +51,7 @@ struct MalachiteSettingsDetailView: View {
     
     /// A variable to hold the photo settings section.
     var photoSettingsSection: some View {
-        Section(header: Text("settings.header.photo")) {
+        Section(header: Text("settings.header.photo"), footer: Text("settings.footer.photo")) {
             createVStackLeadingAligned(title: Text("settings.option.photo.file_format"), subtitle: Text("settings.detail.photo.file_format")) {}
             createVStackLeadingAligned(title: Text("settings.option.photo.hdr"), subtitle: Text("settings.detail.photo.hdr")) {}
             createVStackLeadingAligned(title: Text("settings.option.photo.max_exposure"), subtitle: Text("settings.detail.photo.max_exposure")) {}
@@ -60,7 +60,7 @@ struct MalachiteSettingsDetailView: View {
     
     /// A variable to hold the watermark settings section.
     var watermarkSettingsSection: some View {
-        Section(header: Text("settings.header.watermark")) {
+        Section(header: Text("settings.header.watermark"), footer: Text("settings.footer.watermark")) {
             createVStackLeadingAligned(title: Text("settings.option.watermark.enable"), subtitle: Text("settings.detail.watermark.enable")) {}
             createVStackLeadingAligned(title: Text("settings.option.watermark.text"), subtitle: Text("settings.detail.watermark.text")) {}
         }
@@ -68,7 +68,7 @@ struct MalachiteSettingsDetailView: View {
     
     /// A variable to hold the debug settings section. Only available with debug builds.
     var debugSettingsSection: some View {
-        Section(header: Text("settings.header.debug")) {
+        Section(header: Text("settings.header.debug"), footer: Text("settings.footer.debug")) {
             createVStackLeadingAligned(title: Text("settings.option.debug.erase_userdefaults"), subtitle: Text("settings.detail.debug.erase_userdefaults")) {}
             createVStackLeadingAligned(title: Text("settings.option.debug.erase_gamekit"), subtitle: Text("settings.detail.debug.erase_gamekit")) {}
         }

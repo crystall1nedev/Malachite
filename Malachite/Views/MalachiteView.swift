@@ -115,6 +115,12 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             utilities.NSLog("[Initialization] Running a RELEASE build")
         }
         
+        if !utilities.function.supportsHEIC() {
+            utilities.debugNSLog("[Initialization] HEIF enabled on a device that doesn't support it, disabling")
+            utilities.settings.defaults.set(true, forKey: "format.type.jpeg")
+            utilities.settings.defaults.set(false, forKey: "format.type.heif")
+        }
+        
 #if !targetEnvironment(simulator)
         cameraPreview?.frame.size = self.view.frame.size
         utilities.debugNSLog("[Initialization] Bringing up AVCaptureSession")
