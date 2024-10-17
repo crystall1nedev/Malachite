@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 73;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -256,7 +256,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1610;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 1610;
 				TargetAttributes = {
 					785F08482B12D41100244EB4 = {
 						CreatedOnToolsVersion = 15.1;
@@ -274,7 +274,7 @@
 				Base,
 			);
 			mainGroup = 785F08402B12D41100244EB4;
-			preferredProjectObjectVersion = 73;
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 785F084A2B12D41100244EB4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -735,6 +735,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
