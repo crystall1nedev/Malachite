@@ -168,7 +168,7 @@ class MalachitePhotoPreview : UIViewController {
                 self.dismissView()
             }
         } catch let error {
-            utilities.debugNSLog("[Capture Photo] Photo couldn't be saved to the user's library: %@", error.localizedDescription)
+            utilities.debugNSLog("[Capture Photo] Photo couldn't be saved to the user's library: \(error.localizedDescription)")
         }
     }
     

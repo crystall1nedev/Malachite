@@ -19,6 +19,10 @@ public class MalachiteFunctionUtils : NSObject {
     public var settings = MalachiteSettingsUtils()
     /// A `Bool` that determines whether or not the device supports HDR.
     public var supportsHDR = false
+    /// A `String` that determines the current camera in use.
+    public var cameraInUse = "ultrawide"
+    /// An `NSMutableArray` that stores the cameras available on the system.
+    public var availableCameraInputs = NSMutableArray()
     
     /// An `enum` that contains Notification names.
     public enum Notifications: String, NotificationName {
@@ -57,7 +61,7 @@ public class MalachiteFunctionUtils : NSObject {
                 device.videoZoomFactor = factor
                 MalachiteClassesObject().debugNSLog("[Pinch to Zoom] Changed zoom factor")
             } catch {
-                MalachiteClassesObject().debugNSLog("[Pinch to Zoom] Error changing video zoom factor: %@", error.localizedDescription)
+                MalachiteClassesObject().debugNSLog("[Pinch to Zoom] Error changing video zoom factor: \(error.localizedDescription)")
             }
         }
         
@@ -221,13 +225,95 @@ public class MalachiteFunctionUtils : NSObject {
                 }
             }
         } catch {
-            MalachiteClassesObject().debugNSLog("[Camera Input] Error adjusting device properties: %@", error.localizedDescription)
+            MalachiteClassesObject().debugNSLog("[Camera Input] Error adjusting device properties: \(error.localizedDescription)")
         }
         
         MalachiteClassesObject().debugNSLog("[Camera Input] Attached input, finishing configuration")
         session.addInput(input!)
         session.commitConfiguration()
         button.isUserInteractionEnabled = true
+    }
+    
+    /// INTERNAL: Function that handles connecting and disconnecting cameras, and changing format properties.
+    public func switchInput_INTERNAL(session: inout AVCaptureSession, cameras: [AVCaptureDevice], device: inout AVCaptureDevice?, input: inout AVCaptureDeviceInput?, button: inout UIButton, firstRun: inout Bool){
+        button.isUserInteractionEnabled = false
+        MalachiteClassesObject().debugNSLog("[Camera Input] Getting ready to configure session")
+        session.beginConfiguration()
+        
+        
+        if !firstRun {
+            MalachiteClassesObject().debugNSLog("[Camera Input] Removing currently active camera input")
+            session.removeInput(input!)
+        } else {
+            firstRun = false
+            if !cameras.isEmpty { device = cameras[0] }
+        }
+        
+        print(device as Any)
+        
+        print(cameras as Any)
+        
+        // Only fire this code when there is more than one camera!
+        if cameras.count > 1 {
+            // Need to figure out how to best do what needs to be done
+            // Camera switching should just choose the next camera on the list, or loop to the beginning if we're at the end
+            // We can do this be checking which index we're at rn, and then comparing it to the count of devices
+            // 0 = 1, 1 = 2, 2 = 3
+            if let devicePosition = cameras.firstIndex(of: device!) {
+                if devicePosition == (cameras.count - 1) {
+                    device = cameras[0]
+                } else {
+                    device = cameras[devicePosition + 1]
+                }
+            }
+        }
+        
+        print(device as Any)
+            
+            MalachiteClassesObject().debugNSLog("[Camera Input] Attempting to attach device input to session")
+            do { input = try AVCaptureDeviceInput(device: device!) }
+            catch {
+                print(error)
+            }
+            
+            deviceFormatSupportsHDR(device: device!)
+            
+            do {
+                try device?.lockForConfiguration()
+                defer { device?.unlockForConfiguration() }
+                device?.automaticallyAdjustsVideoHDREnabled = false
+                if settings.defaults.bool(forKey: "format.hdr.enabled") {
+                    if self.supportsHDR {
+                        MalachiteClassesObject().debugNSLog("[Camera Input] Force enabled HDR on camera")
+                        if device?.activeFormat.isVideoHDRSupported == true {
+                            device?.isVideoHDREnabled = true
+                        } else {
+                            MalachiteClassesObject().debugNSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
+                            settings.defaults.set(false, forKey: "format.hdr.enabled")
+                        }
+                    } else {
+                        MalachiteClassesObject().debugNSLog("[Camera Input] HDR enabled on a device that doesn't support it")
+                        settings.defaults.set(false, forKey: "format.hdr.enabled")
+                    }
+                }
+                
+                if !settings.defaults.bool(forKey: "format.hdr.enabled") {
+                    MalachiteClassesObject().debugNSLog("[Camera Input] Force disabled HDR on camera")
+                    if device?.activeFormat.isGlobalToneMappingSupported == true {
+                        device?.isGlobalToneMappingEnabled = true
+                    }
+                    if device?.activeFormat.isVideoHDRSupported == true {
+                        device?.isVideoHDREnabled = false
+                    }
+                }
+            } catch {
+                MalachiteClassesObject().debugNSLog("[Camera Input] Error adjusting device properties: \(error.localizedDescription)")
+            }
+            
+            MalachiteClassesObject().debugNSLog("[Camera Input] Attached input, finishing configuration")
+            session.addInput(input!)
+            session.commitConfiguration()
+            button.isUserInteractionEnabled = true
     }
     
     /// Function that handles taking images on `AVCapturePhotoOutput`.
@@ -258,7 +344,7 @@ public class MalachiteFunctionUtils : NSObject {
         do {
             try device.lockForConfiguration()
         } catch {
-            MalachiteClassesObject().debugNSLog("[Manual Focus] Couldn't lock device for configuration: %@", error.localizedDescription)
+            MalachiteClassesObject().debugNSLog("[Manual Focus] Couldn't lock device for configuration: \(error.localizedDescription)")
             return
         }
         

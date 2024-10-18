@@ -43,21 +43,21 @@ public class MalachiteClassesObject : NSObject {
     public let idiom     = UIDevice.current.userInterfaceIdiom
     
     /// A function to only log in INTERNAL builds
-    public func internalNSLog(_ format: String, _ args: any CVarArg...) {
+    public func internalNSLog(_ format: String) {
         if self.versionType == "INTERNAL" {
-            Foundation.NSLog(format, args)
+            Foundation.NSLog("[\(#file):\(#line)] [\(#function)] \(format)")
         }
     }
     
     /// A function to only log in DEBUG and INTERNAL builds
-    public func debugNSLog(_ format: String, _ args: any CVarArg...) {
+    public func debugNSLog(_ format: String) {
         if self.versionType == "DEBUG" || self.versionType == "INTERNAL" {
-            Foundation.NSLog(format, args)
+            Foundation.NSLog("[\(#file):\(#line)] [\(#function)] \(format)")
         }
     }
     
     /// Literally just regular NSLog, here for consistency
-    public func NSLog(_ format: String, _ args: any CVarArg...) {
-        Foundation.NSLog(format, args)
+    public func NSLog(_ format: String) {
+        Foundation.NSLog(format)
     }
 }

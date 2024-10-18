@@ -17,6 +17,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     var cameraSession: AVCaptureSession?
     /// The currently selected `AVCaptureDevice` for input to ``cameraSession``.
     var selectedDevice: AVCaptureDevice?
+    /// An array respresenting the device's available rear cameras. This variable will be `nil` if no cameras are present (as is the case of the iOS simulator)
+    var availableRearCameras = [AVCaptureDevice]()
     /// The device's currently available rear ultra-wide angle `AVCaptureDevice`, if available. This variable is `nil` if no ultra-wide angle camera is present (i.e. single-camera, Simulator).
     var ultraWideDevice: AVCaptureDevice?
     /// The device's currently available wide angle `AVCaptureDevice`, if available. This variable is `nil` if no wide angle camera is present (currently only in the Simulator).
@@ -121,52 +123,82 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             utilities.settings.defaults.set(false, forKey: "format.type.heif")
         }
         
-#if !targetEnvironment(simulator)
+
         cameraPreview?.frame.size = self.view.frame.size
         utilities.debugNSLog("[Initialization] Bringing up AVCaptureSession")
         cameraSession = AVCaptureSession()
         
         utilities.debugNSLog("[Initialization] Bringing up AVCaptureDeviceInput")
-        utilities.debugNSLog("[Camera Input] Still initializing, getting compatible devices")
-        ultraWideDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: AVMediaType.video, position: .back)
-        utilities.debugNSLog("[Camera Input] Check for builtInUltraWideCamera completed")
-        wideAngleDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back)!
-        utilities.debugNSLog("[Camera Input] Check for builtInWideAngleCamera completed")
-        runInputSwitch()
         
-        let photoOutput = AVCapturePhotoOutput()
-        photoOutput.isHighResolutionCaptureEnabled = true
-        photoOutput.maxPhotoQualityPrioritization = .quality
-        cameraSession?.sessionPreset = AVCaptureSession.Preset.photo
-        cameraSession?.addOutput(photoOutput)
-        self.photoOutput = photoOutput
-        
-        utilities.debugNSLog("[Initialization] Bringing up AVCaptureVideoPreviewLayer")
-        cameraPreview = AVCaptureVideoPreviewLayer(session: cameraSession!)
-        
-        let statusBarOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-        let videoOrientation: AVCaptureVideoOrientation = (statusBarOrientation?.videoOrientation)!
-        cameraPreview?.frame = view.layer.bounds
-        cameraPreview?.connection?.videoOrientation = videoOrientation
-        
-        if utilities.settings.defaults.bool(forKey: "format.preview.fill") {
-            cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        if utilities.versionType == "INTERNAL" {
+            utilities.internalNSLog("[INTERNAL] [Camera Input] Getting current camera system capabilities")
+            
+            if let ultraWideDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) {
+                self.availableRearCameras.append(ultraWideDevice)
+                utilities.debugNSLog("[INTERNAL] [Camera Input] builtInUltraWideCamera available")
+            }
+            
+            if let wideAngleDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
+                self.availableRearCameras.append(wideAngleDevice)
+                utilities.debugNSLog("[INTERNAL] [Camera Input] builtInWideAngleCamera available")
+            }
+            
+            if let telephotoDevice = AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) {
+                self.availableRearCameras.append(telephotoDevice)
+                utilities.debugNSLog("[INTERNAL] [Camera Input] builtInTelephotoCamera available")
+            }
+            
+            print(self.availableRearCameras)
+            
+            runInputSwitch_INTERNAL()
+            
         } else {
-            cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspect
-        }
+            utilities.debugNSLog("[Camera Input] Still initializing, getting compatible devices")
+            ultraWideDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: AVMediaType.video, position: .back)
+            utilities.debugNSLog("[Camera Input] Check for builtInUltraWideCamera completed")
+            wideAngleDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back)!
+            utilities.debugNSLog("[Camera Input] Check for builtInWideAngleCamera completed")
+            
+            self.availableRearCameras.append(wideAngleDevice!)
         
-        //cameraPreview?.connection?.videoOrientation = transformOrientation(orientation: .portrait)
-        cameraView = UIView(frame: self.view.bounds)
-        cameraView.layer.addSublayer(cameraPreview!)
-        self.view.insertSubview(cameraView, at: 0)
-        
-        utilities.debugNSLog("[Initialization] Starting session stream")
-        DispatchQueue.global(qos: .background).async {
-            self.cameraSession?.startRunning()
+            runInputSwitch()
         }
-#else
-        utilities.debugNSLog("[Initialization] Detected iOS simulator, skipping to user interface bringup")
-#endif
+
+        if self.availableRearCameras.first != nil {
+            
+            let photoOutput = AVCapturePhotoOutput()
+            photoOutput.isHighResolutionCaptureEnabled = true
+            photoOutput.maxPhotoQualityPrioritization = .quality
+            cameraSession?.sessionPreset = AVCaptureSession.Preset.photo
+            cameraSession?.addOutput(photoOutput)
+            self.photoOutput = photoOutput
+            
+            utilities.debugNSLog("[Initialization] Bringing up AVCaptureVideoPreviewLayer")
+            cameraPreview = AVCaptureVideoPreviewLayer(session: cameraSession!)
+            
+            let statusBarOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+            let videoOrientation: AVCaptureVideoOrientation = (statusBarOrientation?.videoOrientation)!
+            cameraPreview?.frame = view.layer.bounds
+            cameraPreview?.connection?.videoOrientation = videoOrientation
+            
+            if utilities.settings.defaults.bool(forKey: "format.preview.fill") {
+                cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+            } else {
+                cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspect
+            }
+            
+            //cameraPreview?.connection?.videoOrientation = transformOrientation(orientation: .portrait)
+            cameraView = UIView(frame: self.view.bounds)
+            cameraView.layer.addSublayer(cameraPreview!)
+            self.view.insertSubview(cameraView, at: 0)
+            
+            utilities.debugNSLog("[Initialization] Starting session stream")
+            DispatchQueue.global(qos: .background).async {
+                self.cameraSession?.startRunning()
+            }
+        } else {
+            utilities.debugNSLog("[Initialization] No cameras detected, skipping to user interface bringup")
+        }
         
         utilities.debugNSLog("[Initialization] Setting up notification observer for orientation changes")
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
@@ -275,7 +307,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         exposureSliderButton.addSubview(exposureSlider)
         
 #if !targetEnvironment(simulator)
-        cameraButton.addTarget(self, action: #selector(self.runInputSwitch), for: .touchUpInside)
+        if utilities.versionType == "INTERNAL" {
+            cameraButton.addTarget(self, action: #selector(self.runInputSwitch_INTERNAL), for: .touchUpInside)
+        } else {
+            cameraButton.addTarget(self, action: #selector(self.runInputSwitch), for: .touchUpInside)
+        }
         flashlightButton.addTarget(self, action: #selector(self.runFlashlightToggle), for: .touchUpInside)
         captureButton.addTarget(self, action: #selector(self.runImageCapture), for: .touchUpInside)
         focusSlider.addTarget(self, action: #selector(self.runManualFocusController), for: .valueChanged)
@@ -530,6 +566,33 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                        firstRun: &initRun)
         
         utilities.tooltips.zoomTooltipFlow(viewForBounds: view, waInUse: wideAngleInUse)
+    }
+    
+    /// INTERNAL function, documented later
+    @objc func runInputSwitch_INTERNAL() {
+        if self.availableRearCameras.count == 1 && !initRun{
+            utilities.debugNSLog("[Camera Input] AVCaptureDevice for builtInUltraWideCamera unavailable, showing error")
+            let alert = UIAlertController(title: "alert.title.camera_switch".localized, message: "alert.detail.camera_switch".localized, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "alert.button.ok".localized, style: .default, handler: { _ in
+                self.utilities.debugNSLog("[Camera Input] Dialog has been dismissed")
+            }))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        UIView.animate(withDuration: 0.5) {
+            self.focusSlider.value = 0.0
+            self.exposureSlider.value = 0.0
+        }
+        
+        utilities.function.switchInput_INTERNAL(session: &cameraSession!,
+                                                cameras: availableRearCameras,
+                                                device: &selectedDevice,
+                                                input: &selectedInput,
+                                                button: &cameraButton,
+                                                firstRun: &initRun)
+        
+        //utilities.tooltips.zoomTooltipFlow(viewForBounds: view, waInUse: wideAngleInUse)
     }
     
     /// Function to toggle the flashlight's on state.
