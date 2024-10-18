@@ -139,39 +139,26 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         utilities.debugNSLog("[Initialization] Bringing up AVCaptureDeviceInput")
         
-        if utilities.versionType == "INTERNAL" {
-            utilities.internalNSLog("[INTERNAL] [Camera Input] Getting current camera system capabilities")
+        utilities.internalNSLog("[INTERNAL] [Camera Input] Getting current camera system capabilities")
             
-            if let ultraWideDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) {
-                self.availableRearCameras.append(ultraWideDevice)
-                utilities.debugNSLog("[INTERNAL] [Camera Input] builtInUltraWideCamera available")
-            }
-            
-            if let wideAngleDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
-                self.availableRearCameras.append(wideAngleDevice)
-                utilities.debugNSLog("[INTERNAL] [Camera Input] builtInWideAngleCamera available")
-            }
-            
-            if let telephotoDevice = AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) {
-                self.availableRearCameras.append(telephotoDevice)
-                utilities.debugNSLog("[INTERNAL] [Camera Input] builtInTelephotoCamera available")
-            }
-            
-            print(self.availableRearCameras)
-            
-            runInputSwitch_INTERNAL()
-            
-        } else {
-            utilities.debugNSLog("[Camera Input] Still initializing, getting compatible devices")
-            ultraWideDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: AVMediaType.video, position: .back)
-            utilities.debugNSLog("[Camera Input] Check for builtInUltraWideCamera completed")
-            wideAngleDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back)!
-            utilities.debugNSLog("[Camera Input] Check for builtInWideAngleCamera completed")
-            
-            self.availableRearCameras.append(wideAngleDevice!)
-        
-            runInputSwitch()
+        if let ultraWideDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) {
+            self.availableRearCameras.append(ultraWideDevice)
+            utilities.debugNSLog("[INTERNAL] [Camera Input] builtInUltraWideCamera available")
         }
+        
+        if let wideAngleDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
+            self.availableRearCameras.append(wideAngleDevice)
+            utilities.debugNSLog("[INTERNAL] [Camera Input] builtInWideAngleCamera available")
+        }
+        
+        if let telephotoDevice = AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) {
+            self.availableRearCameras.append(telephotoDevice)
+            utilities.debugNSLog("[INTERNAL] [Camera Input] builtInTelephotoCamera available")
+        }
+        
+        print(self.availableRearCameras)
+        
+        runInputSwitch()
 
         if self.availableRearCameras.first != nil {
             
@@ -321,11 +308,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         exposureSliderButton.addSubview(exposureSlider)
         
 #if !targetEnvironment(simulator)
-        if utilities.versionType == "INTERNAL" {
-            cameraButton.addTarget(self, action: #selector(self.runInputSwitch_INTERNAL), for: .touchUpInside)
-        } else {
-            cameraButton.addTarget(self, action: #selector(self.runInputSwitch), for: .touchUpInside)
-        }
+        cameraButton.addTarget(self, action: #selector(self.runInputSwitch), for: .touchUpInside)
         flashlightButton.addTarget(self, action: #selector(self.runFlashlightToggle), for: .touchUpInside)
         captureButton.addTarget(self, action: #selector(self.runImageCapture), for: .touchUpInside)
         focusSlider.addTarget(self, action: #selector(self.runManualFocusController), for: .valueChanged)
@@ -560,38 +543,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.present(hostingController, animated: true, completion: nil)
     }
     
-    /// Function to switch cameras and attach new inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.
-    @objc func runInputSwitch() {
-        if ultraWideDevice == nil && !initRun {
-            utilities.debugNSLog("[Camera Input] AVCaptureDevice for builtInUltraWideCamera unavailable, showing error")
-            let alert = UIAlertController(title: "alert.title.camera_switch".localized, message: "alert.detail.camera_switch".localized, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "alert.button.ok".localized, style: .default, handler: { _ in
-                self.utilities.debugNSLog("[Camera Input] Dialog has been dismissed")
-            }))
-            self.present(alert, animated: true, completion: nil)
-            return
-        }
-        
-        UIView.animate(withDuration: 0.5) {
-            self.focusSlider.value = 0.0
-            self.exposureSlider.value = 0.0
-        }
-        utilities.function.switchInput(session: &cameraSession!,
-                                       uwDevice: &ultraWideDevice,
-                                       waDevice: &wideAngleDevice!,
-                                       device: &selectedDevice,
-                                       input: &selectedInput,
-                                       button: &cameraButton,
-                                       waInUse: &wideAngleInUse,
-                                       firstRun: &initRun)
-        
-        utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: view, camera: selectedDevice)
-    }
-    
     /// INTERNAL function, documented later
-    @objc func runInputSwitch_INTERNAL() {
+    @objc func runInputSwitch() {
         if self.availableRearCameras.count == 1 && !initRun{
-            utilities.debugNSLog("[Camera Input] AVCaptureDevice for builtInUltraWideCamera unavailable, showing error")
+            utilities.debugNSLog("[Camera Input] Only one AVCaptureDevice is available to use, showing error")
             let alert = UIAlertController(title: "alert.title.camera_switch".localized, message: "alert.detail.camera_switch".localized, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "alert.button.ok".localized, style: .default, handler: { _ in
                 self.utilities.debugNSLog("[Camera Input] Dialog has been dismissed")
@@ -605,7 +560,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             self.exposureSlider.value = 0.0
         }
         
-        utilities.function.switchInput_INTERNAL(session: &cameraSession!,
+        utilities.function.switchInput(session: &cameraSession!,
                                                 cameras: availableRearCameras,
                                                 device: &selectedDevice,
                                                 input: &selectedInput,

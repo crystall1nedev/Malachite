@@ -160,77 +160,7 @@ public class MalachiteFunctionUtils : NSObject {
     }
     
     /// Function that handles connecting and disconnecting cameras, and changing format properties.
-    public func switchInput(session: inout AVCaptureSession, uwDevice: inout AVCaptureDevice?, waDevice: inout AVCaptureDevice, device: inout AVCaptureDevice?, input: inout AVCaptureDeviceInput?, button: inout UIButton, waInUse: inout Bool, firstRun: inout Bool){
-        button.isUserInteractionEnabled = false
-        MalachiteClassesObject().debugNSLog("[Camera Input] Getting ready to configure session")
-        session.beginConfiguration()
-        
-        if !firstRun {
-            MalachiteClassesObject().debugNSLog("[Camera Input] Removing currently active camera input")
-            session.removeInput(input!)
-        } else {
-            firstRun = false
-        }
-        
-        if waInUse == true && uwDevice != nil {
-            MalachiteClassesObject().debugNSLog("[Camera Input] builtInUltraWideCamera is available, selecting as device")
-            device = uwDevice!
-            waInUse = false
-        } else {
-            MalachiteClassesObject().debugNSLog("[Camera Input] builtInWideAngle is available, selecting as device")
-            device = waDevice
-            waInUse = true
-            
-        }
-        
-        MalachiteClassesObject().debugNSLog("[Camera Input] Attempting to attach device input to session")
-        do { input = try AVCaptureDeviceInput(device: device!) }
-        catch {
-            print(error)
-        }
-        
-        deviceFormatSupportsHDR(device: device!)
-        
-        do {
-            try device?.lockForConfiguration()
-            defer { device?.unlockForConfiguration() }
-            device?.automaticallyAdjustsVideoHDREnabled = false
-            if settings.defaults.bool(forKey: "format.hdr.enabled") {
-                if self.supportsHDR {
-                    MalachiteClassesObject().debugNSLog("[Camera Input] Force enabled HDR on camera")
-                    if device?.activeFormat.isVideoHDRSupported == true {
-                        device?.isVideoHDREnabled = true
-                    } else {
-                        MalachiteClassesObject().debugNSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
-                        settings.defaults.set(false, forKey: "format.hdr.enabled")
-                    }
-                } else {
-                    MalachiteClassesObject().debugNSLog("[Camera Input] HDR enabled on a device that doesn't support it")
-                    settings.defaults.set(false, forKey: "format.hdr.enabled")
-                }
-            }
-            
-            if !settings.defaults.bool(forKey: "format.hdr.enabled") {
-                MalachiteClassesObject().debugNSLog("[Camera Input] Force disabled HDR on camera")
-                if device?.activeFormat.isGlobalToneMappingSupported == true {
-                    device?.isGlobalToneMappingEnabled = true
-                }
-                if device?.activeFormat.isVideoHDRSupported == true {
-                    device?.isVideoHDREnabled = false
-                }
-            }
-        } catch {
-            MalachiteClassesObject().debugNSLog("[Camera Input] Error adjusting device properties: \(error.localizedDescription)")
-        }
-        
-        MalachiteClassesObject().debugNSLog("[Camera Input] Attached input, finishing configuration")
-        session.addInput(input!)
-        session.commitConfiguration()
-        button.isUserInteractionEnabled = true
-    }
-    
-    /// INTERNAL: Function that handles connecting and disconnecting cameras, and changing format properties.
-    public func switchInput_INTERNAL(session: inout AVCaptureSession, cameras: [AVCaptureDevice], device: inout AVCaptureDevice?, input: inout AVCaptureDeviceInput?, button: inout UIButton, firstRun: inout Bool){
+    public func switchInput(session: inout AVCaptureSession, cameras: [AVCaptureDevice], device: inout AVCaptureDevice?, input: inout AVCaptureDeviceInput?, button: inout UIButton, firstRun: inout Bool){
         button.isUserInteractionEnabled = false
         MalachiteClassesObject().debugNSLog("[Camera Input] Getting ready to configure session")
         session.beginConfiguration()
