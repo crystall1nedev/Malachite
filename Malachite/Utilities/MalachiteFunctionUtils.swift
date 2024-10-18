@@ -245,7 +245,6 @@ public class MalachiteFunctionUtils : NSObject {
             MalachiteClassesObject().debugNSLog("[Camera Input] Removing currently active camera input")
             session.removeInput(input!)
         } else {
-            firstRun = false
             if !cameras.isEmpty { device = cameras[0] }
         }
         
@@ -254,7 +253,7 @@ public class MalachiteFunctionUtils : NSObject {
         print(cameras as Any)
         
         // Only fire this code when there is more than one camera!
-        if cameras.count > 1 {
+        if cameras.count > 1 && !firstRun {
             // Need to figure out how to best do what needs to be done
             // Camera switching should just choose the next camera on the list, or loop to the beginning if we're at the end
             // We can do this be checking which index we're at rn, and then comparing it to the count of devices
@@ -267,6 +266,8 @@ public class MalachiteFunctionUtils : NSObject {
                 }
             }
         }
+        
+        firstRun = false
         
         print(device as Any)
             
