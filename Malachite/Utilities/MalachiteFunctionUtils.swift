@@ -13,8 +13,6 @@ import UIKit
 public class MalachiteFunctionUtils : NSObject {
     /// An array that returns the available image capture types supported by the camera.
     private let supportedImageCaptureTypes = CGImageDestinationCopyTypeIdentifiers() as NSArray
-    /// A `UIButton` that contains the blur for the on-screen feedback produced by the auto focus gesture.
-    private var autofocusFeedback = UIButton()
     /// An instance of ``MalachiteSettingsUtils
     public var settings = MalachiteSettingsUtils()
     /// A `Bool` that determines whether or not the device supports HDR.
@@ -82,32 +80,29 @@ public class MalachiteFunctionUtils : NSObject {
     }
     
     /// Function that handles autofocus.
-    public func autofocus(sender: UILongPressGestureRecognizer, captureDevice device: inout AVCaptureDevice, viewForScale view: UIView, hapticClass haptic: MalachiteHapticUtils) {
+    public func autofocus(sender: UILongPressGestureRecognizer, captureDevice device: inout AVCaptureDevice, button: UIButton, viewForScale view: UIView, hapticClass haptic: MalachiteHapticUtils) {
         let focusPoint = sender.location(in: view)
         if sender.state == UIGestureRecognizer.State.began {
             haptic.triggerNotificationHaptic(type: .success)
-            autofocusFeedback = MalachiteViewUtils().returnProperButton(symbolName: "", cornerRadius: 60, viewForBounds: view, hapticClass: haptic)
-            view.addSubview(self.autofocusFeedback)
-            autofocusFeedback.alpha = 0.0
             
             UIView.animate(withDuration: 0.25) {
-                self.autofocusFeedback.alpha = 1.0
+                button.alpha = 1.0
             }
             
             NSLayoutConstraint.activate([
-                autofocusFeedback.widthAnchor.constraint(equalToConstant: 120),
-                autofocusFeedback.heightAnchor.constraint(equalToConstant: 120),
-                autofocusFeedback.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: focusPoint.x),
-                autofocusFeedback.centerYAnchor.constraint(equalTo: view.topAnchor, constant: focusPoint.y),
+                button.widthAnchor.constraint(equalToConstant: 120),
+                button.heightAnchor.constraint(equalToConstant: 120),
+                button.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: focusPoint.x),
+                button.centerYAnchor.constraint(equalTo: view.topAnchor, constant: focusPoint.y),
             ])
         } else if sender.state == UIGestureRecognizer.State.changed {
-            autofocusFeedback.removeFromSuperview()
-            view.addSubview(autofocusFeedback)
+            button.removeFromSuperview()
+            view.addSubview(button)
             NSLayoutConstraint.activate([
-                autofocusFeedback.widthAnchor.constraint(equalToConstant: 120),
-                autofocusFeedback.heightAnchor.constraint(equalToConstant: 120),
-                autofocusFeedback.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: focusPoint.x),
-                autofocusFeedback.centerYAnchor.constraint(equalTo: view.topAnchor, constant: focusPoint.y),
+                button.widthAnchor.constraint(equalToConstant: 120),
+                button.heightAnchor.constraint(equalToConstant: 120),
+                button.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: focusPoint.x),
+                button.centerYAnchor.constraint(equalTo: view.topAnchor, constant: focusPoint.y),
             ])
         } else if sender.state == UIGestureRecognizer.State.ended {
             let focusScaledPointX = focusPoint.x / view.frame.size.width
@@ -128,9 +123,9 @@ public class MalachiteFunctionUtils : NSObject {
             }
             
             UIView.animate(withDuration: 0.25) {
-                self.autofocusFeedback.alpha = 0.0
+                button.alpha = 0.0
             } completion: { _ in
-                self.autofocusFeedback.removeFromSuperview()
+                button.removeFromSuperview()
             }
         }
     }

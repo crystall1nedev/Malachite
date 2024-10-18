@@ -9,55 +9,25 @@ import Foundation
 import UIKit
 
 public class MalachiteTooltipUtils : NSObject {
-    /// The title for the focus slider.
-    var focusTitle = UILabel()
-    /// The title for the exposure slider.
-    var exposureTitle = UILabel()
-    /// The button used to display what camera is in use.
-    var currentCamera = UIButton()
-    
-    /// The title for the dismiss button in ``MalachitePhotoPreview``
-    var closeOverlayTitle = UILabel()
-    /// The title for the save photo button in ``MalachitePhotoPreview``
-    var savePhotoTitle = UILabel()
-    /// The title for the share photo button in ``MalachitePhotoPreview``
-    var sharePhotoTitle = UILabel()
-    
-    /// Function used to display text in ``MalachiteView``.
-    public func tooltipFlow(viewForBounds view: UIView) {
-        focusTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString("uibutton.focus.title", comment: ""), anchorConstant: 10)
-        exposureTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString("uibutton.exposure.title", comment: ""), anchorConstant: 80)
-        
-        fadeOutTooltipFlow(labelsToFade: [ focusTitle, exposureTitle])
-    }
-    
-    /// Function used to display text in ``MalachitePhotoPreview``.
-    public func capturedTooltipFlow(viewForBounds view: UIView) {
-        closeOverlayTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString("uibutton.close.title", comment: ""), anchorConstant: 10)
-        savePhotoTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString( "uibutton.save.title", comment: ""), anchorConstant: 80)
-        sharePhotoTitle = returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString( "uibutton.share.title", comment: ""), anchorConstant: 150)
-    }
     
     /// Function used to display the current camera ("0.5x" or "1x") when switching cameras.
-    public func zoomTooltipFlow(viewForBounds view: UIView, waInUse: Bool) {
-        currentCamera = MalachiteViewUtils().returnProperButton(symbolName: "", cornerRadius: 30, viewForBounds: view, hapticClass: nil)
-        currentCamera.isEnabled = false
+    public func zoomTooltipFlow(button: UIButton, viewForBounds view: UIView, waInUse: Bool) {
+        button.isEnabled = false
         if waInUse {
-            currentCamera.setTitle("1x", for: .normal)
+            button.setTitle("1x", for: .normal)
         } else {
-            currentCamera.setTitle("0.5x", for: .normal)
+            button.setTitle("0.5x", for: .normal)
         }
         
-        view.addSubview(currentCamera)
         
         NSLayoutConstraint.activate([
-            currentCamera.widthAnchor.constraint(equalToConstant: 60),
-            currentCamera.heightAnchor.constraint(equalToConstant: 60),
-            currentCamera.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            currentCamera.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            button.widthAnchor.constraint(equalToConstant: 60),
+            button.heightAnchor.constraint(equalToConstant: 60),
+            button.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            button.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
         ])
         
-        fadeOutZoomTooltipFlow()
+        fadeOutZoomTooltipFlow(button: button)
     }
     
     /// Function used to fade out ``tooltipFlow(viewForBounds:)
@@ -75,13 +45,13 @@ public class MalachiteTooltipUtils : NSObject {
     }
     
     /// Function used to fade out ``zoomTooltipFlow(viewForBounds:waInUse:)``.
-    public func fadeOutZoomTooltipFlow() {
+    public func fadeOutZoomTooltipFlow(button: UIButton) {
         let seconds = 3.0
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-            UIView.animate(withDuration: 1, animations: { [self] in
-                currentCamera.alpha = 0.0
-            }, completion: { [self] (finished:Bool) in
-                currentCamera.removeFromSuperview()
+            UIView.animate(withDuration: 1, animations: {
+                button.alpha = 0.0
+            }, completion: { _ in
+                button.removeFromSuperview()
             })
         }
         

@@ -73,10 +73,19 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     var zoomRecognizer = UIPinchGestureRecognizer()
     /// A `UILongPressGestureRecognizer` that handles enabling the autofocus system at a specific point on the display for the ``cameraSession``.
     var autofocusRecognizer = UILongPressGestureRecognizer()
+    /// A `UIButton` that contains the blur for the on-screen feedback produced by the auto focus gesture.
+    private var autofocusFeedback = UIButton()
     /// A `UILongPressGestureRecognizer` that handles hiding all elements of the user interface, and disabling the ``zoomRecognizer`` and ``autofocusRecognizer`` gestures.
     var uiHiderRecognizer = UILongPressGestureRecognizer()
     /// A `Bool` that determines whether or not the user interface is currently hidden to the user.
     var uiIsHidden = false
+    
+    /// The title for the focus slider.
+    var focusTitle = UILabel()
+    /// The title for the exposure slider.
+    var exposureTitle = UILabel()
+    /// The button used to display what camera is in use.
+    var currentCamera = UIButton()
     
     /// The minimum zoom value that the ``zoomRecognizer`` is allowed to reach.
     let minimumZoom: CGFloat = 1.0
@@ -288,10 +297,13 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         exposureSliderButton = utilities.views.returnProperButton(symbolName: "", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
         exposureLockButton = utilities.views.returnProperButton(symbolName: "lock.open", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
         settingsButton = utilities.views.returnProperButton(symbolName: "gear", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
+        autofocusFeedback = utilities.views.returnProperButton(symbolName: "", cornerRadius: 60, viewForBounds: self.view, hapticClass: utilities.haptics)
+        currentCamera = utilities.views.returnProperButton(symbolName: "", cornerRadius: 30, viewForBounds: self.view, hapticClass: nil)
         focusSlider.translatesAutoresizingMaskIntoConstraints = false
         exposureSlider.translatesAutoresizingMaskIntoConstraints = false
         focusLockButton.alpha = 0.0
         exposureLockButton.alpha = 0.0
+        autofocusFeedback.alpha = 0.0
         
         self.view.addSubview(cameraButton)
         self.view.addSubview(flashlightButton)
@@ -303,6 +315,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.view.addSubview(exposureSliderButton)
         self.view.addSubview(exposureLockButton)
         self.view.addSubview(settingsButton)
+        self.view.addSubview(autofocusFeedback)
+        self.view.addSubview(currentCamera)
         focusSliderButton.addSubview(focusSlider)
         exposureSliderButton.addSubview(exposureSlider)
         
@@ -329,6 +343,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         autofocusRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runAutoFocusController))
         uiHiderRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runUIHider))
         uiHiderRecognizer.numberOfTouchesRequired = 2
+        
+        
+        focusTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString("uibutton.focus.title", comment: ""), anchorConstant: 10)
+        exposureTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString("uibutton.exposure.title", comment: ""), anchorConstant: 80)
         
         self.view.addGestureRecognizer(zoomRecognizer)
         self.view.addGestureRecognizer(autofocusRecognizer)
@@ -408,11 +426,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             exposureLockButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: lockButtonsX),
         ])
         
-        utilities.tooltips.tooltipFlow(viewForBounds: self.view)
-        
-        //GKAccessPoint.shared.location = .topLeading
-        //GKAccessPoint.shared.showHighlights = true
-        //GKAccessPoint.shared.isActive = true
+        utilities.tooltips.fadeOutTooltipFlow(labelsToFade: [ focusTitle, exposureTitle])
+        utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: self.view, waInUse: true)
         
         setupGameKitAlert()
     }
@@ -565,7 +580,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                        waInUse: &wideAngleInUse,
                                        firstRun: &initRun)
         
-        utilities.tooltips.zoomTooltipFlow(viewForBounds: view, waInUse: wideAngleInUse)
+        utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: view, waInUse: wideAngleInUse)
     }
     
     /// INTERNAL function, documented later
@@ -682,6 +697,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     @objc func runAutoFocusController() {
         utilities.function.autofocus(sender: autofocusRecognizer,
                                      captureDevice: &selectedDevice!,
+                                     button: autofocusFeedback,
                                      viewForScale: self.view,
                                      hapticClass: utilities.haptics)
     }

@@ -44,6 +44,13 @@ class MalachitePhotoPreview : UIViewController {
     /// A `UIButton` that enables users to share the image directly from Malachite.
     var sharePhotoButton = UIButton()
     
+    /// The title for the dismiss button in ``MalachitePhotoPreview``
+    var dismissTitle = UILabel()
+    /// The title for the save photo button in ``MalachitePhotoPreview``
+    var savePhotoTitle = UILabel()
+    /// The title for the share photo button in ``MalachitePhotoPreview``
+    var sharePhotoTitle = UILabel()
+    
     /// A variable to store the device's last known orientation.
     let fixedOrientation = UIDevice.current.orientation
     
@@ -104,6 +111,11 @@ class MalachitePhotoPreview : UIViewController {
         photoImageView.image = rotatedImage
         photoImageView.layer.contentsGravity = .resizeAspect
         
+        
+        dismissTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString("uibutton.close.title", comment: ""), anchorConstant: 10)
+        savePhotoTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString( "uibutton.save.title", comment: ""), anchorConstant: 80)
+        sharePhotoTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString( "uibutton.share.title", comment: ""), anchorConstant: 150)
+        
         self.view.addSubview(blurredBackgroundView)
         self.view.addSubview(photoImageView)
         
@@ -139,8 +151,6 @@ class MalachitePhotoPreview : UIViewController {
         sharePhotoButton.addTarget(self, action: #selector(self.sharePhoto), for: .touchUpInside)
         
         orientationChanged()
-        
-        utilities.tooltips.capturedTooltipFlow(viewForBounds: self.view)
     }
     
     
