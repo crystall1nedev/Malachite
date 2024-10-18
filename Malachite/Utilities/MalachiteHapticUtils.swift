@@ -9,20 +9,22 @@ import Foundation
 import UIKit
 
 public class MalachiteHapticUtils : NSObject {
-    let lightHaptic = UIImpactFeedbackGenerator(style: .light)
-    let mediumHaptic = UIImpactFeedbackGenerator(style: .medium)
-    let heavyHaptic = UIImpactFeedbackGenerator(style: .heavy)
-    let notificationHaptic = UINotificationFeedbackGenerator()
+    /// A function that triggers a light haptic generator.
+    public func triggerLightHaptic() { UIImpactFeedbackGenerator(style: .light).impactOccurred() }
+    /// A function that triggers a medium haptic generator.
+    public func triggerMediumHaptic() { UIImpactFeedbackGenerator(style: .medium).impactOccurred() }
+    /// A function that triggers a heavy haptic generator.
+    public func triggerHeavyHaptic() { UIImpactFeedbackGenerator(style: .heavy).impactOccurred() }
     
-    public func triggerLightHaptic() { lightHaptic.impactOccurred() }
-    public func triggerMediumHaptic() { mediumHaptic.impactOccurred() }
-    public func triggerHeavyHaptic() { heavyHaptic.impactOccurred() }
-    
+    /// An Objective-C selector that wraps ``triggerLightHaptic()``
     @objc public func buttonLightHaptics(_ sender: Any) { triggerLightHaptic() }
+    /// An Objective-C selector that wraps ``triggerMediumHaptic()``
     @objc public func buttonMediumHaptics(_ sender: Any) { triggerMediumHaptic() }
+    /// An Objective-C selector that wraps ``triggerHeavyHaptic()``
     @objc public func buttonHeavyHaptics(_ sender: Any) { triggerHeavyHaptic() }
     
+    /// A function that triggers a notification haptic based on the passed type.
     public func triggerNotificationHaptic(type feedbackType: UINotificationFeedbackGenerator.FeedbackType) {
-        notificationHaptic.notificationOccurred(feedbackType)
+        UINotificationFeedbackGenerator().notificationOccurred(feedbackType)
     }
 }
