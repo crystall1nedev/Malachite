@@ -424,10 +424,15 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             exposureLockButton.heightAnchor.constraint(equalToConstant: 60),
             exposureLockButton.topAnchor.constraint(equalTo: exposureButton.topAnchor, constant: lockButtonsY),
             exposureLockButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: lockButtonsX),
+            
+            currentCamera.widthAnchor.constraint(equalToConstant: 60),
+            currentCamera.heightAnchor.constraint(equalToConstant: 60),
+            currentCamera.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            currentCamera.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
         ])
         
         utilities.tooltips.fadeOutTooltipFlow(labelsToFade: [ focusTitle, exposureTitle])
-        utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: self.view, waInUse: true)
+        utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: self.view, camera: selectedDevice)
         
         setupGameKitAlert()
     }
@@ -580,7 +585,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                        waInUse: &wideAngleInUse,
                                        firstRun: &initRun)
         
-        utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: view, waInUse: wideAngleInUse)
+        utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: view, camera: selectedDevice)
     }
     
     /// INTERNAL function, documented later
@@ -607,7 +612,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                                 button: &cameraButton,
                                                 firstRun: &initRun)
         
-        //utilities.tooltips.zoomTooltipFlow(viewForBounds: view, waInUse: wideAngleInUse)
+        utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: view, camera: selectedDevice)
     }
     
     /// Function to toggle the flashlight's on state.

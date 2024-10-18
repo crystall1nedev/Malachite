@@ -6,19 +6,29 @@
 //
 
 import Foundation
+import AVFoundation
 import UIKit
 
 public class MalachiteTooltipUtils : NSObject {
     
     /// Function used to display the current camera ("0.5x" or "1x") when switching cameras.
-    public func zoomTooltipFlow(button: UIButton, viewForBounds view: UIView, waInUse: Bool) {
+    public func zoomTooltipFlow(button: UIButton, viewForBounds view: UIView, camera: AVCaptureDevice?) {
         button.isEnabled = false
-        if waInUse {
-            button.setTitle("1x", for: .normal)
-        } else {
-            button.setTitle("0.5x", for: .normal)
+        button.alpha = 1.0
+        view.addSubview(button)
+        if camera == nil { return }
+        
+        if camera == AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) {
+            button.setTitle("UW", for: .normal)
         }
         
+        if camera == AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
+            button.setTitle("W", for: .normal)
+        }
+        
+        if camera == AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) {
+            button.setTitle("T", for: .normal)
+        }
         
         NSLayoutConstraint.activate([
             button.widthAnchor.constraint(equalToConstant: 60),
