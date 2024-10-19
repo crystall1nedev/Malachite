@@ -330,6 +330,16 @@
         }
       }
     },
+    "settings.detail.photo.megapixels" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a higher megapixel option to capture higher resolution images. Support for 12MP and 48MP depends on your hardware."
+          }
+        }
+      }
+    },
     "settings.detail.preview.aspect_ratio" : {
       "localizations" : {
         "en" : {
@@ -539,6 +549,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enable maximum exposure"
+          }
+        }
+      }
+    },
+    "settings.option.photo.megapixels" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Picture resolution"
+          }
+        }
+      }
+    },
+    "settings.option.photo.megapixels.8" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "8MP (3264x2448)"
+          }
+        }
+      }
+    },
+    "settings.option.photo.megapixels.12" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12MP (4032x3024)"
+          }
+        }
+      }
+    },
+    "settings.option.photo.megapixels.48" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "48MP (8064x6048)"
           }
         }
       }

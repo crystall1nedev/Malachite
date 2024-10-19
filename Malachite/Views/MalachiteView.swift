@@ -26,7 +26,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// The currently selected `AVCaptureDeviceInput` for input to ``cameraSession``.
     var selectedInput: AVCaptureDeviceInput?
     /// The `AVCapturePhotoOutput` used to capture photos with ``selectedDevice`` and ``cameraSession``.
-    var photoOutput: AVCapturePhotoOutput?
+    var photoOutput = AVCapturePhotoOutput()
     /// The `AVCaptureVideoPreviewLayer` used to allow users to see a preview of their camera before taking a shot with ``photoOutput``.
     var cameraPreview: AVCaptureVideoPreviewLayer?
     /// A `Bool` that determines whether or not the wide angle lens is in use.
@@ -128,8 +128,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         if !utilities.function.supportsHEIC() {
             utilities.debugNSLog("[Initialization] HEIF enabled on a device that doesn't support it, disabling")
-            utilities.settings.defaults.set(true, forKey: "format.type.jpeg")
-            utilities.settings.defaults.set(false, forKey: "format.type.heif")
+            utilities.settings.defaults.set(true, forKey: "capture.type.jpeg")
+            utilities.settings.defaults.set(false, forKey: "capture.type.heif")
         }
         
 
@@ -143,9 +143,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         var camerasToDiscover : [AVCaptureDevice.DeviceType] = []
         if #available(iOS 17.0, *) {
-            camerasToDiscover = [.builtInWideAngleCamera, .builtInUltraWideCamera, .builtInTelephotoCamera, .external]
+            camerasToDiscover = [.builtInUltraWideCamera, .builtInWideAngleCamera, .builtInTelephotoCamera, .external]
         } else {
-            camerasToDiscover = [.builtInWideAngleCamera, .builtInUltraWideCamera, .builtInTelephotoCamera]
+            camerasToDiscover = [.builtInUltraWideCamera, .builtInWideAngleCamera, .builtInTelephotoCamera]
         }
         
         AVCaptureDevice.DiscoverySession.init(deviceTypes: camerasToDiscover, mediaType: .video, position: .back).devices.forEach { device in
@@ -156,13 +156,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         runInputSwitch()
 
         if self.availableRearCameras.first != nil {
-            
-            let photoOutput = AVCapturePhotoOutput()
+            photoOutput = AVCapturePhotoOutput()
             photoOutput.isHighResolutionCaptureEnabled = true
             photoOutput.maxPhotoQualityPrioritization = .quality
             cameraSession?.sessionPreset = AVCaptureSession.Preset.photo
             cameraSession?.addOutput(photoOutput)
-            self.photoOutput = photoOutput
             
             utilities.debugNSLog("[Initialization] Bringing up AVCaptureVideoPreviewLayer")
             cameraPreview = AVCaptureVideoPreviewLayer(session: cameraSession!)
@@ -172,13 +170,12 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             cameraPreview?.frame = view.layer.bounds
             cameraPreview?.connection?.videoOrientation = videoOrientation
             
-            if utilities.settings.defaults.bool(forKey: "format.preview.fill") {
+            if utilities.settings.defaults.bool(forKey: "preview.size.fill") {
                 cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspectFill
             } else {
                 cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspect
             }
             
-            //cameraPreview?.connection?.videoOrientation = transformOrientation(orientation: .portrait)
             cameraView = UIView(frame: self.view.bounds)
             cameraView.layer.addSublayer(cameraPreview!)
             self.view.insertSubview(cameraView, at: 0)
@@ -197,9 +194,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NotificationCenter.default.addObserver(self, selector: #selector(changeExposureLimit), name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeStabilizerMode), name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeGameCenterEnabled), name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
+        if utilities.versionType == "INTERNAL" {
+            NotificationCenter.default.addObserver(self, selector: #selector(runInputMegapixelSwitch), name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
+        }
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        
-        // TODO: Separate debug and release builds
     }
     
     /**
@@ -416,7 +414,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     }
     
     func setupGameKitAlert() {
-        if utilities.settings.defaults.bool(forKey: "internal.gamekit.alert") {
+        if utilities.settings.defaults.bool(forKey: "general.gamekit.alert") {
             let alert = UIAlertController(title: "alert.title.gamekit".localized, message: "alert.detail.gamekit".localized, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.reopen", comment: "Default action"), style: .default, handler: { _ in
                 exit(11)
@@ -429,7 +427,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }))
             alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ignore", comment: "Default action"), style: .default, handler: { _ in
-                self.utilities.settings.defaults.set(false, forKey: "internal.gamekit.alert")
+                self.utilities.settings.defaults.set(false, forKey: "general.gamekit.alert")
                 self.setupLmaoView()
             }))
             self.present(alert, animated: true, completion: nil)
@@ -474,7 +472,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to dynamically update the aspect ratio for ``cameraPreview`` through ``MalachiteSettingsView``.
     @objc func changeAspectFill() {
         UIView.animate(withDuration: 20) { [self] in
-            if utilities.settings.defaults.bool(forKey: "format.preview.fill") {
+            if utilities.settings.defaults.bool(forKey: "preview.size.fill") {
                 cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspectFill
             } else {
                 cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspect
@@ -499,7 +497,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to change the video stabilization mode for the ``cameraPreview``.
     @objc func changeStabilizerMode() {
-        if utilities.settings.defaults.bool(forKey: "capture.stblz.enabled") {
+        if utilities.settings.defaults.bool(forKey: "preview.stblz.enabled") {
             if #available(iOS 17.0, *) {
                 if ((selectedDevice?.activeFormat.isVideoStabilizationModeSupported(.previewOptimized)) != nil) {
                     utilities.debugNSLog("[Preview Stabilization] Enabling enhanced stabilization mode")
@@ -520,7 +518,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to change the GameKit enabled state.
     @objc func changeGameCenterEnabled() {
         DispatchQueue.global(qos: .background).async { [self] in
-            if utilities.settings.defaults.bool(forKey: "internal.gamekit.enabled") {
+            if utilities.settings.defaults.bool(forKey: "general.gamekit.enabled") {
                 utilities.games.setupGameCenter()
             }
             
@@ -558,11 +556,16 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         utilities.function.switchInput(session: &cameraSession!,
                                                 cameras: availableRearCameras,
                                                 device: &selectedDevice,
+                                                output: &self.photoOutput,
                                                 input: &selectedInput,
                                                 button: &cameraButton,
                                                 firstRun: &initRun)
         
         utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: view, camera: selectedDevice)
+    }
+    
+    @objc func runInputMegapixelSwitch() {
+        utilities.function.switchInputMegapixels(device: selectedDevice!, photoOutput: self.photoOutput)
     }
     
     /// Function to toggle the flashlight's on state.
@@ -593,7 +596,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         group.notify(queue: .main) { [self] in
             if libraryAccessGranted {
-                self.photoOutput = utilities.function.captureImage(output: self.photoOutput!, viewForBounds: self.view, captureDelegate: self)
+                self.photoOutput = utilities.function.captureImage(output: self.photoOutput, viewForBounds: self.view, captureDelegate: self)
             } else {
                 utilities.debugNSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
                 let alert = UIAlertController(title: "error.title.phphotolibrary", message: "error.detail.phphotolibrary", preferredStyle: .alert)
@@ -629,7 +632,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         DispatchQueue.global(qos: .background).async { [self] in
             utilities.settings.runPhotoCounter()
             if utilities.games.gameCenterEnabled {
-                let numPhotos = utilities.settings.defaults.integer(forKey: "internal.photos.count")
+                let numPhotos = utilities.settings.defaults.integer(forKey: "general.photos.count")
                 if numPhotos == 1 {
                     let firstPhoto = utilities.games.achievements.pullAchievement(achievementName: "first_photo")
                     firstPhoto.percentComplete = 100

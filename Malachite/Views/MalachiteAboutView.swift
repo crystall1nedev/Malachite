@@ -56,16 +56,16 @@ struct MalachiteAboutView: View {
             aboutSection
             storySection
             creditsSection
-            if utilities.settings.defaults.bool(forKey: "internal.gamekit.found") {
+            if utilities.settings.defaults.bool(forKey: "general.gamekit.found") {
                 gamekitSection
             }
             
         }
         .onAppear() {
-            gamekitSwitch = utilities.settings.defaults.bool(forKey: "internal.gamekit.enabled")
+            gamekitSwitch = utilities.settings.defaults.bool(forKey: "general.gamekit.enabled")
         }
         .onDisappear() {
-            utilities.settings.defaults.set(gamekitSwitch, forKey: "internal.gamekit.enabled")
+            utilities.settings.defaults.set(gamekitSwitch, forKey: "general.gamekit.enabled")
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
         }
         .navigationTitle("view.title.about")
@@ -220,7 +220,7 @@ struct MalachiteAboutView: View {
             }
         }
         .onChange(of: gamekitSwitch) {_ in
-            utilities.settings.defaults.set(gamekitSwitch, forKey: "internal.gamekit.enabled")
+            utilities.settings.defaults.set(gamekitSwitch, forKey: "general.gamekit.enabled")
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
         }
     }

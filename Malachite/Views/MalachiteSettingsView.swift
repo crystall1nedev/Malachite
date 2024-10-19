@@ -18,6 +18,8 @@ struct MalachiteSettingsView: View {
     @State private var previewAspect = Int()
     /// A State variable used for determining whether or not to stabilize the ``cameraPreview``.
     @State private var shouldStabilize = Bool()
+    /// A State variable used for determining what megapixel count to shoot in.
+    @State private var megapixelCount = Int()
     /// A State variable used for determining whether or not to capture in HDR.
     @State private var hdrSwitch = false
     /// A State variable used for determining whether or not the device supports HDR capture in its current mode.
@@ -57,12 +59,12 @@ struct MalachiteSettingsView: View {
             debugSettingsSection
         }
         .onAppear() {
-            watermarkText = utilities.settings.defaults.string(forKey: "wtrmark.text")!
+            watermarkText = utilities.settings.defaults.string(forKey: "wtrmark.text") ?? ""
             
             watermarkSwitch = utilities.settings.defaults.bool(forKey: "wtrmark.enabled")
-            hdrSwitch = utilities.settings.defaults.bool(forKey: "format.hdr.enabled")
+            hdrSwitch = utilities.settings.defaults.bool(forKey: "capture.hdr.enabled")
             exposureUnlimiterSwitch = utilities.settings.defaults.bool(forKey: "capture.exposure.unlimited")
-            shouldStabilize = utilities.settings.defaults.bool(forKey: "capture.stblz.enabled")
+            shouldStabilize = utilities.settings.defaults.bool(forKey: "preview.stblz.enabled")
             
             supportsHDR = utilities.function.supportsHDR
             supportsHEIC = utilities.function.supportsHEIC()
@@ -75,13 +77,22 @@ struct MalachiteSettingsView: View {
                 formatFooterText = formatFooterText + "settings.footer.photo.hdr".localized
             }
             
-            if !utilities.settings.defaults.bool(forKey: "format.type.heif") {
+            switch utilities.settings.defaults.integer(forKey: "capture.size.mp") {
+            case 12:
+                megapixelCount = 1
+            case 48:
+                megapixelCount = 2
+            default:
+                megapixelCount = 0
+            }
+            
+            if !utilities.settings.defaults.bool(forKey: "capture.type.heif") {
                 photoFormat = 0
             } else {
                 photoFormat = 1
             }
             
-            if !utilities.settings.defaults.bool(forKey: "format.preview.fill") {
+            if !utilities.settings.defaults.bool(forKey: "preview.size.fill") {
                 previewAspect = 0
             } else {
                 previewAspect = 1
@@ -89,9 +100,9 @@ struct MalachiteSettingsView: View {
         }
         .onDisappear() {
             utilities.settings.defaults.set(watermarkSwitch, forKey: "wtrmark.enabled")
-            utilities.settings.defaults.set(hdrSwitch, forKey: "format.hdr.enabled")
+            utilities.settings.defaults.set(hdrSwitch, forKey: "capture.hdr.enabled")
             utilities.settings.defaults.set(exposureUnlimiterSwitch, forKey: "capture.exposure.unlimited")
-            utilities.settings.defaults.set(shouldStabilize, forKey: "capture.stblz.enabled")
+            utilities.settings.defaults.set(shouldStabilize, forKey: "preview.stblz.enabled")
             
             if !watermarkText.isEmpty {
                 utilities.settings.defaults.set(watermarkText, forKey: "wtrmark.text")
@@ -99,21 +110,35 @@ struct MalachiteSettingsView: View {
                 utilities.settings.defaults.set("Shot with Malachite", forKey: "wtrmark.text")
             }
             
+            if MalachiteClassesObject().versionType == "INTERNAL" {
+                switch megapixelCount {
+                case 1:
+                    utilities.settings.defaults.set(12, forKey: "capture.size.mp")
+                case 2:
+                    utilities.settings.defaults.set(48, forKey: "capture.size.mp")
+                default:
+                    utilities.settings.defaults.set(8, forKey: "capture.size.mp")
+                }
+            }
+            
             if photoFormat == 0 {
-                utilities.settings.defaults.set(false, forKey: "format.type.heif")
+                utilities.settings.defaults.set(false, forKey: "capture.type.heif")
             } else {
-                utilities.settings.defaults.set(true, forKey: "format.type.heif")
+                utilities.settings.defaults.set(true, forKey: "capture.type.heif")
             }
             
             if previewAspect == 0 {
-                utilities.settings.defaults.set(false, forKey: "format.preview.fill")
+                utilities.settings.defaults.set(false, forKey: "preview.size.fill")
             } else {
-                utilities.settings.defaults.set(true, forKey: "format.preview.fill")
+                utilities.settings.defaults.set(true, forKey: "preview.size.fill")
             }
             
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
+            if MalachiteClassesObject().versionType == "INTERNAL" {
+                NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
+            }
         }
         .navigationTitle("view.title.settings")
         .toolbar(content: {
@@ -179,15 +204,15 @@ struct MalachiteSettingsView: View {
         .onChange(of: previewAspect) {_ in
             
             if previewAspect == 0 {
-                utilities.settings.defaults.set(false, forKey: "format.preview.fill")
+                utilities.settings.defaults.set(false, forKey: "preview.size.fill")
             } else {
-                utilities.settings.defaults.set(true, forKey: "format.preview.fill")
+                utilities.settings.defaults.set(true, forKey: "preview.size.fill")
             }
             
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
         }
         .onChange(of: shouldStabilize) {_ in
-            utilities.settings.defaults.set(shouldStabilize, forKey: "capture.stblz.enabled")
+            utilities.settings.defaults.set(shouldStabilize, forKey: "preview.stblz.enabled")
             
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
         }
@@ -196,6 +221,28 @@ struct MalachiteSettingsView: View {
     /// A variable to hold the photo settings section.
     var photoSettingsSection: some View {
         Section(header: Text("settings.header.photo"), footer: Text(formatFooterText)) {
+            if MalachiteClassesObject().versionType == "INTERNAL" {
+                MalachiteCellViewUtils(
+                    icon: "camera.aperture",
+                    title: nil,
+                    subtitle: "settings.detail.photo.megapixels",
+                    disabled: !utilities.settings.defaults.bool(forKey: "general.supports.8mp") && !utilities.settings.defaults.bool(forKey: "general.supports.48mp"),
+                    dangerous: false)
+                {
+                    Picker("settings.option.photo.megapixels", selection: $megapixelCount) {
+                        if utilities.settings.defaults.bool(forKey: "general.supports.8mp") {
+                            Text("settings.option.photo.megapixels.8")
+                                .tag(0)
+                        }
+                        Text("settings.option.photo.megapixels.12")
+                            .tag(1)
+                        if utilities.settings.defaults.bool(forKey: "general.supports.48mp") {
+                            Text("settings.option.photo.megapixels.48")
+                                .tag(2)
+                        }
+                    }
+                }
+            }
             MalachiteCellViewUtils(
                 icon: "square.and.arrow.down",
                 title: nil,
@@ -231,15 +278,28 @@ struct MalachiteSettingsView: View {
                 Toggle("settings.option.photo.max_exposure", isOn: $exposureUnlimiterSwitch)
             }
         }
+        .onChange(of: megapixelCount) { _ in
+            if MalachiteClassesObject().versionType == "INTERNAL" {
+                switch megapixelCount {
+                case 1:
+                    utilities.settings.defaults.set(12, forKey: "capture.size.mp")
+                case 2:
+                    utilities.settings.defaults.set(48, forKey: "capture.size.mp")
+                default:
+                    utilities.settings.defaults.set(8, forKey: "capture.size.mp")
+                }
+                NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
+            }
+        }
         .onChange(of: photoFormat) {_ in
             if photoFormat == 0 {
-                utilities.settings.defaults.set(false, forKey: "format.type.heif")
+                utilities.settings.defaults.set(false, forKey: "capture.type.heif")
             } else if photoFormat == 1 {
-                utilities.settings.defaults.set(true, forKey: "format.type.heif")
+                utilities.settings.defaults.set(true, forKey: "capture.type.heif")
             }
         }
         .onChange(of: hdrSwitch) { _ in
-            utilities.settings.defaults.set(hdrSwitch, forKey: "format.hdr.enabled")
+            utilities.settings.defaults.set(hdrSwitch, forKey: "capture.hdr.enabled")
         }
         .onChange(of: exposureUnlimiterSwitch) { _ in
             utilities.debugNSLog("[Settings View] Lol")

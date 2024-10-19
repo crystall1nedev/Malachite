@@ -58,9 +58,9 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
     let fixedOrientation = UIDevice.current.orientation
     
     /// A variable to store whether or not HDR is enabled.
-    let enableHDR = MalachiteClassesObject().settings.defaults.bool(forKey: "format.hdr.enabled")
+    let enableHDR = MalachiteClassesObject().settings.defaults.bool(forKey: "capture.hdr.enabled")
     /// A variable to store whether or not the HEIF file format is enabled.
-    let enableHEIF = MalachiteClassesObject().settings.defaults.bool(forKey: "format.type.heif")
+    let enableHEIF = MalachiteClassesObject().settings.defaults.bool(forKey: "capture.type.heif")
     
     /**
      viewDidLoad override for the main user interface.
@@ -316,7 +316,7 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
             }
         } else {
             utilities.debugNSLog("[Capture Photo] Device does not support encoding HEIF, falling back to JPEG")
-            utilities.settings.defaults.set(false, forKey: "format.type.heif")
+            utilities.settings.defaults.set(false, forKey: "capture.type.heif")
             return returnJPEG(imageForRepresentation: image, imageForGainMap: hdrImage, imageColorspace: colorSpace)
         }
     }

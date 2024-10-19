@@ -11,50 +11,85 @@ public class MalachiteSettingsUtils : NSObject {
     /// A variable that initializes the standard UserDefaults for Malachite.
     public let defaults = UserDefaults.standard
     
+    /// A variable that tells Malachite what perferences dictionaries are available.
+    public var availablePreferences = [ [ String : Any ] ]()
+    
     /// A variable that holds the amount of times the button was clicked.
     public var gameKitButton = 0
     
-    /// A dictionary used for internal preferences that are not meant to be switched by end users, or miscellanous settings.
-    private let internalPreferences: [ String : Any ] = [
-        "internal.version"           : "1.0.0",                // Records the last version of Malachite to be run on this device, to be used later
-        "internal.prefsVersion"      : 4,                      // Records the version of preferences that Malachite last saved to. Newer versions = incompatiblities
-        "internal.firstLaunch"       : true,                   // Is this the first launch of the app?
+    /// A dictionary used for general preferences that are not meant to be switched by end users, or miscellanous settings.
+    private let generalPreferences: [ String : Any ] = [
+        // Records the last version of Malachite to be run on this device, to be used later
+        "general.version"            : Bundle.main.infoDictionary?["CFBundleVersion"] as? String as Any,
+        // Records the version of preferences that Malachite last saved to. Newer versions = incompatiblities
+        "general.prefsVersion"       : 5,
+        // Is this the first launch of the app?
+        "general.firstLaunch"        : true,
         
-        "internal.display.small"     : false,                  // Whether or not the display has a larger screen area. Used for moving things in the UI.
-        "internal.photos.count"      : 0,                      // How many photos has the user taken with Malachite? Used for Game Center achievements.
-        "internal.gamekit.alert"     : false,                  // :)
-        "internal.gamekit.found"     : false,                  // :) x2
-        "internal.gamekit.enabled"   : false,                  // Whether or not to enable Game Center support for Malachite.
+        // Whether or not the display has a larger screen area. Used for moving things in the UI.
+        "general.display.small"      : false,
+        // Whether or not the current device supports 8MP mode.
+        "general.supports.8mp"       : false,
+        // Whether or not the current device supports 48MP mode.
+        "general.supports.48mp"      : false,
+        // How many photos has the user taken with Malachite? Used for Game Center achievements.
+        "general.photos.count"       : 0,
+        // :)
+        "general.gamekit.alert"      : false,
+        // :) x2
+        "general.gamekit.found"      : false,
+        // Whether or not to enable Game Center support for Malachite.
+        "general.gamekit.enabled"    : false,
     ]
     
-    /// A dictionary used for image format preferences.
-    private let formatPreferences: [ String : Any ] = [
-        "format.preview.fill"        : false,                  // Whether or not the preview layer should fill the screen
-        
-        "format.hdr.enabled"         : true,                   // Whether or not HDR should be enabled for captured photos. Not supported on A9.
-        
-        "format.type.jpeg"           : false,                  // Whether or not to save photos as JPEG.
-        "format.type.heif"           : true,                   // Whether or not to save photos as HEIF. Not supported on A9.
+    private let previewPreferences: [ String : Any ] = [
+        // Whether or not the preview layer should fill the screen
+        "preview.size.fill"           : false,
+        // Whether or not to enable image preview stabilization
+        "preview.stblz.enabled"       : true,
     ]
     
     /// A dictionary used for image capture preferences.
     private let capturePreferences: [ String : Any ] = [
-        "capture.exposure.unlimited" : false,                  // Whether or not to enable absurdly bright exposure levels
-        "capture.stblz.enabled"      : true,                   // Whether or not to enable image preview stabilization
+        // Whether or not to enable absurdly bright exposure levels
+        "capture.exposure.unlimited"  : false,
+        
+        // Whether or not HDR should be enabled for captured photos. Not supported on A9.
+        "capture.hdr.enabled"         : true,
+        
+        // Whether or not to save photos as JPEG.
+        "capture.type.jpeg"           : false,
+        // Whether or not to save photos as HEIF. Not supported on A9.
+        "capture.type.heif"           : true,
     ]
     
     /// A dictionary used for watermarking preferences.
     private let watermarkingPreferences: [ String : Any ] = [
-        "wtrmark.enabled"            : true,                   // Whether or not the watermarking feature is enabled
-        "wtrmark.text"               : "Shot with Malachite"   // The text to display over captured images
+        // Whether or not the watermarking feature is enabled
+        "wtrmark.enabled"            : true,
+        // The text to display over captured images
+        "wtrmark.text"               : "Shot with Malachite"
     ]
     
-    /**
-     */
+    /// A dictionary used for INTERNAL build preferences.
+    private let internalPreferences: [ String: Any ] = [
+        // What size to capture photos in
+        // Can be "8", "12", "48"
+        // 8MP is supported on all devices.
+        // 12MP is supported on the following:
+        // iPhone 6s and later (including iPhone SE), iPad (10th generation) and later, iPad mini (6th generation) and later, iPad Air (4th generation) and later
+        // iPad Pro (9.7-inch), iPad Pro (10.5-inch), or iPad Pro (12.9-inch, 2nd generation) and later
+        // 48MP are supported on the following:
+        // iPhone 14 Pro, iPhone 14 Pro Max, or iPhone 15 and later (wide angle only)
+        // iPhone 16 Pro or iPhone 16 Pro Max (ultra wide and wide angle only)
+        "capture.size.mp"            : 12
+    ]
+    
+    /// Counts the number of photos that have been taken.
     public func runPhotoCounter() {
-        let value = defaults.integer(forKey: "internal.photos.count")
+        let value = defaults.integer(forKey: "general.photos.count")
         if value < UINT64_MAX { // I want to see someone reach this
-            defaults.set(value + 1, forKey: "internal.photos.count")
+            defaults.set(value + 1, forKey: "general.photos.count")
         } else {
             MalachiteClassesObject().debugNSLog("[Preferences] what")
         }
@@ -81,17 +116,25 @@ public class MalachiteSettingsUtils : NSObject {
         return false
     }
     
+    public func getPreferencesDictionariesForBuildType() {
+        if MalachiteClassesObject().versionType == "INTERNAL" {
+            availablePreferences = [ internalPreferences, generalPreferences, watermarkingPreferences, capturePreferences ]
+        } else {
+            availablePreferences = [ generalPreferences, watermarkingPreferences, capturePreferences ]
+        }
+    }
+    
     /// Ensures that preferences are synced on launch, and migrates/removes/updates any that are outdated.
     public func ensurePreferences() {
-        if self.defaults.integer(forKey: "internal.prefsVersion") != internalPreferences["internal.prefsVersion"] as! Int {
-            let availablePreferences = [ internalPreferences, formatPreferences, watermarkingPreferences, capturePreferences ]
+        getPreferencesDictionariesForBuildType()
+        if self.defaults.integer(forKey: "general.prefsVersion") != generalPreferences["general.prefsVersion"] as! Int {
             let userPreferences = settingsAsDictionary()
             let tempDictionary = NSMutableDictionary()
             resetAllSettings()
             
             for prefDict in availablePreferences {
                 for key in prefDict.keys {
-                    tempDictionary[key] = userPreferences.keys.contains(key) && key != "internal.prefsVersion" ? userPreferences[key] : prefDict[key]
+                    tempDictionary[key] = userPreferences.keys.contains(key) && key != "general.prefsVersion" ? userPreferences[key] : prefDict[key]
                 }
             }
             
@@ -101,7 +144,6 @@ public class MalachiteSettingsUtils : NSObject {
                 defaults.set(value, forKey: key as! String)
             }
         } else {
-            let availablePreferences = [ internalPreferences, formatPreferences, watermarkingPreferences, capturePreferences ]
             for prefDict in availablePreferences {
                 for key in prefDict.keys {
                     if !self.checkIfPreferenceIsPresent(keyToCheck: key) {
@@ -115,8 +157,8 @@ public class MalachiteSettingsUtils : NSObject {
     
     /// Dumps ``defaults`` to log.
     public func dumpUserDefaults() {
+        getPreferencesDictionariesForBuildType()
         MalachiteClassesObject().internalNSLog("[Preferences] Dumping all UserDefaults keys!!!")
-        let availablePreferences = [ internalPreferences, formatPreferences, watermarkingPreferences, capturePreferences ]
         for (key, value) in settingsAsDictionary() {
             for prefDict in availablePreferences {
                 if prefDict.keys.contains(key) {
@@ -132,7 +174,7 @@ public class MalachiteSettingsUtils : NSObject {
         if gameKitButton < 7 {
             gameKitButton += 1
         } else {
-            defaults.set(true, forKey: "internal.gamekit.alert")
+            defaults.set(true, forKey: "general.gamekit.alert")
             exit(11)
         }
     }

@@ -17,10 +17,6 @@ public class MalachiteFunctionUtils : NSObject {
     public var settings = MalachiteSettingsUtils()
     /// A `Bool` that determines whether or not the device supports HDR.
     public var supportsHDR = false
-    /// A `String` that determines the current camera in use.
-    public var cameraInUse = "ultrawide"
-    /// An `NSMutableArray` that stores the cameras available on the system.
-    public var availableCameraInputs = NSMutableArray()
     
     /// An `enum` that contains Notification names.
     public enum Notifications: String, NotificationName {
@@ -28,6 +24,7 @@ public class MalachiteFunctionUtils : NSObject {
         case exposureLimitNotification
         case stabilizerNotification
         case gameCenterEnabledNotification
+        case megaPixelSwitchNotification
     }
     
     /// Function that determines if the device supports HDR.
@@ -161,7 +158,7 @@ public class MalachiteFunctionUtils : NSObject {
     }
     
     /// Function that handles connecting and disconnecting cameras, and changing format properties.
-    public func switchInput(session: inout AVCaptureSession, cameras: [AVCaptureDevice], device: inout AVCaptureDevice?, input: inout AVCaptureDeviceInput?, button: inout UIButton, firstRun: inout Bool){
+    public func switchInput(session: inout AVCaptureSession, cameras: [AVCaptureDevice], device: inout AVCaptureDevice?, output: inout AVCapturePhotoOutput, input: inout AVCaptureDeviceInput?, button: inout UIButton, firstRun: inout Bool){
         button.isUserInteractionEnabled = false
         MalachiteClassesObject().debugNSLog("[Camera Input] Getting ready to configure session")
         session.beginConfiguration()
@@ -172,6 +169,20 @@ public class MalachiteFunctionUtils : NSObject {
             session.removeInput(input!)
         } else {
             if !cameras.isEmpty { device = cameras.first }
+        }
+        
+        if MalachiteClassesObject().versionType == "INTERNAL" {
+            for camera in cameras {
+                if camera.deviceType == AVCaptureDevice.DeviceType.builtInWideAngleCamera {
+                    if #available(iOS 16.0, *) {
+                        for format in camera.formats {
+                            let maxDimensions = format.supportedMaxPhotoDimensions[format.supportedMaxPhotoDimensions.count - 1]
+                            if maxDimensions.width == 3264 && maxDimensions.height == 2448 { MalachiteClassesObject().settings.defaults.set(true, forKey: "general.supports.8mp") }
+                            if maxDimensions.width == 8064 && maxDimensions.height == 6048 { MalachiteClassesObject().settings.defaults.set(true, forKey: "general.supports.48mp") }
+                        }
+                    }
+                }
+            }
         }
         
         if cameras.count > 1 && !firstRun {
@@ -197,23 +208,24 @@ public class MalachiteFunctionUtils : NSObject {
         do {
             try device?.lockForConfiguration()
             defer { device?.unlockForConfiguration() }
+            device?.activeFormat = (device?.formats[(device?.formats.count)! - 1])!
             device?.automaticallyAdjustsVideoHDREnabled = false
-            if settings.defaults.bool(forKey: "format.hdr.enabled") {
+            if settings.defaults.bool(forKey: "capture.hdr.enabled") {
                 if self.supportsHDR {
                     MalachiteClassesObject().debugNSLog("[Camera Input] Force enabled HDR on camera")
                     if device?.activeFormat.isVideoHDRSupported == true {
                         device?.isVideoHDREnabled = true
                     } else {
                         MalachiteClassesObject().debugNSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
-                        settings.defaults.set(false, forKey: "format.hdr.enabled")
+                        settings.defaults.set(false, forKey: "capture.hdr.enabled")
                     }
                 } else {
                     MalachiteClassesObject().debugNSLog("[Camera Input] HDR enabled on a device that doesn't support it")
-                    settings.defaults.set(false, forKey: "format.hdr.enabled")
+                    settings.defaults.set(false, forKey: "capture.hdr.enabled")
                 }
             }
             
-            if !settings.defaults.bool(forKey: "format.hdr.enabled") {
+            if !settings.defaults.bool(forKey: "capture.hdr.enabled") {
                 MalachiteClassesObject().debugNSLog("[Camera Input] Force disabled HDR on camera")
                 if device?.activeFormat.isGlobalToneMappingSupported == true {
                     device?.isGlobalToneMappingEnabled = false
@@ -228,14 +240,38 @@ public class MalachiteFunctionUtils : NSObject {
         
         MalachiteClassesObject().debugNSLog("[Camera Input] Attached input, finishing configuration")
         session.addInput(input!)
+        if MalachiteClassesObject().versionType == "INTERNAL" {
+            switchInputMegapixels(device: device!, photoOutput: output)
+        }
+        
         session.commitConfiguration()
         button.isUserInteractionEnabled = true
+    }
+    
+    @objc public func switchInputMegapixels(device: AVCaptureDevice, photoOutput: AVCapturePhotoOutput) {
+        if #available(iOS 16.0, *) {
+            let maxDimensions = device.activeFormat.supportedMaxPhotoDimensions[device.activeFormat.supportedMaxPhotoDimensions.count - 1]
+            
+            switch MalachiteClassesObject().settings.defaults.integer(forKey: "capture.size.mp") {
+                
+            case 48:
+                MalachiteClassesObject().internalNSLog("[INTERNAL] Switching to 48MP mode")
+                if maxDimensions.width == 8064 && maxDimensions.height == 6048 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 8064, height: 6048) }
+            case 12:
+                MalachiteClassesObject().internalNSLog("[INTERNAL] Switching to 12MP mode")
+                if maxDimensions.width == 4032 && maxDimensions.height == 3024 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 4032, height: 3024) }
+            default:
+                MalachiteClassesObject().internalNSLog("[INTERNAL] Switching to 8MP mode")
+                if maxDimensions.width == 3264 && maxDimensions.height == 2448 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 3264, height: 2448) }
+            }
+        }
+        
     }
     
     /// Function that handles taking images on `AVCapturePhotoOutput`.
     public func captureImage(output photoOutput: AVCapturePhotoOutput, viewForBounds view: UIView, captureDelegate delegate: AVCapturePhotoCaptureDelegate) -> AVCapturePhotoOutput {
         var format = [String: Any]()
-        if settings.defaults.bool(forKey: "format.type.heif") && supportsHEIC() {
+        if settings.defaults.bool(forKey: "capture.type.heif") && supportsHEIC() {
             format = [AVVideoCodecKey : AVVideoCodecType.hevc]
         } else {
             format = [AVVideoCodecKey : AVVideoCodecType.jpeg]
@@ -248,6 +284,11 @@ public class MalachiteFunctionUtils : NSObject {
             }
             photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
             photoSettings.photoQualityPrioritization = photoOutput.maxPhotoQualityPrioritization
+            if #available(iOS 16.0, *) {
+                if MalachiteClassesObject().versionType == "INTERNAL" {
+                    photoSettings.maxPhotoDimensions = photoOutput.maxPhotoDimensions
+                }
+            }
             print(photoOutput.availablePhotoFileTypes)
             photoOutput.capturePhoto(with: photoSettings, delegate: delegate)
         }

@@ -52,6 +52,7 @@ struct MalachiteSettingsDetailView: View {
     /// A variable to hold the photo settings section.
     var photoSettingsSection: some View {
         Section(header: Text("settings.header.photo"), footer: Text("settings.footer.photo")) {
+            createVStackLeadingAligned(title: Text("settings.option.photo.megapixels"), subtitle: Text("settings.detail.photo.megapixels")) {}
             createVStackLeadingAligned(title: Text("settings.option.photo.file_format"), subtitle: Text("settings.detail.photo.file_format")) {}
             createVStackLeadingAligned(title: Text("settings.option.photo.hdr"), subtitle: Text("settings.detail.photo.hdr")) {}
             createVStackLeadingAligned(title: Text("settings.option.photo.max_exposure"), subtitle: Text("settings.detail.photo.max_exposure")) {}
