@@ -139,24 +139,19 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         utilities.debugNSLog("[Initialization] Bringing up AVCaptureDeviceInput")
         
-        utilities.internalNSLog("[INTERNAL] [Camera Input] Getting current camera system capabilities")
-            
-        if let ultraWideDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) {
-            self.availableRearCameras.append(ultraWideDevice)
-            utilities.debugNSLog("[INTERNAL] [Camera Input] builtInUltraWideCamera available")
+        utilities.debugNSLog("[Camera Input] Getting current camera system capabilities")
+        
+        var camerasToDiscover : [AVCaptureDevice.DeviceType] = []
+        if #available(iOS 17.0, *) {
+            camerasToDiscover = [.builtInWideAngleCamera, .builtInUltraWideCamera, .builtInTelephotoCamera, .external]
+        } else {
+            camerasToDiscover = [.builtInWideAngleCamera, .builtInUltraWideCamera, .builtInTelephotoCamera]
         }
         
-        if let wideAngleDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
-            self.availableRearCameras.append(wideAngleDevice)
-            utilities.debugNSLog("[INTERNAL] [Camera Input] builtInWideAngleCamera available")
+        AVCaptureDevice.DiscoverySession.init(deviceTypes: camerasToDiscover, mediaType: .video, position: .back).devices.forEach { device in
+            self.availableRearCameras.append(device)
+            utilities.debugNSLog("[Camera Input] \(device.deviceType.rawValue) available")
         }
-        
-        if let telephotoDevice = AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) {
-            self.availableRearCameras.append(telephotoDevice)
-            utilities.debugNSLog("[INTERNAL] [Camera Input] builtInTelephotoCamera available")
-        }
-        
-        print(self.availableRearCameras)
         
         runInputSwitch()
 

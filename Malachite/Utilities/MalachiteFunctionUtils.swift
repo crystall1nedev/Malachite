@@ -171,19 +171,10 @@ public class MalachiteFunctionUtils : NSObject {
             MalachiteClassesObject().debugNSLog("[Camera Input] Removing currently active camera input")
             session.removeInput(input!)
         } else {
-            if !cameras.isEmpty { device = cameras[0] }
+            if !cameras.isEmpty { device = cameras.first }
         }
         
-        print(device as Any)
-        
-        print(cameras as Any)
-        
-        // Only fire this code when there is more than one camera!
         if cameras.count > 1 && !firstRun {
-            // Need to figure out how to best do what needs to be done
-            // Camera switching should just choose the next camera on the list, or loop to the beginning if we're at the end
-            // We can do this be checking which index we're at rn, and then comparing it to the count of devices
-            // 0 = 1, 1 = 2, 2 = 3
             if let devicePosition = cameras.firstIndex(of: device!) {
                 if devicePosition == (cameras.count - 1) {
                     device = cameras[0]
@@ -195,52 +186,50 @@ public class MalachiteFunctionUtils : NSObject {
         
         firstRun = false
         
-        print(device as Any)
-            
-            MalachiteClassesObject().debugNSLog("[Camera Input] Attempting to attach device input to session")
-            do { input = try AVCaptureDeviceInput(device: device!) }
-            catch {
-                print(error)
-            }
-            
-            deviceFormatSupportsHDR(device: device!)
-            
-            do {
-                try device?.lockForConfiguration()
-                defer { device?.unlockForConfiguration() }
-                device?.automaticallyAdjustsVideoHDREnabled = false
-                if settings.defaults.bool(forKey: "format.hdr.enabled") {
-                    if self.supportsHDR {
-                        MalachiteClassesObject().debugNSLog("[Camera Input] Force enabled HDR on camera")
-                        if device?.activeFormat.isVideoHDRSupported == true {
-                            device?.isVideoHDREnabled = true
-                        } else {
-                            MalachiteClassesObject().debugNSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
-                            settings.defaults.set(false, forKey: "format.hdr.enabled")
-                        }
+        MalachiteClassesObject().debugNSLog("[Camera Input] Attempting to attach device input to session")
+        do { input = try AVCaptureDeviceInput(device: device!) }
+        catch {
+            print(error)
+        }
+        
+        deviceFormatSupportsHDR(device: device!)
+        
+        do {
+            try device?.lockForConfiguration()
+            defer { device?.unlockForConfiguration() }
+            device?.automaticallyAdjustsVideoHDREnabled = false
+            if settings.defaults.bool(forKey: "format.hdr.enabled") {
+                if self.supportsHDR {
+                    MalachiteClassesObject().debugNSLog("[Camera Input] Force enabled HDR on camera")
+                    if device?.activeFormat.isVideoHDRSupported == true {
+                        device?.isVideoHDREnabled = true
                     } else {
-                        MalachiteClassesObject().debugNSLog("[Camera Input] HDR enabled on a device that doesn't support it")
+                        MalachiteClassesObject().debugNSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
                         settings.defaults.set(false, forKey: "format.hdr.enabled")
                     }
+                } else {
+                    MalachiteClassesObject().debugNSLog("[Camera Input] HDR enabled on a device that doesn't support it")
+                    settings.defaults.set(false, forKey: "format.hdr.enabled")
                 }
-                
-                if !settings.defaults.bool(forKey: "format.hdr.enabled") {
-                    MalachiteClassesObject().debugNSLog("[Camera Input] Force disabled HDR on camera")
-                    if device?.activeFormat.isGlobalToneMappingSupported == true {
-                        device?.isGlobalToneMappingEnabled = true
-                    }
-                    if device?.activeFormat.isVideoHDRSupported == true {
-                        device?.isVideoHDREnabled = false
-                    }
-                }
-            } catch {
-                MalachiteClassesObject().debugNSLog("[Camera Input] Error adjusting device properties: \(error.localizedDescription)")
             }
             
-            MalachiteClassesObject().debugNSLog("[Camera Input] Attached input, finishing configuration")
-            session.addInput(input!)
-            session.commitConfiguration()
-            button.isUserInteractionEnabled = true
+            if !settings.defaults.bool(forKey: "format.hdr.enabled") {
+                MalachiteClassesObject().debugNSLog("[Camera Input] Force disabled HDR on camera")
+                if device?.activeFormat.isGlobalToneMappingSupported == true {
+                    device?.isGlobalToneMappingEnabled = false
+                }
+                if device?.activeFormat.isVideoHDRSupported == true {
+                    device?.isVideoHDREnabled = false
+                }
+            }
+        } catch {
+            MalachiteClassesObject().debugNSLog("[Camera Input] Error adjusting device properties: \(error.localizedDescription)")
+        }
+        
+        MalachiteClassesObject().debugNSLog("[Camera Input] Attached input, finishing configuration")
+        session.addInput(input!)
+        session.commitConfiguration()
+        button.isUserInteractionEnabled = true
     }
     
     /// Function that handles taking images on `AVCapturePhotoOutput`.
@@ -258,6 +247,7 @@ public class MalachiteFunctionUtils : NSObject {
                 photoOutputConnection.videoOrientation = photoOrientation
             }
             photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
+            photoSettings.photoQualityPrioritization = photoOutput.maxPhotoQualityPrioritization
             print(photoOutput.availablePhotoFileTypes)
             photoOutput.capturePhoto(with: photoSettings, delegate: delegate)
         }
