@@ -84,6 +84,7 @@ public class MalachiteFunctionUtils : NSObject {
         let focusPoint = sender.location(in: view)
         if sender.state == UIGestureRecognizer.State.began {
             haptic.triggerNotificationHaptic(type: .success)
+            view.addSubview(button)
             
             UIView.animate(withDuration: 0.25) {
                 button.alpha = 1.0

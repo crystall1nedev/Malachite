@@ -10,9 +10,12 @@ import UIKit
 import Photos
 import LinkPresentation
 
-class MalachitePhotoPreview : UIViewController {
+class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
     /// A variable to hold the existing instance of ``MalachiteClassesObject``.
     var utilities = MalachiteClassesObject()
+    
+    /// The scroll view that holds the image view for zooming and panning.
+    var photoScrollView = UIScrollView()
     
     /** 
      The image view that holds the captuerd image for user review.
@@ -107,17 +110,39 @@ class MalachitePhotoPreview : UIViewController {
         blurredBackgroundView.layer.contentsGravity = .resizeAspectFill
         blurredBackgroundView.addSubview(utilities.views.returnProperBlur(viewForBounds: self.view, blurStyle: .systemUltraThinMaterialDark))
         blurredBackgroundView.clipsToBounds = true
-        
+        if rotatedImage.size.width < rotatedImage.size.height {
+            photoImageView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: rotatedImage.size.height / (rotatedImage.size.width / self.view.bounds.width))
+        } else {
+            photoImageView.frame = CGRect(x: 0, y: 0, width:rotatedImage.size.width / (rotatedImage.size.height / self.view.bounds.height), height: self.view.bounds.height)
+        }
         photoImageView.image = rotatedImage
         photoImageView.layer.contentsGravity = .resizeAspect
         
+        photoScrollView = UIScrollView(frame: self.view.bounds)
+        
+        photoScrollView.minimumZoomScale = 1
+        photoScrollView.maximumZoomScale = 5
+        photoScrollView.showsHorizontalScrollIndicator = false
+        photoScrollView.showsVerticalScrollIndicator = false
+        photoScrollView.delegate = self
+        
+        // Center photoImageView inside of photoScrollView
+        let xOffset: CGFloat = (photoScrollView.bounds.width - photoImageView.bounds.width) / 2
+        let yOffset: CGFloat = (photoScrollView.bounds.height - photoImageView.bounds.height) / 2
+        
+        photoScrollView.contentInset = UIEdgeInsets(top: yOffset, left: xOffset, bottom: yOffset, right: xOffset)
         
         dismissTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString("uibutton.close.title", comment: ""), anchorConstant: 10)
         savePhotoTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString( "uibutton.save.title", comment: ""), anchorConstant: 80)
         sharePhotoTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString( "uibutton.share.title", comment: ""), anchorConstant: 150)
         
         self.view.addSubview(blurredBackgroundView)
-        self.view.addSubview(photoImageView)
+        photoScrollView.addSubview(photoImageView)
+        self.view.addSubview(photoScrollView)
+        
+        let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
+        doubleTapRecognizer.numberOfTapsRequired = 2
+        photoScrollView.addGestureRecognizer(doubleTapRecognizer)
         
         
         dismissButton = utilities.views.returnProperButton(symbolName: "xmark", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
@@ -153,6 +178,17 @@ class MalachitePhotoPreview : UIViewController {
         orientationChanged()
     }
     
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return photoImageView
+    }
+    
+    @objc private func handleDoubleTap(_ sender: UITapGestureRecognizer) {
+        if photoScrollView.zoomScale == 1 {
+            photoScrollView.setZoomScale(2, animated: true)
+        } else {
+            photoScrollView.setZoomScale(1, animated: true)
+        }
+    }
     
     /// Function to allow the user to close the model view.
     @objc private func dismissView() {
@@ -163,7 +199,7 @@ class MalachitePhotoPreview : UIViewController {
     
     /// Function to handle device rotation.
     @objc func orientationChanged() {
-        utilities.views.rotateButtonsWithOrientation(buttonsToRotate: [ dismissButton, savePhotoButton ])
+        utilities.views.rotateButtonsWithOrientation(buttonsToRotate: [ dismissButton, savePhotoButton, sharePhotoButton ])
     }
     
     /// Function to save the image to the user's Photos library.

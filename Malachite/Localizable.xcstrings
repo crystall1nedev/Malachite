@@ -215,7 +215,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Camera switching is only supported on devices with ultra-wide cameras. Telephoto camera support is planned for a future release."
+            "value" : "Camera switching is only supported on devices with multiple rear cameras."
           }
         }
       }
