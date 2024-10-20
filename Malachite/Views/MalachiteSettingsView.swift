@@ -221,26 +221,28 @@ struct MalachiteSettingsView: View {
     /// A variable to hold the photo settings section.
     var photoSettingsSection: some View {
         Section(header: Text("settings.header.photo"), footer: Text(formatFooterText)) {
-            if MalachiteClassesObject().versionType == "INTERNAL" {
-                MalachiteCellViewUtils(
-                    icon: "camera.aperture",
-                    title: nil,
-                    subtitle: "settings.detail.photo.megapixels",
-                    disabled: nil,
-                    dangerous: false)
-                {
-                    Picker("settings.option.photo.megapixels", selection: $megapixelCount) {
-                        if utilities.settings.defaults.bool(forKey: "general.supports.8mp") {
-                            Text("settings.option.photo.megapixels.8")
-                                .tag(0)
-                        }
-                        if utilities.settings.defaults.bool(forKey: "general.supports.12mp") {
-                            Text("settings.option.photo.megapixels.12")
-                                .tag(1)
-                        }
-                        if utilities.settings.defaults.bool(forKey: "general.supports.48mp") {
-                            Text("settings.option.photo.megapixels.48")
-                                .tag(2)
+            if #available(iOS 16.0, *) {
+                if MalachiteClassesObject().versionType == "INTERNAL" {
+                    MalachiteCellViewUtils(
+                        icon: "camera.aperture",
+                        title: nil,
+                        subtitle: "settings.detail.photo.megapixels",
+                        disabled: nil,
+                        dangerous: false)
+                    {
+                        Picker("settings.option.photo.megapixels", selection: $megapixelCount) {
+                            if utilities.settings.defaults.bool(forKey: "general.supports.8mp") {
+                                Text("settings.option.photo.megapixels.8")
+                                    .tag(0)
+                            }
+                            if utilities.settings.defaults.bool(forKey: "general.supports.12mp") {
+                                Text("settings.option.photo.megapixels.12")
+                                    .tag(1)
+                            }
+                            if utilities.settings.defaults.bool(forKey: "general.supports.48mp") {
+                                Text("settings.option.photo.megapixels.48")
+                                    .tag(2)
+                            }
                         }
                     }
                 }
