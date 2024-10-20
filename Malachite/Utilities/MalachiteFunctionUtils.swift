@@ -178,6 +178,7 @@ public class MalachiteFunctionUtils : NSObject {
                         for format in camera.formats {
                             let maxDimensions = format.supportedMaxPhotoDimensions[format.supportedMaxPhotoDimensions.count - 1]
                             if maxDimensions.width == 3264 && maxDimensions.height == 2448 { MalachiteClassesObject().settings.defaults.set(true, forKey: "general.supports.8mp") }
+                            if maxDimensions.width == 4032 && maxDimensions.height == 3024 { MalachiteClassesObject().settings.defaults.set(true, forKey: "general.supports.12mp") }
                             if maxDimensions.width == 8064 && maxDimensions.height == 6048 { MalachiteClassesObject().settings.defaults.set(true, forKey: "general.supports.48mp") }
                         }
                     }

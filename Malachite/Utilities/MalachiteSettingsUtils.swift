@@ -30,6 +30,8 @@ public class MalachiteSettingsUtils : NSObject {
         "general.display.small"      : false,
         // Whether or not the current device supports 8MP mode.
         "general.supports.8mp"       : false,
+        // Whether or not the current device supports 12MP mode.
+        "general.supports.12mp"       : false,
         // Whether or not the current device supports 48MP mode.
         "general.supports.48mp"      : false,
         // How many photos has the user taken with Malachite? Used for Game Center achievements.

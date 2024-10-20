@@ -226,7 +226,7 @@ struct MalachiteSettingsView: View {
                     icon: "camera.aperture",
                     title: nil,
                     subtitle: "settings.detail.photo.megapixels",
-                    disabled: !utilities.settings.defaults.bool(forKey: "general.supports.8mp") && !utilities.settings.defaults.bool(forKey: "general.supports.48mp"),
+                    disabled: nil,
                     dangerous: false)
                 {
                     Picker("settings.option.photo.megapixels", selection: $megapixelCount) {
@@ -234,8 +234,10 @@ struct MalachiteSettingsView: View {
                             Text("settings.option.photo.megapixels.8")
                                 .tag(0)
                         }
-                        Text("settings.option.photo.megapixels.12")
-                            .tag(1)
+                        if utilities.settings.defaults.bool(forKey: "general.supports.12mp") {
+                            Text("settings.option.photo.megapixels.12")
+                                .tag(1)
+                        }
                         if utilities.settings.defaults.bool(forKey: "general.supports.48mp") {
                             Text("settings.option.photo.megapixels.48")
                                 .tag(2)
