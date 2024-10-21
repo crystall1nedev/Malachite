@@ -220,6 +220,17 @@
         }
       }
     },
+    "alert.detail.focus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The current camera is in a fixed position, and adjusting focus with this slider is unsupported."
+          }
+        }
+      }
+    },
     "alert.detail.gamekit" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -227,6 +238,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Click Reopen to open the application again. Click Report to see more detailed information and send a report to Apple."
+          }
+        }
+      }
+    },
+    "alert.detail.phphotolibrary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Malachite requires photo library access in order to capture images. Go to Settings > Apps > Malachite to enable this permission."
           }
         }
       }
@@ -242,6 +264,17 @@
         }
       }
     },
+    "alert.title.focus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to adjust focus"
+          }
+        }
+      }
+    },
     "alert.title.gamekit" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -249,6 +282,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Malachite quit unexpectedly."
+          }
+        }
+      }
+    },
+    "alert.title.phphotolibrary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to capture images"
           }
         }
       }

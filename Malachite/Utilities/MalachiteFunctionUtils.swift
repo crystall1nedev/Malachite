@@ -24,6 +24,7 @@ public class MalachiteFunctionUtils : NSObject {
         case exposureLimitNotification
         case stabilizerNotification
         case gameCenterEnabledNotification
+        case unsupportedLensPositionControl
         case megaPixelSwitchNotification
     }
     
@@ -211,6 +212,10 @@ public class MalachiteFunctionUtils : NSObject {
             defer { device?.unlockForConfiguration() }
             device?.activeFormat = (device?.formats[(device?.formats.count)! - 1])!
             device?.automaticallyAdjustsVideoHDREnabled = false
+            
+            guard let focus = device?.isLockingFocusWithCustomLensPositionSupported else { return }
+            if !focus { NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.unsupportedLensPositionControl.name, object: nil) }
+            
             if settings.defaults.bool(forKey: "capture.hdr.enabled") {
                 if self.supportsHDR {
                     MalachiteClassesObject().debugNSLog("[Camera Input] Force enabled HDR on camera")

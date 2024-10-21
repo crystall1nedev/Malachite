@@ -116,7 +116,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         super.viewDidLoad()
         self.view.backgroundColor = .clear
         
-        NSLog("[Initialization] Starting up Malachite")
+        utilities.debugNSLog("[Initialization] Starting up Malachite")
         
         if utilities.versionType == "INTERNAL" {
             utilities.internalNSLog("[Initialization] Running an INTERNAL build, logging will be force enabled")
@@ -132,7 +132,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             utilities.settings.defaults.set(false, forKey: "capture.type.heif")
         }
         
-
+        
         cameraPreview?.frame.size = self.view.frame.size
         utilities.debugNSLog("[Initialization] Bringing up AVCaptureSession")
         cameraSession = AVCaptureSession()
@@ -154,7 +154,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
         
         runInputSwitch()
-
+        
         if self.availableRearCameras.first != nil {
             photoOutput = AVCapturePhotoOutput()
             photoOutput.isHighResolutionCaptureEnabled = true
@@ -194,10 +194,13 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NotificationCenter.default.addObserver(self, selector: #selector(changeExposureLimit), name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeStabilizerMode), name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeGameCenterEnabled), name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(runManualFocusUIHiderWhenUnsupported), name: MalachiteFunctionUtils.Notifications.unsupportedLensPositionControl.name, object: nil)
         if utilities.versionType == "INTERNAL" {
             NotificationCenter.default.addObserver(self, selector: #selector(runInputMegapixelSwitch), name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
         }
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        
+        utilities.internalNSLog("[Initialization] isLockingFocusWithCustomLensPositionSupported:\(String(describing: selectedDevice?.isLockingFocusWithCustomLensPositionSupported))")
     }
     
     /**
@@ -421,7 +424,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             }))
             alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.report", comment: "Default action"), style: .default, handler: { _ in
                 guard let url = URL(string: "https://www.youtube.com/watch?v=At8v_Yc044Y") else {
-                  return
+                    return
                 }
                 
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -554,12 +557,12 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
         
         utilities.function.switchInput(session: &cameraSession!,
-                                                cameras: availableRearCameras,
-                                                device: &selectedDevice,
-                                                output: &self.photoOutput,
-                                                input: &selectedInput,
-                                                button: &cameraButton,
-                                                firstRun: &initRun)
+                                       cameras: availableRearCameras,
+                                       device: &selectedDevice,
+                                       output: &photoOutput,
+                                       input: &selectedInput,
+                                       button: &cameraButton,
+                                       firstRun: &initRun)
         
         utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: view, camera: selectedDevice)
     }
@@ -599,7 +602,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                 self.photoOutput = utilities.function.captureImage(output: self.photoOutput, viewForBounds: self.view, captureDelegate: self)
             } else {
                 utilities.debugNSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
-                let alert = UIAlertController(title: "error.title.phphotolibrary", message: "error.detail.phphotolibrary", preferredStyle: .alert)
+                let alert = UIAlertController(title: "alert.title.phphotolibrary".localized, message: "alert.detail.phphotolibrary".localized, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
                     self.utilities.debugNSLog("[Capture Photo] Dialog has been dismissed")
                 }))
@@ -660,12 +663,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                      hapticClass: utilities.haptics)
     }
     
-    /// Function to handle ``focusSlider`` interaction.
-    @objc func runManualFocusController() {
-        utilities.function.manualFocus(captureDevice: &selectedDevice!,
-                                       sender: focusSlider)
-    }
-    
     /// Function to handle ``exposureSlider`` interaction.
     @objc func runManualExposureController() {
         utilities.function.manualExposure(captureDevice: &selectedDevice!,
@@ -690,11 +687,51 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     }
     
     /// Function to handle ``focusSlider`` interaction.
+    @objc func runManualFocusController() {
+        guard let focus = selectedDevice?.isLockingFocusWithCustomLensPositionSupported else { return }
+        if focus {
+            utilities.function.manualFocus(captureDevice: &selectedDevice!,
+                                           sender: focusSlider)
+        } else {
+            utilities.debugNSLog("[Manual Focus] Current camera is not capable of adjusting focus")
+            let alert = UIAlertController(title: "alert.title.focus".localized, message: "alert.detail.focus".localized, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
+                self.utilities.debugNSLog("[Manual Focus] Dialog has been dismissed")
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    /// Function to handle ``focusSlider`` interaction.
     @objc func runManualFocusUIHider() {
+        guard let focus = selectedDevice?.isLockingFocusWithCustomLensPositionSupported else { return }
+        if focus {
         manualFocusSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualFocusSliderIsActive,
                                                                          optionButton: focusButton,
                                                                          lockButton: focusLockButton,
                                                                          associatedSliderButton: focusSliderButton)
+        } else {
+            utilities.debugNSLog("[Manual Focus] Current camera is not capable of adjusting focus")
+            let alert = UIAlertController(title: "alert.title.focus".localized, message: "alert.detail.focus".localized, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
+                self.utilities.debugNSLog("[Manual Focus] Dialog has been dismissed")
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func runManualFocusUIHiderWhenUnsupported() {
+        if manualFocusSliderIsActive {
+            manualFocusSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualFocusSliderIsActive,
+                                                                             optionButton: focusButton,
+                                                                             lockButton: focusLockButton,
+                                                                             associatedSliderButton: focusSliderButton)
+        } else {
+            manualFocusSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: true,
+                                                                             optionButton: focusButton,
+                                                                             lockButton: focusLockButton,
+                                                                             associatedSliderButton: focusSliderButton)
+        }
     }
     
     /// Function to show and hide the ``focusSliderButton`` and ``focusLockButton``.
