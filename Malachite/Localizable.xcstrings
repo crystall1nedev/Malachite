@@ -226,7 +226,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The current camera is in a fixed position, and adjusting focus with this slider is unsupported."
+            "value" : "The current camera has a fixed-focus lens, and focus cannot be adjusted."
           }
         }
       }
