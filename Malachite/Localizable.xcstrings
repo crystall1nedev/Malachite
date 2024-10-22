@@ -321,10 +321,44 @@
     "Capture with Malachite" : {
 
     },
+    "compatibility.title." : {
+
+    },
+    "compatibility.title.8mp.ultrawide" : {
+
+    },
+    "compatibility.title.8mp.wide" : {
+
+    },
+    "compatibility.title.12mp.telephoto" : {
+
+    },
+    "compatibility.title.12mp.ultrawide" : {
+
+    },
+    "compatibility.title.12mp.wide" : {
+
+    },
+    "compatibility.title.48mp.ultrawide" : {
+
+    },
+    "compatibility.title.48mp.wide" : {
+
+    },
+    "compatibility.title.hdr" : {
+
+    },
+    "compatibility.title.heif" : {
+
+    },
+    "compatibility.title.jpeg" : {
+
+    },
     "Open Malachite" : {
 
     },
     "settings.detail.debug.erase_gamekit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -335,6 +369,7 @@
       }
     },
     "settings.detail.debug.erase_userdefaults" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -343,6 +378,15 @@
           }
         }
       }
+    },
+    "settings.detail.debug.erase.gamekit" : {
+
+    },
+    "settings.detail.debug.erase.userdefaults" : {
+
+    },
+    "settings.detail.debug.logging.userdefaults" : {
+
     },
     "settings.detail.photo.file_format" : {
       "localizations" : {
@@ -527,7 +571,7 @@
         }
       }
     },
-    "settings.option.debug.erase_gamekit" : {
+    "settings.option.debug.erase.gamekit" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -537,12 +581,22 @@
         }
       }
     },
-    "settings.option.debug.erase_userdefaults" : {
+    "settings.option.debug.erase.userdefaults" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erase all UserDefaults keys"
+          }
+        }
+      }
+    },
+    "settings.option.debug.logging.userdefaults" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable logging UserDefaults keys"
           }
         }
       }
@@ -633,6 +687,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "48MP (8064x6048)"
+          }
+        }
+      }
+    },
+    "settings.option.photo.megapixels.telephoto" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telephoto"
+          }
+        }
+      }
+    },
+    "settings.option.photo.megapixels.ultrawide" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultra wide"
+          }
+        }
+      }
+    },
+    "settings.option.photo.megapixels.wide" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle"
           }
         }
       }
@@ -777,6 +861,16 @@
         }
       }
     },
+    "view.title.compatibility" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compatibility"
+          }
+        }
+      }
+    },
     "view.title.help" : {
       "localizations" : {
         "en" : {
@@ -793,6 +887,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
+          }
+        }
+      }
+    },
+    "view.title.settings.mp" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image resolution"
           }
         }
       }

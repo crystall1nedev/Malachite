@@ -15,27 +15,18 @@ public class MalachiteTooltipUtils : NSObject {
     public func zoomTooltipFlow(button: UIButton, viewForBounds view: UIView, camera: AVCaptureDevice?) {
         button.isEnabled = false
         button.alpha = 1.0
-        view.addSubview(button)
         if camera == nil { return }
         
-        if camera == AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) {
+        switch camera?.deviceType {
+        case .builtInUltraWideCamera:
             button.setTitle("UW", for: .normal)
-        }
-        
-        if camera == AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
+        case .builtInWideAngleCamera:
             button.setTitle("W", for: .normal)
-        }
-        
-        if camera == AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) {
+        case .builtInTelephotoCamera:
             button.setTitle("T", for: .normal)
+        default:
+            button.setTitle("", for: .normal)
         }
-        
-        NSLayoutConstraint.activate([
-            button.widthAnchor.constraint(equalToConstant: 60),
-            button.heightAnchor.constraint(equalToConstant: 60),
-            button.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            button.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-        ])
         
         fadeOutZoomTooltipFlow(button: button)
     }
@@ -61,7 +52,6 @@ public class MalachiteTooltipUtils : NSObject {
             UIView.animate(withDuration: 1, animations: {
                 button.alpha = 0.0
             }, completion: { _ in
-                button.removeFromSuperview()
             })
         }
         

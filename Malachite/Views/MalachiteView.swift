@@ -126,6 +126,15 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             utilities.NSLog("[Initialization] Running a RELEASE build")
         }
         
+        if utilities.versionType == "INTERNAL" {
+            if utilities.settings.getDeviceModel() != utilities.settings.defaults.string(forKey: "general.device.model") {
+                utilities.internalNSLog("[Initialization] This is a new device, rechecking compatibility.")
+                utilities.settings.defaults.set(utilities.settings.getDeviceModel(), forKey: "general.device.model")
+            } else {
+                utilities.internalNSLog("[Initialization] This is the same device, can skip compatibility checks.")
+            }
+        }
+        
         if !utilities.function.supportsHEIC() {
             utilities.debugNSLog("[Initialization] HEIF enabled on a device that doesn't support it, disabling")
             utilities.settings.defaults.set(true, forKey: "capture.type.jpeg")
@@ -200,7 +209,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         
-        utilities.internalNSLog("[Initialization] isLockingFocusWithCustomLensPositionSupported:\(String(describing: selectedDevice?.isLockingFocusWithCustomLensPositionSupported))")
+        if utilities.versionType == "INTERNAL" {
+            if utilities.settings.defaults.bool(forKey: "debug.logging.userdefaults") {
+                utilities.settings.dumpUserDefaults()
+            }
+        }
     }
     
     /**
@@ -524,9 +537,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             if utilities.settings.defaults.bool(forKey: "general.gamekit.enabled") {
                 utilities.games.setupGameCenter()
             }
-            
-            utilities.settings.dumpUserDefaults()
-            
         }
     }
     

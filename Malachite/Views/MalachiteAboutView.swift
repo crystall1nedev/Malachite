@@ -211,8 +211,6 @@ struct MalachiteAboutView: View {
         Section(header: Text("about.header.special")) {
             MalachiteCellViewUtils(
                 icon: "gamecontroller",
-                title: "about.option.gamekit",
-                subtitle: "about.detail.gamekit",
                 disabled: nil,
                 dangerous: true)
             {

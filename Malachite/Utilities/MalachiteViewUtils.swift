@@ -214,29 +214,22 @@ extension UIImage {
 
 
 /// Common cell content view to prevent the code from becoming massive
-/// TODO: add prefix support, move code around
 struct MalachiteCellViewUtils<Content : View>: View {
     var icon: String
-    var title: String
-    var subtitle: String
     var disabled: Bool
     var dangerous: Bool
-    let content: Content?
+    let content: Content
     
     init(
         icon: String,
-        title: String?,
-        subtitle: String?,
         disabled: Bool?,
         dangerous: Bool,
-        @ViewBuilder content: () -> Content?
+        @ViewBuilder content: () -> Content
     ) {
         self.icon = icon
-        self.title = title ?? ""
-        self.subtitle = subtitle ?? ""
         self.disabled = disabled ?? false
         self.dangerous = dangerous
-        self.content = content() ?? nil
+        self.content = content()
     }
     
     var body: some View {
@@ -269,27 +262,119 @@ struct MalachiteCellViewUtils<Content : View>: View {
                             .padding(.trailing)
                     }
                 }
-                if title != "" {
-                    if dangerous {
-                        if #available(iOS 17.0, *) {
-                            Text(LocalizedStringKey(title))
-                                .foregroundStyle(.red)
-                        } else {
-                            Text(LocalizedStringKey(title))
-                                .foregroundColor(.red)
-                        }
+                content
+                    .disabled(disabled)
+            }
+        }
+    }
+}
+
+struct MalachiteCompatibilityViewUtils: View {
+    var title: Text
+    var available: Bool
+    
+    init(
+        title: Text,
+        available: Bool
+    ) {
+        self.title = title
+        self.available = available
+    }
+    
+    var body: some View {
+        VStack {
+            HStack {
+                if !available {
+                    if #available(iOS 17.0, *) {
+                        title
+                            .foregroundStyle(.red)
                     } else {
-                        Text(title)
+                        title
+                            .foregroundColor(.red)
                     }
+                } else {
+                    title
                 }
-                if content != nil {
-                    content
-                        .disabled(disabled)
+                Spacer()
+                if !available {
+                    if #available(iOS 15.0, *) {
+                        Image(systemName: "xmark.circle.fill")
+                            .frame(maxWidth: 20)
+                            .foregroundStyle(.red)
+                            .symbolRenderingMode(.hierarchical)
+                            .padding(.trailing)
+                    } else {
+                        Image(systemName: "xmark.circle.fill")
+                            .frame(maxWidth: 20)
+                            .foregroundColor(.red)
+                            .padding(.trailing)
+                    }
+                } else {
+                    if #available(iOS 15.0, *) {
+                        Image(systemName: "checkmark.seal.fill")
+                            .frame(maxWidth: 20)
+                            .foregroundStyle(Color.accentColor)
+                            .symbolRenderingMode(.hierarchical)
+                            .padding(.trailing)
+                    } else {
+                        Image(systemName: "checkmark.seal.fill")
+                            .frame(maxWidth: 20)
+                            .foregroundColor(Color.accentColor)
+                            .padding(.trailing)
+                    }
                 }
             }
         }
     }
 }
+
+struct MalachiteSettingsDetailViewUtils<Content : View>: View {
+    var title: Text
+    var subtitle: Text
+    let content: Content?
+    
+    init(
+        title: Text,
+        subtitle: Text,
+        @ViewBuilder content: () -> Content?
+    ) {
+        self.title = title
+        self.subtitle = subtitle
+        self.content = content() ?? nil
+    }
+    
+    var body: some View {
+        VStack {
+            if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
+                HStack {
+                    Spacer()
+                    title
+                        .bold()
+                    
+                }
+                HStack {
+                    Spacer()
+                    subtitle
+                        .font(.footnote)
+                    
+                }
+            } else {
+                HStack {
+                    title
+                        .bold()
+                    Spacer()
+                    
+                }
+                HStack {
+                    subtitle
+                        .font(.footnote)
+                    Spacer()
+                }
+            }
+        }
+    }
+}
+
 
 struct MalachiteNagivationViewUtils<Content : View>: View {
     let content: Content

@@ -172,15 +172,25 @@ public class MalachiteFunctionUtils : NSObject {
             if !cameras.isEmpty { device = cameras.first }
         }
         
-        if MalachiteClassesObject().versionType == "INTERNAL" {
-            for camera in cameras {
-                if camera.deviceType == AVCaptureDevice.DeviceType.builtInWideAngleCamera {
-                    if #available(iOS 16.0, *) {
-                        for format in camera.formats {
-                            let maxDimensions = format.supportedMaxPhotoDimensions[format.supportedMaxPhotoDimensions.count - 1]
-                            if maxDimensions.width == 3264 && maxDimensions.height == 2448 { MalachiteClassesObject().settings.defaults.set(true, forKey: "general.supports.8mp") }
-                            if maxDimensions.width == 4032 && maxDimensions.height == 3024 { MalachiteClassesObject().settings.defaults.set(true, forKey: "general.supports.12mp") }
-                            if maxDimensions.width == 8064 && maxDimensions.height == 6048 { MalachiteClassesObject().settings.defaults.set(true, forKey: "general.supports.48mp") }
+        if MalachiteClassesObject().versionType == "INTERNAL" && firstRun {
+            if #available(iOS 16.0, *) {
+                for camera in cameras {
+                    var tmpDictionary = Dictionary<String, Bool>()
+                    for format in camera.formats {
+                        let maxDimensions = format.supportedMaxPhotoDimensions[format.supportedMaxPhotoDimensions.count - 1]
+                        if format == camera.formats[0] { MalachiteClassesObject().internalNSLog("[Camera Input] Querying supported modes of \(camera.deviceType.rawValue)") }
+                        if maxDimensions.width == 3264 && maxDimensions.height == 2448 { tmpDictionary["8"] = true }
+                        if maxDimensions.width == 4032 && maxDimensions.height == 3024 { tmpDictionary["12"] = true }
+                        if maxDimensions.width == 8064 && maxDimensions.height == 6048 { tmpDictionary["48"] = true }
+                        switch camera.deviceType {
+                        case .builtInUltraWideCamera:
+                            MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.ultrawide")
+                        case .builtInWideAngleCamera:
+                            MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.wide")
+                        case .builtInTelephotoCamera:
+                            MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.telephoto")
+                        default:
+                            break
                         }
                     }
                 }
@@ -258,16 +268,28 @@ public class MalachiteFunctionUtils : NSObject {
         if #available(iOS 16.0, *) {
             let maxDimensions = device.activeFormat.supportedMaxPhotoDimensions[device.activeFormat.supportedMaxPhotoDimensions.count - 1]
             
-            switch MalachiteClassesObject().settings.defaults.integer(forKey: "capture.size.mp") {
-                
+            var mpSetting = Int()
+            
+            switch device.deviceType {
+            case .builtInUltraWideCamera:
+                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.ultrawide")
+            case .builtInWideAngleCamera:
+                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.wide")
+            case .builtInTelephotoCamera:
+                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.telephoto")
+            default:
+                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.wide")
+            }
+            
+            switch mpSetting {
             case 48:
-                MalachiteClassesObject().internalNSLog("[INTERNAL] Switching to 48MP mode")
+                MalachiteClassesObject().internalNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 48MP mode")
                 if maxDimensions.width == 8064 && maxDimensions.height == 6048 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 8064, height: 6048) }
             case 12:
-                MalachiteClassesObject().internalNSLog("[INTERNAL] Switching to 12MP mode")
+                MalachiteClassesObject().internalNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 12MP mode")
                 if maxDimensions.width == 4032 && maxDimensions.height == 3024 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 4032, height: 3024) }
             default:
-                MalachiteClassesObject().internalNSLog("[INTERNAL] Switching to 8MP mode")
+                MalachiteClassesObject().internalNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 8MP mode")
                 if maxDimensions.width == 3264 && maxDimensions.height == 2448 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 3264, height: 2448) }
             }
         }

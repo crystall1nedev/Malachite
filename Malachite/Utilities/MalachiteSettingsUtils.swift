@@ -17,6 +17,10 @@ public class MalachiteSettingsUtils : NSObject {
     /// A variable that holds the amount of times the button was clicked.
     public var gameKitButton = 0
     
+    /// A dictionary used for compatibility checks on the current device.
+    private let compatibilityPreferences: [ String : Any ] = [:
+    ]
+    
     /// A dictionary used for general preferences that are not meant to be switched by end users, or miscellanous settings.
     private let generalPreferences: [ String : Any ] = [
         // Records the last version of Malachite to be run on this device, to be used later
@@ -26,14 +30,11 @@ public class MalachiteSettingsUtils : NSObject {
         // Is this the first launch of the app?
         "general.firstLaunch"        : true,
         
+        // Get and save this device's identifier. Used for compabilityPreferences.
+        "general.device.model"       : "Eva1,1",
+        
         // Whether or not the display has a larger screen area. Used for moving things in the UI.
         "general.display.small"      : false,
-        // Whether or not the current device supports 8MP mode.
-        "general.supports.8mp"       : false,
-        // Whether or not the current device supports 12MP mode.
-        "general.supports.12mp"       : false,
-        // Whether or not the current device supports 48MP mode.
-        "general.supports.48mp"      : false,
         // How many photos has the user taken with Malachite? Used for Game Center achievements.
         "general.photos.count"       : 0,
         // :)
@@ -70,7 +71,11 @@ public class MalachiteSettingsUtils : NSObject {
         // Whether or not the watermarking feature is enabled
         "wtrmark.enabled"            : true,
         // The text to display over captured images
-        "wtrmark.text"               : "Shot with Malachite"
+        "wtrmark.text"               : "Shot with Malachite",
+    ]
+    
+    /// A dictionary used for debugging the app
+    private let debugPreferences: [ String : Any ] = [:
     ]
     
     /// A dictionary used for INTERNAL build preferences.
@@ -81,10 +86,36 @@ public class MalachiteSettingsUtils : NSObject {
         // 12MP is supported on the following:
         // iPhone 6s and later (including iPhone SE), iPad (10th generation) and later, iPad mini (6th generation) and later, iPad Air (4th generation) and later
         // iPad Pro (9.7-inch), iPad Pro (10.5-inch), or iPad Pro (12.9-inch, 2nd generation) and later
-        // 48MP are supported on the following:
-        // iPhone 14 Pro, iPhone 14 Pro Max, or iPhone 15 and later (wide angle only)
-        // iPhone 16 Pro or iPhone 16 Pro Max (ultra wide and wide angle only)
-        "capture.size.mp"            : 12
+        // 48MP is supported on the following:
+        // iPhone 14 Pro, iPhone 14 Pro Max, or iPhone 15 and later
+        "capture.mp.wide"                   : 12,
+        // What size to capture photos in
+        // Can be "12" or "48"
+        // 12MP is supported on all devices.
+        // 48MP is supported on the following:
+        // iPhone 16 Pro and iPhone 16 Pro Max
+        "capture.mp.ultrawide"              : 12,
+        // What size to capture photos in
+        // Can be "12"
+        // 12MP is supported on all devices.
+        "capture.mp.telephoto"              : 12,
+        
+        
+        // The list of supported resolutions from the ultrawide camera.
+        "compatibility.dimensions.ultrawide"    : [ "invalid" : 1 ],
+        // The list of supported resolutions from the wide angle camera.
+        "compatibility.dimensions.wide"         : [ "invalid" : 1 ],
+        // The list of supported resolutions from the telephoto camera.
+        "compatibility.dimensions.telephoto"    : [ "invalid" : 1 ],
+        // Whether or not the current device supports JPEG.
+        "compatibility.jpeg"                    : false,
+        // Whether or not the current device supports HEIF.
+        "compatibility.heif"                    : false,
+        // Whether or not the current device supports high dynamic range.
+        "compatibility.hdr"                     : false,
+        
+        // Whether or not to dump UserDefaults on launch.
+        "debug.logging.userdefaults"           : false,
     ]
     
     /// Counts the number of photos that have been taken.
@@ -120,9 +151,9 @@ public class MalachiteSettingsUtils : NSObject {
     
     public func getPreferencesDictionariesForBuildType() {
         if MalachiteClassesObject().versionType == "INTERNAL" {
-            availablePreferences = [ internalPreferences, generalPreferences, watermarkingPreferences, capturePreferences ]
+            availablePreferences = [ internalPreferences, compatibilityPreferences, generalPreferences, watermarkingPreferences, capturePreferences ]
         } else {
-            availablePreferences = [ generalPreferences, watermarkingPreferences, capturePreferences ]
+            availablePreferences = [ compatibilityPreferences, generalPreferences, watermarkingPreferences, capturePreferences ]
         }
     }
     
@@ -160,7 +191,7 @@ public class MalachiteSettingsUtils : NSObject {
     /// Dumps ``defaults`` to log.
     public func dumpUserDefaults() {
         getPreferencesDictionariesForBuildType()
-        MalachiteClassesObject().internalNSLog("[Preferences] Dumping all UserDefaults keys!!!")
+        MalachiteClassesObject().internalNSLog("[Preferences] Dumping all UserDefaults keys")
         for (key, value) in settingsAsDictionary() {
             for prefDict in availablePreferences {
                 if prefDict.keys.contains(key) {
@@ -179,5 +210,28 @@ public class MalachiteSettingsUtils : NSObject {
             defaults.set(true, forKey: "general.gamekit.alert")
             exit(11)
         }
+    }
+    
+    public func getCountOfDictionary(dictionary: String) -> Int {
+        guard let value = self.defaults.dictionary(forKey: dictionary) else { return 0 }
+        if (value["invalid"] != nil) { return 0 }
+        return value.count
+    }
+    
+    public func getBoolInsideDictionary(dictionary: String, key: String) -> Bool {
+        guard let value = self.defaults.dictionary(forKey: dictionary) else { return false }
+        return value[key] as? Bool ?? false
+    }
+    
+    public func getDeviceModel() -> String {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let machineMirror = Mirror(reflecting: systemInfo.machine)
+        let identifier = machineMirror.children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8, value != 0 else { return identifier }
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+        
+        return identifier
     }
 }
