@@ -64,10 +64,11 @@ public class MalachiteSettingsUtils : NSObject {
         "capture.type.jpeg"           : false,
         // Whether or not to save photos as HEIF. Not supported on A9.
         "capture.type.heif"           : true,
-        // Whether or not to enable auto focus with the tap and hold gesture.
-        "capture.tapgesture.focus"    : true,
-        // Whether or not to enable auto exposure with the tap and hold gesture.
-        "capture.tapgesture.exposure" : true,
+        
+        // Whether or not to enable auto focus and/or auto exposure with the tap and hold gesture.
+        "capture.tapgesture.elements" : [ String() ],
+        // Whether or not to enable continuous auto focus and/or auto exposure
+        "capture.continuous.elements" : [ String() ],
     ]
     
     /// A dictionary used for watermarking preferences.

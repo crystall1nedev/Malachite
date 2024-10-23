@@ -20,6 +20,10 @@ struct MalachiteSettingsView: View {
     @State private var shouldStabilize = Bool()
     /// A State variable used for determining whether or not to capture in HDR.
     @State private var hdrSwitch = false
+    /// A State variable used for determining whether or not to enable continuous auto exposure.
+    @State private var continuousAEAF = Int()
+    /// A State variable used for determinign whether or not to enable exposure and focus POI on tap and hold.
+    @State private var poiTapAndHold = Int()
     /// A State variable used for determining whether or not the device supports HDR capture in its current mode.
     @State private var supportsHDR = Bool()
     /// A State variable used for determining whether or not the device supports HEIC capture.
@@ -66,6 +70,7 @@ struct MalachiteSettingsView: View {
             }
             photoSettingsSection
             watermarkSettingsSection
+            uiSettingsSection
             if utilities.versionType == "DEBUG" || utilities.versionType == "INTERNAL" {
                 debugSettingsSection
             }
@@ -81,12 +86,34 @@ struct MalachiteSettingsView: View {
             supportsHDR = utilities.function.supportsHDR
             supportsHEIC = utilities.function.supportsHEIC()
             
+            switch utilities.settings.defaults.stringArray(forKey: "capture.continuous.elements") {
+            case ["ae", "af"]:
+                continuousAEAF = 0
+            case ["af"]:
+                continuousAEAF = 1
+            case ["ae"]:
+                continuousAEAF = 2
+            default:
+                continuousAEAF = 3
+            }
+            
+            switch utilities.settings.defaults.stringArray(forKey: "capture.tapgesture.elements") {
+            case ["ae", "af"]:
+                poiTapAndHold = 0
+            case ["af"]:
+                poiTapAndHold = 1
+            case ["ae"]:
+                poiTapAndHold = 2
+            default:
+                poiTapAndHold = 3
+            }
+            
             if !supportsHEIC {
                 formatFooterText = "settings.footer.photo.heif".localized
             }
             
             if !supportsHDR {
-                formatFooterText = formatFooterText + "settings.footer.photo.hdr".localized
+                formatFooterText = formatFooterText + "\n" + "settings.footer.photo.hdr".localized
             }
             
             if !utilities.settings.defaults.bool(forKey: "capture.type.heif") {
@@ -106,6 +133,28 @@ struct MalachiteSettingsView: View {
             utilities.settings.defaults.set(hdrSwitch, forKey: "capture.hdr.enabled")
             utilities.settings.defaults.set(shouldStabilize, forKey: "preview.stblz.enabled")
             utilities.settings.defaults.set(debugLoggingUserDefaults, forKey: "debug.logging.userdefaults")
+            
+            switch continuousAEAF {
+            case 0:
+                utilities.settings.defaults.set(["ae", "af"] as Array<String>, forKey: "capture.continuous.elements")
+            case 1:
+                utilities.settings.defaults.set(["af"] as Array<String>, forKey: "capture.continuous.elements")
+            case 2:
+                utilities.settings.defaults.set(["ae"] as Array<String>, forKey: "capture.continuous.elements")
+            default:
+                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "capture.continuous.elements")
+            }
+            
+            switch poiTapAndHold {
+            case 0:
+                utilities.settings.defaults.set(["ae", "af"] as Array<String>, forKey: "capture.tapgesture.elements")
+            case 1:
+                utilities.settings.defaults.set(["af"] as Array<String>, forKey: "capture.tapgesture.elements")
+            case 2:
+                utilities.settings.defaults.set(["ae"] as Array<String>, forKey: "capture.tapgesture.elements")
+            default:
+                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "capture.tapgesture.elements")
+            }
             
             if !watermarkText.isEmpty {
                 utilities.settings.defaults.set(watermarkText, forKey: "wtrmark.text")
@@ -128,6 +177,8 @@ struct MalachiteSettingsView: View {
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, object: nil)
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
             if MalachiteClassesObject().versionType == "INTERNAL" {
                 NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
             }
@@ -378,6 +429,22 @@ struct MalachiteSettingsView: View {
             {
                 Toggle("settings.option.photo.hdr", isOn: $hdrSwitch)
             }
+            MalachiteCellViewUtils(
+                    icon: "camera.filters",
+                    disabled: nil,
+                    dangerous: false)
+            {
+                Picker("settings.option.photo.continuous", selection: $continuousAEAF) {
+                    Text("settings.option.reusable.ae_af")
+                        .tag(0)
+                    Text("settings.option.reusable.af")
+                        .tag(1)
+                    Text("settings.option.reusable.ae")
+                        .tag(2)
+                    Text("settings.option.reusable.off")
+                        .tag(3)
+                }
+            }
         }
         .onChange(of: photoFormat) {_ in
             if photoFormat == 0 {
@@ -388,6 +455,20 @@ struct MalachiteSettingsView: View {
         }
         .onChange(of: hdrSwitch) { _ in
             utilities.settings.defaults.set(hdrSwitch, forKey: "capture.hdr.enabled")
+        }
+        .onChange(of: continuousAEAF) { _ in
+            switch continuousAEAF {
+            case 0:
+                utilities.settings.defaults.set(["ae", "af"] as Array<String>, forKey: "capture.continuous.elements")
+            case 1:
+                utilities.settings.defaults.set(["af"] as Array<String>, forKey: "capture.continuous.elements")
+            case 2:
+                utilities.settings.defaults.set(["ae"] as Array<String>, forKey: "capture.continuous.elements")
+            default:
+                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "capture.continuous.elements")
+            }
+            
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, object: nil)
         }
     }
     
@@ -424,6 +505,42 @@ struct MalachiteSettingsView: View {
             } else {
                 utilities.settings.defaults.set("Shot with Malachite", forKey: "wtrmark.text")
             }
+        }
+    }
+    
+    /// A variable to hold settings related to the user interface
+    var uiSettingsSection: some View {
+        Section(header: Text("settings.header.ui")) {
+            MalachiteCellViewUtils(
+                icon: "text.justify",
+                disabled: nil,
+                dangerous: false)
+            {
+                Picker("settings.option.ui.tapgesture", selection: $poiTapAndHold) {
+                    Text("settings.option.reusable.ae_af")
+                        .tag(0)
+                    Text("settings.option.reusable.af")
+                        .tag(1)
+                    Text("settings.option.reusable.ae")
+                        .tag(2)
+                    Text("settings.option.reusable.off")
+                        .tag(3)
+                }
+            }
+        }
+        .onChange(of: poiTapAndHold) {_ in
+            switch poiTapAndHold {
+            case 0:
+                utilities.settings.defaults.set(["ae", "af"] as Array<String>, forKey: "capture.tapgesture.elements")
+            case 1:
+                utilities.settings.defaults.set(["af"] as Array<String>, forKey: "capture.tapgesture.elements")
+            case 2:
+                utilities.settings.defaults.set(["ae"] as Array<String>, forKey: "capture.tapgesture.elements")
+            default:
+                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "capture.tapgesture.elements")
+            }
+            
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
         }
     }
     

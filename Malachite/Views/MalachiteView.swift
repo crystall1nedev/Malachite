@@ -204,6 +204,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NotificationCenter.default.addObserver(self, selector: #selector(changeStabilizerMode), name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeGameCenterEnabled), name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(runManualFocusUIHiderWhenUnsupported), name: MalachiteFunctionUtils.Notifications.unsupportedLensPositionControl.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeContinuousAEAF), name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeAEAFRecognizer), name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
         if utilities.versionType == "INTERNAL" {
             NotificationCenter.default.addObserver(self, selector: #selector(runInputMegapixelSwitch), name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
         }
@@ -341,7 +343,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         exposureTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString("uibutton.exposure.title", comment: ""), anchorConstant: 80)
         
         self.view.addGestureRecognizer(zoomRecognizer)
-        self.view.addGestureRecognizer(aeafRecognizer)
+        guard let tapGestureElements = utilities.settings.defaults.stringArray(forKey: "capture.tapgesture.elements") else { return }
+        if tapGestureElements.firstIndex(of: "off") == nil { self.view.addGestureRecognizer(aeafRecognizer) }
         self.view.addGestureRecognizer(uiHiderRecognizer)
         
         var lockButtonsX = -80.0
@@ -511,6 +514,27 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
     }
     
+    @objc func changeContinuousAEAF() {
+        utilities.function.continuousAEAF(device: selectedDevice!)
+    }
+    
+    @objc func changeAEAFRecognizer() {
+        guard let tapGestureElements = utilities.settings.defaults.stringArray(forKey: "capture.tapgesture.elements") else { return }
+        guard let currentGestureRecognizers = self.view.gestureRecognizers else { return }
+        
+        if tapGestureElements.firstIndex(of: "off") != nil {
+            if currentGestureRecognizers.contains(aeafRecognizer) {
+                utilities.debugNSLog("[AE+AF] Disabling tap and hold gesture")
+                self.view.removeGestureRecognizer(aeafRecognizer)
+            }
+        } else {
+            if !currentGestureRecognizers.contains(aeafRecognizer) {
+                utilities.debugNSLog("[AE+AF] Enabling tap and hold gesture")
+                self.view.addGestureRecognizer(aeafRecognizer)
+            }
+        }
+    }
+    
     /// Function to change the video stabilization mode for the ``cameraPreview``.
     @objc func changeStabilizerMode() {
         if utilities.settings.defaults.bool(forKey: "preview.stblz.enabled") {
@@ -666,7 +690,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to autofocus + autoexposure with ``aeafRecognizer``.
     @objc func runaeafController() {
-        utilities.function.autoFocusAndExposure(sender: aeafRecognizer,
+        utilities.function.pointOfInterestAEAF(sender: aeafRecognizer,
                                      captureDevice: &selectedDevice!,
                                      button: aeafFeedback,
                                      viewForScale: self.view,

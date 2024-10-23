@@ -595,6 +595,16 @@
         }
       }
     },
+    "settings.detail.photo.continuous" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the options you would like the camera to automatically monitor and adjust based on camera conditions, or disable it entirely."
+          }
+        }
+      }
+    },
     "settings.detail.photo.file_format" : {
       "localizations" : {
         "en" : {
@@ -611,16 +621,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enable this if you want to include high dynamic range in your image. "
-          }
-        }
-      }
-    },
-    "settings.detail.photo.max_exposure" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enable this if you want stupidly bright images."
           }
         }
       }
@@ -675,6 +675,16 @@
         }
       }
     },
+    "settings.detail.ui.tapgesture" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the options you would like to use when tapping and holding on the camera preview."
+          }
+        }
+      }
+    },
     "settings.detail.watermark.enable" : {
       "localizations" : {
         "en" : {
@@ -690,7 +700,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enter the text to watermark here."
+            "value" : "Enter the text to watermark here. Note that there is a limit of 65 characters to prevent going out of the image’s bounds."
           }
         }
       }
@@ -758,6 +768,16 @@
         }
       }
     },
+    "settings.footer.ui" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These options control various aspects of Malachite’s user interface."
+          }
+        }
+      }
+    },
     "settings.footer.watermark" : {
       "localizations" : {
         "en" : {
@@ -808,6 +828,16 @@
         }
       }
     },
+    "settings.header.ui" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User interface settings"
+          }
+        }
+      }
+    },
     "settings.header.watermark" : {
       "localizations" : {
         "en" : {
@@ -843,7 +873,17 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enable logging UserDefaults keys"
+            "value" : "Log UserDefaults keys"
+          }
+        }
+      }
+    },
+    "settings.option.photo.continuous" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuous adjustments"
           }
         }
       }
@@ -883,7 +923,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enable high dynamic range"
+            "value" : "High dynamic range"
           }
         }
       }
@@ -933,7 +973,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enable preview stabilization"
+            "value" : "Preview stabilization"
           }
         }
       }
@@ -998,12 +1038,62 @@
         }
       }
     },
+    "settings.option.reusable.ae" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AE only"
+          }
+        }
+      }
+    },
+    "settings.option.reusable.ae_af" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AE+AF"
+          }
+        }
+      }
+    },
+    "settings.option.reusable.af" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AF only"
+          }
+        }
+      }
+    },
+    "settings.option.reusable.off" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disabled"
+          }
+        }
+      }
+    },
+    "settings.option.ui.tapgesture" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Customize tap and hold"
+          }
+        }
+      }
+    },
     "settings.option.watermark.enable" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enable watermarking"
+            "value" : "Image watermarking"
           }
         }
       }

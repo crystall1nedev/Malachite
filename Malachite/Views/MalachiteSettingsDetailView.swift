@@ -23,6 +23,7 @@ struct MalachiteSettingsDetailView: View {
             }
             photoSettingsSection
             watermarkSettingsSection
+            uiSettingsSection
             debugSettingsSection
         }
         .navigationTitle("view.title.help")
@@ -66,6 +67,13 @@ struct MalachiteSettingsDetailView: View {
         Section(header: Text("settings.header.photo"), footer: Text("settings.footer.photo")) {
             MalachiteSettingsDetailViewUtils(title: Text("settings.option.photo.file_format"), subtitle: Text("settings.detail.photo.file_format")) {}
             MalachiteSettingsDetailViewUtils(title: Text("settings.option.photo.hdr"), subtitle: Text("settings.detail.photo.hdr")) {}
+            MalachiteSettingsDetailViewUtils(title: Text("settings.option.photo.continuous"), subtitle: Text("settings.detail.photo.continuous")) {}
+        }
+    }
+    
+    var uiSettingsSection: some View {
+        Section(header: Text("settings.header.ui"), footer: Text("settings.footer.ui")) {
+            MalachiteSettingsDetailViewUtils(title: Text("settings.option.ui.tapgesture"), subtitle: Text("settings.detail.ui.tapgesture")) {}
         }
     }
     

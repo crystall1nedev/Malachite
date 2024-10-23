@@ -26,6 +26,8 @@ public class MalachiteFunctionUtils : NSObject {
         case gameCenterEnabledNotification
         case unsupportedLensPositionControl
         case megaPixelSwitchNotification
+        case continousAEAFNotification
+        case aeafTapGestureNotification
     }
     
     /// Function that determines if the device supports HDR.
@@ -81,7 +83,7 @@ public class MalachiteFunctionUtils : NSObject {
     }
     
     /// Function that handles autofocus and autoexposure
-    public func autoFocusAndExposure(sender: UILongPressGestureRecognizer, captureDevice device: inout AVCaptureDevice, button: UIButton, viewForScale view: UIView, hapticClass haptic: MalachiteHapticUtils) {
+    public func pointOfInterestAEAF(sender: UILongPressGestureRecognizer, captureDevice device: inout AVCaptureDevice, button: UIButton, viewForScale view: UIView, hapticClass haptic: MalachiteHapticUtils) {
         let point = sender.location(in: view)
         if sender.state == UIGestureRecognizer.State.began {
             haptic.triggerNotificationHaptic(type: .success)
@@ -116,14 +118,16 @@ public class MalachiteFunctionUtils : NSObject {
                 return
             }
             
-            if MalachiteClassesObject().settings.defaults.bool(forKey: "capture.tapgesture.focus") {
+            guard let tapGestureElements = MalachiteClassesObject().settings.defaults.stringArray(forKey: "capture.tapgesture.elements") else { return }
+            
+            if tapGestureElements.firstIndex(of: "af") != nil {
                 if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
                     device.focusMode = .autoFocus
                     device.focusPointOfInterest = CGPointMake(scaledPointX, scaledPointY)
                     MalachiteClassesObject().debugNSLog("[AE+AF] Changed focus POI")
                 }
             }
-            if MalachiteClassesObject().settings.defaults.bool(forKey: "capture.tapgesture.exposure") {
+            if tapGestureElements.firstIndex(of: "ae") != nil  {
                 if device.isExposureModeSupported(.autoExpose) && device.isExposurePointOfInterestSupported {
                     device.exposureMode = .autoExpose
                     device.exposurePointOfInterest = CGPointMake(scaledPointX, scaledPointY)
@@ -139,6 +143,34 @@ public class MalachiteFunctionUtils : NSObject {
                 button.removeFromSuperview()
             }
         }
+    }
+    
+    public func continuousAEAF(device: AVCaptureDevice) {
+        do {
+            try device.lockForConfiguration()
+        } catch {
+            print("[Continuous AE+AF] Couldn't lock device for configuration: %@", error.localizedDescription)
+            return
+        }
+        
+        guard let continuousElements = MalachiteClassesObject().settings.defaults.stringArray(forKey: "capture.continuous.elements") else { return }
+        
+        if (continuousElements.firstIndex(of: "ae") != nil) && device.isExposureModeSupported(.continuousAutoExposure) {
+            device.exposureMode = .continuousAutoExposure
+            MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AE Enabled")
+        } else if (continuousElements.firstIndex(of: "ae") == nil) && device.isExposureModeSupported(.locked) {
+            device.exposureMode = .locked
+            MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AE Disabled")
+        }
+        if (continuousElements.firstIndex(of: "af") != nil) && device.isFocusModeSupported(.continuousAutoFocus) {
+            device.focusMode = .continuousAutoFocus
+            MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AF Enabled")
+        } else if (continuousElements.firstIndex(of: "af") == nil) && device.isFocusModeSupported(.locked) {
+            device.focusMode = .locked
+            MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AF Disabled")
+        }
+        
+        device.unlockForConfiguration()
     }
     
     /// Function that handles toggling the flashlight's on state.
@@ -236,6 +268,7 @@ public class MalachiteFunctionUtils : NSObject {
             try device?.lockForConfiguration()
             defer { device?.unlockForConfiguration() }
             device?.activeFormat = (device?.formats[(device?.formats.count)! - 1])!
+            continuousAEAF(device: device!)
             device?.automaticallyAdjustsVideoHDREnabled = false
             
             guard let focus = device?.isLockingFocusWithCustomLensPositionSupported else { return }
@@ -357,9 +390,7 @@ public class MalachiteFunctionUtils : NSObject {
     /// Function that handles manual ISO.
     public func manualExposure(captureDevice device: inout AVCaptureDevice, sender: UISlider) {
         let minISO = device.activeFormat.minISO
-        print(minISO)
         let maxISO = device.activeFormat.maxISO
-        print(maxISO)
         
         var selectedISO = Float()
         if MalachiteSettingsUtils().defaults.bool(forKey: "capture.exposure.unlimited") {
@@ -375,9 +406,6 @@ public class MalachiteFunctionUtils : NSObject {
         if selectedISO < minISO {
             selectedISO = minISO
         }
-        
-        print(sender.value)
-        print(selectedISO)
         
         do {
             try device.lockForConfiguration()
