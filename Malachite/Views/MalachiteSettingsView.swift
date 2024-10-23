@@ -241,7 +241,7 @@ struct MalachiteSettingsView: View {
             }
             
             MalachiteCellViewUtils(
-                icon: "camera.metering.none",
+                icon: "level",
                 disabled: nil,
                 dangerous: false)
             {
@@ -430,7 +430,7 @@ struct MalachiteSettingsView: View {
                 Toggle("settings.option.photo.hdr", isOn: $hdrSwitch)
             }
             MalachiteCellViewUtils(
-                    icon: "camera.filters",
+                    icon: "plus.viewfinder",
                     disabled: nil,
                     dangerous: false)
             {
@@ -476,7 +476,7 @@ struct MalachiteSettingsView: View {
     var watermarkSettingsSection: some View {
         Section(header: Text("settings.header.watermark")) {
             MalachiteCellViewUtils(
-                icon: "textformat",
+                icon: "hand.tap",
                 disabled: nil,
                 dangerous: false)
             {
