@@ -476,7 +476,7 @@ struct MalachiteSettingsView: View {
     var watermarkSettingsSection: some View {
         Section(header: Text("settings.header.watermark")) {
             MalachiteCellViewUtils(
-                icon: "hand.tap",
+                icon: "textformat",
                 disabled: nil,
                 dangerous: false)
             {
@@ -512,7 +512,7 @@ struct MalachiteSettingsView: View {
     var uiSettingsSection: some View {
         Section(header: Text("settings.header.ui")) {
             MalachiteCellViewUtils(
-                icon: "text.justify",
+                icon: "hand.tap",
                 disabled: nil,
                 dangerous: false)
             {
