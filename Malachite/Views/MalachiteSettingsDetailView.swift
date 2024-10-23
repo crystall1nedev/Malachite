@@ -66,7 +66,6 @@ struct MalachiteSettingsDetailView: View {
         Section(header: Text("settings.header.photo"), footer: Text("settings.footer.photo")) {
             MalachiteSettingsDetailViewUtils(title: Text("settings.option.photo.file_format"), subtitle: Text("settings.detail.photo.file_format")) {}
             MalachiteSettingsDetailViewUtils(title: Text("settings.option.photo.hdr"), subtitle: Text("settings.detail.photo.hdr")) {}
-            MalachiteSettingsDetailViewUtils(title: Text("settings.option.photo.max_exposure"), subtitle: Text("settings.detail.photo.max_exposure")) {}
         }
     }
     

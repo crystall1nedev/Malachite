@@ -49,7 +49,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     var focusSliderButton = UIButton()
     /// A `UISlider` that enables the user to manually adjust the lens position.
     var focusSlider = UISlider()
-    /// A `UIButton` that enables the user to toggle the lock states for the ``focusSlider`` and the ``autofocusRecognizer``.
+    /// A `UIButton` that enables the user to toggle the lock states for the ``focusSlider`` and the ``aeafRecognizer``.
     var focusLockButton = UIButton()
     /// A `Bool` that determines whether or not the ``focusSlider`` is currently displayed on the user's screen.
     var manualFocusSliderIsActive = false
@@ -71,11 +71,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// A `UIPinchGestureRecognizer` that handles zooming in and out of the ``cameraSession``.
     var zoomRecognizer = UIPinchGestureRecognizer()
-    /// A `UILongPressGestureRecognizer` that handles enabling the autofocus system at a specific point on the display for the ``cameraSession``.
-    var autofocusRecognizer = UILongPressGestureRecognizer()
+    /// A `UILongPressGestureRecognizer` that handles enabling the AE+AF system at a specific point on the display for the ``cameraSession``.
+    var aeafRecognizer = UILongPressGestureRecognizer()
     /// A `UIButton` that contains the blur for the on-screen feedback produced by the auto focus gesture.
-    private var autofocusFeedback = UIButton()
-    /// A `UILongPressGestureRecognizer` that handles hiding all elements of the user interface, and disabling the ``zoomRecognizer`` and ``autofocusRecognizer`` gestures.
+    private var aeafFeedback = UIButton()
+    /// A `UILongPressGestureRecognizer` that handles hiding all elements of the user interface, and disabling the ``zoomRecognizer`` and ``aeafRecognizer`` gestures.
     var uiHiderRecognizer = UILongPressGestureRecognizer()
     /// A `Bool` that determines whether or not the user interface is currently hidden to the user.
     var uiIsHidden = false
@@ -273,7 +273,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
      
      This function also creates the following gesture recognizers:
      - ``zoomRecognizer`` - Pinch-to-zoom gesture
-     - ``autofocusRecognizer`` - Tap and hold with one finger
+     - ``aeafRecognizer`` - Tap and hold with one finger
      - ``uiHiderRecognizer`` - Tap and hold with two fingers
      */
     func setupView(){
@@ -293,13 +293,13 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         exposureSliderButton = utilities.views.returnProperButton(symbolName: "", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
         exposureLockButton = utilities.views.returnProperButton(symbolName: "lock.open", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
         settingsButton = utilities.views.returnProperButton(symbolName: "gear", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
-        autofocusFeedback = utilities.views.returnProperButton(symbolName: "", cornerRadius: 60, viewForBounds: self.view, hapticClass: utilities.haptics)
+        aeafFeedback = utilities.views.returnProperButton(symbolName: "", cornerRadius: 60, viewForBounds: self.view, hapticClass: utilities.haptics)
         currentCamera = utilities.views.returnProperButton(symbolName: "", cornerRadius: 30, viewForBounds: self.view, hapticClass: nil)
         focusSlider.translatesAutoresizingMaskIntoConstraints = false
         exposureSlider.translatesAutoresizingMaskIntoConstraints = false
         focusLockButton.alpha = 0.0
         exposureLockButton.alpha = 0.0
-        autofocusFeedback.alpha = 0.0
+        aeafFeedback.alpha = 0.0
         
         self.view.addSubview(cameraButton)
         self.view.addSubview(flashlightButton)
@@ -311,7 +311,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.view.addSubview(exposureSliderButton)
         self.view.addSubview(exposureLockButton)
         self.view.addSubview(settingsButton)
-        self.view.addSubview(autofocusFeedback)
+        self.view.addSubview(aeafFeedback)
         self.view.addSubview(currentCamera)
         focusSliderButton.addSubview(focusSlider)
         exposureSliderButton.addSubview(exposureSlider)
@@ -332,7 +332,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         settingsButton.addTarget(self, action: #selector(self.presentSettingsView), for: .touchUpInside)
         
         zoomRecognizer = UIPinchGestureRecognizer(target: self, action:#selector(runZoomController))
-        autofocusRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runAutoFocusController))
+        aeafRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runaeafController))
         uiHiderRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runUIHider))
         uiHiderRecognizer.numberOfTouchesRequired = 2
         
@@ -341,7 +341,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         exposureTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString("uibutton.exposure.title", comment: ""), anchorConstant: 80)
         
         self.view.addGestureRecognizer(zoomRecognizer)
-        self.view.addGestureRecognizer(autofocusRecognizer)
+        self.view.addGestureRecognizer(aeafRecognizer)
         self.view.addGestureRecognizer(uiHiderRecognizer)
         
         var lockButtonsX = -80.0
@@ -664,11 +664,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                 hapticClass: utilities.haptics)
     }
     
-    /// Function to autofocus with ``autofocusRecognizer``.
-    @objc func runAutoFocusController() {
-        utilities.function.autofocus(sender: autofocusRecognizer,
+    /// Function to autofocus + autoexposure with ``aeafRecognizer``.
+    @objc func runaeafController() {
+        utilities.function.autoFocusAndExposure(sender: aeafRecognizer,
                                      captureDevice: &selectedDevice!,
-                                     button: autofocusFeedback,
+                                     button: aeafFeedback,
                                      viewForScale: self.view,
                                      hapticClass: utilities.haptics)
     }
@@ -749,7 +749,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         manualFocusLockIsActive = utilities.views.runLockControllers(lockIsActive: manualFocusLockIsActive,
                                                                      lockButton: &focusLockButton,
                                                                      associatedSlider: &focusSlider,
-                                                                     associatedGestureRecognizer: autofocusRecognizer,
+                                                                     associatedGestureRecognizer: aeafRecognizer,
                                                                      viewForRecognizers: self.view)
     }
     
@@ -757,7 +757,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     @objc func runUIHider() {
         if uiHiderRecognizer.state != UITapGestureRecognizer.State.began { return }
         
-        let gestureRecognizers = [ zoomRecognizer, autofocusRecognizer ]
+        let gestureRecognizers = [ zoomRecognizer, aeafRecognizer ]
         
         if !uiIsHidden {
             UIView.animate(withDuration: 0.25) { [self] in

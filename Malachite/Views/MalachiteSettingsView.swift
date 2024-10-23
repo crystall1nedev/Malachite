@@ -26,8 +26,6 @@ struct MalachiteSettingsView: View {
     @State private var supportsHEIC = Bool()
     /// A State variable used for presenting the user with a footer based on capabilities.
     @State private var formatFooterText = ""
-    /// A State variable used for determining whether or not to uncap the exposure slider.
-    @State private var exposureUnlimiterSwitch = false
     /// A State variable used for determining whether or not debug logging UserDefaults is enabled.
     @State private var debugLoggingUserDefaults = false
     /// A State variable used for determining what megapixel count the ultrawide camera should shoot in.
@@ -77,7 +75,6 @@ struct MalachiteSettingsView: View {
             
             watermarkSwitch = utilities.settings.defaults.bool(forKey: "wtrmark.enabled")
             hdrSwitch = utilities.settings.defaults.bool(forKey: "capture.hdr.enabled")
-            exposureUnlimiterSwitch = utilities.settings.defaults.bool(forKey: "capture.exposure.unlimited")
             shouldStabilize = utilities.settings.defaults.bool(forKey: "preview.stblz.enabled")
             debugLoggingUserDefaults = utilities.settings.defaults.bool(forKey: "debug.logging.userdefaults")
             
@@ -107,7 +104,6 @@ struct MalachiteSettingsView: View {
         .onDisappear() {
             utilities.settings.defaults.set(watermarkSwitch, forKey: "wtrmark.enabled")
             utilities.settings.defaults.set(hdrSwitch, forKey: "capture.hdr.enabled")
-            utilities.settings.defaults.set(exposureUnlimiterSwitch, forKey: "capture.exposure.unlimited")
             utilities.settings.defaults.set(shouldStabilize, forKey: "preview.stblz.enabled")
             utilities.settings.defaults.set(debugLoggingUserDefaults, forKey: "debug.logging.userdefaults")
             
@@ -382,14 +378,6 @@ struct MalachiteSettingsView: View {
             {
                 Toggle("settings.option.photo.hdr", isOn: $hdrSwitch)
             }
-            
-            MalachiteCellViewUtils(
-                icon: "sun.max",
-                disabled: nil,
-                dangerous: false)
-            {
-                Toggle("settings.option.photo.max_exposure", isOn: $exposureUnlimiterSwitch)
-            }
         }
         .onChange(of: photoFormat) {_ in
             if photoFormat == 0 {
@@ -400,11 +388,6 @@ struct MalachiteSettingsView: View {
         }
         .onChange(of: hdrSwitch) { _ in
             utilities.settings.defaults.set(hdrSwitch, forKey: "capture.hdr.enabled")
-        }
-        .onChange(of: exposureUnlimiterSwitch) { _ in
-            utilities.debugNSLog("[Settings View] Lol")
-            utilities.settings.defaults.set(exposureUnlimiterSwitch, forKey: "capture.exposure.unlimited")
-            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
         }
     }
     

@@ -80,9 +80,9 @@ public class MalachiteFunctionUtils : NSObject {
         }
     }
     
-    /// Function that handles autofocus.
-    public func autofocus(sender: UILongPressGestureRecognizer, captureDevice device: inout AVCaptureDevice, button: UIButton, viewForScale view: UIView, hapticClass haptic: MalachiteHapticUtils) {
-        let focusPoint = sender.location(in: view)
+    /// Function that handles autofocus and autoexposure
+    public func autoFocusAndExposure(sender: UILongPressGestureRecognizer, captureDevice device: inout AVCaptureDevice, button: UIButton, viewForScale view: UIView, hapticClass haptic: MalachiteHapticUtils) {
+        let point = sender.location(in: view)
         if sender.state == UIGestureRecognizer.State.began {
             haptic.triggerNotificationHaptic(type: .success)
             view.addSubview(button)
@@ -94,8 +94,8 @@ public class MalachiteFunctionUtils : NSObject {
             NSLayoutConstraint.activate([
                 button.widthAnchor.constraint(equalToConstant: 120),
                 button.heightAnchor.constraint(equalToConstant: 120),
-                button.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: focusPoint.x),
-                button.centerYAnchor.constraint(equalTo: view.topAnchor, constant: focusPoint.y),
+                button.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: point.x),
+                button.centerYAnchor.constraint(equalTo: view.topAnchor, constant: point.y),
             ])
         } else if sender.state == UIGestureRecognizer.State.changed {
             button.removeFromSuperview()
@@ -103,26 +103,35 @@ public class MalachiteFunctionUtils : NSObject {
             NSLayoutConstraint.activate([
                 button.widthAnchor.constraint(equalToConstant: 120),
                 button.heightAnchor.constraint(equalToConstant: 120),
-                button.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: focusPoint.x),
-                button.centerYAnchor.constraint(equalTo: view.topAnchor, constant: focusPoint.y),
+                button.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: point.x),
+                button.centerYAnchor.constraint(equalTo: view.topAnchor, constant: point.y),
             ])
         } else if sender.state == UIGestureRecognizer.State.ended {
-            let focusScaledPointX = focusPoint.x / view.frame.size.width
-            let focusScaledPointY = focusPoint.y / view.frame.size.height
-            if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
-                do {
-                    try device.lockForConfiguration()
-                } catch {
-                    print("[Tap to Zoom] Couldn't lock device for configuration: %@", error.localizedDescription)
-                    return
-                }
-                
-                device.focusMode = .autoFocus
-                device.focusPointOfInterest = CGPointMake(focusScaledPointX, focusScaledPointY)
-                
-                MalachiteClassesObject().debugNSLog("[Tap to Focus] Changed focus area")
-                device.unlockForConfiguration()
+            let scaledPointX = point.x / view.frame.size.width
+            let scaledPointY = point.y / view.frame.size.height
+            do {
+                try device.lockForConfiguration()
+            } catch {
+                print("[AE+AF] Couldn't lock device for configuration: %@", error.localizedDescription)
+                return
             }
+            
+            if MalachiteClassesObject().settings.defaults.bool(forKey: "capture.tapgesture.focus") {
+                if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
+                    device.focusMode = .autoFocus
+                    device.focusPointOfInterest = CGPointMake(scaledPointX, scaledPointY)
+                    MalachiteClassesObject().debugNSLog("[AE+AF] Changed focus POI")
+                }
+            }
+            if MalachiteClassesObject().settings.defaults.bool(forKey: "capture.tapgesture.exposure") {
+                if device.isExposureModeSupported(.autoExpose) && device.isExposurePointOfInterestSupported {
+                    device.exposureMode = .autoExpose
+                    device.exposurePointOfInterest = CGPointMake(scaledPointX, scaledPointY)
+                    MalachiteClassesObject().debugNSLog("[AE+AF] Changed exposure POI")
+                }
+            }
+            
+            device.unlockForConfiguration()
             
             UIView.animate(withDuration: 0.25) {
                 button.alpha = 0.0

@@ -23,6 +23,8 @@ struct MalachiteAboutView: View {
     @Binding var presentedAsModal: Bool
     /// A State variable used for determining whether or not to enable Game Center integration.
     @State private var gamekitSwitch = false
+    /// A State variable used for determining whether or not to uncap the exposure slider.
+    @State private var exposureUnlimiterSwitch = false
     
     /// A variable used to determine the currently available app icons.
     private let appIcons = [
@@ -57,16 +59,16 @@ struct MalachiteAboutView: View {
             aboutSection
             storySection
             creditsSection
-            if utilities.settings.defaults.bool(forKey: "general.gamekit.found") {
-                gamekitSection
-            }
+            funniesSection
             
         }
         .onAppear() {
             gamekitSwitch = utilities.settings.defaults.bool(forKey: "general.gamekit.enabled")
+            exposureUnlimiterSwitch = utilities.settings.defaults.bool(forKey: "capture.exposure.unlimited")
         }
         .onDisappear() {
             utilities.settings.defaults.set(gamekitSwitch, forKey: "general.gamekit.enabled")
+            utilities.settings.defaults.set(exposureUnlimiterSwitch, forKey: "capture.exposure.unlimited")
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
         }
         .navigationTitle("view.title.about")
@@ -207,20 +209,34 @@ struct MalachiteAboutView: View {
         }
     }
     
-    /// A variable for the GameKit section.
-    var gamekitSection : some View {
+    /// A variable for the funnies section.
+    var funniesSection : some View {
         Section(header: Text("about.header.special")) {
             MalachiteCellViewUtils(
-                icon: "gamecontroller",
+                icon: "sun.max",
                 disabled: nil,
-                dangerous: true)
+                dangerous: false)
             {
-                Toggle("", isOn: $gamekitSwitch)
+                Toggle("settings.option.photo.max_exposure", isOn: $exposureUnlimiterSwitch)
+            }
+            if utilities.settings.defaults.bool(forKey: "general.gamekit.found") {
+                MalachiteCellViewUtils(
+                    icon: "gamecontroller",
+                    disabled: nil,
+                    dangerous: true)
+                {
+                    Toggle("", isOn: $gamekitSwitch)
+                }
             }
         }
         .onChange(of: gamekitSwitch) {_ in
             utilities.settings.defaults.set(gamekitSwitch, forKey: "general.gamekit.enabled")
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
+        }
+        .onChange(of: exposureUnlimiterSwitch) { _ in
+            utilities.debugNSLog("[Settings View] Lol")
+            utilities.settings.defaults.set(exposureUnlimiterSwitch, forKey: "capture.exposure.unlimited")
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
         }
     }
 }

@@ -23,7 +23,7 @@ I recommend one of the following configurations...
 - [x] Basic camera view, with buttons that are out of the way  
 - [x] Switch between the ultra-wide and wide cameras, with fallback support for devices with one camera  
 - [x] Pinch-to-zoom gesture[^3]  
-- [x] Autofocus adjustments by tapping and holding the display[^4]  
+- [x] Autofocus and autoexposure adjustments by tapping and holding the display 
 - [x] Manual focus adjustments by adjusting a slider next to the other controls  
 - [x] Photo capture support, even when library access is set to Limited
 - [x] JPEG and HEIC support[^5]
@@ -51,7 +51,6 @@ So, I live with my love: @ThatStella7922. She and I are both big nerds, and I ca
 [^1]: Malachite is validated against iPhone SE (1st generation) with no lens attachment, iPhone 8 Plus with no working main camera, iPhone 11, iPhone 15 Pro Max, and iPad Pro (11-inch). Not all features are available across all devices, due to hardware and software limitations. iOS version support may change depending on the difficulty of targeting older iOS versions and/or other factors.
 [^2]: Support for the Camera Control button on iPhone 16 and later is planned and will be implemented when I receive my iPhone 16 Pro Max.
 [^3]: Pinch-to-zoom will feature haptic feedback when reaching the minimum and maximum zoom levels in a future commit.
-[^4]: Autofocus currently features haptic feedback. On-screen feedback will be featured in a future commit.
 [^5]: Capturing images in RAW and ProRAW is being looked into. HEIC requires iPhone 7 or later, iPad (6th generation) or later, iPad Air (3rd generation) or later, iPad mini (5th generation) or later, iPad Pro (12.9-inch, 2nd generation) or later, iPad Pro (10.5-inch), iPad Pro (11-inch) or later, or iPod touch (7th generation)
 [^6]: High dynamic range is currently limited to HEIC-supporting devices to investigate issues with older models.
 [^7]: This will be unnecessary in a future commit.
