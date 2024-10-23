@@ -19,6 +19,7 @@ private struct AppIcon {
 }
 
 struct MalachiteAboutView: View {
+    /// A State variable used for determining whether or not this view is being presented as a modal.
     @Binding var presentedAsModal: Bool
     /// A State variable used for determining whether or not to enable Game Center integration.
     @State private var gamekitSwitch = false

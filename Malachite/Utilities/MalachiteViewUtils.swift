@@ -270,11 +270,11 @@ struct MalachiteCellViewUtils<Content : View>: View {
 }
 
 struct MalachiteCompatibilityViewUtils: View {
-    var title: Text
+    var title: String
     var available: Bool
     
     init(
-        title: Text,
+        title: String,
         available: Bool
     ) {
         self.title = title
@@ -286,14 +286,14 @@ struct MalachiteCompatibilityViewUtils: View {
             HStack {
                 if !available {
                     if #available(iOS 17.0, *) {
-                        title
+                        Text("\(title).unsupported".localized)
                             .foregroundStyle(.red)
                     } else {
-                        title
+                        Text("\(title).unsupported".localized)
                             .foregroundColor(.red)
                     }
                 } else {
-                    title
+                    Text(title.localized)
                 }
                 Spacer()
                 if !available {

@@ -30,8 +30,16 @@ struct MalachiteSettingsView: View {
     @State private var exposureUnlimiterSwitch = false
     /// A State variable used for determining whether or not debug logging UserDefaults is enabled.
     @State private var debugLoggingUserDefaults = false
+    /// A State variable used for determining what megapixel count the ultrawide camera should shoot in.
+    @State private var ultrawideMegapixelCount = Int()
+    /// A State variable used for determining what megapixel count the wide angle camera should shoot in.
+    @State private var wideMegapixelCount = Int()
+    /// A State variable used for determining what megapixel count the telephoto camera should shoot in.
+    @State private var telephotoMegapixelCount = Int()
     /// A State variable used for determining whether or not a view is being presented.
-    @State var presentingModal = false
+    @State var presentingAboutModal = false
+    /// A State variable used for determining whether or not a view is being presented.
+    @State var presentingCompatibilityModal = false
     /// A variable to hold the existing instance of ``MalachiteClassesObject``.
     var utilities = MalachiteClassesObject()
     /// A variable used to hold the function for dismissing with the toolbar item.
@@ -55,6 +63,9 @@ struct MalachiteSettingsView: View {
         Form {
             aboutSection
             previewSettingsSection
+            if utilities.versionType == "INTERNAL" {
+                resolutionSettingsSection
+            }
             photoSettingsSection
             watermarkSettingsSection
             if utilities.versionType == "DEBUG" || utilities.versionType == "INTERNAL" {
@@ -131,11 +142,6 @@ struct MalachiteSettingsView: View {
                 NavigationLink(destination: MalachiteSettingsDetailView(dismissAction: dismissAction)) {
                     Image(systemName: "questionmark.circle")
                 }
-                if utilities.versionType == "INTERNAL" {
-                    NavigationLink(destination: MalachiteCompatibilityView(utilities: utilities, dismissAction: dismissAction)) {
-                        Image(systemName: "checkmark.seal")
-                    }
-                }
             }
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button {
@@ -155,8 +161,18 @@ struct MalachiteSettingsView: View {
                 disabled: nil,
                 dangerous: false)
             {
-                Button("view.title.about") { self.presentingModal = true }
-                    .sheet(isPresented: $presentingModal) { MalachiteAboutView(presentedAsModal: self.$presentingModal) }
+                Button("view.title.about") { self.presentingAboutModal = true }
+                    .sheet(isPresented: $presentingAboutModal) { MalachiteAboutView(presentedAsModal: self.$presentingAboutModal) }
+            }
+            if utilities.versionType == "INTERNAL" {
+                MalachiteCellViewUtils(
+                    icon: "checkmark.seal",
+                    disabled: nil,
+                    dangerous: false)
+                {
+                    Button("view.title.compatibility") { self.presentingCompatibilityModal = true }
+                        .sheet(isPresented: $presentingCompatibilityModal) { MalachiteCompatibilityView(presentedAsModal: self.$presentingCompatibilityModal, utilities: utilities) }
+                }
             }
         }
     }
@@ -202,23 +218,150 @@ struct MalachiteSettingsView: View {
         }
     }
     
+    /// A variable to hold the image resolution section.
+    var resolutionSettingsSection: some View {
+        Section(header: Text("settings.header.resolution")) {
+            if utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.ultrawide") > 0 {
+                MalachiteCellViewUtils(
+                    icon: "camera.aperture",
+                    disabled: utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.ultrawide") == 1,
+                    dangerous: false)
+                {
+                    Picker("settings.option.resolution.ultrawide", selection: $ultrawideMegapixelCount) {
+                        if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.ultrawide", key: "8") {
+                            Text("settings.option.resolution.8")
+                                .tag(0)
+                        }
+                        if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.ultrawide", key: "12") {
+                            Text("settings.option.resolution.12")
+                                .tag(1)
+                        }
+                        if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.ultrawide", key: "48") {
+                            Text("settings.option.resolution.48")
+                                .tag(2)
+                        }
+                    }
+                }
+            }
+            if utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.wide") > 0 {
+                MalachiteCellViewUtils(
+                    icon: "camera.aperture",
+                    disabled: utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.wide") == 1,
+                    dangerous: false)
+                {
+                    Picker("settings.option.resolution.wide", selection: $wideMegapixelCount) {
+                        if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.wide", key: "8") {
+                            Text("settings.option.resolution.8")
+                                .tag(0)
+                        }
+                        if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.wide", key: "12") {
+                            Text("settings.option.resolution.12")
+                                .tag(1)
+                        }
+                        if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.wide", key: "48") {
+                            Text("settings.option.resolution.48")
+                                .tag(2)
+                        }
+                    }
+                }
+            }
+            if utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.telephoto") > 0 {
+                MalachiteCellViewUtils(
+                    icon: "camera.aperture",
+                    disabled: utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.telephoto") == 1,
+                    dangerous: false)
+                {
+                    Picker("settings.option.resolution.telephoto", selection: $telephotoMegapixelCount) {
+                        if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.telephoto", key: "12") {
+                            Text("settings.option.resolution.12")
+                                .tag(0)
+                        }
+                    }
+                }
+            }
+        }
+        .onAppear {
+            switch utilities.settings.defaults.integer(forKey: "capture.mp.ultrawide") {
+            case 12:
+                ultrawideMegapixelCount = 1
+            case 48:
+                ultrawideMegapixelCount = 2
+            default:
+                ultrawideMegapixelCount = 0
+            }
+            
+            switch utilities.settings.defaults.integer(forKey: "capture.mp.wide") {
+            case 12:
+                wideMegapixelCount = 1
+            case 48:
+                wideMegapixelCount = 2
+            default:
+                wideMegapixelCount = 0
+            }
+            
+            switch utilities.settings.defaults.integer(forKey: "capture.mp.telephoto") {
+            default:
+                telephotoMegapixelCount = 0
+            }
+        }
+        .onDisappear {
+            switch ultrawideMegapixelCount {
+            case 1:
+                utilities.settings.defaults.set(12, forKey: "capture.mp.ultrawide")
+            case 2:
+                utilities.settings.defaults.set(48, forKey: "capture.mp.ultrawide")
+            default:
+                utilities.settings.defaults.set(8, forKey: "capture.mp.ultrawide")
+            }
+            
+            switch wideMegapixelCount {
+            case 1:
+                utilities.settings.defaults.set(12, forKey: "capture.mp.wide")
+            case 2:
+                utilities.settings.defaults.set(48, forKey: "capture.mp.wide")
+            default:
+                utilities.settings.defaults.set(8, forKey: "capture.mp.wide")
+            }
+            
+            switch telephotoMegapixelCount {
+            default:
+                utilities.settings.defaults.set(12, forKey: "capture.mp.telephoto")
+            }
+        }
+        .onChange(of: ultrawideMegapixelCount) { _ in
+            switch ultrawideMegapixelCount {
+            case 1:
+                utilities.settings.defaults.set(12, forKey: "capture.mp.ultrawide")
+            case 2:
+                utilities.settings.defaults.set(48, forKey: "capture.mp.ultrawide")
+            default:
+                utilities.settings.defaults.set(8, forKey: "capture.mp.ultrawide")
+            }
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
+        }
+        .onChange(of: wideMegapixelCount) { _ in
+            switch wideMegapixelCount {
+            case 1:
+                utilities.settings.defaults.set(12, forKey: "capture.mp.wide")
+            case 2:
+                utilities.settings.defaults.set(48, forKey: "capture.mp.wide")
+            default:
+                utilities.settings.defaults.set(8, forKey: "capture.mp.wide")
+            }
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
+        }
+        .onChange(of: telephotoMegapixelCount) { _ in
+            switch telephotoMegapixelCount {
+            default:
+                utilities.settings.defaults.set(12, forKey: "capture.mp.telephoto")
+            }
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
+        }
+    }
+    
     /// A variable to hold the photo settings section.
     var photoSettingsSection: some View {
         Section(header: Text("settings.header.photo"), footer: Text(formatFooterText)) {
-            if #available(iOS 16.0, *) {
-                if utilities.versionType == "INTERNAL" {
-                    MalachiteCellViewUtils(
-                        icon: "camera.aperture",
-                        disabled: nil,
-                        dangerous: false)
-                    {
-                        NavigationLink(destination: MalachiteSettingsResolutionView(utilities: utilities, dismissAction: dismissAction)) {
-                            Text("view.title.settings.mp")
-                        }
-                    }
-                    
-                }
-            }
             MalachiteCellViewUtils(
                 icon: "square.and.arrow.down",
                 disabled: !supportsHEIC,
@@ -354,170 +497,5 @@ struct MalachiteSettingsView: View {
         .onChange(of: debugLoggingUserDefaults) {_ in
             utilities.settings.defaults.set(debugLoggingUserDefaults, forKey: "debug.logging.userdefaults")
         }
-    }
-}
-    
-struct MalachiteSettingsResolutionView: View {
-    /// A State variable used for determining what megapixel count the ultrawide camera should shoot in.
-    @State private var ultrawideMegapixelCount = Int()
-    /// A State variable used for determining what megapixel count the wide angle camera should shoot in.
-    @State private var wideMegapixelCount = Int()
-    /// A State variable used for determining what megapixel count the telephoto camera should shoot in.
-    @State private var telephotoMegapixelCount = Int()
-    /// A variable to hold the existing instance of ``MalachiteClassesObject``.
-    var utilities = MalachiteClassesObject()
-    /// A variable used to hold the function for dismissing with the toolbar item.
-    var dismissAction: (() -> Void)
-    
-    var body: some View {
-        Form {
-            Section {
-                if utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.ultrawide") > 0 {
-                    MalachiteCellViewUtils(
-                        icon: "camera.aperture",
-                        disabled: utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.ultrawide") == 1,
-                        dangerous: false)
-                    {
-                        Picker("settings.option.photo.megapixels.ultrawide", selection: $ultrawideMegapixelCount) {
-                            if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.ultrawide", key: "8") {
-                                Text("settings.option.photo.megapixels.8")
-                                    .tag(0)
-                            }
-                            if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.ultrawide", key: "12") {
-                                Text("settings.option.photo.megapixels.12")
-                                    .tag(1)
-                            }
-                            if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.ultrawide", key: "48") {
-                                Text("settings.option.photo.megapixels.48")
-                                    .tag(2)
-                            }
-                        }
-                    }
-                }
-                if utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.wide") > 0 {
-                    MalachiteCellViewUtils(
-                        icon: "camera.aperture",
-                        disabled: utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.wide") == 1,
-                        dangerous: false)
-                    {
-                        Picker("settings.option.photo.megapixels.wide", selection: $wideMegapixelCount) {
-                            if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.wide", key: "8") {
-                                Text("settings.option.photo.megapixels.8")
-                                    .tag(0)
-                            }
-                            if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.wide", key: "12") {
-                                Text("settings.option.photo.megapixels.12")
-                                    .tag(1)
-                            }
-                            if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.wide", key: "48") {
-                                Text("settings.option.photo.megapixels.48")
-                                    .tag(2)
-                            }
-                        }
-                    }
-                }
-                if utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.telephoto") > 0 {
-                    MalachiteCellViewUtils(
-                        icon: "camera.aperture",
-                        disabled: utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.telephoto") == 1,
-                        dangerous: false)
-                    {
-                        Picker("settings.option.photo.megapixels.telephoto", selection: $telephotoMegapixelCount) {
-                            if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.telephoto", key: "12") {
-                                Text("settings.option.photo.megapixels.12")
-                                    .tag(0)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        .onAppear {
-            switch utilities.settings.defaults.integer(forKey: "capture.mp.ultrawide") {
-            case 12:
-                ultrawideMegapixelCount = 1
-            case 48:
-                ultrawideMegapixelCount = 2
-            default:
-                ultrawideMegapixelCount = 0
-            }
-            
-            switch utilities.settings.defaults.integer(forKey: "capture.mp.wide") {
-            case 12:
-                wideMegapixelCount = 1
-            case 48:
-                wideMegapixelCount = 2
-            default:
-                wideMegapixelCount = 0
-            }
-            
-            switch utilities.settings.defaults.integer(forKey: "capture.mp.telephoto") {
-            default:
-                telephotoMegapixelCount = 0
-            }
-        }
-        .onDisappear {
-            switch ultrawideMegapixelCount {
-            case 1:
-                utilities.settings.defaults.set(12, forKey: "capture.mp.ultrawide")
-            case 2:
-                utilities.settings.defaults.set(48, forKey: "capture.mp.ultrawide")
-            default:
-                utilities.settings.defaults.set(8, forKey: "capture.mp.ultrawide")
-            }
-            
-            switch wideMegapixelCount {
-            case 1:
-                utilities.settings.defaults.set(12, forKey: "capture.mp.wide")
-            case 2:
-                utilities.settings.defaults.set(48, forKey: "capture.mp.wide")
-            default:
-                utilities.settings.defaults.set(8, forKey: "capture.mp.wide")
-            }
-            
-            switch telephotoMegapixelCount {
-            default:
-                utilities.settings.defaults.set(12, forKey: "capture.mp.telephoto")
-            }
-        }
-        .onChange(of: ultrawideMegapixelCount) { _ in
-            switch ultrawideMegapixelCount {
-            case 1:
-                utilities.settings.defaults.set(12, forKey: "capture.mp.ultrawide")
-            case 2:
-                utilities.settings.defaults.set(48, forKey: "capture.mp.ultrawide")
-            default:
-                utilities.settings.defaults.set(8, forKey: "capture.mp.ultrawide")
-            }
-            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
-        }
-        .onChange(of: wideMegapixelCount) { _ in
-            switch wideMegapixelCount {
-            case 1:
-                utilities.settings.defaults.set(12, forKey: "capture.mp.wide")
-            case 2:
-                utilities.settings.defaults.set(48, forKey: "capture.mp.wide")
-            default:
-                utilities.settings.defaults.set(8, forKey: "capture.mp.wide")
-            }
-            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
-        }
-        .onChange(of: telephotoMegapixelCount) { _ in
-            switch telephotoMegapixelCount {
-            default:
-                utilities.settings.defaults.set(12, forKey: "capture.mp.telephoto")
-            }
-            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
-        }
-        .navigationTitle("view.title.settings.mp")
-        .toolbar(content: {
-            ToolbarItemGroup(placement: .topBarTrailing) {
-                Button {
-                    self.dismissAction()
-                } label: {
-                    Text("action.done_button")
-                }
-            }
-        })
     }
 }

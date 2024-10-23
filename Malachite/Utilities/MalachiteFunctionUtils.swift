@@ -31,13 +31,16 @@ public class MalachiteFunctionUtils : NSObject {
     /// Function that determines if the device supports HDR.
     public func deviceFormatSupportsHDR(device hdrDevice: AVCaptureDevice) {
         if hdrDevice.activeFormat.isVideoHDRSupported == true {
+            MalachiteClassesObject().settings.defaults.set(true, forKey: "compatibility.hdr")
             self.supportsHDR = true
         }
     }
     
     /// Function that determines if the device supports HEIC.
     public func supportsHEIC() -> Bool {
+        MalachiteClassesObject().settings.defaults.set(true, forKey: "compatibility.jpeg")
         if supportedImageCaptureTypes.contains("public.heic") {
+            MalachiteClassesObject().settings.defaults.set(true, forKey: "compatibility.heif")
             return true
         }
         
@@ -173,25 +176,28 @@ public class MalachiteFunctionUtils : NSObject {
         }
         
         if MalachiteClassesObject().versionType == "INTERNAL" && firstRun {
-            if #available(iOS 16.0, *) {
-                for camera in cameras {
-                    var tmpDictionary = Dictionary<String, Bool>()
-                    for format in camera.formats {
-                        let maxDimensions = format.supportedMaxPhotoDimensions[format.supportedMaxPhotoDimensions.count - 1]
-                        if format == camera.formats[0] { MalachiteClassesObject().internalNSLog("[Camera Input] Querying supported modes of \(camera.deviceType.rawValue)") }
-                        if maxDimensions.width == 3264 && maxDimensions.height == 2448 { tmpDictionary["8"] = true }
-                        if maxDimensions.width == 4032 && maxDimensions.height == 3024 { tmpDictionary["12"] = true }
-                        if maxDimensions.width == 8064 && maxDimensions.height == 6048 { tmpDictionary["48"] = true }
-                        switch camera.deviceType {
-                        case .builtInUltraWideCamera:
-                            MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.ultrawide")
-                        case .builtInWideAngleCamera:
-                            MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.wide")
-                        case .builtInTelephotoCamera:
-                            MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.telephoto")
-                        default:
-                            break
-                        }
+            for camera in cameras {
+                var tmpDictionary = Dictionary<String, Bool>()
+                for format in camera.formats {
+                    var maxDimensions: CMVideoDimensions
+                    if #available (iOS 16.0, *) {
+                        maxDimensions = format.supportedMaxPhotoDimensions[format.supportedMaxPhotoDimensions.count - 1]
+                    } else {
+                        maxDimensions = format.highResolutionStillImageDimensions
+                    }
+                    if format == camera.formats[0] { MalachiteClassesObject().internalNSLog("[Camera Input] Querying supported modes of \(camera.deviceType.rawValue)") }
+                    if maxDimensions.width == 3264 && maxDimensions.height == 2448 { tmpDictionary["8"] = true }
+                    if maxDimensions.width == 4032 && maxDimensions.height == 3024 { tmpDictionary["12"] = true }
+                    if maxDimensions.width == 8064 && maxDimensions.height == 6048 { tmpDictionary["48"] = true }
+                    switch camera.deviceType {
+                    case .builtInUltraWideCamera:
+                        MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.ultrawide")
+                    case .builtInWideAngleCamera:
+                        MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.wide")
+                    case .builtInTelephotoCamera:
+                        MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.telephoto")
+                    default:
+                        break
                     }
                 }
             }

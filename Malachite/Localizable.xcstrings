@@ -321,44 +321,251 @@
     "Capture with Malachite" : {
 
     },
-    "compatibility.title." : {
-
-    },
-    "compatibility.title.8mp.ultrawide" : {
-
+    "compatibility.note" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The following screen shows what features of Malachite your current device can take advantage of. "
+          }
+        }
+      }
     },
     "compatibility.title.8mp.wide" : {
-
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle supports 8MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.8mp.wide.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle does not support 8MP capture"
+          }
+        }
+      }
     },
     "compatibility.title.12mp.telephoto" : {
-
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telephoto supports 12MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.12mp.telephoto.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telephoto does not support 12MP capture"
+          }
+        }
+      }
     },
     "compatibility.title.12mp.ultrawide" : {
-
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultra wide supports 12MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.12mp.ultrawide.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultra wide does not support 12MP capture"
+          }
+        }
+      }
     },
     "compatibility.title.12mp.wide" : {
-
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle supports 12MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.12mp.wide.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle does not support 12MP capture"
+          }
+        }
+      }
     },
     "compatibility.title.48mp.ultrawide" : {
-
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultra wide supports 48MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.48mp.ultrawide.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultra wide does not support 48MP capture"
+          }
+        }
+      }
     },
     "compatibility.title.48mp.wide" : {
-
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle supports 48MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.48mp.wide.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle does not support 48MP capture"
+          }
+        }
+      }
     },
     "compatibility.title.hdr" : {
-
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device supports HDR capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.hdr.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device does not support HDR capture"
+          }
+        }
+      }
     },
     "compatibility.title.heif" : {
-
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device supports encoding in HEIF"
+          }
+        }
+      }
+    },
+    "compatibility.title.heif.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device does not support HEIF encoding"
+          }
+        }
+      }
     },
     "compatibility.title.jpeg" : {
-
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device supports encoding in JPEG"
+          }
+        }
+      }
+    },
+    "compatibility.title.jpeg.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device does not support JPEG encoding"
+          }
+        }
+      }
+    },
+    "compatibility.title.no.telephoto.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No telephoto camera detected"
+          }
+        }
+      }
+    },
+    "compatibility.title.no.ultrawide.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No ultra wide camera detected"
+          }
+        }
+      }
+    },
+    "compatibility.title.no.wide.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No wide angle camera detected"
+          }
+        }
+      }
     },
     "Open Malachite" : {
 
     },
-    "settings.detail.debug.erase_gamekit" : {
-      "extractionState" : "stale",
+    "settings.detail.debug.erase.gamekit" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -368,8 +575,7 @@
         }
       }
     },
-    "settings.detail.debug.erase_userdefaults" : {
-      "extractionState" : "stale",
+    "settings.detail.debug.erase.userdefaults" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -379,14 +585,15 @@
         }
       }
     },
-    "settings.detail.debug.erase.gamekit" : {
-
-    },
-    "settings.detail.debug.erase.userdefaults" : {
-
-    },
     "settings.detail.debug.logging.userdefaults" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEBUG: This option dumps UserDefaults on launch."
+          }
+        }
+      }
     },
     "settings.detail.photo.file_format" : {
       "localizations" : {
@@ -418,16 +625,6 @@
         }
       }
     },
-    "settings.detail.photo.megapixels" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose a higher megapixel option to capture higher resolution images. Support for 12MP and 48MP depends on your hardware."
-          }
-        }
-      }
-    },
     "settings.detail.preview.aspect_ratio" : {
       "localizations" : {
         "en" : {
@@ -444,6 +641,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enable this if you want to stabilize the preview."
+          }
+        }
+      }
+    },
+    "settings.detail.resolution.telephoto" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a higher resolution for the telephoto camera to shoot in. "
+          }
+        }
+      }
+    },
+    "settings.detail.resolution.ultrawide" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a higher resolution for the ultra wide camera to shoot in. Support for 48MP depends on your hardware, see the Compatibility page for more information."
+          }
+        }
+      }
+    },
+    "settings.detail.resolution.wide" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a higher resolution for the wide angle camera to shoot in. Support for 12MP and 48MP depends on your hardware, see the Compatibility page for more information."
           }
         }
       }
@@ -495,7 +722,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Additionally, HDR is currently disabled to address issues on devices not supporting HEIF."
+            "value" : "HDR is not supported on the current camera."
           }
         }
       }
@@ -517,6 +744,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "These options control the Malachite’s camera preview."
+          }
+        }
+      }
+    },
+    "settings.footer.resolution" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These options control what each resolutions each camera should shoot in."
           }
         }
       }
@@ -557,6 +794,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Preview settings"
+          }
+        }
+      }
+    },
+    "settings.header.resolution" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resolution settings"
           }
         }
       }
@@ -651,76 +898,6 @@
         }
       }
     },
-    "settings.option.photo.megapixels" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Picture resolution"
-          }
-        }
-      }
-    },
-    "settings.option.photo.megapixels.8" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "8MP (3264x2448)"
-          }
-        }
-      }
-    },
-    "settings.option.photo.megapixels.12" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "12MP (4032x3024)"
-          }
-        }
-      }
-    },
-    "settings.option.photo.megapixels.48" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "48MP (8064x6048)"
-          }
-        }
-      }
-    },
-    "settings.option.photo.megapixels.telephoto" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Telephoto"
-          }
-        }
-      }
-    },
-    "settings.option.photo.megapixels.ultrawide" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ultra wide"
-          }
-        }
-      }
-    },
-    "settings.option.photo.megapixels.wide" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wide angle"
-          }
-        }
-      }
-    },
     "settings.option.preview.aspect_ratio" : {
       "localizations" : {
         "en" : {
@@ -757,6 +934,66 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enable preview stabilization"
+          }
+        }
+      }
+    },
+    "settings.option.resolution.8" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "8MP (3264x2448)"
+          }
+        }
+      }
+    },
+    "settings.option.resolution.12" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12MP (4032x3024)"
+          }
+        }
+      }
+    },
+    "settings.option.resolution.48" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "48MP (8064x6048)"
+          }
+        }
+      }
+    },
+    "settings.option.resolution.telephoto" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telephoto"
+          }
+        }
+      }
+    },
+    "settings.option.resolution.ultrawide" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultra wide"
+          }
+        }
+      }
+    },
+    "settings.option.resolution.wide" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle"
           }
         }
       }
@@ -887,16 +1124,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
-          }
-        }
-      }
-    },
-    "view.title.settings.mp" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Image resolution"
           }
         }
       }

@@ -18,6 +18,9 @@ struct MalachiteSettingsDetailView: View {
         Form {
             aboutSection
             previewSettingsSection
+            if MalachiteClassesObject().versionType == "INTERNAL" {
+                resolutionSettingsSection
+            }
             photoSettingsSection
             watermarkSettingsSection
             debugSettingsSection
@@ -49,10 +52,18 @@ struct MalachiteSettingsDetailView: View {
         }
     }
     
+    /// A variable to hold the image resolution section.
+    var resolutionSettingsSection: some View {
+        Section(header: Text("settings.header.resolution"), footer: Text("settings.footer.resolution")) {
+            MalachiteSettingsDetailViewUtils(title: Text("settings.option.resolution.ultrawide"), subtitle: Text("settings.detail.resolution.ultrawide")) {}
+            MalachiteSettingsDetailViewUtils(title: Text("settings.option.resolution.wide"), subtitle: Text("settings.detail.resolution.wide")) {}
+            MalachiteSettingsDetailViewUtils(title: Text("settings.option.resolution.telephoto"), subtitle: Text("settings.detail.resolution.telephoto")) {}
+        }
+    }
+    
     /// A variable to hold the photo settings section.
     var photoSettingsSection: some View {
         Section(header: Text("settings.header.photo"), footer: Text("settings.footer.photo")) {
-            MalachiteSettingsDetailViewUtils(title: Text("settings.option.photo.megapixels"), subtitle: Text("settings.detail.photo.megapixels")) {}
             MalachiteSettingsDetailViewUtils(title: Text("settings.option.photo.file_format"), subtitle: Text("settings.detail.photo.file_format")) {}
             MalachiteSettingsDetailViewUtils(title: Text("settings.option.photo.hdr"), subtitle: Text("settings.detail.photo.hdr")) {}
             MalachiteSettingsDetailViewUtils(title: Text("settings.option.photo.max_exposure"), subtitle: Text("settings.detail.photo.max_exposure")) {}
