@@ -3,32 +3,74 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		780067DE2CBDCD6A004BB595 /* ControlCenterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */; };
+		780067E12CBDCEA0004BB595 /* ControlCenterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */; };
 		7806973A2B27F66E00B4942B /* MalachiteTooltipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */; };
 		782FC7762B2DAFAB007709C1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 782FC7752B2DAFAB007709C1 /* README.md */; };
 		78562BC32B450A7600920160 /* PRIVACY_POLICY.md in Resources */ = {isa = PBXBuildFile; fileRef = 78562BC22B450A7600920160 /* PRIVACY_POLICY.md */; };
+		7859DE1A2B8308C000D1A998 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */; };
 		785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F084C2B12D41100244EB4 /* AppDelegate.swift */; };
 		785F084F2B12D41100244EB4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F084E2B12D41100244EB4 /* SceneDelegate.swift */; };
 		785F08512B12D41100244EB4 /* MalachiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F08502B12D41100244EB4 /* MalachiteView.swift */; };
 		785F08562B12D41300244EB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 785F08552B12D41300244EB4 /* Assets.xcassets */; };
 		785F08592B12D41300244EB4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 785F08572B12D41300244EB4 /* LaunchScreen.storyboard */; };
-		788E74B32B13D8200024B586 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788E74B22B13D8200024B586 /* MalachiteAboutView.swift */; };
+		7860DC002B897A3E00450BF8 /* MalachiteGameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7860DBFF2B897A3E00450BF8 /* MalachiteGameUtils.swift */; };
+		787B1CAA2B8B095E000AFECC /* Malachite.docc in Sources */ = {isa = PBXBuildFile; fileRef = 787B1CA92B8B095E000AFECC /* Malachite.docc */; };
+		7881A98C2C1F77AB00B1F83B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
+		788848B52CC74B4200B02E37 /* MalachiteCompatibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788848B42CC74B3B00B02E37 /* MalachiteCompatibilityView.swift */; };
+		788E74B32B13D8200024B586 /* MalachiteSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788E74B22B13D8200024B586 /* MalachiteSettingsView.swift */; };
+		78917F372B99A9E9005E10FA /* images in Resources */ = {isa = PBXBuildFile; fileRef = 78917F362B99A9E9005E10FA /* images */; };
+		78917F5C2B99AE72005E10FA /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5B2B99AE72005E10FA /* WidgetKit.framework */; };
+		78917F5E2B99AE72005E10FA /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5D2B99AE72005E10FA /* SwiftUI.framework */; };
+		78917F612B99AE72005E10FA /* MalachiteWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78917F602B99AE72005E10FA /* MalachiteWidgetBundle.swift */; };
+		78917F632B99AE72005E10FA /* LockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78917F622B99AE72005E10FA /* LockScreenWidget.swift */; };
+		78917F652B99AE73005E10FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78917F642B99AE73005E10FA /* Assets.xcassets */; };
+		78917F692B99AE73005E10FA /* MalachiteWidgetBundle.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 78917F592B99AE72005E10FA /* MalachiteWidgetBundle.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7897ECA62BA2B87100662EA0 /* MalachiteSettingsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7897ECA52BA2B87100662EA0 /* MalachiteSettingsDetailView.swift */; };
 		78E5EFC02B15748400F15250 /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */; };
 		78E67EE02B27E07300812A17 /* MalachiteHapticUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */; };
 		78E67EE12B27E07300812A17 /* MalachiteViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */; };
 		78E67EE22B27E07300812A17 /* MalachiteUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDE2B27E07300812A17 /* MalachiteUtils.swift */; };
-		78E67EE32B27E07300812A17 /* MalachiteVersionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDF2B27E07300812A17 /* MalachiteVersionUtils.swift */; };
 		78E67EE52B27E0A200812A17 /* MalachiteFunctionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EE42B27E0A200812A17 /* MalachiteFunctionUtils.swift */; };
 		78E67EE72B27E11D00812A17 /* MalachiteSettingsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EE62B27E11D00812A17 /* MalachiteSettingsUtils.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		78917F672B99AE73005E10FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 785F08412B12D41100244EB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 78917F582B99AE72005E10FA;
+			remoteInfo = LockScreenWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		78917F6A2B99AE73005E10FA /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				78917F692B99AE73005E10FA /* MalachiteWidgetBundle.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		5549F6172B4D36BA00626B9D /* ci_post_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_xcodebuild.sh; sourceTree = "<group>"; };
+		780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCenterWidget.swift; sourceTree = "<group>"; };
+		780444922B5E0847001326E9 /* sshpass */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = sshpass; sourceTree = "<group>"; };
 		780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteTooltipUtils.swift; sourceTree = "<group>"; };
 		782FC7752B2DAFAB007709C1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		78562BC22B450A7600920160 /* PRIVACY_POLICY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_POLICY.md; sourceTree = SOURCE_ROOT; };
+		7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteAboutView.swift; sourceTree = "<group>"; };
 		785F08492B12D41100244EB4 /* Malachite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Malachite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		785F084C2B12D41100244EB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		785F084E2B12D41100244EB4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -36,31 +78,72 @@
 		785F08552B12D41300244EB4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		785F08582B12D41300244EB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		785F085A2B12D41300244EB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		788E74B22B13D8200024B586 /* MalachiteAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteAboutView.swift; sourceTree = "<group>"; };
+		7860DBFF2B897A3E00450BF8 /* MalachiteGameUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteGameUtils.swift; sourceTree = "<group>"; };
+		787B1CA92B8B095E000AFECC /* Malachite.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Malachite.docc; sourceTree = "<group>"; };
+		7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = Malachite/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
+		788589912B8974680018E2DA /* Malachite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Malachite.entitlements; sourceTree = "<group>"; };
+		788848B42CC74B3B00B02E37 /* MalachiteCompatibilityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteCompatibilityView.swift; sourceTree = "<group>"; };
+		788E74B22B13D8200024B586 /* MalachiteSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteSettingsView.swift; sourceTree = "<group>"; };
+		78917F362B99A9E9005E10FA /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = SOURCE_ROOT; };
+		78917F592B99AE72005E10FA /* MalachiteWidgetBundle.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MalachiteWidgetBundle.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		78917F5B2B99AE72005E10FA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		78917F5D2B99AE72005E10FA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		78917F602B99AE72005E10FA /* MalachiteWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteWidgetBundle.swift; sourceTree = "<group>"; };
+		78917F622B99AE72005E10FA /* LockScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenWidget.swift; sourceTree = "<group>"; };
+		78917F642B99AE73005E10FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		78917F662B99AE73005E10FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7897ECA52BA2B87100662EA0 /* MalachiteSettingsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteSettingsDetailView.swift; sourceTree = "<group>"; };
 		78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePhotoPreview.swift; sourceTree = "<group>"; };
 		78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteHapticUtils.swift; sourceTree = "<group>"; };
 		78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteViewUtils.swift; sourceTree = "<group>"; };
 		78E67EDE2B27E07300812A17 /* MalachiteUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteUtils.swift; sourceTree = "<group>"; };
-		78E67EDF2B27E07300812A17 /* MalachiteVersionUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteVersionUtils.swift; sourceTree = "<group>"; };
 		78E67EE42B27E0A200812A17 /* MalachiteFunctionUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteFunctionUtils.swift; sourceTree = "<group>"; };
 		78E67EE62B27E11D00812A17 /* MalachiteSettingsUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteSettingsUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		785F08462B12D41100244EB4 /* Frameworks */ = {
+		78917F562B99AE72005E10FA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78917F5E2B99AE72005E10FA /* SwiftUI.framework in Frameworks */,
+				78917F5C2B99AE72005E10FA /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5549F6162B4D36A100626B9D /* ci_scripts */ = {
+			isa = PBXGroup;
+			children = (
+				5549F6172B4D36BA00626B9D /* ci_post_xcodebuild.sh */,
+				780444922B5E0847001326E9 /* sshpass */,
+			);
+			path = ci_scripts;
+			sourceTree = "<group>";
+		};
+		7859DE182B83089500D1A998 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				788848B42CC74B3B00B02E37 /* MalachiteCompatibilityView.swift */,
+				785F08502B12D41100244EB4 /* MalachiteView.swift */,
+				78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */,
+				788E74B22B13D8200024B586 /* MalachiteSettingsView.swift */,
+				7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */,
+				7897ECA52BA2B87100662EA0 /* MalachiteSettingsDetailView.swift */,
+			);
+			name = Views;
+			path = Malachite/Views;
+			sourceTree = SOURCE_ROOT;
+		};
 		785F08402B12D41100244EB4 = {
 			isa = PBXGroup;
 			children = (
+				5549F6162B4D36A100626B9D /* ci_scripts */,
 				785F084B2B12D41100244EB4 /* Malachite */,
+				78917F5F2B99AE72005E10FA /* MalachiteWidgetBundle */,
+				78917F5A2B99AE72005E10FA /* Frameworks */,
 				785F084A2B12D41100244EB4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -69,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				785F08492B12D41100244EB4 /* Malachite.app */,
+				78917F592B99AE72005E10FA /* MalachiteWidgetBundle.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -76,19 +160,42 @@
 		785F084B2B12D41100244EB4 /* Malachite */ = {
 			isa = PBXGroup;
 			children = (
+				78917F362B99A9E9005E10FA /* images */,
+				787B1CA92B8B095E000AFECC /* Malachite.docc */,
+				788589912B8974680018E2DA /* Malachite.entitlements */,
+				785F085A2B12D41300244EB4 /* Info.plist */,
+				7859DE182B83089500D1A998 /* Views */,
 				78E67EDB2B27E05C00812A17 /* Utilities */,
 				785F08552B12D41300244EB4 /* Assets.xcassets */,
+				7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */,
 				785F08572B12D41300244EB4 /* LaunchScreen.storyboard */,
 				785F084C2B12D41100244EB4 /* AppDelegate.swift */,
 				785F084E2B12D41100244EB4 /* SceneDelegate.swift */,
-				785F08502B12D41100244EB4 /* MalachiteView.swift */,
-				78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */,
-				788E74B22B13D8200024B586 /* MalachiteAboutView.swift */,
-				785F085A2B12D41300244EB4 /* Info.plist */,
 				78562BC22B450A7600920160 /* PRIVACY_POLICY.md */,
 				782FC7752B2DAFAB007709C1 /* README.md */,
 			);
 			path = Malachite;
+			sourceTree = "<group>";
+		};
+		78917F5A2B99AE72005E10FA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				78917F5B2B99AE72005E10FA /* WidgetKit.framework */,
+				78917F5D2B99AE72005E10FA /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		78917F5F2B99AE72005E10FA /* MalachiteWidgetBundle */ = {
+			isa = PBXGroup;
+			children = (
+				78917F602B99AE72005E10FA /* MalachiteWidgetBundle.swift */,
+				78917F622B99AE72005E10FA /* LockScreenWidget.swift */,
+				780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */,
+				78917F642B99AE73005E10FA /* Assets.xcassets */,
+				78917F662B99AE73005E10FA /* Info.plist */,
+			);
+			path = MalachiteWidgetBundle;
 			sourceTree = "<group>";
 		};
 		78E67EDB2B27E05C00812A17 /* Utilities */ = {
@@ -96,11 +203,11 @@
 			children = (
 				78E67EDE2B27E07300812A17 /* MalachiteUtils.swift */,
 				78E67EE62B27E11D00812A17 /* MalachiteSettingsUtils.swift */,
-				78E67EDF2B27E07300812A17 /* MalachiteVersionUtils.swift */,
 				78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */,
 				78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */,
 				78E67EE42B27E0A200812A17 /* MalachiteFunctionUtils.swift */,
 				780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */,
+				7860DBFF2B897A3E00450BF8 /* MalachiteGameUtils.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -113,17 +220,36 @@
 			buildConfigurationList = 785F085D2B12D41300244EB4 /* Build configuration list for PBXNativeTarget "Malachite" */;
 			buildPhases = (
 				785F08452B12D41100244EB4 /* Sources */,
-				785F08462B12D41100244EB4 /* Frameworks */,
 				785F08472B12D41100244EB4 /* Resources */,
+				78917F6A2B99AE73005E10FA /* Embed Foundation Extensions */,
+				78329B0F2C22699A006D326F /* Embed build information  */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				78917F682B99AE73005E10FA /* PBXTargetDependency */,
 			);
 			name = Malachite;
 			productName = Malachite;
 			productReference = 785F08492B12D41100244EB4 /* Malachite.app */;
 			productType = "com.apple.product-type.application";
+		};
+		78917F582B99AE72005E10FA /* MalachiteWidgetBundle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78917F6D2B99AE73005E10FA /* Build configuration list for PBXNativeTarget "MalachiteWidgetBundle" */;
+			buildPhases = (
+				78917F552B99AE72005E10FA /* Sources */,
+				78917F562B99AE72005E10FA /* Frameworks */,
+				78917F572B99AE72005E10FA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MalachiteWidgetBundle;
+			productName = LockScreenWidgetExtension;
+			productReference = 78917F592B99AE72005E10FA /* MalachiteWidgetBundle.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -132,16 +258,18 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1510;
-				LastUpgradeCheck = 1510;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
 				TargetAttributes = {
 					785F08482B12D41100244EB4 = {
 						CreatedOnToolsVersion = 15.1;
 					};
+					78917F582B99AE72005E10FA = {
+						CreatedOnToolsVersion = 15.3;
+					};
 				};
 			};
 			buildConfigurationList = 785F08442B12D41100244EB4 /* Build configuration list for PBXProject "Malachite" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -149,11 +277,13 @@
 				Base,
 			);
 			mainGroup = 785F08402B12D41100244EB4;
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 785F084A2B12D41100244EB4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				785F08482B12D41100244EB4 /* Malachite */,
+				78917F582B99AE72005E10FA /* MalachiteWidgetBundle */,
 			);
 		};
 /* End PBXProject section */
@@ -163,14 +293,47 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78917F372B99A9E9005E10FA /* images in Resources */,
 				782FC7762B2DAFAB007709C1 /* README.md in Resources */,
+				7881A98C2C1F77AB00B1F83B /* Localizable.xcstrings in Resources */,
 				78562BC32B450A7600920160 /* PRIVACY_POLICY.md in Resources */,
 				785F08592B12D41300244EB4 /* LaunchScreen.storyboard in Resources */,
 				785F08562B12D41300244EB4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		78917F572B99AE72005E10FA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78917F652B99AE73005E10FA /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		78329B0F2C22699A006D326F /* Embed build information  */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}",
+			);
+			name = "Embed build information ";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "eval \"${GCC_PREPROCESSOR_DEFINITIONS}\"\n\nPATH=/opt/homebrew/bin:/usr/local/bin:$PATH\nPLISTBUDDY=\"/usr/libexec/PlistBuddy\"\nINFOPLIST=\"${TARGET_BUILD_DIR}/${EXECUTABLE_NAME}.app/Info.plist\"\n\n# If there is no git repo to pull this info from, this is set to undefined later.\nCFBUILDHASH=$(git --git-dir=\"${PROJECT_DIR}/.git\" --work-tree=\"${PROJECT_DIR}\" rev-parse --short HEAD)\nCFBUILDDATE=$(date +'%Y-%m-%d-%H.%M.%S')\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then\n    # If the build is not INTERNAL, these are set to redacted later.\n    CFBUILDUSER=$(whoami)\n    CFBUILDHOST=$(hostname)\nelif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && !(-z $(system_profiler SPHardwareDataType | grep 'MacVM1,1')) ]]; then\n    # Xcode Cloud built this, but the hostname string is atrocious. Replace with these.\n    CFBUILDUSER=\"evaluna (App Store Connect)\"\n    CFBUILDHOST=\"Xcode Cloud\"\nfi\n\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && (-z $(gpg --list-secret-keys | grep 4A5B8C2A065654E24DE50FF03716ACDC524F1879) && -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1')) ]]; then\n    echo \"Error: INTERNAL build type detected but Eva's GPG key was not found.\"\n    echo \"Error: See 'Embed build information' in Build Phases for a solution\"\n    # Be aware that I use the INTERNAL target to gate off any unstable/unready features. By removing this line, \n    # you are acknowledging that you will not receive support for any issues encountered with Malachite until you \n    # are running DEBUG or RELEASE. If you just want a DEBUG build, change the Build Configuration to Debug in \n    # Product > Scheme > Edit Scheme...\n    exit 1\nfi\n\n# Print all of the variables in the build log. Useful for debugging\necho \"\"\necho \"CFBUILDHASH = ${CFBUILDHASH}\"\necho \"CFBUILDDATE = ${CFBUILDDATE}\"\necho \"CFBUILDTYPE = ${CFBUILDTYPE}\"\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" ]]; then\n    echo \"CFBUILDUSER = ${CFBUILDUSER}\"\n    echo \"CFBUILDHOST = ${CFBUILDHOST}\"\nfi\necho \"INFOPLIST = ${INFOPLIST}\"\n\n# Make sure the key is present in the plist before trying to set it.\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHash' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHash string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildDate' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildDate string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildType' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildType string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildUser' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildUser string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHost' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHost string\" \"${INFOPLIST}\"; fi\n\n# Fallback values, either to fill in the gaps or prevent app crashes\nif [ -z \"$CFBUILDHASH\" ]; then CFBUILDHASH=undefined; fi\nif [ -z \"$CFBUILDTYPE\" ]; then CFBUILDTYPE=debug; fi\nif [ -z \"$CFBUILDUSER\" ]; then CFBUILDUSER=redacted; fi\nif [ -z \"$CFBUILDHOST\" ]; then CFBUILDHOST=redacted; fi\n\n# Set the values in the Info.plist\n$PLISTBUDDY -c \"Set :CFBuildHash $CFBUILDHASH\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildDate $CFBUILDDATE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		785F08452B12D41100244EB4 /* Sources */ = {
@@ -180,19 +343,42 @@
 				78E67EE22B27E07300812A17 /* MalachiteUtils.swift in Sources */,
 				785F08512B12D41100244EB4 /* MalachiteView.swift in Sources */,
 				78E67EE02B27E07300812A17 /* MalachiteHapticUtils.swift in Sources */,
-				788E74B32B13D8200024B586 /* MalachiteAboutView.swift in Sources */,
+				788E74B32B13D8200024B586 /* MalachiteSettingsView.swift in Sources */,
 				7806973A2B27F66E00B4942B /* MalachiteTooltipUtils.swift in Sources */,
+				780067DE2CBDCD6A004BB595 /* ControlCenterWidget.swift in Sources */,
+				7859DE1A2B8308C000D1A998 /* MalachiteAboutView.swift in Sources */,
+				7860DC002B897A3E00450BF8 /* MalachiteGameUtils.swift in Sources */,
+				7897ECA62BA2B87100662EA0 /* MalachiteSettingsDetailView.swift in Sources */,
 				785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */,
+				788848B52CC74B4200B02E37 /* MalachiteCompatibilityView.swift in Sources */,
+				787B1CAA2B8B095E000AFECC /* Malachite.docc in Sources */,
 				78E67EE12B27E07300812A17 /* MalachiteViewUtils.swift in Sources */,
 				78E5EFC02B15748400F15250 /* MalachitePhotoPreview.swift in Sources */,
 				785F084F2B12D41100244EB4 /* SceneDelegate.swift in Sources */,
 				78E67EE52B27E0A200812A17 /* MalachiteFunctionUtils.swift in Sources */,
 				78E67EE72B27E11D00812A17 /* MalachiteSettingsUtils.swift in Sources */,
-				78E67EE32B27E07300812A17 /* MalachiteVersionUtils.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78917F552B99AE72005E10FA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				780067E12CBDCEA0004BB595 /* ControlCenterWidget.swift in Sources */,
+				78917F632B99AE72005E10FA /* LockScreenWidget.swift in Sources */,
+				78917F612B99AE72005E10FA /* MalachiteWidgetBundle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		78917F682B99AE73005E10FA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 78917F582B99AE72005E10FA /* MalachiteWidgetBundle */;
+			targetProxy = 78917F672B99AE73005E10FA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		785F08572B12D41300244EB4 /* LaunchScreen.storyboard */ = {
@@ -265,6 +451,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -321,6 +508,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -328,11 +516,19 @@
 		785F085E2B12D41300244EB4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "asb_approved thatsinceguy";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Malachite/Malachite.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FBT742498U;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"CFBUILDTYPE=DEBUG",
+					"$(inherited)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Malachite/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Malachite;
@@ -342,10 +538,11 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -355,6 +552,90 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.crystall1ne.Malachite;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Malachite-Swift.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		785F085F2B12D41300244EB4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "asb_approved thatsinceguy";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Malachite/Malachite.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FBT742498U;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "CFBUILDTYPE=RELEASE";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Malachite/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Malachite;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Malachite uses write access to your library in order to save photos.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.crystall1ne.Malachite;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Malachite-Swift.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		78917F6B2B99AE73005E10FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FBT742498U;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MalachiteWidgetBundle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MalachiteWidgetBundle;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.crystall1ne.Malachite.WidgetBundle;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -366,36 +647,28 @@
 			};
 			name = Debug;
 		};
-		785F085F2B12D41300244EB4 /* Release */ = {
+		78917F6C2B99AE73005E10FA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FBT742498U;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Malachite/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Malachite;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Malachite uses write access to your library in order to save photos.";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UIRequiresFullScreen = YES;
-				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				INFOPLIST_FILE = MalachiteWidgetBundle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MalachiteWidgetBundle;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.crystall1ne.Malachite;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.crystall1ne.Malachite.WidgetBundle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -407,6 +680,157 @@
 			};
 			name = Release;
 		};
+		78F9DA642CBCDDB900A99638 /* Internal */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Internal;
+		};
+		78F9DA652CBCDDB900A99638 /* Internal */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "asb_approved thatsinceguy";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Malachite/Malachite.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FBT742498U;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"CFBUILDTYPE=INTERNAL",
+					"$(inherited)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Malachite/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Malachite;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Malachite uses write access to your library in order to save photos.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.crystall1ne.Malachite;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Malachite-Swift.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Internal;
+		};
+		78F9DA662CBCDDB900A99638 /* Internal */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FBT742498U;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MalachiteWidgetBundle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MalachiteWidgetBundle;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.crystall1ne.Malachite.WidgetBundle;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Internal;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -414,19 +838,31 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				785F085B2B12D41300244EB4 /* Debug */,
+				78F9DA642CBCDDB900A99638 /* Internal */,
 				785F085C2B12D41300244EB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		785F085D2B12D41300244EB4 /* Build configuration list for PBXNativeTarget "Malachite" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				785F085E2B12D41300244EB4 /* Debug */,
+				78F9DA652CBCDDB900A99638 /* Internal */,
 				785F085F2B12D41300244EB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
+		};
+		78917F6D2B99AE73005E10FA /* Build configuration list for PBXNativeTarget "MalachiteWidgetBundle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78917F6B2B99AE73005E10FA /* Debug */,
+				78F9DA662CBCDDB900A99638 /* Internal */,
+				78917F6C2B99AE73005E10FA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

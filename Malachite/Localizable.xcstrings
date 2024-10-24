@@ -1,0 +1,1293 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "%@ - %@ - %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ - %2$@ - %3$@"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "%@.%@.%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@.%2$@.%3$@"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "about.author_note" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Designed by Eva Luna with ❤️ since 2023."
+          }
+        }
+      }
+    },
+    "about.credits.apple" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stealing $99 from me 😭"
+          }
+        }
+      }
+    },
+    "about.credits.asentientbot" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Great tester, greater tester 🟢"
+          }
+        }
+      }
+    },
+    "about.credits.crystall1nedev" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clueless lead developer 🤪"
+          }
+        }
+      }
+    },
+    "about.credits.discord" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These people use it? 😳"
+          }
+        }
+      }
+    },
+    "about.credits.thatstella7922" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My cherished love 💕"
+          }
+        }
+      }
+    },
+    "about.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bringing macro camera control back to you."
+          }
+        }
+      }
+    },
+    "about.header.credits" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Credits"
+          }
+        }
+      }
+    },
+    "about.header.special" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Special features"
+          }
+        }
+      }
+    },
+    "about.header.story" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Malachite’s story"
+          }
+        }
+      }
+    },
+    "about.option.gamekit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take the offer…"
+          }
+        }
+      }
+    },
+    "about.story" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Malachite started as an app to help my love work on printed circuit boards with better clarity and manual controls that the stock iOS camera app can't provide, and it grew once my Discord community stood by, actually using it and suggesting new features. It's the first real test of my skills in Swift, and leading my own public project, and my goal is to now provide a free, all-inclusive experience to amazing macro photography - powered by your iPhone, iPad, or iPod touch."
+          }
+        }
+      }
+    },
+    "action.done_button" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "Add to quickly launch malachite from your control center, lock screen, or Action Button." : {
+
+    },
+    "alert.button.ignore" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ignore"
+          }
+        }
+      }
+    },
+    "alert.button.ok" : {
+      "comment" : "Default action",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "alert.button.reopen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reopen"
+          }
+        }
+      }
+    },
+    "alert.button.report" : {
+      "comment" : "Default action",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report…"
+          }
+        }
+      }
+    },
+    "alert.detail.camera_switch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera switching is only supported on devices with multiple rear cameras."
+          }
+        }
+      }
+    },
+    "alert.detail.focus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The current camera has a fixed-focus lens, and focus cannot be adjusted."
+          }
+        }
+      }
+    },
+    "alert.detail.gamekit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click Reopen to open the application again. Click Report to see more detailed information and send a report to Apple."
+          }
+        }
+      }
+    },
+    "alert.detail.phphotolibrary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Malachite requires photo library access in order to capture images. Go to Settings > Apps > Malachite to enable this permission."
+          }
+        }
+      }
+    },
+    "alert.title.camera_switch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to switch cameras"
+          }
+        }
+      }
+    },
+    "alert.title.focus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to adjust focus"
+          }
+        }
+      }
+    },
+    "alert.title.gamekit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Malachite quit unexpectedly."
+          }
+        }
+      }
+    },
+    "alert.title.phphotolibrary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to capture images"
+          }
+        }
+      }
+    },
+    "appname" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Malachite"
+          }
+        }
+      }
+    },
+    "Built by %@ on %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Built by %1$@ on %2$@"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "Capture with Malachite" : {
+
+    },
+    "compatibility.note" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The following screen shows what features of Malachite your current device can take advantage of. "
+          }
+        }
+      }
+    },
+    "compatibility.title.8mp.wide" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle supports 8MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.8mp.wide.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle does not support 8MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.12mp.telephoto" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telephoto supports 12MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.12mp.telephoto.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telephoto does not support 12MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.12mp.ultrawide" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultra wide supports 12MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.12mp.ultrawide.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultra wide does not support 12MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.12mp.wide" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle supports 12MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.12mp.wide.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle does not support 12MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.48mp.ultrawide" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultra wide supports 48MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.48mp.ultrawide.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultra wide does not support 48MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.48mp.wide" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle supports 48MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.48mp.wide.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle does not support 48MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.hdr" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device supports HDR capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.hdr.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device does not support HDR capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.heif" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device supports encoding in HEIF"
+          }
+        }
+      }
+    },
+    "compatibility.title.heif.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device does not support HEIF encoding"
+          }
+        }
+      }
+    },
+    "compatibility.title.jpeg" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device supports encoding in JPEG"
+          }
+        }
+      }
+    },
+    "compatibility.title.jpeg.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device does not support JPEG encoding"
+          }
+        }
+      }
+    },
+    "compatibility.title.no.telephoto.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No telephoto camera detected"
+          }
+        }
+      }
+    },
+    "compatibility.title.no.ultrawide.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No ultra wide camera detected"
+          }
+        }
+      }
+    },
+    "compatibility.title.no.wide.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No wide angle camera detected"
+          }
+        }
+      }
+    },
+    "Open Malachite" : {
+
+    },
+    "settings.detail.debug.erase.gamekit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEBUG: This option destroys all GameKit related data for the current user. "
+          }
+        }
+      }
+    },
+    "settings.detail.debug.erase.userdefaults" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEBUG: This option destroys all UserDefaults keys."
+          }
+        }
+      }
+    },
+    "settings.detail.debug.logging.userdefaults" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEBUG: This option dumps UserDefaults on launch."
+          }
+        }
+      }
+    },
+    "settings.detail.photo.continuous" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the options you would like the camera to automatically monitor and adjust based on camera conditions, or disable it entirely."
+          }
+        }
+      }
+    },
+    "settings.detail.photo.fileformat" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose JPEG for an older standard that is more widely accepted. Choose HEIC if you want a smaller file that works best on other Apple devices. Support for other file formats is coming in a future commit."
+          }
+        }
+      }
+    },
+    "settings.detail.photo.hdr" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable this if you want to include high dynamic range in your image. "
+          }
+        }
+      }
+    },
+    "settings.detail.preview.aspect_ratio" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose Fit to bounds to see all of the preview. Choose Fit if you want a more immersive shooting experience."
+          }
+        }
+      }
+    },
+    "settings.detail.preview.sbtlz" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable this if you want to stabilize the preview."
+          }
+        }
+      }
+    },
+    "settings.detail.resolution.telephoto" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a higher resolution for the telephoto camera to shoot in. "
+          }
+        }
+      }
+    },
+    "settings.detail.resolution.ultrawide" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a higher resolution for the ultra wide camera to shoot in. Support for 48MP depends on your hardware, see the Compatibility page for more information."
+          }
+        }
+      }
+    },
+    "settings.detail.resolution.wide" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a higher resolution for the wide angle camera to shoot in. Support for 12MP and 48MP depends on your hardware, see the Compatibility page for more information."
+          }
+        }
+      }
+    },
+    "settings.detail.ui.hiddengestures" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the options you would like to have available while the user interface is hidden (two-finger tap and hold gesture.)"
+          }
+        }
+      }
+    },
+    "settings.detail.ui.idletimer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable this if you want to disable the system’s built-in auto lock timer while your device is stationary."
+          }
+        }
+      }
+    },
+    "settings.detail.ui.tapgesture" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the options you would like to use when tapping and holding on the camera preview."
+          }
+        }
+      }
+    },
+    "settings.detail.watermark.enable" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable this if you want to enable Malachite’s watermarking feature. Great for adding credits or details about the camera."
+          }
+        }
+      }
+    },
+    "settings.detail.watermark.text" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter the text to watermark here. Note that there is a limit of 65 characters to prevent going out of the image’s bounds."
+          }
+        }
+      }
+    },
+    "settings.footer.debug" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEBUG: These options are meant for debugging purposes. "
+          }
+        }
+      }
+    },
+    "settings.footer.photo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These options control how Malachite captures and saves images."
+          }
+        }
+      }
+    },
+    "settings.footer.photo.hdr" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HDR is not supported on the current camera."
+          }
+        }
+      }
+    },
+    "settings.footer.photo.heif" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The HEIF file format requires a device with the Apple A10 Fusion chip or later."
+          }
+        }
+      }
+    },
+    "settings.footer.preview" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These options control the Malachite’s camera preview."
+          }
+        }
+      }
+    },
+    "settings.footer.resolution" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These options control what each resolutions each camera should shoot in."
+          }
+        }
+      }
+    },
+    "settings.footer.ui" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These options control various aspects of Malachite’s user interface."
+          }
+        }
+      }
+    },
+    "settings.footer.watermark" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These options control Malachite’s watermarking feature."
+          }
+        }
+      }
+    },
+    "settings.header.debug" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug settings"
+          }
+        }
+      }
+    },
+    "settings.header.photo" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo settings"
+          }
+        }
+      }
+    },
+    "settings.header.preview" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preview settings"
+          }
+        }
+      }
+    },
+    "settings.header.resolution" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resolution settings"
+          }
+        }
+      }
+    },
+    "settings.header.ui" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User interface settings"
+          }
+        }
+      }
+    },
+    "settings.header.watermark" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watermark settings"
+          }
+        }
+      }
+    },
+    "settings.option.debug.erase.gamekit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erase all GameKit data"
+          }
+        }
+      }
+    },
+    "settings.option.debug.erase.userdefaults" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erase all UserDefaults keys"
+          }
+        }
+      }
+    },
+    "settings.option.debug.logging.userdefaults" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log UserDefaults keys"
+          }
+        }
+      }
+    },
+    "settings.option.photo.continuous" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuous adjustments"
+          }
+        }
+      }
+    },
+    "settings.option.photo.fileformat" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image format"
+          }
+        }
+      }
+    },
+    "settings.option.photo.fileformat.heif" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HEIF"
+          }
+        }
+      }
+    },
+    "settings.option.photo.fileformat.jpeg" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "JPEG"
+          }
+        }
+      }
+    },
+    "settings.option.photo.hdr" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "High dynamic range"
+          }
+        }
+      }
+    },
+    "settings.option.photo.max_exposure" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable maximum exposure"
+          }
+        }
+      }
+    },
+    "settings.option.preview.aspect_ratio" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preview aspect ratio"
+          }
+        }
+      }
+    },
+    "settings.option.preview.aspect_ratio.fill" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fill screen"
+          }
+        }
+      }
+    },
+    "settings.option.preview.aspect_ratio.fit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fit to bounds"
+          }
+        }
+      }
+    },
+    "settings.option.preview.sbtlz" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preview stabilization"
+          }
+        }
+      }
+    },
+    "settings.option.resolution.8" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "8MP (3264x2448)"
+          }
+        }
+      }
+    },
+    "settings.option.resolution.12" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12MP (4032x3024)"
+          }
+        }
+      }
+    },
+    "settings.option.resolution.48" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "48MP (8064x6048)"
+          }
+        }
+      }
+    },
+    "settings.option.resolution.telephoto" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telephoto"
+          }
+        }
+      }
+    },
+    "settings.option.resolution.ultrawide" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultra wide"
+          }
+        }
+      }
+    },
+    "settings.option.resolution.wide" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle"
+          }
+        }
+      }
+    },
+    "settings.option.reusable.ae" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AE only"
+          }
+        }
+      }
+    },
+    "settings.option.reusable.aeaf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AE+AF"
+          }
+        }
+      }
+    },
+    "settings.option.reusable.af" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AF only"
+          }
+        }
+      }
+    },
+    "settings.option.reusable.off" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disabled"
+          }
+        }
+      }
+    },
+    "settings.option.reusable.pinchzoom" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinch to zoom"
+          }
+        }
+      }
+    },
+    "settings.option.reusable.pinchzoomtapandhold" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinch and tap"
+          }
+        }
+      }
+    },
+    "settings.option.reusable.tapandhold" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap and hold"
+          }
+        }
+      }
+    },
+    "settings.option.ui.hiddengestures" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestures while UI hidden"
+          }
+        }
+      }
+    },
+    "settings.option.ui.idletimer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disable auto lock"
+          }
+        }
+      }
+    },
+    "settings.option.ui.tapgesture" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Customize tap and hold"
+          }
+        }
+      }
+    },
+    "settings.option.watermark.enable" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image watermarking"
+          }
+        }
+      }
+    },
+    "settings.option.watermark.text" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text to watermark"
+          }
+        }
+      }
+    },
+    "settings.option.watermark.text.placeholder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shot on Malachite"
+          }
+        }
+      }
+    },
+    "uibutton.close.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
+    },
+    "uibutton.exposure.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exposure"
+          }
+        }
+      }
+    },
+    "uibutton.focus.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Focus"
+          }
+        }
+      }
+    },
+    "uibutton.save.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save to Photos"
+          }
+        }
+      }
+    },
+    "uibutton.share.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share"
+          }
+        }
+      }
+    },
+    "view.detail.about" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Takes you to the About page for Malachite."
+          }
+        }
+      }
+    },
+    "view.title.about" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About Malachite"
+          }
+        }
+      }
+    },
+    "view.title.compatibility" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compatibility"
+          }
+        }
+      }
+    },
+    "view.title.help" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick Help"
+          }
+        }
+      }
+    },
+    "view.title.settings" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

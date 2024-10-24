@@ -11,40 +11,46 @@ import Photos
 import UIKit
 
 public class MalachiteFunctionUtils : NSObject {
+    /// An array that returns the available image capture types supported by the camera.
     private let supportedImageCaptureTypes = CGImageDestinationCopyTypeIdentifiers() as NSArray
-    private var autofocusFeedback = UIButton()
+    /// An instance of ``MalachiteSettingsUtils
     public var settings = MalachiteSettingsUtils()
+    /// A `Bool` that determines whether or not the device supports HDR.
     public var supportsHDR = false
     
+    /// An `enum` that contains Notification names.
     public enum Notifications: String, NotificationName {
         case aspectFillNotification
         case exposureLimitNotification
         case stabilizerNotification
+        case gameCenterEnabledNotification
+        case unsupportedLensPositionControl
+        case megaPixelSwitchNotification
+        case continousAEAFNotification
+        case aeafTapGestureNotification
+        case idleTimerNotification
     }
     
+    /// Function that determines if the device supports HDR.
     public func deviceFormatSupportsHDR(device hdrDevice: AVCaptureDevice) {
         if hdrDevice.activeFormat.isVideoHDRSupported == true {
+            MalachiteClassesObject().settings.defaults.set(true, forKey: "compatibility.hdr")
             self.supportsHDR = true
-            
         }
     }
     
+    /// Function that determines if the device supports HEIC.
     public func supportsHEIC() -> Bool {
+        MalachiteClassesObject().settings.defaults.set(true, forKey: "compatibility.jpeg")
         if supportedImageCaptureTypes.contains("public.heic") {
+            MalachiteClassesObject().settings.defaults.set(true, forKey: "compatibility.heif")
             return true
         }
         
         return false
     }
     
-    public func supportsHEIC10() -> Bool {
-        if #available(iOS 15.0, *) {
-            return supportsHEIC()
-        }
-        
-        return false
-    }
-    
+    /// Function that handles pinch to zoom.
     public func zoom(sender pinch: UIPinchGestureRecognizer, captureDevice device: inout AVCaptureDevice, lastZoomFactor zoomFactor: inout CGFloat, hapticClass haptic: MalachiteHapticUtils) {
         func minMaxZoom(_ factor: CGFloat) -> CGFloat {
             return min(min(max(factor, 1.0), 5.0), device.activeFormat.videoMaxZoomFactor)
@@ -55,9 +61,9 @@ public class MalachiteFunctionUtils : NSObject {
                 try device.lockForConfiguration()
                 defer { device.unlockForConfiguration() }
                 device.videoZoomFactor = factor
-                NSLog("[Pinch to Zoom] Changed zoom factor")
+                MalachiteClassesObject().debugNSLog("[Pinch to Zoom] Changed zoom factor")
             } catch {
-                NSLog("[Pinch to Zoom] Error changing video zoom factor: %@", error.localizedDescription)
+                MalachiteClassesObject().debugNSLog("[Pinch to Zoom] Error changing video zoom factor: \(error.localizedDescription)")
             }
         }
         
@@ -77,73 +83,110 @@ public class MalachiteFunctionUtils : NSObject {
         }
     }
     
-    
-    
-    public func autofocus(sender: UILongPressGestureRecognizer, captureDevice device: inout AVCaptureDevice, viewForScale view: UIView, hapticClass haptic: MalachiteHapticUtils) {
-        let focusPoint = sender.location(in: view)
+    /// Function that handles autofocus and autoexposure
+    public func pointOfInterestAEAF(sender: UILongPressGestureRecognizer, captureDevice device: inout AVCaptureDevice, button: UIButton, viewForScale view: UIView, hapticClass haptic: MalachiteHapticUtils) {
+        let point = sender.location(in: view)
         if sender.state == UIGestureRecognizer.State.began {
             haptic.triggerNotificationHaptic(type: .success)
-            autofocusFeedback = MalachiteViewUtils().returnProperButton(symbolName: "", cornerRadius: 60, viewForBounds: view, hapticClass: haptic)
-            view.addSubview(self.autofocusFeedback)
-            autofocusFeedback.alpha = 0.0
+            view.addSubview(button)
             
             UIView.animate(withDuration: 0.25) {
-                self.autofocusFeedback.alpha = 1.0
+                button.alpha = 1.0
             }
             
             NSLayoutConstraint.activate([
-                autofocusFeedback.widthAnchor.constraint(equalToConstant: 120),
-                autofocusFeedback.heightAnchor.constraint(equalToConstant: 120),
-                autofocusFeedback.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: focusPoint.x),
-                autofocusFeedback.centerYAnchor.constraint(equalTo: view.topAnchor, constant: focusPoint.y),
+                button.widthAnchor.constraint(equalToConstant: 120),
+                button.heightAnchor.constraint(equalToConstant: 120),
+                button.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: point.x),
+                button.centerYAnchor.constraint(equalTo: view.topAnchor, constant: point.y),
             ])
         } else if sender.state == UIGestureRecognizer.State.changed {
-            autofocusFeedback.removeFromSuperview()
-            view.addSubview(autofocusFeedback)
+            button.removeFromSuperview()
+            view.addSubview(button)
             NSLayoutConstraint.activate([
-                autofocusFeedback.widthAnchor.constraint(equalToConstant: 120),
-                autofocusFeedback.heightAnchor.constraint(equalToConstant: 120),
-                autofocusFeedback.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: focusPoint.x),
-                autofocusFeedback.centerYAnchor.constraint(equalTo: view.topAnchor, constant: focusPoint.y),
+                button.widthAnchor.constraint(equalToConstant: 120),
+                button.heightAnchor.constraint(equalToConstant: 120),
+                button.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: point.x),
+                button.centerYAnchor.constraint(equalTo: view.topAnchor, constant: point.y),
             ])
         } else if sender.state == UIGestureRecognizer.State.ended {
-            let focusScaledPointX = focusPoint.x / view.frame.size.width
-            let focusScaledPointY = focusPoint.y / view.frame.size.height
-            if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
-                do {
-                    try device.lockForConfiguration()
-                } catch {
-                    print("[Tap to Zoom] Couldn't lock device for configuration: %@", error.localizedDescription)
-                    return
-                }
-                
-                device.focusMode = .autoFocus
-                device.focusPointOfInterest = CGPointMake(focusScaledPointX, focusScaledPointY)
-                
-                NSLog("[Tap to Focus] Changed focus area")
-                device.unlockForConfiguration()
+            let scaledPointX = point.x / view.frame.size.width
+            let scaledPointY = point.y / view.frame.size.height
+            do {
+                try device.lockForConfiguration()
+            } catch {
+                print("[AE+AF] Couldn't lock device for configuration: %@", error.localizedDescription)
+                return
             }
             
+            guard let tapGestureElements = MalachiteClassesObject().settings.defaults.stringArray(forKey: "ui.tapgesture.elements") else { return }
+            
+            if tapGestureElements.contains("af") {
+                if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
+                    device.focusMode = .autoFocus
+                    device.focusPointOfInterest = CGPointMake(scaledPointX, scaledPointY)
+                    MalachiteClassesObject().debugNSLog("[AE+AF] Changed focus POI")
+                }
+            }
+            if tapGestureElements.contains("ae") {
+                if device.isExposureModeSupported(.autoExpose) && device.isExposurePointOfInterestSupported {
+                    device.exposureMode = .autoExpose
+                    device.exposurePointOfInterest = CGPointMake(scaledPointX, scaledPointY)
+                    MalachiteClassesObject().debugNSLog("[AE+AF] Changed exposure POI")
+                }
+            }
+            
+            device.unlockForConfiguration()
+            
             UIView.animate(withDuration: 0.25) {
-                self.autofocusFeedback.alpha = 0.0
+                button.alpha = 0.0
             } completion: { _ in
-                self.autofocusFeedback.removeFromSuperview()
+                button.removeFromSuperview()
             }
         }
     }
     
+    public func continuousAEAF(device: AVCaptureDevice) {
+        do {
+            try device.lockForConfiguration()
+        } catch {
+            print("[Continuous AE+AF] Couldn't lock device for configuration: %@", error.localizedDescription)
+            return
+        }
+        
+        guard let continuousElements = MalachiteClassesObject().settings.defaults.stringArray(forKey: "capture.continuous.elements") else { return }
+        
+        if continuousElements.contains("ae") && device.isExposureModeSupported(.continuousAutoExposure) {
+            device.exposureMode = .continuousAutoExposure
+            MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AE Enabled")
+        } else if (!continuousElements.contains("ae")) && device.isExposureModeSupported(.locked) {
+            device.exposureMode = .locked
+            MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AE Disabled")
+        }
+        if continuousElements.contains("af") && device.isFocusModeSupported(.continuousAutoFocus) {
+            device.focusMode = .continuousAutoFocus
+            MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AF Enabled")
+        } else if (!continuousElements.contains("af")) && device.isFocusModeSupported(.locked) {
+            device.focusMode = .locked
+            MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AF Disabled")
+        }
+        
+        device.unlockForConfiguration()
+    }
+    
+    /// Function that handles toggling the flashlight's on state.
     public func toggleFlash(captureDevice device: inout AVCaptureDevice, flashlightButton button: inout UIButton) {
         if device.hasTorch {
             var buttonImage = UIImage()
             do {
                 try device.lockForConfiguration()
                 if (device.torchMode == AVCaptureDevice.TorchMode.on) {
-                    NSLog("[Flashlight] Flash is already on, turning off")
+                    MalachiteClassesObject().debugNSLog("[Flashlight] Flash is already on, turning off")
                     device.torchMode = AVCaptureDevice.TorchMode.off
                     buttonImage = (UIImage(systemName: "flashlight.off.fill")?.withRenderingMode(.alwaysTemplate))!
                 } else {
                     do {
-                        NSLog("[Flashlight] Flash is off, turning on")
+                        MalachiteClassesObject().debugNSLog("[Flashlight] Flash is off, turning on")
                         try device.setTorchModeOn(level: 1.0)
                         buttonImage = (UIImage(systemName: "flashlight.on.fill")?.withRenderingMode(.alwaysTemplate))!
                     } catch {
@@ -160,30 +203,61 @@ public class MalachiteFunctionUtils : NSObject {
         }
     }
     
-    public func switchInput(session: inout AVCaptureSession, uwDevice: inout AVCaptureDevice?, waDevice: inout AVCaptureDevice, device: inout AVCaptureDevice?, input: inout AVCaptureDeviceInput?, button: inout UIButton, waInUse: inout Bool, firstRun: inout Bool){
+    /// Function that handles connecting and disconnecting cameras, and changing format properties.
+    public func switchInput(session: inout AVCaptureSession, cameras: [AVCaptureDevice], device: inout AVCaptureDevice?, output: inout AVCapturePhotoOutput, input: inout AVCaptureDeviceInput?, button: inout UIButton, firstRun: inout Bool){
         button.isUserInteractionEnabled = false
-        NSLog("[Camera Input] Getting ready to configure session")
+        MalachiteClassesObject().debugNSLog("[Camera Input] Getting ready to configure session")
         session.beginConfiguration()
         
+        
         if !firstRun {
-            NSLog("[Camera Input] Removing currently active camera input")
+            MalachiteClassesObject().debugNSLog("[Camera Input] Removing currently active camera input")
             session.removeInput(input!)
         } else {
-            firstRun = false
+            if !cameras.isEmpty { device = cameras.first }
         }
         
-        if waInUse == true && uwDevice != nil {
-            NSLog("[Camera Input] builtInUltraWideCamera is available, selecting as device")
-            device = uwDevice!
-            waInUse = false
-        } else {
-            NSLog("[Camera Input] builtInWideAngle is available, selecting as device")
-            device = waDevice
-            waInUse = true
-            
+        if MalachiteClassesObject().versionType == "INTERNAL" && firstRun {
+            for camera in cameras {
+                var tmpDictionary = Dictionary<String, Bool>()
+                for format in camera.formats {
+                    var maxDimensions: CMVideoDimensions
+                    if #available (iOS 16.0, *) {
+                        maxDimensions = format.supportedMaxPhotoDimensions[format.supportedMaxPhotoDimensions.count - 1]
+                    } else {
+                        maxDimensions = format.highResolutionStillImageDimensions
+                    }
+                    if format == camera.formats[0] { MalachiteClassesObject().internalNSLog("[Camera Input] Querying supported modes of \(camera.deviceType.rawValue)") }
+                    if maxDimensions.width == 3264 && maxDimensions.height == 2448 { tmpDictionary["8"] = true }
+                    if maxDimensions.width == 4032 && maxDimensions.height == 3024 { tmpDictionary["12"] = true }
+                    if maxDimensions.width == 8064 && maxDimensions.height == 6048 { tmpDictionary["48"] = true }
+                    switch camera.deviceType {
+                    case .builtInUltraWideCamera:
+                        MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.ultrawide")
+                    case .builtInWideAngleCamera:
+                        MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.wide")
+                    case .builtInTelephotoCamera:
+                        MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.telephoto")
+                    default:
+                        break
+                    }
+                }
+            }
         }
         
-        NSLog("[Camera Input] Attempting to attach device input to session")
+        if cameras.count > 1 && !firstRun {
+            if let devicePosition = cameras.firstIndex(of: device!) {
+                if devicePosition == (cameras.count - 1) {
+                    device = cameras[0]
+                } else {
+                    device = cameras[devicePosition + 1]
+                }
+            }
+        }
+        
+        firstRun = false
+        
+        MalachiteClassesObject().debugNSLog("[Camera Input] Attempting to attach device input to session")
         do { input = try AVCaptureDeviceInput(device: device!) }
         catch {
             print(error)
@@ -194,78 +268,130 @@ public class MalachiteFunctionUtils : NSObject {
         do {
             try device?.lockForConfiguration()
             defer { device?.unlockForConfiguration() }
+            device?.activeFormat = (device?.formats[(device?.formats.count)! - 1])!
+            continuousAEAF(device: device!)
             device?.automaticallyAdjustsVideoHDREnabled = false
-            if settings.defaults.bool(forKey: "format.hdr.enabled") {
+            
+            guard let focus = device?.isLockingFocusWithCustomLensPositionSupported else { return }
+            if !focus { NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.unsupportedLensPositionControl.name, object: nil) }
+            
+            if settings.defaults.bool(forKey: "capture.hdr.enabled") {
                 if self.supportsHDR {
-                    NSLog("[Camera Input] Force enabled HDR on camera")
+                    MalachiteClassesObject().debugNSLog("[Camera Input] Force enabled HDR on camera")
                     if device?.activeFormat.isVideoHDRSupported == true {
                         device?.isVideoHDREnabled = true
                     } else {
-                        NSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
-                        settings.defaults.set(false, forKey: "format.hdr.enabled")
+                        MalachiteClassesObject().debugNSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
+                        settings.defaults.set(false, forKey: "capture.hdr.enabled")
                     }
                 } else {
-                    NSLog("[Camera Input] HDR enabled on a device that doesn't support it")
-                    settings.defaults.set(false, forKey: "format.hdr.enabled")
+                    MalachiteClassesObject().debugNSLog("[Camera Input] HDR enabled on a device that doesn't support it")
+                    settings.defaults.set(false, forKey: "capture.hdr.enabled")
                 }
-            } else {
-                NSLog("[Camera Input] Force disabled HDR on camera")
+            }
+            
+            if !settings.defaults.bool(forKey: "capture.hdr.enabled") {
+                MalachiteClassesObject().debugNSLog("[Camera Input] Force disabled HDR on camera")
                 if device?.activeFormat.isGlobalToneMappingSupported == true {
-                    device?.isGlobalToneMappingEnabled = true
+                    device?.isGlobalToneMappingEnabled = false
                 }
                 if device?.activeFormat.isVideoHDRSupported == true {
                     device?.isVideoHDREnabled = false
                 }
             }
         } catch {
-            NSLog("[Camera Input] Error adjusting device properties: %@", error.localizedDescription)
+            MalachiteClassesObject().debugNSLog("[Camera Input] Error adjusting device properties: \(error.localizedDescription)")
         }
         
-        NSLog("[Camera Input] Attached input, finishing configuration")
+        MalachiteClassesObject().debugNSLog("[Camera Input] Attached input, finishing configuration")
         session.addInput(input!)
+        if MalachiteClassesObject().versionType == "INTERNAL" {
+            switchInputMegapixels(device: device!, photoOutput: output)
+        }
+        
         session.commitConfiguration()
         button.isUserInteractionEnabled = true
     }
     
+    @objc public func switchInputMegapixels(device: AVCaptureDevice, photoOutput: AVCapturePhotoOutput) {
+        if #available(iOS 16.0, *) {
+            let maxDimensions = device.activeFormat.supportedMaxPhotoDimensions[device.activeFormat.supportedMaxPhotoDimensions.count - 1]
+            
+            var mpSetting = Int()
+            
+            switch device.deviceType {
+            case .builtInUltraWideCamera:
+                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.ultrawide")
+            case .builtInWideAngleCamera:
+                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.wide")
+            case .builtInTelephotoCamera:
+                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.telephoto")
+            default:
+                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.wide")
+            }
+            
+            switch mpSetting {
+            case 48:
+                MalachiteClassesObject().internalNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 48MP mode")
+                if maxDimensions.width == 8064 && maxDimensions.height == 6048 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 8064, height: 6048) }
+            case 12:
+                MalachiteClassesObject().internalNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 12MP mode")
+                if maxDimensions.width == 4032 && maxDimensions.height == 3024 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 4032, height: 3024) }
+            default:
+                MalachiteClassesObject().internalNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 8MP mode")
+                if maxDimensions.width == 3264 && maxDimensions.height == 2448 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 3264, height: 2448) }
+            }
+        }
+        
+    }
+    
+    /// Function that handles taking images on `AVCapturePhotoOutput`.
     public func captureImage(output photoOutput: AVCapturePhotoOutput, viewForBounds view: UIView, captureDelegate delegate: AVCapturePhotoCaptureDelegate) -> AVCapturePhotoOutput {
         var format = [String: Any]()
-        if settings.defaults.bool(forKey: "format.type.heif") {
+        if settings.defaults.bool(forKey: "capture.type.heif") && supportsHEIC() {
             format = [AVVideoCodecKey : AVVideoCodecType.hevc]
         } else {
             format = [AVVideoCodecKey : AVVideoCodecType.jpeg]
         }
         let photoSettings = AVCapturePhotoSettings(format: format)
-        let photoOrientation = UIDevice.current.orientation.asCaptureVideoOrientation
+        let photoOrientation = UIDevice.current.orientation.videoOrientation
         if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
             if let photoOutputConnection = photoOutput.connection(with: AVMediaType.video) {
                 photoOutputConnection.videoOrientation = photoOrientation
             }
             photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
+            photoSettings.photoQualityPrioritization = photoOutput.maxPhotoQualityPrioritization
+            if #available(iOS 16.0, *) {
+                if MalachiteClassesObject().versionType == "INTERNAL" {
+                    photoSettings.maxPhotoDimensions = photoOutput.maxPhotoDimensions
+                }
+            }
+            print(photoOutput.availablePhotoFileTypes)
             photoOutput.capturePhoto(with: photoSettings, delegate: delegate)
         }
         
         return photoOutput
     }
     
+    /// Function that handles manual focus.
     public func manualFocus(captureDevice device: inout AVCaptureDevice, sender: UISlider) {
         let lensPosition = sender.value
         do {
             try device.lockForConfiguration()
         } catch {
-            NSLog("[Manual Focus] Couldn't lock device for configuration: %@", error.localizedDescription)
+            MalachiteClassesObject().debugNSLog("[Manual Focus] Couldn't lock device for configuration: \(error.localizedDescription)")
             return
         }
         
         device.setFocusModeLocked(lensPosition: lensPosition)
-        NSLog("[Manual Focus] Changed lens position")
+        MalachiteClassesObject().debugNSLog("[Manual Focus] Changed lens position")
         device.unlockForConfiguration()
     }
     
+    /// Function that handles manual ISO.
     public func manualExposure(captureDevice device: inout AVCaptureDevice, sender: UISlider) {
         let minISO = device.activeFormat.minISO
-        print(minISO)
         let maxISO = device.activeFormat.maxISO
-        print(maxISO)
         
         var selectedISO = Float()
         if MalachiteSettingsUtils().defaults.bool(forKey: "capture.exposure.unlimited") {
@@ -282,44 +408,27 @@ public class MalachiteFunctionUtils : NSObject {
             selectedISO = minISO
         }
         
-        print(sender.value)
-        print(selectedISO)
-        
         do {
             try device.lockForConfiguration()
             device.setExposureModeCustom(duration:AVCaptureDevice.currentExposureDuration, iso: selectedISO, completionHandler: nil)
             device.unlockForConfiguration()
         } catch let error {
-            NSLog("Could not lock device for configuration: \(error)")
+            MalachiteClassesObject().debugNSLog("Could not lock device for configuration: \(error)")
         }
     }
 }
 
-extension CGImagePropertyOrientation {
-    init(_ uiOrientation: UIImage.Orientation) {
-        switch uiOrientation {
-        case .up: self = .up
-        case .upMirrored: self = .upMirrored
-        case .down: self = .down
-        case .downMirrored: self = .downMirrored
-        case .left: self = .left
-        case .leftMirrored: self = .leftMirrored
-        case .right: self = .right
-        case .rightMirrored: self = .rightMirrored
-        @unknown default:
-            abort()
-        }
-    }
-}
-
+/// An extension for `CIImageRepresentationOption` that allows setting gain map images.
 extension CIImageRepresentationOption {
     static var hdrGainMapImage: Self { .init(rawValue: "kCIImageRepresentationHDRGainMapImage") }
 }
 
+/// A protocol that enables Notification posting and getting.
 protocol NotificationName {
     var name: Notification.Name { get }
 }
 
+/// An extension that enables Notification posting and getting.
 extension RawRepresentable where RawValue == String, Self: NotificationName {
     var name: Notification.Name {
         get {
