@@ -24,59 +24,70 @@ public class MalachiteSettingsUtils : NSObject {
     /// A dictionary used for general preferences that are not meant to be switched by end users, or miscellanous settings.
     private let generalPreferences: [ String : Any ] = [
         // Records the last version of Malachite to be run on this device, to be used later
-        "general.version"            : Bundle.main.infoDictionary?["CFBundleVersion"] as? String as Any,
+        "general.version"                      : Bundle.main.infoDictionary?["CFBundleVersion"] as? String as Any,
         // Records the version of preferences that Malachite last saved to. Newer versions = incompatiblities
-        "general.prefsVersion"       : 5,
+        "general.prefsVersion"                 : 5,
         // Is this the first launch of the app?
-        "general.firstLaunch"        : true,
+        "general.firstLaunch"                  : true,
         
         // Get and save this device's identifier. Used for compabilityPreferences.
-        "general.device.model"       : "Eva1,1",
+        "general.device.model"                 : "Eva1,1",
         
         // Whether or not the display has a larger screen area. Used for moving things in the UI.
-        "general.display.small"      : false,
+        "general.display.small"                : false,
         // How many photos has the user taken with Malachite? Used for Game Center achievements.
-        "general.photos.count"       : 0,
+        "general.photos.count"                 : 0,
         // :)
-        "general.gamekit.alert"      : false,
+        "general.gamekit.alert"                : false,
         // :) x2
-        "general.gamekit.found"      : false,
+        "general.gamekit.found"                : false,
         // Whether or not to enable Game Center support for Malachite.
-        "general.gamekit.enabled"    : false,
+        "general.gamekit.enabled"              : false,
     ]
     
     private let previewPreferences: [ String : Any ] = [
         // Whether or not the preview layer should fill the screen
-        "preview.size.fill"           : false,
+        "preview.size.fill"                    : false,
         // Whether or not to enable image preview stabilization
-        "preview.stblz.enabled"       : true,
+        "preview.stblz.enabled"                : true,
     ]
     
     /// A dictionary used for image capture preferences.
     private let capturePreferences: [ String : Any ] = [
         // Whether or not to enable absurdly bright exposure levels
-        "capture.exposure.unlimited"  : false,
+        "capture.exposure.unlimited"           : false,
         
         // Whether or not HDR should be enabled for captured photos. Not supported on A9.
-        "capture.hdr.enabled"         : true,
+        "capture.hdr.enabled"                  : true,
         
         // Whether or not to save photos as JPEG.
-        "capture.type.jpeg"           : false,
+        "capture.type.jpeg"                    : false,
         // Whether or not to save photos as HEIF. Not supported on A9.
-        "capture.type.heif"           : true,
+        "capture.type.heif"                    : true,
         
-        // Whether or not to enable auto focus and/or auto exposure with the tap and hold gesture.
-        "capture.tapgesture.elements" : [ String() ],
         // Whether or not to enable continuous auto focus and/or auto exposure
-        "capture.continuous.elements" : [ String() ],
+        "capture.continuous.elements"          : [ String() ],
     ]
     
     /// A dictionary used for watermarking preferences.
     private let watermarkingPreferences: [ String : Any ] = [
         // Whether or not the watermarking feature is enabled
-        "wtrmark.enabled"            : true,
+        "wtrmark.enabled"                      : true,
         // The text to display over captured images
-        "wtrmark.text"               : "Shot with Malachite",
+        "wtrmark.text"                         : "Shot with Malachite",
+    ]
+    
+    /// A dictionary used for user interface preferences.
+    private let userInterfacePreferences: [ String : Any ] = [
+        // Whether or not to enable the pinch to zoom gesture
+        "ui.pinchzoom.enabled"                 : true,
+        // Whether or not to enable auto focus and/or auto exposure with the tap and hold gesture
+        "ui.tapgesture.elements"               : [ String() ],
+        // Whether or not to disable the tap and hold and/or pink to zoom gestures when hiding the UI
+        "ui.hiddengestures.elements"           : [ String() ],
+        
+        // Whether or not to enable the system's idle timer
+        "ui.idletimer.disabled"                 : false,
     ]
     
     /// A dictionary used for debugging the app
@@ -93,17 +104,17 @@ public class MalachiteSettingsUtils : NSObject {
         // iPad Pro (9.7-inch), iPad Pro (10.5-inch), or iPad Pro (12.9-inch, 2nd generation) and later
         // 48MP is supported on the following:
         // iPhone 14 Pro, iPhone 14 Pro Max, or iPhone 15 and later
-        "capture.mp.wide"                   : 12,
+        "capture.mp.wide"                       : 12,
         // What size to capture photos in
         // Can be "12" or "48"
         // 12MP is supported on all devices.
         // 48MP is supported on the following:
         // iPhone 16 Pro and iPhone 16 Pro Max
-        "capture.mp.ultrawide"              : 12,
+        "capture.mp.ultrawide"                  : 12,
         // What size to capture photos in
         // Can be "12"
         // 12MP is supported on all devices.
-        "capture.mp.telephoto"              : 12,
+        "capture.mp.telephoto"                  : 12,
         
         
         // The list of supported resolutions from the ultrawide camera.
@@ -156,9 +167,9 @@ public class MalachiteSettingsUtils : NSObject {
     
     public func getPreferencesDictionariesForBuildType() {
         if MalachiteClassesObject().versionType == "INTERNAL" {
-            availablePreferences = [ internalPreferences, compatibilityPreferences, generalPreferences, watermarkingPreferences, capturePreferences ]
+            availablePreferences = [ internalPreferences, compatibilityPreferences, generalPreferences, watermarkingPreferences, userInterfacePreferences, capturePreferences ]
         } else {
-            availablePreferences = [ compatibilityPreferences, generalPreferences, watermarkingPreferences, capturePreferences ]
+            availablePreferences = [ compatibilityPreferences, generalPreferences, watermarkingPreferences, userInterfacePreferences, capturePreferences ]
         }
     }
     

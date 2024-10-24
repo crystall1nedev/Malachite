@@ -605,12 +605,12 @@
         }
       }
     },
-    "settings.detail.photo.file_format" : {
+    "settings.detail.photo.fileformat" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose JPEG for an older standard that is more widely accepted. Choose HEIC if you want a smaller file that works best on other Apple devices."
+            "value" : "Choose JPEG for an older standard that is more widely accepted. Choose HEIC if you want a smaller file that works best on other Apple devices. Support for other file formats is coming in a future commit."
           }
         }
       }
@@ -671,6 +671,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Choose a higher resolution for the wide angle camera to shoot in. Support for 12MP and 48MP depends on your hardware, see the Compatibility page for more information."
+          }
+        }
+      }
+    },
+    "settings.detail.ui.hiddengestures" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the options you would like to have available while the user interface is hidden (two-finger tap and hold gesture.)"
+          }
+        }
+      }
+    },
+    "settings.detail.ui.idletimer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable this if you want to disable the system’s built-in auto lock timer while your device is stationary."
           }
         }
       }
@@ -888,17 +908,17 @@
         }
       }
     },
-    "settings.option.photo.file_format" : {
+    "settings.option.photo.fileformat" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Image file format"
+            "value" : "Image format"
           }
         }
       }
     },
-    "settings.option.photo.file_format.heif" : {
+    "settings.option.photo.fileformat.heif" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -908,7 +928,7 @@
         }
       }
     },
-    "settings.option.photo.file_format.jpeg" : {
+    "settings.option.photo.fileformat.jpeg" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1048,7 +1068,7 @@
         }
       }
     },
-    "settings.option.reusable.ae_af" : {
+    "settings.option.reusable.aeaf" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1074,6 +1094,56 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Disabled"
+          }
+        }
+      }
+    },
+    "settings.option.reusable.pinchzoom" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinch to zoom"
+          }
+        }
+      }
+    },
+    "settings.option.reusable.pinchzoomtapandhold" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinch and tap"
+          }
+        }
+      }
+    },
+    "settings.option.reusable.tapandhold" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap and hold"
+          }
+        }
+      }
+    },
+    "settings.option.ui.hiddengestures" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestures while UI hidden"
+          }
+        }
+      }
+    },
+    "settings.option.ui.idletimer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disable auto lock"
           }
         }
       }

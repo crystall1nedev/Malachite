@@ -65,7 +65,7 @@ struct MalachiteSettingsDetailView: View {
     /// A variable to hold the photo settings section.
     var photoSettingsSection: some View {
         Section(header: Text("settings.header.photo"), footer: Text("settings.footer.photo")) {
-            MalachiteSettingsDetailViewUtils(title: Text("settings.option.photo.file_format"), subtitle: Text("settings.detail.photo.file_format")) {}
+            MalachiteSettingsDetailViewUtils(title: Text("settings.option.photo.fileformat"), subtitle: Text("settings.detail.photo.fileformat")) {}
             MalachiteSettingsDetailViewUtils(title: Text("settings.option.photo.hdr"), subtitle: Text("settings.detail.photo.hdr")) {}
             MalachiteSettingsDetailViewUtils(title: Text("settings.option.photo.continuous"), subtitle: Text("settings.detail.photo.continuous")) {}
         }
@@ -74,6 +74,8 @@ struct MalachiteSettingsDetailView: View {
     var uiSettingsSection: some View {
         Section(header: Text("settings.header.ui"), footer: Text("settings.footer.ui")) {
             MalachiteSettingsDetailViewUtils(title: Text("settings.option.ui.tapgesture"), subtitle: Text("settings.detail.ui.tapgesture")) {}
+            MalachiteSettingsDetailViewUtils(title: Text("settings.option.ui.hiddengestures"), subtitle: Text("settings.detail.ui.hiddengestures")) {}
+            MalachiteSettingsDetailViewUtils(title: Text("settings.option.ui.idletimer"), subtitle: Text("settings.detail.ui.idletimer")) {}
         }
     }
     

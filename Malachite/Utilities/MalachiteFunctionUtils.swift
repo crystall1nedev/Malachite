@@ -28,6 +28,7 @@ public class MalachiteFunctionUtils : NSObject {
         case megaPixelSwitchNotification
         case continousAEAFNotification
         case aeafTapGestureNotification
+        case idleTimerNotification
     }
     
     /// Function that determines if the device supports HDR.
@@ -118,16 +119,16 @@ public class MalachiteFunctionUtils : NSObject {
                 return
             }
             
-            guard let tapGestureElements = MalachiteClassesObject().settings.defaults.stringArray(forKey: "capture.tapgesture.elements") else { return }
+            guard let tapGestureElements = MalachiteClassesObject().settings.defaults.stringArray(forKey: "ui.tapgesture.elements") else { return }
             
-            if tapGestureElements.firstIndex(of: "af") != nil {
+            if tapGestureElements.contains("af") {
                 if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
                     device.focusMode = .autoFocus
                     device.focusPointOfInterest = CGPointMake(scaledPointX, scaledPointY)
                     MalachiteClassesObject().debugNSLog("[AE+AF] Changed focus POI")
                 }
             }
-            if tapGestureElements.firstIndex(of: "ae") != nil  {
+            if tapGestureElements.contains("ae") {
                 if device.isExposureModeSupported(.autoExpose) && device.isExposurePointOfInterestSupported {
                     device.exposureMode = .autoExpose
                     device.exposurePointOfInterest = CGPointMake(scaledPointX, scaledPointY)
@@ -155,17 +156,17 @@ public class MalachiteFunctionUtils : NSObject {
         
         guard let continuousElements = MalachiteClassesObject().settings.defaults.stringArray(forKey: "capture.continuous.elements") else { return }
         
-        if (continuousElements.firstIndex(of: "ae") != nil) && device.isExposureModeSupported(.continuousAutoExposure) {
+        if continuousElements.contains("ae") && device.isExposureModeSupported(.continuousAutoExposure) {
             device.exposureMode = .continuousAutoExposure
             MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AE Enabled")
-        } else if (continuousElements.firstIndex(of: "ae") == nil) && device.isExposureModeSupported(.locked) {
+        } else if (!continuousElements.contains("ae")) && device.isExposureModeSupported(.locked) {
             device.exposureMode = .locked
             MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AE Disabled")
         }
-        if (continuousElements.firstIndex(of: "af") != nil) && device.isFocusModeSupported(.continuousAutoFocus) {
+        if continuousElements.contains("af") && device.isFocusModeSupported(.continuousAutoFocus) {
             device.focusMode = .continuousAutoFocus
             MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AF Enabled")
-        } else if (continuousElements.firstIndex(of: "af") == nil) && device.isFocusModeSupported(.locked) {
+        } else if (!continuousElements.contains("af")) && device.isFocusModeSupported(.locked) {
             device.focusMode = .locked
             MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AF Disabled")
         }

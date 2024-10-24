@@ -206,6 +206,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NotificationCenter.default.addObserver(self, selector: #selector(runManualFocusUIHiderWhenUnsupported), name: MalachiteFunctionUtils.Notifications.unsupportedLensPositionControl.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeContinuousAEAF), name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeAEAFRecognizer), name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeIdleTimerState), name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, object: nil)
         if utilities.versionType == "INTERNAL" {
             NotificationCenter.default.addObserver(self, selector: #selector(runInputMegapixelSwitch), name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
         }
@@ -343,8 +344,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         exposureTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString("uibutton.exposure.title", comment: ""), anchorConstant: 80)
         
         self.view.addGestureRecognizer(zoomRecognizer)
-        guard let tapGestureElements = utilities.settings.defaults.stringArray(forKey: "capture.tapgesture.elements") else { return }
-        if tapGestureElements.firstIndex(of: "off") == nil { self.view.addGestureRecognizer(aeafRecognizer) }
+        guard let tapGestureElements = utilities.settings.defaults.stringArray(forKey: "ui.tapgesture.elements") else { return }
+        if !tapGestureElements.contains("off") { self.view.addGestureRecognizer(aeafRecognizer) }
         self.view.addGestureRecognizer(uiHiderRecognizer)
         
         var lockButtonsX = -80.0
@@ -430,6 +431,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: self.view, camera: selectedDevice)
         
         setupGameKitAlert()
+        changeIdleTimerState()
     }
     
     func setupGameKitAlert() {
@@ -488,6 +490,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
     }
     
+    /// Function to enable or disable the idle timer.
+    @objc func changeIdleTimerState() {
+        UIApplication.shared.isIdleTimerDisabled = utilities.settings.defaults.bool(forKey: "ui.idletimer.disabled") ? true : false
+    }
+    
     /// Function to dynamically update the aspect ratio for ``cameraPreview`` through ``MalachiteSettingsView``.
     @objc func changeAspectFill() {
         UIView.animate(withDuration: 20) { [self] in
@@ -519,10 +526,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     }
     
     @objc func changeAEAFRecognizer() {
-        guard let tapGestureElements = utilities.settings.defaults.stringArray(forKey: "capture.tapgesture.elements") else { return }
+        guard let tapGestureElements = utilities.settings.defaults.stringArray(forKey: "ui.tapgesture.elements") else { return }
         guard let currentGestureRecognizers = self.view.gestureRecognizers else { return }
         
-        if tapGestureElements.firstIndex(of: "off") != nil {
+        if tapGestureElements.contains("off") {
             if currentGestureRecognizers.contains(aeafRecognizer) {
                 utilities.debugNSLog("[AE+AF] Disabling tap and hold gesture")
                 self.view.removeGestureRecognizer(aeafRecognizer)
@@ -797,8 +804,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                     }
                 }
             }
+            guard let hiddenRecognizers = utilities.settings.defaults.stringArray(forKey: "ui.hiddengestures.elements") else { return }
             for gestureRecognizer in gestureRecognizers {
-                self.view.removeGestureRecognizer(gestureRecognizer)
+                if gestureRecognizer == zoomRecognizer && !hiddenRecognizers.contains("zoom") { self.view.removeGestureRecognizer(gestureRecognizer) }
+                if gestureRecognizer == aeafRecognizer && !hiddenRecognizers.contains("tah") { self.view.removeGestureRecognizer(gestureRecognizer) }
             }
         } else {
             UIView.animate(withDuration: 0.25) { [self] in
@@ -815,7 +824,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                 }
             }
             for gestureRecognizer in gestureRecognizers {
-                self.view.addGestureRecognizer(gestureRecognizer)
+                guard let currentRecognizers = self.view.gestureRecognizers else { return }
+                if !currentRecognizers.contains(gestureRecognizer) {
+                    self.view.addGestureRecognizer(gestureRecognizer)
+                }
             }
         }
         

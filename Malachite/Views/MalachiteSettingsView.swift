@@ -24,6 +24,10 @@ struct MalachiteSettingsView: View {
     @State private var continuousAEAF = Int()
     /// A State variable used for determinign whether or not to enable exposure and focus POI on tap and hold.
     @State private var poiTapAndHold = Int()
+    /// A State variable used for determinign whether or not to enable the system's auto locking APIs.
+    @State private var idleTimerEnabled = Bool()
+    /// A State vairable used for determining whether or not to enable pinch to zoom and the tap gesture while the UI is hidden.
+    @State private var uiHiderGestures = Int()
     /// A State variable used for determining whether or not the device supports HDR capture in its current mode.
     @State private var supportsHDR = Bool()
     /// A State variable used for determining whether or not the device supports HEIC capture.
@@ -77,11 +81,11 @@ struct MalachiteSettingsView: View {
         }
         .onAppear() {
             watermarkText = utilities.settings.defaults.string(forKey: "wtrmark.text") ?? ""
-            
             watermarkSwitch = utilities.settings.defaults.bool(forKey: "wtrmark.enabled")
             hdrSwitch = utilities.settings.defaults.bool(forKey: "capture.hdr.enabled")
             shouldStabilize = utilities.settings.defaults.bool(forKey: "preview.stblz.enabled")
             debugLoggingUserDefaults = utilities.settings.defaults.bool(forKey: "debug.logging.userdefaults")
+            idleTimerEnabled = utilities.settings.defaults.bool(forKey: "ui.idletimer.disabled")
             
             supportsHDR = utilities.function.supportsHDR
             supportsHEIC = utilities.function.supportsHEIC()
@@ -97,7 +101,7 @@ struct MalachiteSettingsView: View {
                 continuousAEAF = 3
             }
             
-            switch utilities.settings.defaults.stringArray(forKey: "capture.tapgesture.elements") {
+            switch utilities.settings.defaults.stringArray(forKey: "ui.tapgesture.elements") {
             case ["ae", "af"]:
                 poiTapAndHold = 0
             case ["af"]:
@@ -106,6 +110,17 @@ struct MalachiteSettingsView: View {
                 poiTapAndHold = 2
             default:
                 poiTapAndHold = 3
+            }
+            
+            switch utilities.settings.defaults.stringArray(forKey: "ui.hiddengestures.elements") {
+            case ["zoom", "tah"]:
+                uiHiderGestures = 0
+            case ["zoom"]:
+                uiHiderGestures = 1
+            case ["tah"]:
+                uiHiderGestures = 2
+            default:
+                uiHiderGestures = 3
             }
             
             if !supportsHEIC {
@@ -133,6 +148,7 @@ struct MalachiteSettingsView: View {
             utilities.settings.defaults.set(hdrSwitch, forKey: "capture.hdr.enabled")
             utilities.settings.defaults.set(shouldStabilize, forKey: "preview.stblz.enabled")
             utilities.settings.defaults.set(debugLoggingUserDefaults, forKey: "debug.logging.userdefaults")
+            utilities.settings.defaults.set(idleTimerEnabled, forKey: "ui.idletimer.disabled")
             
             switch continuousAEAF {
             case 0:
@@ -147,13 +163,24 @@ struct MalachiteSettingsView: View {
             
             switch poiTapAndHold {
             case 0:
-                utilities.settings.defaults.set(["ae", "af"] as Array<String>, forKey: "capture.tapgesture.elements")
+                utilities.settings.defaults.set(["ae", "af"] as Array<String>, forKey: "ui.tapgesture.elements")
             case 1:
-                utilities.settings.defaults.set(["af"] as Array<String>, forKey: "capture.tapgesture.elements")
+                utilities.settings.defaults.set(["af"] as Array<String>, forKey: "ui.tapgesture.elements")
             case 2:
-                utilities.settings.defaults.set(["ae"] as Array<String>, forKey: "capture.tapgesture.elements")
+                utilities.settings.defaults.set(["ae"] as Array<String>, forKey: "ui.tapgesture.elements")
             default:
-                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "capture.tapgesture.elements")
+                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "ui.tapgesture.elements")
+            }
+            
+            switch uiHiderGestures {
+            case 0:
+                utilities.settings.defaults.set(["zoom", "tah"] as Array<String>, forKey: "ui.hiddengestures.elements")
+            case 1:
+                utilities.settings.defaults.set(["zoom"] as Array<String>, forKey: "ui.hiddengestures.elements")
+            case 2:
+                utilities.settings.defaults.set(["tah"] as Array<String>, forKey: "ui.hiddengestures.elements")
+            default:
+                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "ui.hiddengestures.elements")
             }
             
             if !watermarkText.isEmpty {
@@ -179,6 +206,7 @@ struct MalachiteSettingsView: View {
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, object: nil)
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, object: nil)
             if MalachiteClassesObject().versionType == "INTERNAL" {
                 NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
             }
@@ -414,10 +442,10 @@ struct MalachiteSettingsView: View {
                 disabled: !supportsHEIC,
                 dangerous: false)
             {
-                Picker("settings.option.photo.file_format", selection: $photoFormat) {
-                    Text("settings.option.photo.file_format.jpeg")
+                Picker("settings.option.photo.fileformat", selection: $photoFormat) {
+                    Text("settings.option.photo.fileformat.jpeg")
                         .tag(0)
-                    Text("settings.option.photo.file_format.heif")
+                    Text("settings.option.photo.fileformat.heif")
                         .tag(1)
                 }
             }
@@ -435,7 +463,7 @@ struct MalachiteSettingsView: View {
                     dangerous: false)
             {
                 Picker("settings.option.photo.continuous", selection: $continuousAEAF) {
-                    Text("settings.option.reusable.ae_af")
+                    Text("settings.option.reusable.aeaf")
                         .tag(0)
                     Text("settings.option.reusable.af")
                         .tag(1)
@@ -517,7 +545,7 @@ struct MalachiteSettingsView: View {
                 dangerous: false)
             {
                 Picker("settings.option.ui.tapgesture", selection: $poiTapAndHold) {
-                    Text("settings.option.reusable.ae_af")
+                    Text("settings.option.reusable.aeaf")
                         .tag(0)
                     Text("settings.option.reusable.af")
                         .tag(1)
@@ -527,20 +555,59 @@ struct MalachiteSettingsView: View {
                         .tag(3)
                 }
             }
+            MalachiteCellViewUtils(
+                icon: "text.justify",
+                disabled: nil,
+                dangerous: false)
+            {
+                Picker("settings.option.ui.hiddengestures", selection: $uiHiderGestures) {
+                    Text("settings.option.reusable.pinchzoomtapandhold")
+                        .tag(0)
+                    Text("settings.option.reusable.pinchzoom")
+                        .tag(1)
+                    Text("settings.option.reusable.tapandhold")
+                        .tag(2)
+                    Text("settings.option.reusable.off")
+                        .tag(3)
+                }
+            }
+            MalachiteCellViewUtils(
+                icon: "text.justify",
+                disabled: nil,
+                dangerous: false)
+            {
+                Toggle("settings.option.ui.idletimer", isOn: $idleTimerEnabled)
+            }
         }
         .onChange(of: poiTapAndHold) {_ in
             switch poiTapAndHold {
             case 0:
-                utilities.settings.defaults.set(["ae", "af"] as Array<String>, forKey: "capture.tapgesture.elements")
+                utilities.settings.defaults.set(["ae", "af"] as Array<String>, forKey: "ui.tapgesture.elements")
             case 1:
-                utilities.settings.defaults.set(["af"] as Array<String>, forKey: "capture.tapgesture.elements")
+                utilities.settings.defaults.set(["af"] as Array<String>, forKey: "ui.tapgesture.elements")
             case 2:
-                utilities.settings.defaults.set(["ae"] as Array<String>, forKey: "capture.tapgesture.elements")
+                utilities.settings.defaults.set(["ae"] as Array<String>, forKey: "ui.tapgesture.elements")
             default:
-                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "capture.tapgesture.elements")
+                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "ui.tapgesture.elements")
+            }
+        }
+        .onChange(of: uiHiderGestures) {_ in
+            switch uiHiderGestures {
+            case 0:
+                utilities.settings.defaults.set(["ae", "af"] as Array<String>, forKey: "ui.hiddengestures.elements")
+            case 1:
+                utilities.settings.defaults.set(["af"] as Array<String>, forKey: "ui.hiddengestures.elements")
+            case 2:
+                utilities.settings.defaults.set(["ae"] as Array<String>, forKey: "ui.hiddengestures.elements")
+            default:
+                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "ui.hiddengestures.elements")
             }
             
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
+        }
+        .onChange(of: idleTimerEnabled) { _ in
+            utilities.settings.defaults.set(idleTimerEnabled, forKey: "ui.idletimer.disabled")
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, object: nil)
         }
     }
     
