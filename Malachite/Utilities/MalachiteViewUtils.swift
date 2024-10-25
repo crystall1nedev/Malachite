@@ -392,6 +392,7 @@ struct MalachiteNagivationViewUtils<Content : View>: View {
             NavigationView {
                 content
             }
+            .navigationViewStyle(.stack)
         }
     }
 }

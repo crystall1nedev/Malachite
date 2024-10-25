@@ -22,10 +22,14 @@ struct MalachiteSettingsView: View {
     @State private var hdrSwitch = false
     /// A State variable used for determining whether or not to enable continuous auto exposure.
     @State private var continuousAEAF = Int()
-    /// A State variable used for determinign whether or not to enable exposure and focus POI on tap and hold.
+    /// A State variable used for determining whether or not to enable exposure and focus POI on tap and hold.
     @State private var poiTapAndHold = Int()
-    /// A State variable used for determinign whether or not to enable the system's auto locking APIs.
-    @State private var idleTimerEnabled = Bool()
+    /// A State variable used for determining whether or not to enable the system's auto locking APIs.
+    @State private var idleTimerDisabled = Bool()
+    /// A State variable used for determining whether or not to enabel haptics.
+    @State private var hapticsDisabled = Bool()
+    /// A State variable used for determining whether or not to start the app with the UI hidden.
+    @State private var appStartsUIHidden = Bool()
     /// A State vairable used for determining whether or not to enable pinch to zoom and the tap gesture while the UI is hidden.
     @State private var uiHiderGestures = Int()
     /// A State variable used for determining whether or not the device supports HDR capture in its current mode.
@@ -85,7 +89,9 @@ struct MalachiteSettingsView: View {
             hdrSwitch = utilities.settings.defaults.bool(forKey: "capture.hdr.enabled")
             shouldStabilize = utilities.settings.defaults.bool(forKey: "preview.stblz.enabled")
             debugLoggingUserDefaults = utilities.settings.defaults.bool(forKey: "debug.logging.userdefaults")
-            idleTimerEnabled = utilities.settings.defaults.bool(forKey: "ui.idletimer.disabled")
+            idleTimerDisabled = utilities.settings.defaults.bool(forKey: "ui.idletimer.disabled")
+            hapticsDisabled = utilities.settings.defaults.bool(forKey: "ui.haptics.disabled")
+            appStartsUIHidden = utilities.settings.defaults.bool(forKey: "ui.applaunch.hiddenui")
             
             supportsHDR = utilities.function.supportsHDR
             supportsHEIC = utilities.function.supportsHEIC()
@@ -148,7 +154,9 @@ struct MalachiteSettingsView: View {
             utilities.settings.defaults.set(hdrSwitch, forKey: "capture.hdr.enabled")
             utilities.settings.defaults.set(shouldStabilize, forKey: "preview.stblz.enabled")
             utilities.settings.defaults.set(debugLoggingUserDefaults, forKey: "debug.logging.userdefaults")
-            utilities.settings.defaults.set(idleTimerEnabled, forKey: "ui.idletimer.disabled")
+            utilities.settings.defaults.set(idleTimerDisabled, forKey: "ui.idletimer.disabled")
+            utilities.settings.defaults.set(hapticsDisabled, forKey: "ui.haptics.disabled")
+            utilities.settings.defaults.set(appStartsUIHidden, forKey: "ui.applaunch.hiddenui")
             
             switch continuousAEAF {
             case 0:
@@ -556,7 +564,7 @@ struct MalachiteSettingsView: View {
                 }
             }
             MalachiteCellViewUtils(
-                icon: "text.justify",
+                icon: "plus.magnifyingglass",
                 disabled: nil,
                 dangerous: false)
             {
@@ -572,11 +580,25 @@ struct MalachiteSettingsView: View {
                 }
             }
             MalachiteCellViewUtils(
-                icon: "text.justify",
+                icon: "clock",
                 disabled: nil,
                 dangerous: false)
             {
-                Toggle("settings.option.ui.idletimer", isOn: $idleTimerEnabled)
+                Toggle("settings.option.ui.idletimer", isOn: $idleTimerDisabled)
+            }
+            MalachiteCellViewUtils(
+                icon: "iphone.radiowaves.left.and.right",
+                disabled: nil,
+                dangerous: false)
+            {
+                Toggle("settings.option.ui.haptics", isOn: $hapticsDisabled)
+            }
+            MalachiteCellViewUtils(
+                icon: "eye.slash",
+                disabled: nil,
+                dangerous: false)
+            {
+                Toggle("settings.option.ui.hiddenonlaunch", isOn: $appStartsUIHidden)
             }
         }
         .onChange(of: poiTapAndHold) {_ in
@@ -605,9 +627,15 @@ struct MalachiteSettingsView: View {
             
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
         }
-        .onChange(of: idleTimerEnabled) { _ in
-            utilities.settings.defaults.set(idleTimerEnabled, forKey: "ui.idletimer.disabled")
+        .onChange(of: idleTimerDisabled) { _ in
+            utilities.settings.defaults.set(idleTimerDisabled, forKey: "ui.idletimer.disabled")
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, object: nil)
+        }
+        .onChange(of: hapticsDisabled) { _ in
+            utilities.settings.defaults.set(hapticsDisabled, forKey: "ui.haptics.disabled")
+        }
+        .onChange(of: appStartsUIHidden) { _ in
+            utilities.settings.defaults.set(appStartsUIHidden, forKey: "ui.applaunch.hiddenui")
         }
     }
     

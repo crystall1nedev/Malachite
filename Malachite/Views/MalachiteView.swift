@@ -235,6 +235,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         utilities.debugNSLog("[Initialization] Presenting user interface")
         setupView()
+        
         self.changeGameCenterEnabled()
     }
     
@@ -360,6 +361,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             lockButtonsY = 70.0
         }
         
+        utilities.tooltips.fadeOutTooltipFlow(labelsToFade: [ focusTitle, exposureTitle])
+        utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: self.view, camera: selectedDevice)
+        
         NSLayoutConstraint.activate([
             cameraButton.widthAnchor.constraint(equalToConstant: 60),
             cameraButton.heightAnchor.constraint(equalToConstant: 60),
@@ -427,8 +431,21 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             currentCamera.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
         ])
         
-        utilities.tooltips.fadeOutTooltipFlow(labelsToFade: [ focusTitle, exposureTitle])
-        utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: self.view, camera: selectedDevice)
+        if utilities.settings.defaults.bool(forKey: "ui.applaunch.hiddenui") {
+            cameraButton.alpha = 0.0
+            flashlightButton.alpha = 0.0
+            captureButton.alpha = 0.0
+            focusButton.alpha = 0.0
+            focusSliderButton.alpha = 0.0
+            exposureButton.alpha = 0.0
+            exposureSliderButton.alpha = 0.0
+            settingsButton.alpha = 0.0
+            currentCamera.alpha = 0.0
+            focusTitle.alpha = 0.0
+            exposureTitle.alpha = 0.0
+            
+            uiIsHidden = true
+        }
         
         setupGameKitAlert()
         changeIdleTimerState()
@@ -492,7 +509,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to enable or disable the idle timer.
     @objc func changeIdleTimerState() {
-        UIApplication.shared.isIdleTimerDisabled = utilities.settings.defaults.bool(forKey: "ui.idletimer.disabled") ? true : false
+        UIApplication.shared.isIdleTimerDisabled = utilities.settings.defaults.bool(forKey: "ui.idletimer.enabled") ? true : false
     }
     
     /// Function to dynamically update the aspect ratio for ``cameraPreview`` through ``MalachiteSettingsView``.
@@ -823,12 +840,15 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                     }
                 }
             }
+            
             for gestureRecognizer in gestureRecognizers {
                 guard let currentRecognizers = self.view.gestureRecognizers else { return }
                 if !currentRecognizers.contains(gestureRecognizer) {
                     self.view.addGestureRecognizer(gestureRecognizer)
-                }
+                    }
             }
+            
+            utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: self.view, camera: selectedDevice)
         }
         
         uiIsHidden = !uiIsHidden

@@ -675,12 +675,32 @@
         }
       }
     },
+    "settings.detail.ui.haptics" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable this if you want to disable Malachite’s haptic feedback on buttons and gestures."
+          }
+        }
+      }
+    },
     "settings.detail.ui.hiddengestures" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Choose the options you would like to have available while the user interface is hidden (two-finger tap and hold gesture.)"
+          }
+        }
+      }
+    },
+    "settings.detail.ui.hiddenonlaunch" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable this to hide the user interface when Malachite opens, useful for using the app as a magnifier."
           }
         }
       }
@@ -1128,12 +1148,32 @@
         }
       }
     },
+    "settings.option.ui.haptics" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disable haptic feedback"
+          }
+        }
+      }
+    },
     "settings.option.ui.hiddengestures" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gestures while UI hidden"
+          }
+        }
+      }
+    },
+    "settings.option.ui.hiddenonlaunch" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide UI on launch"
           }
         }
       }

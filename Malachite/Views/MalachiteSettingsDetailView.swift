@@ -76,6 +76,8 @@ struct MalachiteSettingsDetailView: View {
             MalachiteSettingsDetailViewUtils(title: Text("settings.option.ui.tapgesture"), subtitle: Text("settings.detail.ui.tapgesture")) {}
             MalachiteSettingsDetailViewUtils(title: Text("settings.option.ui.hiddengestures"), subtitle: Text("settings.detail.ui.hiddengestures")) {}
             MalachiteSettingsDetailViewUtils(title: Text("settings.option.ui.idletimer"), subtitle: Text("settings.detail.ui.idletimer")) {}
+            MalachiteSettingsDetailViewUtils(title: Text("settings.option.ui.haptics"), subtitle: Text("settings.detail.ui.haptics")) {}
+            MalachiteSettingsDetailViewUtils(title: Text("settings.option.ui.hiddenonlaunch"), subtitle: Text("settings.detail.ui.hiddenonlaunch")) {}
         }
     }
     
