@@ -783,7 +783,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The HEIF file format requires a device with the Apple A10 Fusion chip or later."
+            "value" : "The HEIF file format requires a device with the Apple A10 Fusion chip or later.\\n"
           }
         }
       }

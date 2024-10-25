@@ -134,7 +134,7 @@ struct MalachiteSettingsView: View {
             }
             
             if !supportsHDR {
-                formatFooterText = formatFooterText + "\n" + "settings.footer.photo.hdr".localized
+                formatFooterText = formatFooterText + "settings.footer.photo.hdr".localized
             }
             
             if !utilities.settings.defaults.bool(forKey: "capture.type.heif") {
