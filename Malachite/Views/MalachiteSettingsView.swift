@@ -73,9 +73,7 @@ struct MalachiteSettingsView: View {
         Form {
             aboutSection
             previewSettingsSection
-            if utilities.versionType == "INTERNAL" {
-                resolutionSettingsSection
-            }
+            resolutionSettingsSection
             photoSettingsSection
             watermarkSettingsSection
             uiSettingsSection
@@ -215,9 +213,7 @@ struct MalachiteSettingsView: View {
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, object: nil)
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, object: nil)
-            if MalachiteClassesObject().versionType == "INTERNAL" {
-                NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
-            }
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
         }
         .navigationTitle("view.title.settings")
         .toolbar(content: {

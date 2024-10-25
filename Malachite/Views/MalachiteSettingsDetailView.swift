@@ -18,9 +18,7 @@ struct MalachiteSettingsDetailView: View {
         Form {
             aboutSection
             previewSettingsSection
-            if MalachiteClassesObject().versionType == "INTERNAL" {
-                resolutionSettingsSection
-            }
+            resolutionSettingsSection
             photoSettingsSection
             watermarkSettingsSection
             uiSettingsSection

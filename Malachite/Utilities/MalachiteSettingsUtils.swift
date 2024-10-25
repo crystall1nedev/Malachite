@@ -67,6 +67,26 @@ public class MalachiteSettingsUtils : NSObject {
         
         // Whether or not to enable continuous auto focus and/or auto exposure
         "capture.continuous.elements"           : [ String() ],
+        
+        // What size to capture photos in
+        // Can be "8", "12", "48"
+        // 8MP is supported on all devices.
+        // 12MP is supported on the following:
+        // iPhone 6s and later (including iPhone SE), iPad (10th generation) and later, iPad mini (6th generation) and later, iPad Air (4th generation) and later
+        // iPad Pro (9.7-inch), iPad Pro (10.5-inch), or iPad Pro (12.9-inch, 2nd generation) and later
+        // 48MP is supported on the following:
+        // iPhone 14 Pro, iPhone 14 Pro Max, or iPhone 15 and later
+        "capture.mp.wide"                       : 12,
+        // What size to capture photos in
+        // Can be "12" or "48"
+        // 12MP is supported on all devices.
+        // 48MP is supported on the following:
+        // iPhone 16 Pro and iPhone 16 Pro Max
+        "capture.mp.ultrawide"                  : 12,
+        // What size to capture photos in
+        // Can be "12"
+        // 12MP is supported on all devices.
+        "capture.mp.telephoto"                  : 12,
     ]
     
     /// A dictionary used for watermarking preferences.
@@ -102,25 +122,6 @@ public class MalachiteSettingsUtils : NSObject {
     
     /// A dictionary used for INTERNAL build preferences.
     private let internalPreferences: [ String: Any ] = [
-        // What size to capture photos in
-        // Can be "8", "12", "48"
-        // 8MP is supported on all devices.
-        // 12MP is supported on the following:
-        // iPhone 6s and later (including iPhone SE), iPad (10th generation) and later, iPad mini (6th generation) and later, iPad Air (4th generation) and later
-        // iPad Pro (9.7-inch), iPad Pro (10.5-inch), or iPad Pro (12.9-inch, 2nd generation) and later
-        // 48MP is supported on the following:
-        // iPhone 14 Pro, iPhone 14 Pro Max, or iPhone 15 and later
-        "capture.mp.wide"                       : 12,
-        // What size to capture photos in
-        // Can be "12" or "48"
-        // 12MP is supported on all devices.
-        // 48MP is supported on the following:
-        // iPhone 16 Pro and iPhone 16 Pro Max
-        "capture.mp.ultrawide"                  : 12,
-        // What size to capture photos in
-        // Can be "12"
-        // 12MP is supported on all devices.
-        "capture.mp.telephoto"                  : 12,
         
         
         // The list of supported resolutions from the ultrawide camera.
@@ -193,9 +194,9 @@ public class MalachiteSettingsUtils : NSObject {
                 }
             }
             
-            MalachiteClassesObject().internalNSLog("[Preferences] Dumping all synced keys and saving to UserDefaults")
+            MalachiteClassesObject().debugNSLog("[Preferences] Dumping all synced keys and saving to UserDefaults")
             for (key, value) in tempDictionary {
-                MalachiteClassesObject().internalNSLog("[Preferences] \(key) = \(value)")
+                MalachiteClassesObject().debugNSLog("[Preferences] \(key) = \(value)")
                 defaults.set(value, forKey: key as! String)
             }
         } else {
@@ -213,11 +214,11 @@ public class MalachiteSettingsUtils : NSObject {
     /// Dumps ``defaults`` to log.
     public func dumpUserDefaults() {
         getPreferencesDictionariesForBuildType()
-        MalachiteClassesObject().internalNSLog("[Preferences] Dumping all UserDefaults keys")
+        MalachiteClassesObject().debugNSLog("[Preferences] Dumping all UserDefaults keys")
         for (key, value) in settingsAsDictionary() {
             for prefDict in availablePreferences {
                 if prefDict.keys.contains(key) {
-                    MalachiteClassesObject().internalNSLog("[Preferences] \(key) = \(value)")
+                    MalachiteClassesObject().debugNSLog("[Preferences] \(key) = \(value)")
                 }
             }
         }

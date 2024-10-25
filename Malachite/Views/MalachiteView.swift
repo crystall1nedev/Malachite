@@ -207,12 +207,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NotificationCenter.default.addObserver(self, selector: #selector(changeContinuousAEAF), name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeAEAFRecognizer), name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeIdleTimerState), name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, object: nil)
-        if utilities.versionType == "INTERNAL" {
-            NotificationCenter.default.addObserver(self, selector: #selector(runInputMegapixelSwitch), name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(runInputMegapixelSwitch), name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         
-        if utilities.versionType == "INTERNAL" {
+        if utilities.versionType == "INTERNAL" || utilities.versionType == "DEBUG" {
             if utilities.settings.defaults.bool(forKey: "debug.logging.userdefaults") {
                 utilities.settings.dumpUserDefaults()
             }
@@ -597,7 +595,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.present(hostingController, animated: true, completion: nil)
     }
     
-    /// INTERNAL function, documented later
+    /// Function to switch cameras and attach new inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.
     @objc func runInputSwitch() {
         if self.availableRearCameras.count == 1 && !initRun{
             utilities.debugNSLog("[Camera Input] Only one AVCaptureDevice is available to use, showing error")

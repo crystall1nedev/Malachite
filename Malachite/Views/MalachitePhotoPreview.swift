@@ -255,8 +255,10 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
             gainMapImage = returnGainMap(properties: &imageProperties)
         }
         
-        for prop in imageProperties {
-            MalachiteClassesObject().internalNSLog("[Capture Photo] \(prop)")
+        if MalachiteClassesObject().versionType == "INTERNAL" {
+            for prop in imageProperties {
+                MalachiteClassesObject().internalNSLog("[Capture Photo] \(prop)")
+            }
         }
         
         let outputImageWithProps = outputImage.settingProperties(imageProperties)

@@ -158,17 +158,17 @@ public class MalachiteFunctionUtils : NSObject {
         
         if continuousElements.contains("ae") && device.isExposureModeSupported(.continuousAutoExposure) {
             device.exposureMode = .continuousAutoExposure
-            MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AE Enabled")
+            MalachiteClassesObject().debugNSLog("[Continuous AE+AF] AE Enabled")
         } else if (!continuousElements.contains("ae")) && device.isExposureModeSupported(.locked) {
             device.exposureMode = .locked
-            MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AE Disabled")
+            MalachiteClassesObject().debugNSLog("[Continuous AE+AF] AE Disabled")
         }
         if continuousElements.contains("af") && device.isFocusModeSupported(.continuousAutoFocus) {
             device.focusMode = .continuousAutoFocus
-            MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AF Enabled")
+            MalachiteClassesObject().debugNSLog("[Continuous AE+AF] AF Enabled")
         } else if (!continuousElements.contains("af")) && device.isFocusModeSupported(.locked) {
             device.focusMode = .locked
-            MalachiteClassesObject().internalNSLog("[Continuous AE+AF] AF Disabled")
+            MalachiteClassesObject().debugNSLog("[Continuous AE+AF] AF Disabled")
         }
         
         device.unlockForConfiguration()
@@ -227,7 +227,7 @@ public class MalachiteFunctionUtils : NSObject {
                     } else {
                         maxDimensions = format.highResolutionStillImageDimensions
                     }
-                    if format == camera.formats[0] { MalachiteClassesObject().internalNSLog("[Camera Input] Querying supported modes of \(camera.deviceType.rawValue)") }
+                    if format == camera.formats[0] { MalachiteClassesObject().debugNSLog("[Camera Input] Querying supported modes of \(camera.deviceType.rawValue)") }
                     if maxDimensions.width == 3264 && maxDimensions.height == 2448 { tmpDictionary["8"] = true }
                     if maxDimensions.width == 4032 && maxDimensions.height == 3024 { tmpDictionary["12"] = true }
                     if maxDimensions.width == 8064 && maxDimensions.height == 6048 { tmpDictionary["48"] = true }
@@ -332,13 +332,13 @@ public class MalachiteFunctionUtils : NSObject {
             
             switch mpSetting {
             case 48:
-                MalachiteClassesObject().internalNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 48MP mode")
+                MalachiteClassesObject().debugNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 48MP mode")
                 if maxDimensions.width == 8064 && maxDimensions.height == 6048 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 8064, height: 6048) }
             case 12:
-                MalachiteClassesObject().internalNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 12MP mode")
+                MalachiteClassesObject().debugNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 12MP mode")
                 if maxDimensions.width == 4032 && maxDimensions.height == 3024 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 4032, height: 3024) }
             default:
-                MalachiteClassesObject().internalNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 8MP mode")
+                MalachiteClassesObject().debugNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 8MP mode")
                 if maxDimensions.width == 3264 && maxDimensions.height == 2448 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 3264, height: 2448) }
             }
         }
