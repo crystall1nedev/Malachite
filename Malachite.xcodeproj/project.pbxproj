@@ -10,6 +10,7 @@
 		780067DE2CBDCD6A004BB595 /* ControlCenterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */; };
 		780067E12CBDCEA0004BB595 /* ControlCenterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */; };
 		7806973A2B27F66E00B4942B /* MalachiteTooltipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */; };
+		78163D8E2CCB7BB300146126 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 78163D8D2CCB7BAE00146126 /* CHANGELOG.md */; };
 		782FC7762B2DAFAB007709C1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 782FC7752B2DAFAB007709C1 /* README.md */; };
 		78562BC32B450A7600920160 /* PRIVACY_POLICY.md in Resources */ = {isa = PBXBuildFile; fileRef = 78562BC22B450A7600920160 /* PRIVACY_POLICY.md */; };
 		7859DE1A2B8308C000D1A998 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */; };
@@ -68,6 +69,7 @@
 		780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCenterWidget.swift; sourceTree = "<group>"; };
 		780444922B5E0847001326E9 /* sshpass */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = sshpass; sourceTree = "<group>"; };
 		780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteTooltipUtils.swift; sourceTree = "<group>"; };
+		78163D8D2CCB7BAE00146126 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
 		782FC7752B2DAFAB007709C1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		78562BC22B450A7600920160 /* PRIVACY_POLICY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_POLICY.md; sourceTree = SOURCE_ROOT; };
 		7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteAboutView.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */,
 				785F08572B12D41300244EB4 /* LaunchScreen.storyboard */,
 				785F084C2B12D41100244EB4 /* AppDelegate.swift */,
+				78163D8D2CCB7BAE00146126 /* CHANGELOG.md */,
 				785F084E2B12D41100244EB4 /* SceneDelegate.swift */,
 				78562BC22B450A7600920160 /* PRIVACY_POLICY.md */,
 				782FC7752B2DAFAB007709C1 /* README.md */,
@@ -298,6 +301,7 @@
 				7881A98C2C1F77AB00B1F83B /* Localizable.xcstrings in Resources */,
 				78562BC32B450A7600920160 /* PRIVACY_POLICY.md in Resources */,
 				785F08592B12D41300244EB4 /* LaunchScreen.storyboard in Resources */,
+				78163D8E2CCB7BB300146126 /* CHANGELOG.md in Resources */,
 				785F08562B12D41300244EB4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
