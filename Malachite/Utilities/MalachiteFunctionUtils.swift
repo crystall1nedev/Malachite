@@ -29,6 +29,7 @@ public class MalachiteFunctionUtils : NSObject {
         case continousAEAFNotification
         case aeafTapGestureNotification
         case idleTimerNotification
+        case settingsGestureNotification
     }
     
     /// Function that determines if the device supports HDR.

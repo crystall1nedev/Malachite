@@ -22,6 +22,8 @@ struct MalachiteSettingsView: View {
     @State private var hdrSwitch = false
     /// A State variable used for determining whether or not to enable continuous auto exposure.
     @State private var continuousAEAF = Int()
+    /// A State variable used for determining how many fingers are used for the settings gesture.
+    @State private var settingsGestureFingers = Int()
     /// A State variable used for determining whether or not to enable exposure and focus POI on tap and hold.
     @State private var poiTapAndHold = Int()
     /// A State variable used for determining whether or not to enable the system's auto locking APIs.
@@ -87,6 +89,7 @@ struct MalachiteSettingsView: View {
             hdrSwitch = utilities.settings.defaults.bool(forKey: "capture.hdr.enabled")
             shouldStabilize = utilities.settings.defaults.bool(forKey: "preview.stblz.enabled")
             debugLoggingUserDefaults = utilities.settings.defaults.bool(forKey: "debug.logging.userdefaults")
+            settingsGestureFingers = utilities.settings.defaults.integer(forKey: "ui.settingsgesture.fingers")
             idleTimerDisabled = utilities.settings.defaults.bool(forKey: "ui.idletimer.disabled")
             hapticsDisabled = utilities.settings.defaults.bool(forKey: "ui.haptics.disabled")
             appStartsUIHidden = utilities.settings.defaults.bool(forKey: "ui.applaunch.hiddenui")
@@ -152,6 +155,7 @@ struct MalachiteSettingsView: View {
             utilities.settings.defaults.set(hdrSwitch, forKey: "capture.hdr.enabled")
             utilities.settings.defaults.set(shouldStabilize, forKey: "preview.stblz.enabled")
             utilities.settings.defaults.set(debugLoggingUserDefaults, forKey: "debug.logging.userdefaults")
+            utilities.settings.defaults.set(settingsGestureFingers, forKey: "ui.settingsgesture.fingers")
             utilities.settings.defaults.set(idleTimerDisabled, forKey: "ui.idletimer.disabled")
             utilities.settings.defaults.set(hapticsDisabled, forKey: "ui.haptics.disabled")
             utilities.settings.defaults.set(appStartsUIHidden, forKey: "ui.applaunch.hiddenui")
@@ -214,6 +218,7 @@ struct MalachiteSettingsView: View {
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, object: nil)
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.settingsGestureNotification.name, object: nil)
         }
         .navigationTitle("view.title.settings")
         .toolbar(content: {
@@ -559,6 +564,22 @@ struct MalachiteSettingsView: View {
                         .tag(3)
                 }
             }
+            if utilities.versionType == "INTERNAL" {
+                MalachiteCellViewUtils(
+                    icon: "hand",
+                    disabled: nil,
+                    dangerous: false)
+                {
+                    Picker("settings.option.ui.settingsgesture", selection: $settingsGestureFingers) {
+                        Text("settings.option.ui.settingsgesture.1")
+                            .tag(1)
+                        Text("settings.option.ui.settingsgesture.2")
+                            .tag(2)
+                        Text("settings.option.ui.settingsgesture.3")
+                            .tag(3)
+                    }
+                }
+            }
             MalachiteCellViewUtils(
                 icon: "plus.magnifyingglass",
                 disabled: nil,
@@ -608,6 +629,10 @@ struct MalachiteSettingsView: View {
             default:
                 utilities.settings.defaults.set(["off"] as Array<String>, forKey: "ui.tapgesture.elements")
             }
+        }
+        .onChange(of: settingsGestureFingers) {_ in
+            utilities.settings.defaults.set(settingsGestureFingers, forKey: "ui.settingsgesture.fingers")
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.settingsGestureNotification.name, object: nil)
         }
         .onChange(of: uiHiderGestures) {_ in
             switch uiHiderGestures {

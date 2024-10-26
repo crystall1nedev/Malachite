@@ -18,7 +18,13 @@ public class MalachiteSettingsUtils : NSObject {
     public var gameKitButton = 0
     
     /// A dictionary used for compatibility checks on the current device.
-    private let compatibilityPreferences: [ String : Any ] = [:
+    private let compatibilityPreferences: [ String : Any ] = [
+        // The list of supported resolutions from the ultrawide camera.
+        "compatibility.dimensions.ultrawide"    : [ "invalid" : 1 ],
+        // The list of supported resolutions from the wide angle camera.
+        "compatibility.dimensions.wide"         : [ "invalid" : 1 ],
+        // The list of supported resolutions from the telephoto camera.
+        "compatibility.dimensions.telephoto"    : [ "invalid" : 1 ],
     ]
     
     /// A dictionary used for general preferences that are not meant to be switched by end users, or miscellanous settings.
@@ -122,12 +128,6 @@ public class MalachiteSettingsUtils : NSObject {
     
     /// A dictionary used for INTERNAL build preferences.
     private let internalPreferences: [ String: Any ] = [
-        // The list of supported resolutions from the ultrawide camera.
-        "compatibility.dimensions.ultrawide"    : [ "invalid" : 1 ],
-        // The list of supported resolutions from the wide angle camera.
-        "compatibility.dimensions.wide"         : [ "invalid" : 1 ],
-        // The list of supported resolutions from the telephoto camera.
-        "compatibility.dimensions.telephoto"    : [ "invalid" : 1 ],
         // Whether or not the current device supports JPEG.
         "compatibility.jpeg"                    : false,
         // Whether or not the current device supports HEIF.
@@ -137,6 +137,9 @@ public class MalachiteSettingsUtils : NSObject {
         
         // Whether or not to dump UserDefaults on launch.
         "debug.logging.userdefaults"           : false,
+        
+        // How many fingers should be used to trigger the settings gesture
+        "ui.settingsgesture.fingers"           : 2,
     ]
     
     /// Counts the number of photos that have been taken.
@@ -254,5 +257,12 @@ public class MalachiteSettingsUtils : NSObject {
         }
         
         return identifier
+    }
+    
+    public func isSameDevice() -> Bool {
+        if getDeviceModel() == defaults.string(forKey: "general.device.model") {
+            return true
+        }
+        return false
     }
 }

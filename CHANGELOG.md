@@ -1,5 +1,12 @@
 # 1.0.0 (build xxx)
 
+- Localize the lock screen, control center, and Action Button widgets
+- Fix an issue where the resolution controls in Settings wouldn't appear
+    - Addressed an internal check in the wrong place
+- Fix an issue where the resolution UserDefaults keys would not populate on launch
+    - This only affected devices without the Pro camera system.
+- Fix an issue where the lock screen widget would not show its icon
+    - This was fixed by properly stubbing the methods for the required intent
 
 
 # 1.0.0 (build 115)

@@ -11,15 +11,15 @@ import AppIntents
 
 @available(iOS 16.0, *)
 struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry { SimpleEntry(date: Date()) }
+    func placeholder(in context: Context) -> SimpleEntry { SimpleEntry() }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {}
+    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) { completion(SimpleEntry()) }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {}
+    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) { completion(Timeline(entries: [SimpleEntry()], policy: .never)) }
 }
 
 @available(iOS 16.0, *)
-struct SimpleEntry: TimelineEntry { var date: Date }
+struct SimpleEntry: TimelineEntry { let date = Date() }
 
 @available(iOS 16.0, *)
 struct LockScreenWidget: Widget {
@@ -36,8 +36,8 @@ struct LockScreenWidget: Widget {
                     .background()
             }
         }
-        .configurationDisplayName("Open Malachite")
-        .description("Tap to quickly launch malachite from your lock screen.")
+        .configurationDisplayName("appname.open")
+        .description("appname.open.lock_screen")
         .supportedFamilies([
             .accessoryCircular
         ])

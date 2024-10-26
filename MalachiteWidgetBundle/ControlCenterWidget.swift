@@ -17,12 +17,13 @@ struct ControlCenterWidget: ControlWidget {
             provider: Provider()
         ) { value in
             ControlWidgetButton(action: MalachiteLaunchIntent()) {
-                Label("Open Malachite", systemImage: "camera.aperture")
-                    .controlWidgetActionHint("Capture with Malachite")
+                Label("appname.open", systemImage: "camera.aperture")
+                    .controlWidgetActionHint("appname.open.action_button")
             }
+            .tint(.green)
         }
-        .displayName("Open Malachite")
-        .description("Add to quickly launch malachite from your control center, lock screen, or Action Button.")
+        .displayName("appname.open")
+        .description("appname.open.description")
     }
 }
 
@@ -41,8 +42,8 @@ extension ControlCenterWidget {
 
 @available(iOS 18.0, *)
 struct MalachiteLaunchIntent: AppIntent {
-    static var title: LocalizedStringResource = "Open Malachite"
-    static var description = IntentDescription("Add to quickly launch malachite from your control center, lock screen, or Action Button.")
+    static var title: LocalizedStringResource = "appname.open"
+    static var description = IntentDescription("appname.open.description")
     static var openAppWhenRun: Bool = true
     
     @MainActor

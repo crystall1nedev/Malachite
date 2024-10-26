@@ -74,7 +74,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// A `UILongPressGestureRecognizer` that handles enabling the AE+AF system at a specific point on the display for the ``cameraSession``.
     var aeafRecognizer = UILongPressGestureRecognizer()
     /// A `UIButton` that contains the blur for the on-screen feedback produced by the auto focus gesture.
-    private var aeafFeedback = UIButton()
+    var aeafFeedback = UIButton()
+    /// A `UIPanGestureRecognizer` that handles opening settings with a gesture.
+    var settingsRecognizer = UISwipeGestureRecognizer()
     /// A `UILongPressGestureRecognizer` that handles hiding all elements of the user interface, and disabling the ``zoomRecognizer`` and ``aeafRecognizer`` gestures.
     var uiHiderRecognizer = UILongPressGestureRecognizer()
     /// A `Bool` that determines whether or not the user interface is currently hidden to the user.
@@ -127,7 +129,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
         
         if utilities.versionType == "INTERNAL" {
-            if utilities.settings.getDeviceModel() != utilities.settings.defaults.string(forKey: "general.device.model") {
+            if !utilities.settings.isSameDevice() {
                 utilities.internalNSLog("[Initialization] This is a new device, rechecking compatibility.")
                 utilities.settings.defaults.set(utilities.settings.getDeviceModel(), forKey: "general.device.model")
             } else {
@@ -233,6 +235,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         utilities.debugNSLog("[Initialization] Presenting user interface")
         setupView()
+        if utilities.versionType == "INTERNAL" {
+            setupView_INTERNAL()
+        }
         
         self.changeGameCenterEnabled()
     }
@@ -254,6 +259,16 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         default:
             return .portrait
         }
+    }
+    
+    func setupView_INTERNAL() {
+        settingsRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(runSettingsGesture))
+        updateSettingsGestureFingerCount()
+        settingsRecognizer.direction = .up
+        
+        self.view.addGestureRecognizer(settingsRecognizer)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateSettingsGestureFingerCount), name: MalachiteFunctionUtils.Notifications.settingsGestureNotification.name, object: nil)
     }
     
     /**
@@ -796,7 +811,17 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                                                      lockButton: &focusLockButton,
                                                                      associatedSlider: &focusSlider,
                                                                      associatedGestureRecognizer: aeafRecognizer,
-                                                                     viewForRecognizers: self.view)
+                                                                    viewForRecognizers: self.view)
+    }
+    
+    @objc func updateSettingsGestureFingerCount() {
+        settingsRecognizer.numberOfTouchesRequired = utilities.settings.defaults.integer(forKey: "ui.settingsgesture.fingers")
+    }
+    
+    @objc func runSettingsGesture() {
+        if settingsRecognizer.state == UIGestureRecognizer.State.ended {
+            self.presentSettingsView()
+        }
     }
     
     /// Function to show and hide the user interface that was drawn with ``setupView()``.

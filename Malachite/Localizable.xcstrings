@@ -162,9 +162,6 @@
         }
       }
     },
-    "Add to quickly launch malachite from your control center, lock screen, or Action Button." : {
-
-    },
     "alert.button.ignore" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -307,6 +304,46 @@
         }
       }
     },
+    "appname.open" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Malachite"
+          }
+        }
+      }
+    },
+    "appname.open.action_button" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capture with Malachite"
+          }
+        }
+      }
+    },
+    "appname.open.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to quickly launch malachite from your control center, lock screen, or Action Button."
+          }
+        }
+      }
+    },
+    "appname.open.lock_screen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to open Malachite directly from your lock screen."
+          }
+        }
+      }
+    },
     "Built by %@ on %@" : {
       "localizations" : {
         "en" : {
@@ -317,9 +354,6 @@
         }
       },
       "shouldTranslate" : false
-    },
-    "Capture with Malachite" : {
-
     },
     "compatibility.note" : {
       "localizations" : {
@@ -561,9 +595,6 @@
           }
         }
       }
-    },
-    "Open Malachite" : {
-
     },
     "settings.detail.debug.erase.gamekit" : {
       "localizations" : {
@@ -1184,6 +1215,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Disable auto lock"
+          }
+        }
+      }
+    },
+    "settings.option.ui.settingsgesture" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe up for Settings"
+          }
+        }
+      }
+    },
+    "settings.option.ui.settingsgesture.1" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 finger"
+          }
+        }
+      }
+    },
+    "settings.option.ui.settingsgesture.2" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2 fingers"
+          }
+        }
+      }
+    },
+    "settings.option.ui.settingsgesture.3" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3 fingers"
           }
         }
       }
