@@ -122,8 +122,6 @@ public class MalachiteSettingsUtils : NSObject {
     
     /// A dictionary used for INTERNAL build preferences.
     private let internalPreferences: [ String: Any ] = [
-        
-        
         // The list of supported resolutions from the ultrawide camera.
         "compatibility.dimensions.ultrawide"    : [ "invalid" : 1 ],
         // The list of supported resolutions from the wide angle camera.

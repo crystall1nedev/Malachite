@@ -217,7 +217,7 @@ public class MalachiteFunctionUtils : NSObject {
             if !cameras.isEmpty { device = cameras.first }
         }
         
-        if MalachiteClassesObject().versionType == "INTERNAL" && firstRun {
+        if firstRun {
             for camera in cameras {
                 var tmpDictionary = Dictionary<String, Bool>()
                 for format in camera.formats {
