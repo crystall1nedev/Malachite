@@ -274,11 +274,12 @@ public class MalachiteFunctionUtils : NSObject {
             guard let exposure = device?.isExposureModeSupported(.custom) else { return }
             if !exposure { NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.unsupportedISOValueNotification.name, object: nil) }
             
+            device?.automaticallyAdjustsVideoHDREnabled = false
+            
             if settings.defaults.bool(forKey: "capture.hdr.enabled") {
                 if self.supportsHDR {
                     MalachiteClassesObject().debugNSLog("[Camera Input] Force enabled HDR on camera")
                     if device?.activeFormat.isVideoHDRSupported == true {
-                        device?.automaticallyAdjustsVideoHDREnabled = false
                         device?.isVideoHDREnabled = true
                     } else {
                         MalachiteClassesObject().debugNSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
