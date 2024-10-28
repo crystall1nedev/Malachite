@@ -24,7 +24,8 @@ public class MalachiteFunctionUtils : NSObject {
         case exposureLimitNotification
         case stabilizerNotification
         case gameCenterEnabledNotification
-        case unsupportedLensPositionControl
+        case unsupportedISOValueNotification
+        case unsupportedLensPositionNotification
         case megaPixelSwitchNotification
         case continousAEAFNotification
         case aeafTapGestureNotification
@@ -258,28 +259,26 @@ public class MalachiteFunctionUtils : NSObject {
         
         firstRun = false
         
-        MalachiteClassesObject().debugNSLog("[Camera Input] Attempting to attach device input to session")
-        do { input = try AVCaptureDeviceInput(device: device!) }
-        catch {
-            print(error)
-        }
-        
         deviceFormatSupportsHDR(device: device!)
         
         do {
             try device?.lockForConfiguration()
             defer { device?.unlockForConfiguration() }
+            MalachiteClassesObject().debugNSLog("[Camera Input] Selected input: \(String(describing: device?.formats[(device?.formats.count)! - 1]))")
             device?.activeFormat = (device?.formats[(device?.formats.count)! - 1])!
             continuousAEAF(device: device!)
-            device?.automaticallyAdjustsVideoHDREnabled = false
             
             guard let focus = device?.isLockingFocusWithCustomLensPositionSupported else { return }
-            if !focus { NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.unsupportedLensPositionControl.name, object: nil) }
+            if !focus { NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.unsupportedLensPositionNotification.name, object: nil) }
+            
+            guard let exposure = device?.isExposureModeSupported(.custom) else { return }
+            if !exposure { NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.unsupportedISOValueNotification.name, object: nil) }
             
             if settings.defaults.bool(forKey: "capture.hdr.enabled") {
                 if self.supportsHDR {
                     MalachiteClassesObject().debugNSLog("[Camera Input] Force enabled HDR on camera")
                     if device?.activeFormat.isVideoHDRSupported == true {
+                        device?.automaticallyAdjustsVideoHDREnabled = false
                         device?.isVideoHDREnabled = true
                     } else {
                         MalachiteClassesObject().debugNSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
@@ -304,11 +303,15 @@ public class MalachiteFunctionUtils : NSObject {
             MalachiteClassesObject().debugNSLog("[Camera Input] Error adjusting device properties: \(error.localizedDescription)")
         }
         
-        MalachiteClassesObject().debugNSLog("[Camera Input] Attached input, finishing configuration")
-        session.addInput(input!)
-        if MalachiteClassesObject().versionType == "INTERNAL" {
-            switchInputMegapixels(device: device!, photoOutput: output)
+        MalachiteClassesObject().debugNSLog("[Camera Input] Attempting to attach device input to session")
+        do { input = try AVCaptureDeviceInput(device: device!) }
+        catch {
+            print(error)
         }
+        
+        MalachiteClassesObject().debugNSLog("[Camera Input] Attached input, finishing configuration")
+        if session.canAddInput(input!) { session.addInput(input!) }
+        switchInputMegapixels(device: device!, photoOutput: output)
         
         session.commitConfiguration()
         button.isUserInteractionEnabled = true

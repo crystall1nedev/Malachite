@@ -152,15 +152,16 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         utilities.debugNSLog("[Camera Input] Getting current camera system capabilities")
         
-        var camerasToDiscover : [AVCaptureDevice.DeviceType] = []
-        if #available(iOS 17.0, *) {
-            camerasToDiscover = [.builtInUltraWideCamera, .builtInWideAngleCamera, .builtInTelephotoCamera, .external]
-        } else {
-            camerasToDiscover = [.builtInUltraWideCamera, .builtInWideAngleCamera, .builtInTelephotoCamera]
-        }
+        var camerasToDiscover: [AVCaptureDevice.DeviceType] = []
+        if #available(iOS 17.0, *) { camerasToDiscover = [.builtInUltraWideCamera, .builtInWideAngleCamera, .builtInTelephotoCamera, .continuityCamera, .external] }
+        else { camerasToDiscover = [.builtInUltraWideCamera, .builtInWideAngleCamera, .builtInTelephotoCamera] }
         
-        AVCaptureDevice.DiscoverySession.init(deviceTypes: camerasToDiscover, mediaType: .video, position: .back).devices.forEach { device in
+        utilities.debugNSLog("[Camera Input] Discovering available cameras")
+        
+        let currentProcess = ProcessInfo()
+        AVCaptureDevice.DiscoverySession.init(deviceTypes: camerasToDiscover, mediaType: .video, position: (currentProcess.isiOSAppOnMac || currentProcess.isMacCatalystApp) ? .unspecified : .back).devices.forEach { device in
             self.availableRearCameras.append(device)
+            utilities.debugNSLog("[Camera Input] \(device.localizedName)")
             utilities.debugNSLog("[Camera Input] \(device.deviceType.rawValue) available")
         }
         
@@ -205,11 +206,13 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         NotificationCenter.default.addObserver(self, selector: #selector(changeExposureLimit), name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeStabilizerMode), name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeGameCenterEnabled), name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(runManualFocusUIHiderWhenUnsupported), name: MalachiteFunctionUtils.Notifications.unsupportedLensPositionControl.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(runManualExposureUIHiderWhenUnsupported), name: MalachiteFunctionUtils.Notifications.unsupportedISOValueNotification.name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(runManualFocusUIHiderWhenUnsupported), name: MalachiteFunctionUtils.Notifications.unsupportedLensPositionNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeContinuousAEAF), name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeAEAFRecognizer), name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeIdleTimerState), name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(runInputMegapixelSwitch), name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
+        
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         
         if utilities.versionType == "INTERNAL" || utilities.versionType == "DEBUG" {
@@ -333,17 +336,18 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         focusSliderButton.addSubview(focusSlider)
         exposureSliderButton.addSubview(exposureSlider)
         
-#if !targetEnvironment(simulator)
-        cameraButton.addTarget(self, action: #selector(self.runInputSwitch), for: .touchUpInside)
-        flashlightButton.addTarget(self, action: #selector(self.runFlashlightToggle), for: .touchUpInside)
-        captureButton.addTarget(self, action: #selector(self.runImageCapture), for: .touchUpInside)
-        focusSlider.addTarget(self, action: #selector(self.runManualFocusController), for: .valueChanged)
-        focusSlider.addTarget(utilities.haptics, action: #selector(utilities.haptics.buttonMediumHaptics(_:)), for: .touchUpInside)
-        focusLockButton.addTarget(self, action: #selector(runManualFocusLockController), for: .touchUpInside)
-        exposureSlider.addTarget(self, action: #selector(runManualExposureController), for: .valueChanged)
-        exposureSlider.addTarget(utilities.haptics, action: #selector(utilities.haptics.buttonMediumHaptics(_:)), for: .touchUpInside)
-        exposureLockButton.addTarget(self, action: #selector(self.runManualExposureLockController), for: .touchUpInside)
-#endif
+        if self.availableRearCameras.count > 0 {
+            cameraButton.addTarget(self, action: #selector(self.runInputSwitch), for: .touchUpInside)
+            flashlightButton.addTarget(self, action: #selector(self.runFlashlightToggle), for: .touchUpInside)
+            captureButton.addTarget(self, action: #selector(self.runImageCapture), for: .touchUpInside)
+            focusSlider.addTarget(self, action: #selector(self.runManualFocusController), for: .valueChanged)
+            focusSlider.addTarget(utilities.haptics, action: #selector(utilities.haptics.buttonMediumHaptics(_:)), for: .touchUpInside)
+            focusLockButton.addTarget(self, action: #selector(runManualFocusLockController), for: .touchUpInside)
+            exposureSlider.addTarget(self, action: #selector(runManualExposureController), for: .valueChanged)
+            exposureSlider.addTarget(utilities.haptics, action: #selector(utilities.haptics.buttonMediumHaptics(_:)), for: .touchUpInside)
+            exposureLockButton.addTarget(self, action: #selector(self.runManualExposureLockController), for: .touchUpInside)
+        }
+        
         focusButton.addTarget(self, action: #selector(self.runManualFocusUIHider), for: .touchUpInside)
         exposureButton.addTarget(self, action: #selector(self.runManualExposureUIHider), for: .touchUpInside)
         settingsButton.addTarget(self, action: #selector(self.presentSettingsView), for: .touchUpInside)
@@ -499,7 +503,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to check and ask for permissions to use the camera.
     func checkPermissions() {
-        let cameraAuthStatus =  AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
+        let cameraAuthStatus =  AVCaptureDevice.authorizationStatus(for: .video)
         switch cameraAuthStatus {
         case .authorized:
             utilities.debugNSLog("[Permissions] User has given permission to use the camera")
@@ -538,10 +542,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to dynamically change the auto exposure and ``exposureSlider`` values when toggling in ``MalachiteSettingsView``.
     @objc func changeExposureLimit() {
+        guard let exposure = selectedDevice?.isExposureModeSupported(.continuousAutoExposure) else { return }
         do {
             try selectedDevice?.lockForConfiguration()
             defer { selectedDevice?.unlockForConfiguration() }
-            selectedDevice?.exposureMode = .continuousAutoExposure
+            if exposure { selectedDevice?.exposureMode = .continuousAutoExposure }
         } catch {
             utilities.debugNSLog("[Change Exposure Limit] Couldn't lock device for configuration")
         }
@@ -644,8 +649,19 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to toggle the flashlight's on state.
     @objc func runFlashlightToggle() {
-        utilities.function.toggleFlash(captureDevice: &selectedDevice!,
-                                       flashlightButton: &flashlightButton)
+        guard let flashlight = selectedDevice?.hasFlash else { return }
+        print(flashlight)
+        if flashlight {
+            utilities.function.toggleFlash(captureDevice: &selectedDevice!,
+                                           flashlightButton: &flashlightButton)
+        } else {
+            utilities.debugNSLog("[Flashlight] No flashlight available")
+            let alert = UIAlertController(title: "alert.title.flashlight".localized, message: "alert.detail.flashlight".localized, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
+                self.utilities.debugNSLog("[Flashlight] Dialog has been dismissed")
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     /// Function to take an image.
@@ -736,16 +752,50 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to handle ``exposureSlider`` interaction.
     @objc func runManualExposureController() {
-        utilities.function.manualExposure(captureDevice: &selectedDevice!,
-                                          sender: exposureSlider)
+        guard let exposure = selectedDevice?.isExposureModeSupported(.custom) else { return }
+        if exposure {
+            utilities.function.manualExposure(captureDevice: &selectedDevice!,
+                                              sender: exposureSlider)
+        } else {
+            utilities.debugNSLog("[Manual Exposure] Current camera is not capable of adjusting exposure")
+            let alert = UIAlertController(title: "alert.title.exposure".localized, message: "alert.detail.exposure".localized, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
+                self.utilities.debugNSLog("[Manual Exposure] Dialog has been dismissed")
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     /// Function to show and hide the ``exposureSliderButton`` and ``exposureLockButton``.
     @objc func runManualExposureUIHider() {
-        manualExposureSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualExposureSliderIsActive,
-                                                                            optionButton: exposureButton,
-                                                                            lockButton: exposureLockButton,
-                                                                            associatedSliderButton: exposureSliderButton)
+        guard let exposure = selectedDevice?.isExposureModeSupported(.custom) else { return }
+        if exposure {
+            manualExposureSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualExposureSliderIsActive,
+                                                                                optionButton: exposureButton,
+                                                                                lockButton: exposureLockButton,
+                                                                                associatedSliderButton: exposureSliderButton)
+        } else {
+            utilities.debugNSLog("[Manual Focus] Current camera is not capable of adjusting exposure")
+            let alert = UIAlertController(title: "alert.title.exposure".localized, message: "alert.detail.exposure".localized, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
+                self.utilities.debugNSLog("[Manual Exposure] Dialog has been dismissed")
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func runManualExposureUIHiderWhenUnsupported() {
+        if manualExposureSliderIsActive {
+            manualExposureSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualExposureSliderIsActive,
+                                                                                optionButton: exposureButton,
+                                                                                lockButton: exposureLockButton,
+                                                                                associatedSliderButton: exposureSliderButton)
+        } else {
+            manualExposureSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: true,
+                                                                                optionButton: exposureButton,
+                                                                                lockButton: exposureLockButton,
+                                                                                associatedSliderButton: exposureSliderButton)
+        }
     }
     
     /// Function to lock and unlock the ``exposureSlider``.

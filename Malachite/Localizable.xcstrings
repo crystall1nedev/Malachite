@@ -217,6 +217,28 @@
         }
       }
     },
+    "alert.detail.exposure" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The current camera has a fixed ISO value, and exposure cannot be adjusted. Support for longer exposure time will be available in a future commit."
+          }
+        }
+      }
+    },
+    "alert.detail.flashlight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This device does not have a flashlight to turn on."
+          }
+        }
+      }
+    },
     "alert.detail.focus" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -257,6 +279,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unable to switch cameras"
+          }
+        }
+      }
+    },
+    "alert.title.exposure" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to adjust exposure"
+          }
+        }
+      }
+    },
+    "alert.title.flashlight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to turn on flashlight"
           }
         }
       }
