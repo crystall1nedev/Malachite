@@ -168,11 +168,13 @@ struct MalachiteAboutView: View {
                     Spacer()
                     Button {
                         utilities.debugNSLog("[App Icon] Changing to \(appIcon.icon ?? "default")")
+                        #if MAIN_APP
                         UIApplication.shared.setAlternateIconName(appIcon.icon) { (error) in
                             if let error = error {
                                 print("Failed request to update the app’s icon: \(error)")
                             }
                         }
+                        #endif
                         if utilities.games.gameCenterEnabled && appIcon.achievement != nil {
                             DispatchQueue.global(qos: .background).async { [self] in
                                 let iconAchievement = utilities.games.achievements.pullAchievement(achievementName: appIcon.achievement!)

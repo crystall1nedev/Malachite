@@ -9,8 +9,28 @@ import SwiftUI
 import UIKit
 import Foundation
 import AVFoundation
+import AVKit
+import LockedCameraCapture
 import Photos
 import GameKit
+
+struct MalachiteView_SwiftUIWrapped: UIViewControllerRepresentable {
+    let rootURL: URL?
+    typealias UIViewControllerType = MalachiteView
+    func makeUIViewController(context: Self.Context) -> MalachiteView {
+        return MalachiteView()
+    }
+ 
+    func updateUIViewController(_ uiViewController: MalachiteView, context: Self.Context) {
+    }
+}
+
+@available(iOS 18.0, *)
+extension MalachiteView_SwiftUIWrapped {
+    init(_ session: LockedCameraCaptureSession) {
+        self.rootURL = session.sessionContentURL
+    }
+}
 
 class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCapturePhotoCaptureDelegate {
     /// The `AVCaptureSession` Malachite uses for everything.
@@ -79,6 +99,14 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     var settingsRecognizer = UISwipeGestureRecognizer()
     /// A `UILongPressGestureRecognizer` that handles hiding all elements of the user interface, and disabling the ``zoomRecognizer`` and ``aeafRecognizer`` gestures.
     var uiHiderRecognizer = UILongPressGestureRecognizer()
+    ///
+    var eventInteraction: Any? = {
+        if #available(iOS 17.2, *) {
+            return AVCaptureEventInteraction?.self
+        } else {
+            return nil
+        }
+    }()
     /// A `Bool` that determines whether or not the user interface is currently hidden to the user.
     var uiIsHidden = false
     
@@ -128,6 +156,12 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             utilities.NSLog("[Initialization] Running a RELEASE build")
         }
         
+        #if APP_EXTENSION
+        utilities.debugNSLog("[Initialization] Running out of an app extension.")
+        #elseif MAIN_APP
+        utilities.debugNSLog("[Initialization] Running out of the main app.")
+        #endif
+        
         if utilities.versionType == "INTERNAL" {
             if !utilities.settings.isSameDevice() {
                 utilities.internalNSLog("[Initialization] This is a new device, rechecking compatibility.")
@@ -143,7 +177,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             utilities.settings.defaults.set(false, forKey: "capture.type.heif")
         }
         
-        
         cameraPreview?.frame.size = self.view.frame.size
         utilities.debugNSLog("[Initialization] Bringing up AVCaptureSession")
         cameraSession = AVCaptureSession()
@@ -157,7 +190,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         else { camerasToDiscover = [.builtInUltraWideCamera, .builtInWideAngleCamera, .builtInTelephotoCamera] }
         
         utilities.debugNSLog("[Camera Input] Discovering available cameras")
-        
         let currentProcess = ProcessInfo()
         AVCaptureDevice.DiscoverySession.init(deviceTypes: camerasToDiscover, mediaType: .video, position: (currentProcess.isiOSAppOnMac || currentProcess.isMacCatalystApp) ? .unspecified : .back).devices.forEach { device in
             self.availableRearCameras.append(device)
@@ -169,7 +201,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         if self.availableRearCameras.first != nil {
             photoOutput = AVCapturePhotoOutput()
-            photoOutput.isHighResolutionCaptureEnabled = true
+            if #available(iOS 16.0, *) {} else { photoOutput.isHighResolutionCaptureEnabled = true }
             photoOutput.maxPhotoQualityPrioritization = .quality
             cameraSession?.sessionPreset = AVCaptureSession.Preset.photo
             cameraSession?.addOutput(photoOutput)
@@ -177,8 +209,12 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             utilities.debugNSLog("[Initialization] Bringing up AVCaptureVideoPreviewLayer")
             cameraPreview = AVCaptureVideoPreviewLayer(session: cameraSession!)
             
-            let statusBarOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-            let videoOrientation: AVCaptureVideoOrientation = (statusBarOrientation?.videoOrientation)!
+            #if MAIN_APP
+            let statusBarOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation ?? UIInterfaceOrientation.portrait
+            #else
+            let statusBarOrientation = UIInterfaceOrientation.portrait
+            #endif
+            let videoOrientation: AVCaptureVideoOrientation = (statusBarOrientation.videoOrientation)
             cameraPreview?.frame = view.layer.bounds
             cameraPreview?.connection?.videoOrientation = videoOrientation
             
@@ -219,6 +255,16 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             if utilities.settings.defaults.bool(forKey: "debug.logging.userdefaults") {
                 utilities.settings.dumpUserDefaults()
             }
+        }
+        
+        if #available (iOS 17.2, *) {
+            let interaction = AVCaptureEventInteraction { event in
+                if event.phase == .ended {
+                    self.runImageCapture()
+                }
+            }
+            self.view.addInteraction(interaction)
+            eventInteraction = interaction
         }
     }
     
@@ -478,8 +524,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                 guard let url = URL(string: "https://www.youtube.com/watch?v=At8v_Yc044Y") else {
                     return
                 }
-                
+                #if MAIN_APP
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                #endif
             }))
             alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ignore", comment: "Default action"), style: .default, handler: { _ in
                 self.utilities.settings.defaults.set(false, forKey: "general.gamekit.alert")
@@ -526,7 +573,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to enable or disable the idle timer.
     @objc func changeIdleTimerState() {
+        #if MAIN_APP
         UIApplication.shared.isIdleTimerDisabled = utilities.settings.defaults.bool(forKey: "ui.idletimer.enabled") ? true : false
+        #endif
     }
     
     /// Function to dynamically update the aspect ratio for ``cameraPreview`` through ``MalachiteSettingsView``.
@@ -945,6 +994,15 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         return true
     }
     
+    /// Override function to force the app to be in portrait mode on iPhone.
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        if utilities.idiom == .phone {
+            return .portrait
+        }
+        
+        return .all
+    }
+    
     /// Override function to force the system to reject gestures from the bottom of the screen.
     override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
         return [.bottom]
@@ -962,7 +1020,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         super.viewWillTransition(to: size, with: coordinator)
         
         coordinator.animate(alongsideTransition: { [self] context in
+            #if MAIN_APP
             self.cameraPreview?.connection!.videoOrientation = self.transformOrientation(orientation: UIInterfaceOrientation(rawValue: UIApplication.shared.windows.first!.windowScene!.interfaceOrientation.rawValue)!)
+            #endif
             self.cameraPreview?.frame.size = self.view.frame.size
         })
     }

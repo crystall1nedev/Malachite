@@ -345,31 +345,16 @@ struct MalachiteSettingsDetailViewUtils<Content : View>: View {
     
     var body: some View {
         VStack {
-            if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
-                HStack {
-                    Spacer()
-                    title
-                        .bold()
-                    
-                }
-                HStack {
-                    Spacer()
-                    subtitle
-                        .font(.footnote)
-                    
-                }
-            } else {
-                HStack {
-                    title
-                        .bold()
-                    Spacer()
-                    
-                }
-                HStack {
-                    subtitle
-                        .font(.footnote)
-                    Spacer()
-                }
+            HStack {
+                title
+                    .bold()
+                Spacer()
+                
+            }
+            HStack {
+                subtitle
+                    .font(.footnote)
+                Spacer()
             }
         }
     }

@@ -14,6 +14,7 @@ struct MalachiteWidgetBundle: WidgetBundle {
         LockScreenWidget()
         if #available(iOS 18.0, *) {
             ControlCenterWidget()
+            CameraControlWidget()
         }
     }
 }

@@ -17,8 +17,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "78917F582B99AE72005E10FA"
-               BuildableName = "MalachiteWidgetBundle.appex"
-               BlueprintName = "MalachiteWidgetBundle"
+               BuildableName = "WidgetBundle.appex"
+               BlueprintName = "WidgetBundle"
                ReferencedContainer = "container:Malachite.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
