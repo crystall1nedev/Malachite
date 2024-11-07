@@ -147,6 +147,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.view.backgroundColor = .clear
         
         utilities.debugNSLog("[Initialization] Starting up Malachite")
+        #if MAIN_APP
+        utilities.settings.ensurePreferences()
+        #endif
         
         if utilities.versionType == "INTERNAL" {
             utilities.internalNSLog("[Initialization] Running an INTERNAL build, logging will be force enabled")
@@ -237,7 +240,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
         
         utilities.debugNSLog("[Initialization] Setting up notification observer for orientation changes")
+        #if MAIN_APP
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+        #endif
         NotificationCenter.default.addObserver(self, selector: #selector(changeAspectFill), name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeExposureLimit), name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeStabilizerMode), name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
@@ -265,6 +270,15 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             }
             self.view.addInteraction(interaction)
             eventInteraction = interaction
+        }
+        
+        
+        let cameraAuthStatus = PHPhotoLibrary.authorizationStatus(for: .addOnly)
+        
+        if cameraAuthStatus == .notDetermined {
+            PHPhotoLibrary.requestAuthorization(for: .addOnly) { [self] status in
+                utilities.debugNSLog("[Permissions] Camera authorization status: \(status)")
+            }
         }
     }
     
@@ -548,29 +562,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         ])
     }
     
-    /// Function to check and ask for permissions to use the camera.
-    func checkPermissions() {
-        let cameraAuthStatus =  AVCaptureDevice.authorizationStatus(for: .video)
-        switch cameraAuthStatus {
-        case .authorized:
-            utilities.debugNSLog("[Permissions] User has given permission to use the camera")
-            return
-        case .denied:
-            utilities.debugNSLog("[Permissions] User has denied permission to use the camera")
-            abort()
-        case .notDetermined:
-            utilities.debugNSLog("[Permissions] Unknown authorization state, requesting access")
-            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler:
-                                            { (authorized) in if(!authorized){ abort() } })
-        case .restricted:
-            utilities.debugNSLog("[Permissions] User cannot give camera access due to restrictions")
-            abort()
-        @unknown default:
-            utilities.debugNSLog("[Permissions] the what")
-            fatalError()
-        }
-    }
-    
     /// Function to enable or disable the idle timer.
     @objc func changeIdleTimerState() {
         #if MAIN_APP
@@ -721,29 +712,17 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.captureButton.setImage(nil, for: .normal)
         progressIndicator.startAnimating()
         
+        let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
         
-        var libraryAccessGranted = false
-        let group = DispatchGroup()
-        group.enter()
-        
-        PHPhotoLibrary.requestAuthorization { (status) in
-            if status == .authorized || status == .limited {
-                libraryAccessGranted = true
-            }
-            group.leave()
-        }
-        
-        group.notify(queue: .main) { [self] in
-            if libraryAccessGranted {
-                self.photoOutput = utilities.function.captureImage(output: self.photoOutput, viewForBounds: self.view, captureDelegate: self)
-            } else {
-                utilities.debugNSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
-                let alert = UIAlertController(title: "alert.title.phphotolibrary".localized, message: "alert.detail.phphotolibrary".localized, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
-                    self.utilities.debugNSLog("[Capture Photo] Dialog has been dismissed")
-                }))
-                self.present(alert, animated: true, completion: nil)
-            }
+        if status == .authorized || status == .limited {
+            self.photoOutput = utilities.function.captureImage(output: self.photoOutput, viewForBounds: self.view, captureDelegate: self)
+        } else {
+            utilities.debugNSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
+            let alert = UIAlertController(title: "alert.title.phphotolibrary".localized, message: "alert.detail.phphotolibrary".localized, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
+                self.utilities.debugNSLog("[Capture Photo] Dialog has been dismissed")
+            }))
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -1015,6 +994,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         cameraView.frame = self.view.bounds
     }
     
+    #if MAIN_APP
     /// Override function to trigger actions when the screen rotates.
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -1026,4 +1006,5 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             self.cameraPreview?.frame.size = self.view.frame.size
         })
     }
+    #endif
 }

@@ -14,7 +14,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = MalachiteView()
         window?.makeKeyAndVisible()
-        
-        MalachiteSettingsUtils().ensurePreferences()
     }
 }
