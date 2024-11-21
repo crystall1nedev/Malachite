@@ -76,7 +76,8 @@ public class MalachiteSettingsUtils : NSObject {
         
         // What size to capture photos in
         // Can be "8", "12", "48"
-        // 8MP is supported on all devices.
+        // 8MP is supported on the following:
+        // iPad (5th, 6th, 7th, 8, and 9th generations), iPad mini (4th and 5th generation), iPad Air 2, iPad Air (3rd generation), iPad Pro (12.9-inch)
         // 12MP is supported on the following:
         // iPhone 6s and later (including iPhone SE), iPad (10th generation) and later, iPad mini (6th generation) and later, iPad Air (4th generation) and later
         // iPad Pro (9.7-inch), iPad Pro (10.5-inch), or iPad Pro (12.9-inch, 2nd generation) and later
@@ -93,6 +94,9 @@ public class MalachiteSettingsUtils : NSObject {
         // Can be "12"
         // 12MP is supported on all devices.
         "capture.mp.telephoto"                  : 12,
+        // The maximum zoom level that can be reached with Malachite.
+        // Beyond optical zoom, image quality will degrade.
+        "capture.zoom.maximum"                  : 5,
     ]
     
     /// A dictionary used for watermarking preferences.
@@ -108,7 +112,7 @@ public class MalachiteSettingsUtils : NSObject {
         // Whether or not to enable the pinch to zoom gesture
         "ui.pinchzoom.enabled"                  : true,
         // Whether or not to enable auto focus and/or auto exposure with the tap and hold gesture
-        "ui.tapgesture.elements"                : [ String() ],
+        "ui.tapgesture.elements"                : [ "ae", "af" ],
         // Whether or not to disable the tap and hold and/or pink to zoom gestures when hiding the UI
         "ui.hiddengestures.elements"            : [ String() ],
         
@@ -123,7 +127,9 @@ public class MalachiteSettingsUtils : NSObject {
     ]
     
     /// A dictionary used for debugging the app
-    private let debugPreferences: [ String : Any ] = [:
+    private let debugPreferences: [ String : Any ] = [
+        // Whether or not to dump UserDefaults on launch.
+        "debug.logging.userdefaults"           : false,
     ]
     
     /// A dictionary used for INTERNAL build preferences.
@@ -134,9 +140,6 @@ public class MalachiteSettingsUtils : NSObject {
         "compatibility.heif"                    : false,
         // Whether or not the current device supports high dynamic range.
         "compatibility.hdr"                     : false,
-        
-        // Whether or not to dump UserDefaults on launch.
-        "debug.logging.userdefaults"           : false,
         
         // How many fingers should be used to trigger the settings gesture
         "ui.settingsgesture.fingers"           : 2,

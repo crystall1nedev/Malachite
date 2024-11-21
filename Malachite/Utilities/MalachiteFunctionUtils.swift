@@ -55,7 +55,7 @@ public class MalachiteFunctionUtils : NSObject {
     /// Function that handles pinch to zoom.
     public func zoom(sender pinch: UIPinchGestureRecognizer, captureDevice device: inout AVCaptureDevice, lastZoomFactor zoomFactor: inout CGFloat, hapticClass haptic: MalachiteHapticUtils) {
         func minMaxZoom(_ factor: CGFloat) -> CGFloat {
-            return min(min(max(factor, 1.0), 5.0), device.activeFormat.videoMaxZoomFactor)
+            return min(min(max(factor, 1.0), CGFloat(MalachiteClassesObject().settings.defaults.integer(forKey: "capture.zoom.maximum"))), device.activeFormat.videoMaxZoomFactor)
         }
         
         func update(scale factor: CGFloat) {

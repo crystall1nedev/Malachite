@@ -18,6 +18,8 @@ struct MalachiteSettingsView: View {
     @State private var previewAspect = Int()
     /// A State variable used for determining whether or not to stabilize the ``cameraPreview``.
     @State private var shouldStabilize = Bool()
+    /// A State variable used for determining what the maximum zoom level for each camera should be.
+    @State private var zoomMaximum = Int()
     /// A State variable used for determining whether or not to capture in HDR.
     @State private var hdrSwitch = false
     /// A State variable used for determining whether or not to enable continuous auto exposure.
@@ -97,6 +99,15 @@ struct MalachiteSettingsView: View {
             supportsHDR = utilities.function.supportsHDR
             supportsHEIC = utilities.function.supportsHEIC()
             
+            switch utilities.settings.defaults.integer(forKey: "capture.zoom.maximum") {
+            case 5:
+                zoomMaximum = 0
+            case 10:
+                zoomMaximum = 1
+            default:
+                zoomMaximum = 0
+            }
+            
             switch utilities.settings.defaults.stringArray(forKey: "capture.continuous.elements") {
             case ["ae", "af"]:
                 continuousAEAF = 0
@@ -159,6 +170,15 @@ struct MalachiteSettingsView: View {
             utilities.settings.defaults.set(idleTimerDisabled, forKey: "ui.idletimer.disabled")
             utilities.settings.defaults.set(hapticsDisabled, forKey: "ui.haptics.disabled")
             utilities.settings.defaults.set(appStartsUIHidden, forKey: "ui.applaunch.hiddenui")
+            
+            switch zoomMaximum {
+            case 0:
+                utilities.settings.defaults.set(5, forKey: "capture.zoom.maximum")
+            case 1:
+                utilities.settings.defaults.set(10, forKey: "capture.zoom.maximum")
+            default:
+                utilities.settings.defaults.set(5, forKey: "capture.zoom.maximum")
+            }
             
             switch continuousAEAF {
             case 0:
@@ -276,13 +296,24 @@ struct MalachiteSettingsView: View {
                         .tag(1)
                 }
             }
-            
             MalachiteCellViewUtils(
                 icon: "level",
                 disabled: nil,
                 dangerous: false)
             {
                 Toggle("settings.option.preview.sbtlz", isOn: $shouldStabilize)
+            }
+            MalachiteCellViewUtils(
+                icon: "plus.magnifyingglass",
+                disabled: nil,
+                dangerous: false)
+            {
+                Picker("settings.option.preview.zoom_maximum", selection: $zoomMaximum) {
+                    Text("settings.option.preview.zoom_maximum.5")
+                        .tag(0)
+                    Text("settings.option.preview.zoom_maximum.10")
+                        .tag(1)
+                }
             }
         }
         .onChange(of: previewAspect) {_ in
@@ -299,6 +330,16 @@ struct MalachiteSettingsView: View {
             utilities.settings.defaults.set(shouldStabilize, forKey: "preview.stblz.enabled")
             
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
+        }
+        .onChange(of: zoomMaximum) {_ in
+            switch zoomMaximum {
+            case 0:
+                utilities.settings.defaults.set(5, forKey: "capture.zoom.maximum")
+            case 1:
+                utilities.settings.defaults.set(10, forKey: "capture.zoom.maximum")
+            default:
+                utilities.settings.defaults.set(5, forKey: "capture.zoom.maximum")
+            }
         }
     }
     
@@ -566,7 +607,7 @@ struct MalachiteSettingsView: View {
             }
             if utilities.versionType == "INTERNAL" {
                 MalachiteCellViewUtils(
-                    icon: "hand",
+                    icon: "hand.draw",
                     disabled: nil,
                     dangerous: false)
                 {
@@ -581,7 +622,7 @@ struct MalachiteSettingsView: View {
                 }
             }
             MalachiteCellViewUtils(
-                icon: "plus.magnifyingglass",
+                icon: "hand.raised.slash",
                 disabled: nil,
                 dangerous: false)
             {
