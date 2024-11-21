@@ -19,8 +19,6 @@ struct MalachiteLaunchIntent: AppIntent {
 
 @available(iOS 18.0, *)
 struct MalachiteCaptureIntent: CameraCaptureIntent {
-    struct MalachiteContext: Codable { }
-    
     typealias AppContext = MalachiteContext
     
     static let title: LocalizedStringResource = "appname.open"
@@ -30,3 +28,6 @@ struct MalachiteCaptureIntent: CameraCaptureIntent {
     func perform() async throws -> some IntentResult { return .result() }
 }
 
+struct MalachiteContext: Codable {
+    var myVariable: String { get { return UserDefaults.standard.string(forKey: "myVariableKey") ?? "Default Value" } set { UserDefaults.standard.set(newValue, forKey: "myVariableKey") } }
+}

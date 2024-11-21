@@ -720,6 +720,16 @@
         }
       }
     },
+    "settings.detail.preview.zoom_maximum" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a higher zoom level to look even closer. Zoom levels that are out of optical zoom range will cause degradation in quality."
+          }
+        }
+      }
+    },
     "settings.detail.resolution.telephoto" : {
       "localizations" : {
         "en" : {
@@ -1089,6 +1099,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Preview stabilization"
+          }
+        }
+      }
+    },
+    "settings.option.preview.zoom_maximum" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximum zoom level"
+          }
+        }
+      }
+    },
+    "settings.option.preview.zoom_maximum.5" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5x"
+          }
+        }
+      }
+    },
+    "settings.option.preview.zoom_maximum.10" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10x"
           }
         }
       }
