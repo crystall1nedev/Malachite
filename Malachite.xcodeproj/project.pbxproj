@@ -19,6 +19,7 @@
 		785F08562B12D41300244EB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 785F08552B12D41300244EB4 /* Assets.xcassets */; };
 		785F08592B12D41300244EB4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 785F08572B12D41300244EB4 /* LaunchScreen.storyboard */; };
 		7860DC002B897A3E00450BF8 /* MalachiteGameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7860DBFF2B897A3E00450BF8 /* MalachiteGameUtils.swift */; };
+		78664F152D10E0AF003ADE09 /* build.yml in Resources */ = {isa = PBXBuildFile; fileRef = 78664F122D10E0AF003ADE09 /* build.yml */; };
 		787B1CAA2B8B095E000AFECC /* Malachite.docc in Sources */ = {isa = PBXBuildFile; fileRef = 787B1CA92B8B095E000AFECC /* Malachite.docc */; };
 		7881A98C2C1F77AB00B1F83B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
 		788848B52CC74B4200B02E37 /* MalachiteCompatibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788848B42CC74B3B00B02E37 /* MalachiteCompatibilityView.swift */; };
@@ -134,6 +135,7 @@
 		785F08582B12D41300244EB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		785F085A2B12D41300244EB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7860DBFF2B897A3E00450BF8 /* MalachiteGameUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteGameUtils.swift; sourceTree = "<group>"; };
+		78664F122D10E0AF003ADE09 /* build.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = build.yml; sourceTree = "<group>"; };
 		787B1CA92B8B095E000AFECC /* Malachite.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Malachite.docc; sourceTree = "<group>"; };
 		7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = Malachite/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
 		788589912B8974680018E2DA /* Malachite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Malachite.entitlements; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 		785F08402B12D41100244EB4 = {
 			isa = PBXGroup;
 			children = (
+				78664F142D10E0AF003ADE09 /* .github */,
 				5549F6162B4D36A100626B9D /* ci_scripts */,
 				785F084B2B12D41100244EB4 /* Malachite */,
 				78917F5A2B99AE72005E10FA /* Frameworks */,
@@ -246,6 +249,22 @@
 				782FC7752B2DAFAB007709C1 /* README.md */,
 			);
 			path = Malachite;
+			sourceTree = "<group>";
+		};
+		78664F132D10E0AF003ADE09 /* workflows */ = {
+			isa = PBXGroup;
+			children = (
+				78664F122D10E0AF003ADE09 /* build.yml */,
+			);
+			path = workflows;
+			sourceTree = "<group>";
+		};
+		78664F142D10E0AF003ADE09 /* .github */ = {
+			isa = PBXGroup;
+			children = (
+				78664F132D10E0AF003ADE09 /* workflows */,
+			);
+			path = .github;
 			sourceTree = "<group>";
 		};
 		78917F5A2B99AE72005E10FA /* Frameworks */ = {
@@ -402,6 +421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				78917F372B99A9E9005E10FA /* images in Resources */,
+				78664F152D10E0AF003ADE09 /* build.yml in Resources */,
 				782FC7762B2DAFAB007709C1 /* README.md in Resources */,
 				7881A98C2C1F77AB00B1F83B /* Localizable.xcstrings in Resources */,
 				78562BC32B450A7600920160 /* PRIVACY_POLICY.md in Resources */,
