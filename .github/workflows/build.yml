@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     name: Build for iOS
-    runs-on: Serena
+    runs-on: Evas-Macmini91
     steps:
       - name: Remove work folders
         run: |
