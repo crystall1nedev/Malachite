@@ -29,5 +29,5 @@ struct MalachiteCaptureIntent: CameraCaptureIntent {
 }
 
 struct MalachiteContext: Codable {
-    var myVariable: String { get { return UserDefaults.standard.string(forKey: "myVariableKey") ?? "Default Value" } set { UserDefaults.standard.set(newValue, forKey: "myVariableKey") } }
+    // TODO
 }

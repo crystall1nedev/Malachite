@@ -65,9 +65,9 @@
 		78A9DE2F2CD57F51002C131D /* MalachiteIntentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9DE2C2CD57F4D002C131D /* MalachiteIntentUtils.swift */; };
 		78A9DE312CD581F1002C131D /* LockedCameraCapture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78A9DE302CD581F1002C131D /* LockedCameraCapture.framework */; };
 		78A9DE752CD5AE5F002C131D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
-		78C80BF42CDABE7800F6E8A7 /* MalachiteSettingsUtils_INTERNAL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C80BF32CDABE7200F6E8A7 /* MalachiteSettingsUtils_INTERNAL.swift */; };
-		78C80BF52CDABE7800F6E8A7 /* MalachiteSettingsUtils_INTERNAL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C80BF32CDABE7200F6E8A7 /* MalachiteSettingsUtils_INTERNAL.swift */; };
-		78C80BF62CDABE7800F6E8A7 /* MalachiteSettingsUtils_INTERNAL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C80BF32CDABE7200F6E8A7 /* MalachiteSettingsUtils_INTERNAL.swift */; };
+		78C80BF42CDABE7800F6E8A7 /* MalachitePreferencesUtils_INTERNAL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils_INTERNAL.swift */; };
+		78C80BF52CDABE7800F6E8A7 /* MalachitePreferencesUtils_INTERNAL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils_INTERNAL.swift */; };
+		78C80BF62CDABE7800F6E8A7 /* MalachitePreferencesUtils_INTERNAL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils_INTERNAL.swift */; };
 		78CAC36A2CCD99B600A35AE8 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
 		78E5EFC02B15748400F15250 /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */; };
 		78E67EE02B27E07300812A17 /* MalachiteHapticUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */; };
@@ -155,7 +155,7 @@
 		78A9DD722CD55558002C131D /* MalachiteCaptureBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteCaptureBundle.swift; sourceTree = "<group>"; };
 		78A9DE2C2CD57F4D002C131D /* MalachiteIntentUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteIntentUtils.swift; sourceTree = "<group>"; };
 		78A9DE302CD581F1002C131D /* LockedCameraCapture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LockedCameraCapture.framework; path = System/Library/Frameworks/LockedCameraCapture.framework; sourceTree = SDKROOT; };
-		78C80BF32CDABE7200F6E8A7 /* MalachiteSettingsUtils_INTERNAL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteSettingsUtils_INTERNAL.swift; sourceTree = "<group>"; };
+		78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils_INTERNAL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePreferencesUtils_INTERNAL.swift; sourceTree = "<group>"; };
 		78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePhotoPreview.swift; sourceTree = "<group>"; };
 		78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteHapticUtils.swift; sourceTree = "<group>"; };
 		78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteViewUtils.swift; sourceTree = "<group>"; };
@@ -301,7 +301,7 @@
 		78E67EDB2B27E05C00812A17 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				78C80BF32CDABE7200F6E8A7 /* MalachiteSettingsUtils_INTERNAL.swift */,
+				78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils_INTERNAL.swift */,
 				78A9DE2C2CD57F4D002C131D /* MalachiteIntentUtils.swift */,
 				78E67EDE2B27E07300812A17 /* MalachiteUtils.swift */,
 				78E67EE62B27E11D00812A17 /* MalachiteSettingsUtils.swift */,
@@ -480,7 +480,7 @@
 			files = (
 				78E67EE22B27E07300812A17 /* MalachiteUtils.swift in Sources */,
 				785F08512B12D41100244EB4 /* MalachiteView.swift in Sources */,
-				78C80BF62CDABE7800F6E8A7 /* MalachiteSettingsUtils_INTERNAL.swift in Sources */,
+				78C80BF62CDABE7800F6E8A7 /* MalachitePreferencesUtils_INTERNAL.swift in Sources */,
 				78E67EE02B27E07300812A17 /* MalachiteHapticUtils.swift in Sources */,
 				788E74B32B13D8200024B586 /* MalachiteSettingsView.swift in Sources */,
 				7806973A2B27F66E00B4942B /* MalachiteTooltipUtils.swift in Sources */,
@@ -505,7 +505,7 @@
 			files = (
 				78A9DD892CD56B00002C131D /* MalachitePhotoPreview.swift in Sources */,
 				78A9DD8A2CD56B00002C131D /* MalachiteAboutView.swift in Sources */,
-				78C80BF42CDABE7800F6E8A7 /* MalachiteSettingsUtils_INTERNAL.swift in Sources */,
+				78C80BF42CDABE7800F6E8A7 /* MalachitePreferencesUtils_INTERNAL.swift in Sources */,
 				78A9DD8B2CD56B00002C131D /* MalachiteView.swift in Sources */,
 				78A9DD8C2CD56B00002C131D /* MalachiteGameUtils.swift in Sources */,
 				78A9DD8D2CD56B00002C131D /* MalachiteHapticUtils.swift in Sources */,
@@ -534,7 +534,7 @@
 				78A9DD7D2CD55631002C131D /* MalachiteAboutView.swift in Sources */,
 				78A9DD7E2CD55631002C131D /* MalachiteUtils.swift in Sources */,
 				78A9DD7F2CD55631002C131D /* MalachiteSettingsView.swift in Sources */,
-				78C80BF52CDABE7800F6E8A7 /* MalachiteSettingsUtils_INTERNAL.swift in Sources */,
+				78C80BF52CDABE7800F6E8A7 /* MalachitePreferencesUtils_INTERNAL.swift in Sources */,
 				78A9DD802CD55631002C131D /* MalachiteSettingsUtils.swift in Sources */,
 				78A9DD812CD55631002C131D /* MalachiteFunctionUtils.swift in Sources */,
 				78A9DD822CD55631002C131D /* MalachitePhotoPreview.swift in Sources */,
@@ -715,6 +715,7 @@
 				INFOPLIST_FILE = Malachite/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Malachite;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Malachite uses write access to your library in order to save photos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -765,6 +766,7 @@
 				INFOPLIST_FILE = Malachite/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Malachite;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Malachite uses write access to your library in order to save photos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1049,6 +1051,7 @@
 				INFOPLIST_FILE = Malachite/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Malachite;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Malachite uses write access to your library in order to save photos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
