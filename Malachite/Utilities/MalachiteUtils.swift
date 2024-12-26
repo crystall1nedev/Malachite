@@ -45,7 +45,7 @@ public class MalachiteClassesObject : NSObject {
     /// A function to only log in INTERNAL builds
     public func internalNSLog(_ format: String, file: String = #file, line: Int = #line, function: String = #function) {
         if self.versionType == "INTERNAL" {
-            Foundation.NSLog("[\(file):\(line)] [\(function)] \(format)")
+            Foundation.NSLog("[\(file):\(line)] [\(function)] [INTERNAL] \(format)")
         }
     }
     
