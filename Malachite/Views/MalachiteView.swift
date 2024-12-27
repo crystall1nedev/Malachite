@@ -153,10 +153,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         if utilities.versionType == "INTERNAL" {
             utilities.internalNSLog("[Initialization] Running an INTERNAL build, logging will be force enabled")
-            utilities.internalNSLog("[Initialization] Setting default preferences with internal code path...")
-            if var preferences = MalachitePreferencesUtils_INTERNAL.shared.preferences {
-                utilities.internalNSLog("[Initialization] Preferences loaded.")
-            }
+            utilities.internalNSLog("[Initialization] Setting new preferences with internal code path...")
+            print(utilities.preferences)
         } else if utilities.versionType == "DEBUG" {
             utilities.debugNSLog("[Initialization] Running a DEBUG build, logging will be force enabled")
         } else if utilities.versionType == "RELEASE" {
