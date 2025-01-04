@@ -9,9 +9,9 @@ struct MalachitePreferences_INTERNAL: Codable {
     var compatibility:  compatibilityPreferences
     
     struct compatibilityPreferences: Codable {
-        var ultrawide:      [ String : Int ]
-        var wideangle:      [ String : Int ]
-        var telephoto:      [ String : Int ]
+        var ultrawide:      [ String : Bool ]
+        var wideangle:      [ String : Bool ]
+        var telephoto:      [ String : Bool ]
         var jpeg:           Bool
         var heic:           Bool
         var raw:            Bool

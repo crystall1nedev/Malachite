@@ -22,32 +22,32 @@ public struct MalachiteCompatibilityView: View {
                 Section {
                     if utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.ultrawide") > 0 {
                         // Ultra wide megapixel capabilities
-                        MalachiteCompatibilityViewUtils(title: "compatibility.title.12mp.ultrawide", available: utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.ultrawide", key: "12"))
-                        MalachiteCompatibilityViewUtils(title: "compatibility.title.48mp.ultrawide", available: utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.ultrawide", key: "48"))
+                        MalachiteCompatibilityViewUtils(title: "compatibility.title.12mp.ultrawide", available: utilities.preferences.compatibility.ultrawide["12"] ?? false)
+                        MalachiteCompatibilityViewUtils(title: "compatibility.title.48mp.ultrawide", available: utilities.preferences.compatibility.ultrawide["48"] ?? false)
                     } else {
                         MalachiteCompatibilityViewUtils(title: "compatibility.title.no.ultrawide", available: false)
                     }
                     if utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.wide") > 0 {
                         // Wide angle megapixel capabilities
-                        MalachiteCompatibilityViewUtils(title: "compatibility.title.8mp.wide", available: utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.wide", key: "8"))
-                        MalachiteCompatibilityViewUtils(title: "compatibility.title.12mp.wide", available: utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.wide", key: "12"))
-                        MalachiteCompatibilityViewUtils(title: "compatibility.title.48mp.wide", available: utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.wide", key: "48"))
+                        MalachiteCompatibilityViewUtils(title: "compatibility.title.8mp.wide", available: utilities.preferences.compatibility.wideangle["8"] ?? false)
+                        MalachiteCompatibilityViewUtils(title: "compatibility.title.12mp.wide", available: utilities.preferences.compatibility.wideangle["12"] ?? false)
+                        MalachiteCompatibilityViewUtils(title: "compatibility.title.48mp.wide", available: utilities.preferences.compatibility.wideangle["48"] ?? false)
                     } else {
                         MalachiteCompatibilityViewUtils(title: "compatibility.title.no.wide", available: false)
                     }
                     if utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.telephoto") > 0 {
                         // Telephoto megapixel capabilities
-                        MalachiteCompatibilityViewUtils(title: "compatibility.title.12mp.telephoto", available: utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.telephoto", key: "12"))
+                        MalachiteCompatibilityViewUtils(title: "compatibility.title.12mp.telephoto", available: utilities.preferences.compatibility.telephoto["12"] ?? false)
                     } else {
                         MalachiteCompatibilityViewUtils(title: "compatibility.title.no.telephoto", available: false)
                     }
                     
                     // JPEG, HEIF
-                    MalachiteCompatibilityViewUtils(title: "compatibility.title.jpeg", available: utilities.settings.defaults.bool(forKey: "compatibility.jpeg"))
-                    MalachiteCompatibilityViewUtils(title: "compatibility.title.heif", available: utilities.settings.defaults.bool(forKey: "compatibility.heif"))
+                    MalachiteCompatibilityViewUtils(title: "compatibility.title.jpeg", available: utilities.preferences.compatibility.jpeg)
+                    MalachiteCompatibilityViewUtils(title: "compatibility.title.heif", available: utilities.preferences.compatibility.heic)
                     
                     // HDR
-                    MalachiteCompatibilityViewUtils(title: "compatibility.title.hdr", available: utilities.settings.defaults.bool(forKey: "compatibility.hdr"))
+                    MalachiteCompatibilityViewUtils(title: "compatibility.title.hdr", available: utilities.preferences.compatibility.hdr)
                 }
             }
             .navigationTitle("view.title.compatibility")
