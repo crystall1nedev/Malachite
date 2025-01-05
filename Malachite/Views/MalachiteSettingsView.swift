@@ -188,10 +188,10 @@ struct MalachiteSettingsView: View {
     /// A variable to hold the image resolution section.
     var resolutionSettingsSection: some View {
         Section(header: Text("settings.header.resolution")) {
-            if utilities.preferences.dictionary_isValid(dictionary: utilities.preferences.compatibility.ultrawide) {
+            if utilities.preferences.utils.dictionary.isValid(dictionary: utilities.preferences.compatibility.ultrawide) {
                 MalachiteCellViewUtils(
                     icon: "camera.aperture",
-                    disabled: utilities.preferences.dictionary_getCount(dictionary: utilities.preferences.compatibility.ultrawide) == 1,
+                    disabled: utilities.preferences.utils.dictionary.getCount(dictionary: utilities.preferences.compatibility.ultrawide) == 1,
                     dangerous: false)
                 {
                     Picker("settings.option.resolution.ultrawide", selection: $ultrawideMegapixelCount) {
@@ -210,10 +210,10 @@ struct MalachiteSettingsView: View {
                     }
                 }
             }
-            if utilities.preferences.dictionary_isValid(dictionary: utilities.preferences.compatibility.wideangle) {
+            if utilities.preferences.utils.dictionary.isValid(dictionary: utilities.preferences.compatibility.wideangle) {
                 MalachiteCellViewUtils(
                     icon: "camera.aperture",
-                    disabled: utilities.preferences.dictionary_getCount(dictionary: utilities.preferences.compatibility.wideangle) == 1,
+                    disabled: utilities.preferences.utils.dictionary.getCount(dictionary: utilities.preferences.compatibility.wideangle) == 1,
                     dangerous: false)
                 {
                     Picker("settings.option.resolution.wide", selection: $wideMegapixelCount) {
@@ -232,10 +232,10 @@ struct MalachiteSettingsView: View {
                     }
                 }
             }
-            if utilities.preferences.dictionary_isValid(dictionary: utilities.preferences.compatibility.telephoto) {
+            if utilities.preferences.utils.dictionary.isValid(dictionary: utilities.preferences.compatibility.telephoto) {
                 MalachiteCellViewUtils(
                     icon: "camera.aperture",
-                    disabled: utilities.preferences.dictionary_getCount(dictionary: utilities.preferences.compatibility.telephoto) == 1,
+                    disabled: utilities.preferences.utils.dictionary.getCount(dictionary: utilities.preferences.compatibility.telephoto) == 1,
                     dangerous: false)
                 {
                     Picker("settings.option.resolution.telephoto", selection: $telephotoMegapixelCount) {

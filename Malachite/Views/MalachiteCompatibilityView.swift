@@ -20,14 +20,14 @@ public struct MalachiteCompatibilityView: View {
                     Text("compatibility.note")
                 }
                 Section {
-                    if utilities.preferences.dictionary_isValid(dictionary: utilities.preferences.compatibility.ultrawide) {
+                    if utilities.preferences.utils.dictionary.isValid(dictionary: utilities.preferences.compatibility.ultrawide) {
                         // Ultra wide megapixel capabilities
                         MalachiteCompatibilityViewUtils(title: "compatibility.title.12mp.ultrawide", available: utilities.preferences.compatibility.ultrawide["12"] ?? false)
                         MalachiteCompatibilityViewUtils(title: "compatibility.title.48mp.ultrawide", available: utilities.preferences.compatibility.ultrawide["48"] ?? false)
                     } else {
                         MalachiteCompatibilityViewUtils(title: "compatibility.title.no.ultrawide", available: false)
                     }
-                    if utilities.preferences.dictionary_isValid(dictionary: utilities.preferences.compatibility.wideangle) {
+                    if utilities.preferences.utils.dictionary.isValid(dictionary: utilities.preferences.compatibility.wideangle) {
                         // Wide angle megapixel capabilities
                         MalachiteCompatibilityViewUtils(title: "compatibility.title.8mp.wide", available: utilities.preferences.compatibility.wideangle["8"] ?? false)
                         MalachiteCompatibilityViewUtils(title: "compatibility.title.12mp.wide", available: utilities.preferences.compatibility.wideangle["12"] ?? false)
@@ -35,7 +35,7 @@ public struct MalachiteCompatibilityView: View {
                     } else {
                         MalachiteCompatibilityViewUtils(title: "compatibility.title.no.wide", available: false)
                     }
-                    if utilities.preferences.dictionary_isValid(dictionary: utilities.preferences.compatibility.telephoto) {
+                    if utilities.preferences.utils.dictionary.isValid(dictionary: utilities.preferences.compatibility.telephoto) {
                         // Telephoto megapixel capabilities
                         MalachiteCompatibilityViewUtils(title: "compatibility.title.12mp.telephoto", available: utilities.preferences.compatibility.telephoto["12"] ?? false)
                     } else {

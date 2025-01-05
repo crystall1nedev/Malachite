@@ -36,16 +36,16 @@ public class MalachiteFunctionUtils : NSObject {
     /// Function that determines if the device supports HDR.
     public func deviceFormatSupportsHDR(device hdrDevice: AVCaptureDevice) {
         if hdrDevice.activeFormat.isVideoHDRSupported == true {
-            MalachiteClassesObject().settings.defaults.set(true, forKey: "compatibility.hdr")
+            MalachitePreferencesUtils.shared.preferences.compatibility.hdr = true
             self.supportsHDR = true
         }
     }
     
     /// Function that determines if the device supports HEIC.
     public func supportsHEIC() -> Bool {
-        MalachiteClassesObject().settings.defaults.set(true, forKey: "compatibility.jpeg")
+        MalachitePreferencesUtils.shared.preferences.compatibility.jpeg = true
         if supportedImageCaptureTypes.contains("public.heic") {
-            MalachiteClassesObject().settings.defaults.set(true, forKey: "compatibility.heif")
+            MalachitePreferencesUtils.shared.preferences.compatibility.heic = true
             return true
         }
         
@@ -55,7 +55,7 @@ public class MalachiteFunctionUtils : NSObject {
     /// Function that handles pinch to zoom.
     public func zoom(sender pinch: UIPinchGestureRecognizer, captureDevice device: inout AVCaptureDevice, lastZoomFactor zoomFactor: inout CGFloat, hapticClass haptic: MalachiteHapticUtils) {
         func minMaxZoom(_ factor: CGFloat) -> CGFloat {
-            return min(min(max(factor, 1.0), CGFloat(MalachiteClassesObject().settings.defaults.integer(forKey: "capture.zoom.maximum"))), device.activeFormat.videoMaxZoomFactor)
+            return min(min(max(factor, 1.0), CGFloat(MalachitePreferencesUtils.shared.preferences.capture.maximumZoom)), device.activeFormat.videoMaxZoomFactor)
         }
         
         func update(scale factor: CGFloat) {
@@ -121,7 +121,7 @@ public class MalachiteFunctionUtils : NSObject {
                 return
             }
             
-            guard let tapGestureElements = MalachiteClassesObject().settings.defaults.stringArray(forKey: "ui.tapgesture.elements") else { return }
+            let tapGestureElements = MalachitePreferencesUtils.shared.preferences.userInterface.tapAndHold
             
             if tapGestureElements.contains("af") {
                 if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
@@ -156,7 +156,7 @@ public class MalachiteFunctionUtils : NSObject {
             return
         }
         
-        guard let continuousElements = MalachiteClassesObject().settings.defaults.stringArray(forKey: "capture.continuous.elements") else { return }
+        let continuousElements = MalachitePreferencesUtils.shared.preferences.capture.continuous
         
         if continuousElements.contains("ae") && device.isExposureModeSupported(.continuousAutoExposure) {
             device.exposureMode = .continuousAutoExposure
@@ -235,11 +235,11 @@ public class MalachiteFunctionUtils : NSObject {
                     if maxDimensions.width == 8064 && maxDimensions.height == 6048 { tmpDictionary["48"] = true }
                     switch camera.deviceType {
                     case .builtInUltraWideCamera:
-                        MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.ultrawide")
+                        MalachitePreferencesUtils.shared.preferences.compatibility.ultrawide = tmpDictionary
                     case .builtInWideAngleCamera:
-                        MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.wide")
+                        MalachitePreferencesUtils.shared.preferences.compatibility.wideangle = tmpDictionary
                     case .builtInTelephotoCamera:
-                        MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.telephoto")
+                        MalachitePreferencesUtils.shared.preferences.compatibility.telephoto = tmpDictionary
                     default:
                         break
                     }
@@ -326,13 +326,13 @@ public class MalachiteFunctionUtils : NSObject {
             
             switch device.deviceType {
             case .builtInUltraWideCamera:
-                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.ultrawide")
+                mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.ultrawide
             case .builtInWideAngleCamera:
-                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.wide")
+                mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.wideangle
             case .builtInTelephotoCamera:
-                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.telephoto")
+                mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.telephoto
             default:
-                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.wide")
+                mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.wideangle
             }
             
             switch mpSetting {

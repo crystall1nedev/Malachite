@@ -10,11 +10,11 @@ import UIKit
 
 public class MalachiteHapticUtils : NSObject {
     /// A function that triggers a light haptic generator.
-    public func triggerLightHaptic() { if !MalachiteClassesObject().settings.defaults.bool(forKey: "ui.haptics.disabled") { UIImpactFeedbackGenerator(style: .light).impactOccurred() } }
+    public func triggerLightHaptic() { if !MalachitePreferencesUtils.shared.preferences.userInterface.hapticFeedback { UIImpactFeedbackGenerator(style: .light).impactOccurred() } }
     /// A function that triggers a medium haptic generator.
-    public func triggerMediumHaptic() { if !MalachiteClassesObject().settings.defaults.bool(forKey: "ui.haptics.disabled") { UIImpactFeedbackGenerator(style: .medium).impactOccurred()  }}
+    public func triggerMediumHaptic() { if !MalachitePreferencesUtils.shared.preferences.userInterface.hapticFeedback { UIImpactFeedbackGenerator(style: .medium).impactOccurred()  }}
     /// A function that triggers a heavy haptic generator.
-    public func triggerHeavyHaptic() { if !MalachiteClassesObject().settings.defaults.bool(forKey: "ui.haptics.disabled") { UIImpactFeedbackGenerator(style: .heavy).impactOccurred() } }
+    public func triggerHeavyHaptic() { if !MalachitePreferencesUtils.shared.preferences.userInterface.hapticFeedback { UIImpactFeedbackGenerator(style: .heavy).impactOccurred() } }
     
     /// An Objective-C selector that wraps ``triggerLightHaptic()``
     @objc public func buttonLightHaptics(_ sender: Any) { triggerLightHaptic() }
@@ -25,6 +25,6 @@ public class MalachiteHapticUtils : NSObject {
     
     /// A function that triggers a notification haptic based on the passed type.
     public func triggerNotificationHaptic(type feedbackType: UINotificationFeedbackGenerator.FeedbackType) {
-        if !MalachiteClassesObject().settings.defaults.bool(forKey: "ui.haptics.disabled") { UINotificationFeedbackGenerator().notificationOccurred(feedbackType) }
+        if !MalachitePreferencesUtils.shared.preferences.userInterface.hapticFeedback { UINotificationFeedbackGenerator().notificationOccurred(feedbackType) }
     }
 }

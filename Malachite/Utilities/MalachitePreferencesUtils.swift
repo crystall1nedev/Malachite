@@ -1,5 +1,5 @@
 //
-//  MalachitePreferencesUtils_INTERNAL.swift
+//  MalachitePreferencesUtils.swift
 //  Malachite
 //
 //  Created by Eva Isabella Luna on 11/5/24.
@@ -7,10 +7,10 @@
 
 import Foundation
 
-class MalachitePreferencesUtils_INTERNAL {
-    static let shared = MalachitePreferencesUtils_INTERNAL()
-    private var _preferences: MalachitePreferences_INTERNAL?
-    var preferences: MalachitePreferences_INTERNAL {
+class MalachitePreferencesUtils {
+    static let shared = MalachitePreferencesUtils()
+    private var _preferences: MalachitePreferences?
+    var preferences: MalachitePreferences {
         get {
             if _preferences == nil { _preferences = readPreferences() }
             return _preferences!
@@ -42,13 +42,13 @@ class MalachitePreferencesUtils_INTERNAL {
         }
     }
     
-    func readPreferences() -> MalachitePreferences_INTERNAL {
+    func readPreferences() -> MalachitePreferences {
         let defaults = initPreferences()
         guard let url = getDocumentsDirectory()?.appendingPathComponent("preferences.plist") else { return defaults }
         
         do {
             let data = try Data(contentsOf: url)
-            let plist = try PropertyListDecoder().decode(MalachitePreferences_INTERNAL.self, from: data)
+            let plist = try PropertyListDecoder().decode(MalachitePreferences.self, from: data)
             return plist
         } catch {
             print("[Preferences] Error reading plist: \(error.localizedDescription)")
@@ -57,7 +57,7 @@ class MalachitePreferencesUtils_INTERNAL {
         }
     }
     
-    func writePreferences(_ preferences: MalachitePreferences_INTERNAL) -> Bool {
+    func writePreferences(_ preferences: MalachitePreferences) -> Bool {
         guard let url = getDocumentsDirectory()?.appendingPathComponent("preferences.plist") else { return false }
         
         do {
@@ -72,11 +72,11 @@ class MalachitePreferencesUtils_INTERNAL {
         }
     }
     
-    func initPreferences() -> MalachitePreferences_INTERNAL {
+    func initPreferences() -> MalachitePreferences {
         // TODO: Wipe migration + init proper defaults
         let oldPreferences = UserDefaults.standard
-        return MalachitePreferences_INTERNAL(
-            compatibility: MalachitePreferences_INTERNAL.compatibilityPreferences(
+        return MalachitePreferences(
+            compatibility: MalachitePreferences.compatibilityPreferences(
                 ultrawide: oldPreferences.object(forKey: "compatibility.dimensions.ultrawide") as? [String : Bool ] ?? [ "invalid" : false ],
                 wideangle: oldPreferences.object(forKey: "compatibility.dimensions.wide") as? [String : Bool ] ?? [ "invalid" : false ],
                 telephoto: oldPreferences.object(forKey: "compatibility.dimensions.telephoto") as? [String : Bool ] ?? [ "invalid" : false ],
@@ -86,43 +86,43 @@ class MalachitePreferencesUtils_INTERNAL {
                 proraw: false, // Key never existed in the old preferences system
                 hdr: oldPreferences.object(forKey: "compatibility.hdr") as? Bool ?? false
             ),
-            general: MalachitePreferences_INTERNAL.generalPreferences(
+            general: MalachitePreferences.generalPreferences(
                 version: Bundle.main.infoDictionary?["CFBundleVersion"] as! String,
                 prefsVersion: 6,
                 firstLaunch: oldPreferences.object(forKey: "general.firstLaunch") as? Bool ?? false,
                 deviceModel: oldPreferences.object(forKey: "general.device.model") as? String ?? "",
                 photoCount: oldPreferences.object(forKey: "general.photos.count") as? Int ?? 0,
-                gamekit: MalachitePreferences_INTERNAL.generalPreferences.gamekitPreferences(
+                gamekit: MalachitePreferences.generalPreferences.gamekitPreferences(
                     alerted: oldPreferences.object(forKey: "general.gamekit.alert") as? Bool ?? false,
                     found: oldPreferences.object(forKey: "general.gamekit.found") as? Bool ?? false,
                     enabled: oldPreferences.object(forKey: "general.gamekit.enabled") as? Bool ?? false)
             ),
-            preview: MalachitePreferences_INTERNAL.previewPreferences(
+            preview: MalachitePreferences.previewPreferences(
                 aspect: oldPreferences.object(forKey: "preview.size.fill") as? Bool ?? false,
                 stablize: oldPreferences.object(forKey: "preview.stblz.enabled") as? Bool ?? false
             ),
-            capture: MalachitePreferences_INTERNAL.capturePreferences(
+            capture: MalachitePreferences.capturePreferences(
                 unlimitedISO: oldPreferences.object(forKey: "capture.exposure.unlimited") as? Bool ?? false,
                 hdr: oldPreferences.object(forKey: "capture.hdr.enabled") as? Bool ?? false,
-                format: MalachitePreferences_INTERNAL.capturePreferences.formatPreferences(
+                format: MalachitePreferences.capturePreferences.formatPreferences(
                     jpeg: !(oldPreferences.object(forKey: "capture.type.heif") as? Bool ?? false),
                     heic: oldPreferences.object(forKey: "capture.type.heif") as? Bool ?? false,
                     raw: false, // Key never existed in the old preferences system
                     proraw: false // Key never existed in the old preferences system
                 ),
                 continuous: oldPreferences.object(forKey: "capture.continuous.elements") as? [ String ] ?? [ "" ],
-                mp: MalachitePreferences_INTERNAL.capturePreferences.mpPreferences(
+                mp: MalachitePreferences.capturePreferences.mpPreferences(
                     ultrawide: oldPreferences.object(forKey: "capture.mp.ultrawide") as? Int ?? 0,
                     wideangle: oldPreferences.object(forKey: "capture.mp.wide") as? Int ?? 0,
                     telephoto: oldPreferences.object(forKey: "capture.mp.telephoto") as? Int ?? 0
                 ),
                 maximumZoom: oldPreferences.object(forKey: "capture.zoom.maximum") as? Int ?? 0
             ),
-            watermark: MalachitePreferences_INTERNAL.watermarkPreferences(
+            watermark: MalachitePreferences.watermarkPreferences(
                 enabled: oldPreferences.object(forKey: "wtrmark.enabled") as? Bool ?? false,
                 text: oldPreferences.object(forKey: "wtrmark.text") as? String ?? ""
             ),
-            userInterface: MalachitePreferences_INTERNAL.userInterfacePreferences(
+            userInterface: MalachitePreferences.userInterfacePreferences(
                 pinchZoom: oldPreferences.object(forKey: "ui.pinchzoom.enabled") as? Bool ?? false,
                 tapAndHold: oldPreferences.object(forKey: "ui.tapgesture.elements") as? [ String ] ?? [ "" ],
                 hiddenControls: oldPreferences.object(forKey: "ui.hiddengestures.elements") as? [ String ] ?? [ "" ],
@@ -130,12 +130,12 @@ class MalachitePreferencesUtils_INTERNAL {
                 appLaunch: oldPreferences.object(forKey: "ui.applaunch.hiddenui") as? Bool ?? false,
                 hapticFeedback: oldPreferences.object(forKey: "ui.haptics.enabled") as? Bool ?? false
             ),
-            debug: MalachitePreferences_INTERNAL.debugPreferences(
-                logging: MalachitePreferences_INTERNAL.debugPreferences.debug_loggingPreferences(
+            debug: MalachitePreferences.debugPreferences(
+                logging: MalachitePreferences.debugPreferences.debug_loggingPreferences(
                     preferences: oldPreferences.object(forKey: "debug.logging.userdefaults") as? Bool ?? false
                 )
             ),
-            evaintrnl: MalachitePreferences_INTERNAL.evaintrnlPreferences(
+            evaintrnl: MalachitePreferences.evaintrnlPreferences(
                 settingsGesture: oldPreferences.object(forKey: "ui.settingsgesture.fingers") as? Int ?? 0
             )
         )

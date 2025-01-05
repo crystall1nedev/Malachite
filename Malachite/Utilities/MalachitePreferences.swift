@@ -1,5 +1,5 @@
 //
-//  MalachitePreferences_INTERNAL.swift
+//  MalachitePreferences.swift
 //  Malachite
 //
 //  Created by Eva Isabella Luna on 12/27/24.
@@ -9,7 +9,8 @@ import Foundation
 
 // TODO: Rename a bunch of these preferences to be more concise in their meaning
 
-struct MalachitePreferences_INTERNAL: Codable {
+struct MalachitePreferences: Codable {
+    
     var compatibility:  compatibilityPreferences
     
     struct compatibilityPreferences: Codable {
@@ -105,30 +106,50 @@ struct MalachitePreferences_INTERNAL: Codable {
     }
 }
 
-extension MalachitePreferences_INTERNAL {
-    public func dictionary_isValid(dictionary: Dictionary<String, Any>) -> Bool {
-        return !(dictionary["invalid"] != nil)
-    }
+extension MalachitePreferences {
     
-    public func dictionary_getCount(dictionary: Dictionary<String, Any>) -> Int {
-        return dictionary.count
-    }
-    
-    public func getDeviceModel() -> String {
-        var systemInfo = utsname()
-        uname(&systemInfo)
-        let machineMirror = Mirror(reflecting: systemInfo.machine)
-        let identifier = machineMirror.children.reduce("") { identifier, element in
-            guard let value = element.value as? Int8, value != 0 else { return identifier }
-            return identifier + String(UnicodeScalar(UInt8(value)))
+    var utils: Utils { return Utils() }
+    class Utils {
+        var gameKitButton = 0
+        /// Shows the GameKit enable switch in About settings.
+        public func showGameKitOptionInAbout(in preferences: inout MalachitePreferences) -> Void {
+            MalachiteClassesObject().debugNSLog("04F807A163D50211A2456C3460EACFACCBC5BF436AFC268F0DBAA529")
+            if gameKitButton < 7 {
+                gameKitButton += 1
+            } else {
+                preferences.general.gamekit.alerted = true
+                exit(11)
+            }
         }
-        
-        return identifier
-    }
-    
-    public func isSameDevice() -> Bool {
-        if getDeviceModel() == general.deviceModel { return true }
-        return false
+        var dictionary: ELDictionary { return ELDictionary() }
+        class ELDictionary {
+            public func isValid(dictionary: Dictionary<String, Any>) -> Bool {
+                return dictionary["invalid"] as? Bool == false ? false : true
+            }
+            
+            public func getCount(dictionary: Dictionary<String, Any>) -> Int {
+                return dictionary.count
+            }
+        }
+        var deviceModel: DeviceModel { return DeviceModel() }
+        class DeviceModel {
+            public func get() -> String {
+                var systemInfo = utsname()
+                uname(&systemInfo)
+                let machineMirror = Mirror(reflecting: systemInfo.machine)
+                let identifier = machineMirror.children.reduce("") { identifier, element in
+                    guard let value = element.value as? Int8, value != 0 else { return identifier }
+                    return identifier + String(UnicodeScalar(UInt8(value)))
+                }
+                
+                return identifier
+            }
+            
+            public func isSameDevice(in preferences: inout MalachitePreferences) -> Bool {
+                if get() == preferences.general.deviceModel { return true }
+                return false
+            }
+        }
     }
 }
 

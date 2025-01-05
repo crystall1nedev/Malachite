@@ -227,15 +227,4 @@ public class MalachiteSettingsUtils : NSObject {
             }
         }
     }
-    
-    /// Shows the GameKit enable switch in About settings.
-    @objc public func showGameKitOptionInAbout() -> Void {
-        MalachiteClassesObject().debugNSLog("04F807A163D50211A2456C3460EACFACCBC5BF436AFC268F0DBAA529")
-        if gameKitButton < 7 {
-            gameKitButton += 1
-        } else {
-            defaults.set(true, forKey: "general.gamekit.alert")
-            exit(11)
-        }
-    }
 }

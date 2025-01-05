@@ -150,8 +150,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         if utilities.versionType == "INTERNAL" {
             utilities.internalNSLog("[Initialization] Running an INTERNAL build, logging will be force enabled")
-            utilities.internalNSLog("[Initialization] Setting new preferences with internal code path...")
-            print(utilities.preferences)
         } else if utilities.versionType == "DEBUG" {
             utilities.debugNSLog("[Initialization] Running a DEBUG build, logging will be force enabled")
         } else if utilities.versionType == "RELEASE" {
@@ -165,9 +163,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         #endif
         
         if utilities.versionType == "INTERNAL" {
-            if !utilities.preferences.isSameDevice() {
+            if !utilities.preferences.utils.deviceModel.isSameDevice(in: &utilities.preferences) {
                 utilities.internalNSLog("[Initialization] This is a new device, rechecking compatibility.")
-                utilities.preferences.general.deviceModel = utilities.preferences.getDeviceModel()
+                utilities.preferences.general.deviceModel = utilities.preferences.utils.deviceModel.get()
             } else {
                 utilities.internalNSLog("[Initialization] This is the same device, can skip compatibility checks.")
             }

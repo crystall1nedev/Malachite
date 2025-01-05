@@ -58,9 +58,9 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
     let fixedOrientation = UIDevice.current.orientation
     
     /// A variable to store whether or not HDR is enabled.
-    let enableHDR = MalachiteClassesObject().settings.defaults.bool(forKey: "capture.hdr.enabled")
+    let enableHDR = MalachitePreferencesUtils.shared.preferences.capture.hdr
     /// A variable to store whether or not the HEIF file format is enabled.
-    let enableHEIF = MalachiteClassesObject().settings.defaults.bool(forKey: "capture.type.heif")
+    let enableHEIF = MalachitePreferencesUtils.shared.preferences.capture.format.heic
     
     /**
      viewDidLoad override for the main user interface.

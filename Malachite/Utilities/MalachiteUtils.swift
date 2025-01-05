@@ -17,14 +17,12 @@ public class MalachiteClassesObject : NSObject {
     public let function  = MalachiteFunctionUtils()
     /// An instance of ``MalachiteSettingsUtils``
     public let settings  = MalachiteSettingsUtils()
-    /// An instance of the shared `MalachitePreferencesUtils_INTERNAL` class
-    var preferences: MalachitePreferences_INTERNAL {
-        get {
-            return MalachitePreferencesUtils_INTERNAL.shared.preferences
-        }
+    /// An instance of the shared `MalachitePreferencesUtils` class
+    var preferences: MalachitePreferences {
+        get { return MalachitePreferencesUtils.shared.preferences }
         set {
-            MalachitePreferencesUtils_INTERNAL.shared.preferences = newValue
-            if MalachitePreferencesUtils_INTERNAL().writePreferences(newValue) { internalNSLog("[Preferences] Updated preferences successfully.") }
+            MalachitePreferencesUtils.shared.preferences = newValue
+            if MalachitePreferencesUtils().writePreferences(newValue) { internalNSLog("[Preferences] Updated preferences successfully.") }
         }
     }
     /// An instance of ``MalachiteTooltipUtils``
