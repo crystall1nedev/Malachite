@@ -293,6 +293,15 @@
 			path = WidgetBundle;
 			sourceTree = "<group>";
 		};
+		78A8FEEE2D2B218400BCA9C5 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				78C7EF9C2D1ECBCB001E332B /* MalachitePreferences.swift */,
+				78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils.swift */,
+			);
+			path = Preferences;
+			sourceTree = "<group>";
+		};
 		78A9DD742CD55558002C131D /* CaptureBundle */ = {
 			isa = PBXGroup;
 			children = (
@@ -305,8 +314,7 @@
 		78E67EDB2B27E05C00812A17 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				78C7EF9C2D1ECBCB001E332B /* MalachitePreferences.swift */,
-				78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils.swift */,
+				78A8FEEE2D2B218400BCA9C5 /* Preferences */,
 				78A9DE2C2CD57F4D002C131D /* MalachiteIntentUtils.swift */,
 				78E67EDE2B27E07300812A17 /* MalachiteUtils.swift */,
 				78E67EE62B27E11D00812A17 /* MalachiteSettingsUtils.swift */,

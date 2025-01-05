@@ -81,12 +81,12 @@ struct MalachitePreferences: Codable {
     var userInterface:  userInterfacePreferences
     
     struct userInterfacePreferences: Codable {
-        var pinchZoom:      Bool
-        var tapAndHold:     [ String ]
-        var hiddenControls: [ String ]
-        var idleTimer:      Bool
-        var appLaunch:       Bool
-        var hapticFeedback:  Bool
+        var pinchZoom:              Bool
+        var tapAndHold:             [ String ]
+        var hiddenControls:         [ String ]
+        var idleTimerDisabled:      Bool
+        var appLaunch:              Bool
+        var hapticFeedback:         Bool
     }
     
     var debug:         debugPreferences

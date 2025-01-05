@@ -561,7 +561,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to enable or disable the idle timer.
     @objc func changeIdleTimerState() {
         #if MAIN_APP
-        UIApplication.shared.isIdleTimerDisabled = utilities.preferences.userInterface.idleTimer
+        UIApplication.shared.isIdleTimerDisabled = utilities.preferences.userInterface.idleTimerDisabled
         #endif
     }
     

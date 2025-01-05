@@ -473,7 +473,7 @@ struct MalachiteSettingsView: View {
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
         }
         .onChange(of: idleTimerDisabled) { _ in
-            utilities.preferences.userInterface.idleTimer = !idleTimerDisabled
+            utilities.preferences.userInterface.idleTimerDisabled = idleTimerDisabled
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, object: nil)
         }
         .onChange(of: hapticsDisabled) { _ in
@@ -609,7 +609,7 @@ struct MalachiteSettingsView: View {
         watermarkSwitch = utilities.preferences.watermark.enabled
         
         settingsGestureFingers = utilities.preferences.evaintrnl.settingsGesture
-        idleTimerDisabled = utilities.preferences.userInterface.idleTimer
+        idleTimerDisabled = utilities.preferences.userInterface.idleTimerDisabled
         hapticsDisabled = utilities.preferences.userInterface.hapticFeedback
         appStartsUIHidden = utilities.preferences.userInterface.appLaunch
         
@@ -700,7 +700,7 @@ struct MalachiteSettingsView: View {
         utilities.preferences.watermark.text = watermarkText.isEmpty ? "Shot with Malachite" : String(watermarkText.prefix(65))
         
         utilities.preferences.evaintrnl.settingsGesture = settingsGestureFingers
-        utilities.preferences.userInterface.idleTimer = !idleTimerDisabled
+        utilities.preferences.userInterface.idleTimerDisabled = idleTimerDisabled
         utilities.preferences.userInterface.hapticFeedback = hapticsDisabled
         utilities.preferences.userInterface.appLaunch = appStartsUIHidden
         
