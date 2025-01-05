@@ -238,34 +238,4 @@ public class MalachiteSettingsUtils : NSObject {
             exit(11)
         }
     }
-    
-    public func getCountOfDictionary(dictionary: String) -> Int {
-        guard let value = self.defaults.dictionary(forKey: dictionary) else { return 0 }
-        if (value["invalid"] != nil) { return 0 }
-        return value.count
-    }
-    
-    public func getBoolInsideDictionary(dictionary: String, key: String) -> Bool {
-        guard let value = self.defaults.dictionary(forKey: dictionary) else { return false }
-        return value[key] as? Bool ?? false
-    }
-    
-    public func getDeviceModel() -> String {
-        var systemInfo = utsname()
-        uname(&systemInfo)
-        let machineMirror = Mirror(reflecting: systemInfo.machine)
-        let identifier = machineMirror.children.reduce("") { identifier, element in
-            guard let value = element.value as? Int8, value != 0 else { return identifier }
-            return identifier + String(UnicodeScalar(UInt8(value)))
-        }
-        
-        return identifier
-    }
-    
-    public func isSameDevice() -> Bool {
-        if getDeviceModel() == defaults.string(forKey: "general.device.model") {
-            return true
-        }
-        return false
-    }
 }

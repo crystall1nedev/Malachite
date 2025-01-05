@@ -288,13 +288,13 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
             imageView.frame = CGRect(x:0, y:0, width:photoImage.size.width, height:photoImage.size.height)
         }
         
-        if utilities.settings.defaults.bool(forKey: "wtrmark.enabled") {
+        if utilities.preferences.watermark.enabled {
             utilities.debugNSLog("[Watermarking] User has opted to show a watermark")
             var label = UILabel()
             label = UILabel(frame: CGRect(x:50, y:20, width:photoImage.size.width - 100, height:120))
             label.textAlignment = .left
             label.textColor = .white
-            label.text = utilities.settings.defaults.string(forKey: "wtrmark.text")
+            label.text = utilities.preferences.watermark.text
             label.font = UIFont(name: "Menlo", size: 70)
             
             imageView.addSubview(label)
@@ -318,7 +318,7 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
             }
         } else {
             utilities.debugNSLog("[Capture Photo] Device does not support encoding HEIF, falling back to JPEG")
-            utilities.settings.defaults.set(false, forKey: "capture.type.heif")
+            utilities.preferences.capture.format.heic = false
             return returnJPEG(imageForRepresentation: image, imageForGainMap: hdrImage, imageColorspace: colorSpace)
         }
     }

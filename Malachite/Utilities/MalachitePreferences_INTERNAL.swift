@@ -5,6 +5,10 @@
 //  Created by Eva Isabella Luna on 12/27/24.
 //
 
+import Foundation
+
+// TODO: Rename a bunch of these preferences to be more concise in their meaning
+
 struct MalachitePreferences_INTERNAL: Codable {
     var compatibility:  compatibilityPreferences
     
@@ -100,3 +104,31 @@ struct MalachitePreferences_INTERNAL: Codable {
         var settingsGesture: Int
     }
 }
+
+extension MalachitePreferences_INTERNAL {
+    public func dictionary_isValid(dictionary: Dictionary<String, Any>) -> Bool {
+        return !(dictionary["invalid"] != nil)
+    }
+    
+    public func dictionary_getCount(dictionary: Dictionary<String, Any>) -> Int {
+        return dictionary.count
+    }
+    
+    public func getDeviceModel() -> String {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let machineMirror = Mirror(reflecting: systemInfo.machine)
+        let identifier = machineMirror.children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8, value != 0 else { return identifier }
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+        
+        return identifier
+    }
+    
+    public func isSameDevice() -> Bool {
+        if getDeviceModel() == general.deviceModel { return true }
+        return false
+    }
+}
+

@@ -73,13 +73,13 @@ class MalachitePreferencesUtils_INTERNAL {
     }
     
     func initPreferences() -> MalachitePreferences_INTERNAL {
-        // oldPreferences + migration will be removed at a later date!
+        // TODO: Wipe migration + init proper defaults
         let oldPreferences = UserDefaults.standard
         return MalachitePreferences_INTERNAL(
             compatibility: MalachitePreferences_INTERNAL.compatibilityPreferences(
-                ultrawide: oldPreferences.object(forKey: "compatibility.dimensions.ultrawide") as? [String : Bool ] ?? [ "" : false ],
-                wideangle: oldPreferences.object(forKey: "compatibility.dimensions.wide") as? [String : Bool ] ?? [ "" : false ],
-                telephoto: oldPreferences.object(forKey: "compatibility.dimensions.telephoto") as? [String : Bool ] ?? [ "" : false ],
+                ultrawide: oldPreferences.object(forKey: "compatibility.dimensions.ultrawide") as? [String : Bool ] ?? [ "invalid" : false ],
+                wideangle: oldPreferences.object(forKey: "compatibility.dimensions.wide") as? [String : Bool ] ?? [ "invalid" : false ],
+                telephoto: oldPreferences.object(forKey: "compatibility.dimensions.telephoto") as? [String : Bool ] ?? [ "invalid" : false ],
                 jpeg: oldPreferences.object(forKey: "compatibility.jpeg") as? Bool ?? false,
                 heic: oldPreferences.object(forKey: "compatibility.heif") as? Bool ?? false,
                 raw: false, // Key never existed in the old preferences system

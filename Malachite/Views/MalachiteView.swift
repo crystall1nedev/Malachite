@@ -147,9 +147,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.view.backgroundColor = .clear
         
         utilities.debugNSLog("[Initialization] Starting up Malachite")
-        #if MAIN_APP
-        utilities.settings.ensurePreferences()
-        #endif
         
         if utilities.versionType == "INTERNAL" {
             utilities.internalNSLog("[Initialization] Running an INTERNAL build, logging will be force enabled")
@@ -168,9 +165,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         #endif
         
         if utilities.versionType == "INTERNAL" {
-            if !utilities.settings.isSameDevice() {
+            if !utilities.preferences.isSameDevice() {
                 utilities.internalNSLog("[Initialization] This is a new device, rechecking compatibility.")
-                utilities.settings.defaults.set(utilities.settings.getDeviceModel(), forKey: "general.device.model")
+                utilities.preferences.general.deviceModel = utilities.preferences.getDeviceModel()
             } else {
                 utilities.internalNSLog("[Initialization] This is the same device, can skip compatibility checks.")
             }
@@ -178,8 +175,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         if !utilities.function.supportsHEIC() {
             utilities.debugNSLog("[Initialization] HEIF enabled on a device that doesn't support it, disabling")
-            utilities.settings.defaults.set(true, forKey: "capture.type.jpeg")
-            utilities.settings.defaults.set(false, forKey: "capture.type.heif")
+            utilities.preferences.capture.format.heic = false
+            utilities.preferences.capture.format.jpeg = true
         }
         
         cameraPreview?.frame.size = self.view.frame.size
@@ -223,7 +220,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             cameraPreview?.frame = view.layer.bounds
             cameraPreview?.connection?.videoOrientation = videoOrientation
             
-            if utilities.settings.defaults.bool(forKey: "preview.size.fill") {
+            if utilities.preferences.preview.aspect {
                 cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspectFill
             } else {
                 cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspect
@@ -259,7 +256,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         
         if utilities.versionType == "INTERNAL" || utilities.versionType == "DEBUG" {
-            if utilities.settings.defaults.bool(forKey: "debug.logging.userdefaults") {
+            if utilities.preferences.debug.logging.preferences {
                 utilities.settings.dumpUserDefaults()
             }
         }
@@ -424,7 +421,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         exposureTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString("uibutton.exposure.title", comment: ""), anchorConstant: 80)
         
         self.view.addGestureRecognizer(zoomRecognizer)
-        guard let tapGestureElements = utilities.settings.defaults.stringArray(forKey: "ui.tapgesture.elements") else { return }
+        let tapGestureElements = utilities.preferences.userInterface.tapAndHold
         if !tapGestureElements.contains("off") { self.view.addGestureRecognizer(aeafRecognizer) }
         self.view.addGestureRecognizer(uiHiderRecognizer)
         
@@ -510,7 +507,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             currentCamera.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
         ])
         
-        if utilities.settings.defaults.bool(forKey: "ui.applaunch.hiddenui") {
+        if utilities.preferences.userInterface.appLaunch {
             cameraButton.alpha = 0.0
             flashlightButton.alpha = 0.0
             captureButton.alpha = 0.0
@@ -531,7 +528,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     }
     
     func setupGameKitAlert() {
-        if utilities.settings.defaults.bool(forKey: "general.gamekit.alert") {
+        if utilities.preferences.general.gamekit.alerted {
             let alert = UIAlertController(title: "alert.title.gamekit".localized, message: "alert.detail.gamekit".localized, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.reopen", comment: "Default action"), style: .default, handler: { _ in
                 exit(11)
@@ -545,8 +542,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                 #endif
             }))
             alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ignore", comment: "Default action"), style: .default, handler: { _ in
-                self.utilities.settings.defaults.set(false, forKey: "general.gamekit.alert")
-                self.setupLmaoView()
+                self.utilities.preferences.general.gamekit.alerted = false
             }))
             self.present(alert, animated: true, completion: nil)
         }
@@ -567,14 +563,14 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to enable or disable the idle timer.
     @objc func changeIdleTimerState() {
         #if MAIN_APP
-        UIApplication.shared.isIdleTimerDisabled = utilities.settings.defaults.bool(forKey: "ui.idletimer.enabled") ? true : false
+        UIApplication.shared.isIdleTimerDisabled = utilities.preferences.userInterface.idleTimer
         #endif
     }
     
     /// Function to dynamically update the aspect ratio for ``cameraPreview`` through ``MalachiteSettingsView``.
     @objc func changeAspectFill() {
         UIView.animate(withDuration: 20) { [self] in
-            if utilities.settings.defaults.bool(forKey: "preview.size.fill") {
+            if utilities.preferences.preview.aspect {
                 cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspectFill
             } else {
                 cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspect
@@ -603,7 +599,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     }
     
     @objc func changeAEAFRecognizer() {
-        guard let tapGestureElements = utilities.settings.defaults.stringArray(forKey: "ui.tapgesture.elements") else { return }
+        let tapGestureElements = utilities.preferences.userInterface.tapAndHold
         guard let currentGestureRecognizers = self.view.gestureRecognizers else { return }
         
         if tapGestureElements.contains("off") {
@@ -621,7 +617,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to change the video stabilization mode for the ``cameraPreview``.
     @objc func changeStabilizerMode() {
-        if utilities.settings.defaults.bool(forKey: "preview.stblz.enabled") {
+        if utilities.preferences.preview.stablize {
             if #available(iOS 17.0, *) {
                 if ((selectedDevice?.activeFormat.isVideoStabilizationModeSupported(.previewOptimized)) != nil) {
                     utilities.debugNSLog("[Preview Stabilization] Enabling enhanced stabilization mode")
@@ -642,7 +638,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to change the GameKit enabled state.
     @objc func changeGameCenterEnabled() {
         DispatchQueue.global(qos: .background).async { [self] in
-            if utilities.settings.defaults.bool(forKey: "general.gamekit.enabled") {
+            if utilities.preferences.general.gamekit.enabled {
                 utilities.games.setupGameCenter()
             }
         }
@@ -752,7 +748,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         DispatchQueue.global(qos: .background).async { [self] in
             utilities.settings.runPhotoCounter()
             if utilities.games.gameCenterEnabled {
-                let numPhotos = utilities.settings.defaults.integer(forKey: "general.photos.count")
+                let numPhotos = utilities.preferences.general.photoCount
                 if numPhotos == 1 {
                     let firstPhoto = utilities.games.achievements.pullAchievement(achievementName: "first_photo")
                     firstPhoto.percentComplete = 100
@@ -895,7 +891,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     }
     
     @objc func updateSettingsGestureFingerCount() {
-        settingsRecognizer.numberOfTouchesRequired = utilities.settings.defaults.integer(forKey: "ui.settingsgesture.fingers")
+        settingsRecognizer.numberOfTouchesRequired = utilities.preferences.evaintrnl.settingsGesture
     }
     
     @objc func runSettingsGesture() {
@@ -924,7 +920,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                     }
                 }
             }
-            guard let hiddenRecognizers = utilities.settings.defaults.stringArray(forKey: "ui.hiddengestures.elements") else { return }
+            let hiddenRecognizers = utilities.preferences.userInterface.hiddenControls
             for gestureRecognizer in gestureRecognizers {
                 if gestureRecognizer == zoomRecognizer && !hiddenRecognizers.contains("zoom") { self.view.removeGestureRecognizer(gestureRecognizer) }
                 if gestureRecognizer == aeafRecognizer && !hiddenRecognizers.contains("tah") { self.view.removeGestureRecognizer(gestureRecognizer) }
