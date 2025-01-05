@@ -99,32 +99,32 @@ class MalachitePreferencesUtils {
             ),
             preview: MalachitePreferences.previewPreferences(
                 aspect: oldPreferences.object(forKey: "preview.size.fill") as? Bool ?? false,
-                stablize: oldPreferences.object(forKey: "preview.stblz.enabled") as? Bool ?? false
+                stablize: oldPreferences.object(forKey: "preview.stblz.enabled") as? Bool ?? true
             ),
             capture: MalachitePreferences.capturePreferences(
                 unlimitedISO: oldPreferences.object(forKey: "capture.exposure.unlimited") as? Bool ?? false,
-                hdr: oldPreferences.object(forKey: "capture.hdr.enabled") as? Bool ?? false,
+                hdr: oldPreferences.object(forKey: "capture.hdr.enabled") as? Bool ?? true,
                 format: MalachitePreferences.capturePreferences.formatPreferences(
                     jpeg: !(oldPreferences.object(forKey: "capture.type.heif") as? Bool ?? false),
-                    heic: oldPreferences.object(forKey: "capture.type.heif") as? Bool ?? false,
+                    heic: oldPreferences.object(forKey: "capture.type.heif") as? Bool ?? true,
                     raw: false, // Key never existed in the old preferences system
                     proraw: false // Key never existed in the old preferences system
                 ),
-                continuous: oldPreferences.object(forKey: "capture.continuous.elements") as? [ String ] ?? [ "" ],
+                continuous: oldPreferences.object(forKey: "capture.continuous.elements") as? [ String ] ?? [ "invalid" ],
                 mp: MalachitePreferences.capturePreferences.mpPreferences(
-                    ultrawide: oldPreferences.object(forKey: "capture.mp.ultrawide") as? Int ?? 0,
-                    wideangle: oldPreferences.object(forKey: "capture.mp.wide") as? Int ?? 0,
-                    telephoto: oldPreferences.object(forKey: "capture.mp.telephoto") as? Int ?? 0
+                    ultrawide: oldPreferences.object(forKey: "capture.mp.ultrawide") as? Int ?? 12,
+                    wideangle: oldPreferences.object(forKey: "capture.mp.wide") as? Int ?? 12,
+                    telephoto: oldPreferences.object(forKey: "capture.mp.telephoto") as? Int ?? 12
                 ),
-                maximumZoom: oldPreferences.object(forKey: "capture.zoom.maximum") as? Int ?? 0
+                maximumZoom: oldPreferences.object(forKey: "capture.zoom.maximum") as? Int ?? 5
             ),
             watermark: MalachitePreferences.watermarkPreferences(
                 enabled: oldPreferences.object(forKey: "wtrmark.enabled") as? Bool ?? false,
-                text: oldPreferences.object(forKey: "wtrmark.text") as? String ?? ""
+                text: oldPreferences.object(forKey: "wtrmark.text") as? String ?? "Shot with Malachite"
             ),
             userInterface: MalachitePreferences.userInterfacePreferences(
-                pinchZoom: oldPreferences.object(forKey: "ui.pinchzoom.enabled") as? Bool ?? false,
-                tapAndHold: oldPreferences.object(forKey: "ui.tapgesture.elements") as? [ String ] ?? [ "" ],
+                pinchZoom: oldPreferences.object(forKey: "ui.pinchzoom.enabled") as? Bool ?? true,
+                tapAndHold: oldPreferences.object(forKey: "ui.tapgesture.elements") as? [ String ] ?? [ "ae", "af" ],
                 hiddenControls: oldPreferences.object(forKey: "ui.hiddengestures.elements") as? [ String ] ?? [ "" ],
                 idleTimer: oldPreferences.object(forKey: "ui.idletimer.enabled") as? Bool ?? false,
                 appLaunch: oldPreferences.object(forKey: "ui.applaunch.hiddenui") as? Bool ?? false,
@@ -136,7 +136,7 @@ class MalachitePreferencesUtils {
                 )
             ),
             evaintrnl: MalachitePreferences.evaintrnlPreferences(
-                settingsGesture: oldPreferences.object(forKey: "ui.settingsgesture.fingers") as? Int ?? 0
+                settingsGesture: oldPreferences.object(forKey: "ui.settingsgesture.fingers") as? Int ?? 2
             )
         )
     }
