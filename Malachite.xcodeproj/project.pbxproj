@@ -128,6 +128,7 @@
 		780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteTooltipUtils.swift; sourceTree = "<group>"; };
 		78163D8D2CCB7BAE00146126 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
 		782FC7752B2DAFAB007709C1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		78474D2B2D7AC879006FBB96 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		78562BC22B450A7600920160 /* PRIVACY_POLICY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_POLICY.md; sourceTree = SOURCE_ROOT; };
 		7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteAboutView.swift; sourceTree = "<group>"; };
 		785F08492B12D41100244EB4 /* Malachite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Malachite.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -214,6 +215,7 @@
 		785F08402B12D41100244EB4 = {
 			isa = PBXGroup;
 			children = (
+				78474D2B2D7AC879006FBB96 /* .gitignore */,
 				78664F142D10E0AF003ADE09 /* .github */,
 				5549F6162B4D36A100626B9D /* ci_scripts */,
 				785F084B2B12D41100244EB4 /* Malachite */,

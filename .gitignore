@@ -6,3 +6,6 @@ xcuserdata/
 
 ## xcodebuild
 build/
+
+## UNRAID things
+.fuse_hidden*
