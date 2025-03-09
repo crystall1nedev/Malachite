@@ -105,7 +105,7 @@ struct MalachiteAboutView: View {
                 Spacer()
                 Button {
                     if utilities.versionType == "INTERNAL" {
-                        utilities.preferences.utils.showGameKitOptionInAbout(in: &utilities.preferences)
+                        utilities.preferences.ext.showGameKitOptionInAbout(in: &utilities.preferences)
                     }
                 } label: {
                     Image("icon")

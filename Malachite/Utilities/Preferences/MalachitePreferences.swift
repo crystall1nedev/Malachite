@@ -108,7 +108,7 @@ struct MalachitePreferences: Codable {
 
 extension MalachitePreferences {
     
-    var utils: Utils { return Utils() }
+    var ext: Utils { return Utils() }
     class Utils {
         var gameKitButton = 0
         /// Shows the GameKit enable switch in About settings.
@@ -149,6 +149,9 @@ extension MalachitePreferences {
                 if get() == preferences.general.deviceModel { return true }
                 return false
             }
+        }
+        public func resetPreferences() {
+            if MalachitePreferencesUtils().writePreferences(MalachitePreferencesUtils().initPreferences()) { print("[Preferences] Successfully wiped preferences. Relaunch to ensure.") }
         }
     }
 }

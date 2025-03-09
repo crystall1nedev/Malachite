@@ -83,6 +83,10 @@ class MalachitePreferencesUtils {
         }
     }
     
+    func resetPreferences() {
+        if writePreferences(initPreferences()) { print("[Preferences] Successfully wiped preferences. Relaunch to ensure.") }
+    }
+    
     func migratePreferences(oldPreferences: [ String: AnyObject ]) -> MalachitePreferences {
         var currentPreferences = initPreferences()
         
@@ -151,7 +155,6 @@ class MalachitePreferencesUtils {
     }
     
     func initPreferences() -> MalachitePreferences {
-        let oldPreferences = UserDefaults.standard
         return MalachitePreferences(
             compatibility: MalachitePreferences.compatibilityPreferences(
                 ultrawide: [ "invalid" : false ],
@@ -180,10 +183,10 @@ class MalachitePreferencesUtils {
             ),
             capture: MalachitePreferences.capturePreferences(
                 unlimitedISO: false,
-                hdr: oldPreferences.object(forKey: "capture.hdr.enabled") as? Bool ?? true,
+                hdr: true,
                 format: MalachitePreferences.capturePreferences.formatPreferences(
-                    jpeg: !(oldPreferences.object(forKey: "capture.type.heif") as? Bool ?? false),
-                    heic: oldPreferences.object(forKey: "capture.type.heif") as? Bool ?? true,
+                    jpeg: false,
+                    heic: true,
                     raw: false,
                     proraw: false
                 ),

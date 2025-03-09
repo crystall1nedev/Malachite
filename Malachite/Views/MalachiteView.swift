@@ -163,9 +163,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         #endif
         
         if utilities.versionType == "INTERNAL" {
-            if !utilities.preferences.utils.deviceModel.isSameDevice(in: &utilities.preferences) {
+            if !utilities.preferences.ext.deviceModel.isSameDevice(in: &utilities.preferences) {
                 utilities.internalNSLog("[Initialization] This is a new device, rechecking compatibility.")
-                utilities.preferences.general.deviceModel = utilities.preferences.utils.deviceModel.get()
+                utilities.preferences.general.deviceModel = utilities.preferences.ext.deviceModel.get()
             } else {
                 utilities.internalNSLog("[Initialization] This is the same device, can skip compatibility checks.")
             }
