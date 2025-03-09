@@ -255,7 +255,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         if utilities.versionType == "INTERNAL" || utilities.versionType == "DEBUG" {
             if utilities.preferences.debug.logging.preferences {
-                utilities.settings.dumpUserDefaults()
+                MalachitePreferencesUtils().printPreferences()
             }
         }
         
@@ -744,7 +744,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         progressIndicator.stopAnimating()
         
         DispatchQueue.global(qos: .background).async { [self] in
-            utilities.settings.runPhotoCounter()
+            utilities.preferences.ext.runPhotoCounter()
             if utilities.games.gameCenterEnabled {
                 let numPhotos = utilities.preferences.general.photoCount
                 if numPhotos == 1 {

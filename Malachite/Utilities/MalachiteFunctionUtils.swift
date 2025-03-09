@@ -13,8 +13,6 @@ import UIKit
 public class MalachiteFunctionUtils : NSObject {
     /// An array that returns the available image capture types supported by the camera.
     private let supportedImageCaptureTypes = CGImageDestinationCopyTypeIdentifiers() as NSArray
-    /// An instance of ``MalachiteSettingsUtils
-    public var settings = MalachiteSettingsUtils()
     /// A `Bool` that determines whether or not the device supports HDR.
     public var supportsHDR = false
     
@@ -276,22 +274,20 @@ public class MalachiteFunctionUtils : NSObject {
             
             device?.automaticallyAdjustsVideoHDREnabled = false
             
-            if settings.defaults.bool(forKey: "capture.hdr.enabled") {
+            if MalachiteClassesObject().preferences.capture.hdr {
                 if self.supportsHDR {
                     MalachiteClassesObject().debugNSLog("[Camera Input] Force enabled HDR on camera")
                     if device?.activeFormat.isVideoHDRSupported == true {
                         device?.isVideoHDREnabled = true
                     } else {
                         MalachiteClassesObject().debugNSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
-                        settings.defaults.set(false, forKey: "capture.hdr.enabled")
+                        MalachiteClassesObject().preferences.capture.hdr = false
                     }
                 } else {
                     MalachiteClassesObject().debugNSLog("[Camera Input] HDR enabled on a device that doesn't support it")
-                    settings.defaults.set(false, forKey: "capture.hdr.enabled")
+                    MalachiteClassesObject().preferences.capture.hdr = false
                 }
-            }
-            
-            if !settings.defaults.bool(forKey: "capture.hdr.enabled") {
+            } else {
                 MalachiteClassesObject().debugNSLog("[Camera Input] Force disabled HDR on camera")
                 if device?.activeFormat.isGlobalToneMappingSupported == true {
                     device?.isGlobalToneMappingEnabled = false
@@ -353,7 +349,7 @@ public class MalachiteFunctionUtils : NSObject {
     /// Function that handles taking images on `AVCapturePhotoOutput`.
     public func captureImage(output photoOutput: AVCapturePhotoOutput, viewForBounds view: UIView, captureDelegate delegate: AVCapturePhotoCaptureDelegate) -> AVCapturePhotoOutput {
         var format = [String: Any]()
-        if settings.defaults.bool(forKey: "capture.type.heif") && supportsHEIC() {
+        if MalachiteClassesObject().preferences.compatibility.heic && supportsHEIC() {
             format = [AVVideoCodecKey : AVVideoCodecType.hevc]
         } else {
             format = [AVVideoCodecKey : AVVideoCodecType.jpeg]
@@ -399,7 +395,7 @@ public class MalachiteFunctionUtils : NSObject {
         let maxISO = device.activeFormat.maxISO
         
         var selectedISO = Float()
-        if MalachiteSettingsUtils().defaults.bool(forKey: "capture.exposure.unlimited") {
+        if MalachiteClassesObject().preferences.capture.unlimitedISO {
             selectedISO = sender.value * maxISO
         } else {
             if maxISO > 1600 {

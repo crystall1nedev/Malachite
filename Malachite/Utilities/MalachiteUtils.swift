@@ -15,8 +15,6 @@ public class MalachiteClassesObject : NSObject {
     public let views     = MalachiteViewUtils()
     /// An instance of ``MalachiteFunctionUtils``
     public let function  = MalachiteFunctionUtils()
-    /// An instance of ``MalachiteSettingsUtils``
-    public let settings  = MalachiteSettingsUtils()
     /// An instance of the shared `MalachitePreferencesUtils` class
     var preferences: MalachitePreferences {
         get { return MalachitePreferencesUtils.shared.preferences }

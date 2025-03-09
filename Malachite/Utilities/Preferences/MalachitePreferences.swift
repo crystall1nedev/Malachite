@@ -150,6 +150,17 @@ extension MalachitePreferences {
                 return false
             }
         }
+        
+        public func runPhotoCounter() {
+            let value = MalachiteClassesObject().preferences.general.photoCount
+            if value < UINT64_MAX { // I still want to see someone reach this
+                MalachiteClassesObject().preferences.general.photoCount += 1
+            } else {
+                MalachiteClassesObject().debugNSLog("[Preferences] what")
+                MalachiteClassesObject().preferences.general.photoCount = 0
+            }
+        }
+        
         public func resetPreferences() {
             if MalachitePreferencesUtils().writePreferences(MalachitePreferencesUtils().initPreferences()) { print("[Preferences] Successfully wiped preferences. Relaunch to ensure.") }
         }

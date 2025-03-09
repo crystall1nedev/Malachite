@@ -988,7 +988,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erase all UserDefaults keys"
+            "value" : "Erase preferences"
           }
         }
       }
@@ -998,7 +998,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Log UserDefaults keys"
+            "value" : "Log preferences to console"
           }
         }
       }
