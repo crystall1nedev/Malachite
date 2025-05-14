@@ -26,6 +26,7 @@ jobs:
           password: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
           security unlock-keychain -p $password login.keychain
+          mv Malachite/Codesigning.example.xcconfig Malachite/Codesigning.xcconfig
           xcodebuild -project Malachite.xcodeproj -target Malachite -configuration Internal -allowProvisioningUpdates
           mkdir build/Payload && mv build/Internal-iphoneos/Malachite.app build/Payload/Malachite.app 
           cd build && zip -r Payload.ipa Payload/
