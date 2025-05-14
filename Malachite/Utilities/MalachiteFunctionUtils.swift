@@ -13,8 +13,6 @@ import UIKit
 public class MalachiteFunctionUtils : NSObject {
     /// An array that returns the available image capture types supported by the camera.
     private let supportedImageCaptureTypes = CGImageDestinationCopyTypeIdentifiers() as NSArray
-    /// An instance of ``MalachiteSettingsUtils
-    public var settings = MalachiteSettingsUtils()
     /// A `Bool` that determines whether or not the device supports HDR.
     public var supportsHDR = false
     
@@ -36,16 +34,16 @@ public class MalachiteFunctionUtils : NSObject {
     /// Function that determines if the device supports HDR.
     public func deviceFormatSupportsHDR(device hdrDevice: AVCaptureDevice) {
         if hdrDevice.activeFormat.isVideoHDRSupported == true {
-            MalachiteClassesObject().settings.defaults.set(true, forKey: "compatibility.hdr")
+            MalachitePreferencesUtils.shared.preferences.compatibility.hdr = true
             self.supportsHDR = true
         }
     }
     
     /// Function that determines if the device supports HEIC.
     public func supportsHEIC() -> Bool {
-        MalachiteClassesObject().settings.defaults.set(true, forKey: "compatibility.jpeg")
+        MalachitePreferencesUtils.shared.preferences.compatibility.jpeg = true
         if supportedImageCaptureTypes.contains("public.heic") {
-            MalachiteClassesObject().settings.defaults.set(true, forKey: "compatibility.heif")
+            MalachitePreferencesUtils.shared.preferences.compatibility.heic = true
             return true
         }
         
@@ -55,7 +53,7 @@ public class MalachiteFunctionUtils : NSObject {
     /// Function that handles pinch to zoom.
     public func zoom(sender pinch: UIPinchGestureRecognizer, captureDevice device: inout AVCaptureDevice, lastZoomFactor zoomFactor: inout CGFloat, hapticClass haptic: MalachiteHapticUtils) {
         func minMaxZoom(_ factor: CGFloat) -> CGFloat {
-            return min(min(max(factor, 1.0), CGFloat(MalachiteClassesObject().settings.defaults.integer(forKey: "capture.zoom.maximum"))), device.activeFormat.videoMaxZoomFactor)
+            return min(min(max(factor, 1.0), CGFloat(MalachitePreferencesUtils.shared.preferences.capture.maximumZoom)), device.activeFormat.videoMaxZoomFactor)
         }
         
         func update(scale factor: CGFloat) {
@@ -121,7 +119,7 @@ public class MalachiteFunctionUtils : NSObject {
                 return
             }
             
-            guard let tapGestureElements = MalachiteClassesObject().settings.defaults.stringArray(forKey: "ui.tapgesture.elements") else { return }
+            let tapGestureElements = MalachitePreferencesUtils.shared.preferences.userInterface.tapAndHold
             
             if tapGestureElements.contains("af") {
                 if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
@@ -156,7 +154,7 @@ public class MalachiteFunctionUtils : NSObject {
             return
         }
         
-        guard let continuousElements = MalachiteClassesObject().settings.defaults.stringArray(forKey: "capture.continuous.elements") else { return }
+        let continuousElements = MalachitePreferencesUtils.shared.preferences.capture.continuous
         
         if continuousElements.contains("ae") && device.isExposureModeSupported(.continuousAutoExposure) {
             device.exposureMode = .continuousAutoExposure
@@ -235,11 +233,11 @@ public class MalachiteFunctionUtils : NSObject {
                     if maxDimensions.width == 8064 && maxDimensions.height == 6048 { tmpDictionary["48"] = true }
                     switch camera.deviceType {
                     case .builtInUltraWideCamera:
-                        MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.ultrawide")
+                        MalachitePreferencesUtils.shared.preferences.compatibility.ultrawide = tmpDictionary
                     case .builtInWideAngleCamera:
-                        MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.wide")
+                        MalachitePreferencesUtils.shared.preferences.compatibility.wideangle = tmpDictionary
                     case .builtInTelephotoCamera:
-                        MalachiteClassesObject().settings.defaults.set(tmpDictionary, forKey: "compatibility.dimensions.telephoto")
+                        MalachitePreferencesUtils.shared.preferences.compatibility.telephoto = tmpDictionary
                     default:
                         break
                     }
@@ -276,22 +274,20 @@ public class MalachiteFunctionUtils : NSObject {
             
             device?.automaticallyAdjustsVideoHDREnabled = false
             
-            if settings.defaults.bool(forKey: "capture.hdr.enabled") {
+            if MalachiteClassesObject().preferences.capture.hdr {
                 if self.supportsHDR {
                     MalachiteClassesObject().debugNSLog("[Camera Input] Force enabled HDR on camera")
                     if device?.activeFormat.isVideoHDRSupported == true {
                         device?.isVideoHDREnabled = true
                     } else {
                         MalachiteClassesObject().debugNSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
-                        settings.defaults.set(false, forKey: "capture.hdr.enabled")
+                        MalachiteClassesObject().preferences.capture.hdr = false
                     }
                 } else {
                     MalachiteClassesObject().debugNSLog("[Camera Input] HDR enabled on a device that doesn't support it")
-                    settings.defaults.set(false, forKey: "capture.hdr.enabled")
+                    MalachiteClassesObject().preferences.capture.hdr = false
                 }
-            }
-            
-            if !settings.defaults.bool(forKey: "capture.hdr.enabled") {
+            } else {
                 MalachiteClassesObject().debugNSLog("[Camera Input] Force disabled HDR on camera")
                 if device?.activeFormat.isGlobalToneMappingSupported == true {
                     device?.isGlobalToneMappingEnabled = false
@@ -326,13 +322,13 @@ public class MalachiteFunctionUtils : NSObject {
             
             switch device.deviceType {
             case .builtInUltraWideCamera:
-                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.ultrawide")
+                mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.ultrawide
             case .builtInWideAngleCamera:
-                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.wide")
+                mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.wideangle
             case .builtInTelephotoCamera:
-                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.telephoto")
+                mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.telephoto
             default:
-                mpSetting = MalachiteClassesObject().settings.defaults.integer(forKey: "capture.mp.wide")
+                mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.wideangle
             }
             
             switch mpSetting {
@@ -353,7 +349,7 @@ public class MalachiteFunctionUtils : NSObject {
     /// Function that handles taking images on `AVCapturePhotoOutput`.
     public func captureImage(output photoOutput: AVCapturePhotoOutput, viewForBounds view: UIView, captureDelegate delegate: AVCapturePhotoCaptureDelegate) -> AVCapturePhotoOutput {
         var format = [String: Any]()
-        if settings.defaults.bool(forKey: "capture.type.heif") && supportsHEIC() {
+        if MalachiteClassesObject().preferences.compatibility.heic && supportsHEIC() {
             format = [AVVideoCodecKey : AVVideoCodecType.hevc]
         } else {
             format = [AVVideoCodecKey : AVVideoCodecType.jpeg]
@@ -399,7 +395,7 @@ public class MalachiteFunctionUtils : NSObject {
         let maxISO = device.activeFormat.maxISO
         
         var selectedISO = Float()
-        if MalachiteSettingsUtils().defaults.bool(forKey: "capture.exposure.unlimited") {
+        if MalachiteClassesObject().preferences.capture.unlimitedISO {
             selectedISO = sender.value * maxISO
         } else {
             if maxISO > 1600 {

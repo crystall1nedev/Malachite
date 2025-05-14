@@ -16,8 +16,7 @@ import SwiftUI
 struct MalachiteCaptureBundle: LockedCameraCaptureExtension {
     var body: some LockedCameraCaptureExtensionScene {
         LockedCameraCaptureUIScene { session in
-            MalachiteView_SwiftUIWrapped(session)
-            //MalachiteCaptureBundleViewFinder(session: session)
+            MalachiteCaptureBundleViewFinder(session: session)
         }
     }
 }
@@ -32,16 +31,11 @@ struct MalachiteCaptureBundleViewFinder: UIViewControllerRepresentable {
         self.session = session
     }
  
-    func makeUIViewController(context: Self.Context) -> UIImagePickerController {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = sourceType
-        imagePicker.mediaTypes = [UTType.image.identifier, UTType.movie.identifier]
-        imagePicker.cameraDevice = .rear
- 
-        return imagePicker
+    func makeUIViewController(context: Self.Context) -> MalachiteView {
+        return MalachiteView()
     }
  
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Self.Context) {
+    func updateUIViewController(_ uiViewController: MalachiteView, context: Self.Context) {
     }
 }
 

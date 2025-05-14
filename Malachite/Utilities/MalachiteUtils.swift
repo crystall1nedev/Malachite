@@ -15,8 +15,14 @@ public class MalachiteClassesObject : NSObject {
     public let views     = MalachiteViewUtils()
     /// An instance of ``MalachiteFunctionUtils``
     public let function  = MalachiteFunctionUtils()
-    /// An instance of ``MalachiteSettingsUtils``
-    public let settings  = MalachiteSettingsUtils()
+    /// An instance of the shared `MalachitePreferencesUtils` class
+    var preferences: MalachitePreferences {
+        get { return MalachitePreferencesUtils.shared.preferences }
+        set {
+            MalachitePreferencesUtils.shared.preferences = newValue
+            if MalachitePreferencesUtils().writePreferences(newValue) { internalNSLog("[Preferences] Updated preferences successfully.") }
+        }
+    }
     /// An instance of ``MalachiteTooltipUtils``
     public let tooltips  = MalachiteTooltipUtils()
     /// An instance of ``MalachiteGameUtils``
@@ -45,7 +51,7 @@ public class MalachiteClassesObject : NSObject {
     /// A function to only log in INTERNAL builds
     public func internalNSLog(_ format: String, file: String = #file, line: Int = #line, function: String = #function) {
         if self.versionType == "INTERNAL" {
-            Foundation.NSLog("[\(file):\(line)] [\(function)] \(format)")
+            Foundation.NSLog("[\(file):\(line)] [\(function)] [INTERNAL] \(format)")
         }
     }
     

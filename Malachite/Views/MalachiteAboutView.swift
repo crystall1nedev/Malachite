@@ -63,12 +63,13 @@ struct MalachiteAboutView: View {
             
         }
         .onAppear() {
-            gamekitSwitch = utilities.settings.defaults.bool(forKey: "general.gamekit.enabled")
-            exposureUnlimiterSwitch = utilities.settings.defaults.bool(forKey: "capture.exposure.unlimited")
+            gamekitSwitch = utilities.preferences.general.gamekit.enabled
+            exposureUnlimiterSwitch = utilities.preferences.capture.unlimitedISO
         }
         .onDisappear() {
-            utilities.settings.defaults.set(gamekitSwitch, forKey: "general.gamekit.enabled")
-            utilities.settings.defaults.set(exposureUnlimiterSwitch, forKey: "capture.exposure.unlimited")
+            utilities.preferences.general.gamekit.enabled = gamekitSwitch
+            utilities.preferences.capture.unlimitedISO = exposureUnlimiterSwitch
+            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
         }
         .navigationTitle("view.title.about")
@@ -104,7 +105,7 @@ struct MalachiteAboutView: View {
                 Spacer()
                 Button {
                     if utilities.versionType == "INTERNAL" {
-                        utilities.settings.showGameKitOptionInAbout()
+                        utilities.preferences.ext.showGameKitOptionInAbout(in: &utilities.preferences)
                     }
                 } label: {
                     Image("icon")
@@ -221,7 +222,7 @@ struct MalachiteAboutView: View {
             {
                 Toggle("settings.option.photo.max_exposure", isOn: $exposureUnlimiterSwitch)
             }
-            if utilities.settings.defaults.bool(forKey: "general.gamekit.found") {
+            if utilities.preferences.general.gamekit.found {
                 MalachiteCellViewUtils(
                     icon: "gamecontroller",
                     disabled: nil,
@@ -232,12 +233,12 @@ struct MalachiteAboutView: View {
             }
         }
         .onChange(of: gamekitSwitch) {_ in
-            utilities.settings.defaults.set(gamekitSwitch, forKey: "general.gamekit.enabled")
+            utilities.preferences.general.gamekit.enabled = gamekitSwitch
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
         }
         .onChange(of: exposureUnlimiterSwitch) { _ in
             utilities.debugNSLog("[Settings View] Lol")
-            utilities.settings.defaults.set(exposureUnlimiterSwitch, forKey: "capture.exposure.unlimited")
+            utilities.preferences.capture.unlimitedISO = exposureUnlimiterSwitch
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
         }
     }

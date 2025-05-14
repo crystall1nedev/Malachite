@@ -85,161 +85,8 @@ struct MalachiteSettingsView: View {
                 debugSettingsSection
             }
         }
-        .onAppear() {
-            watermarkText = utilities.settings.defaults.string(forKey: "wtrmark.text") ?? ""
-            watermarkSwitch = utilities.settings.defaults.bool(forKey: "wtrmark.enabled")
-            hdrSwitch = utilities.settings.defaults.bool(forKey: "capture.hdr.enabled")
-            shouldStabilize = utilities.settings.defaults.bool(forKey: "preview.stblz.enabled")
-            debugLoggingUserDefaults = utilities.settings.defaults.bool(forKey: "debug.logging.userdefaults")
-            settingsGestureFingers = utilities.settings.defaults.integer(forKey: "ui.settingsgesture.fingers")
-            idleTimerDisabled = utilities.settings.defaults.bool(forKey: "ui.idletimer.disabled")
-            hapticsDisabled = utilities.settings.defaults.bool(forKey: "ui.haptics.disabled")
-            appStartsUIHidden = utilities.settings.defaults.bool(forKey: "ui.applaunch.hiddenui")
-            
-            supportsHDR = utilities.function.supportsHDR
-            supportsHEIC = utilities.function.supportsHEIC()
-            
-            switch utilities.settings.defaults.integer(forKey: "capture.zoom.maximum") {
-            case 5:
-                zoomMaximum = 0
-            case 10:
-                zoomMaximum = 1
-            default:
-                zoomMaximum = 0
-            }
-            
-            switch utilities.settings.defaults.stringArray(forKey: "capture.continuous.elements") {
-            case ["ae", "af"]:
-                continuousAEAF = 0
-            case ["af"]:
-                continuousAEAF = 1
-            case ["ae"]:
-                continuousAEAF = 2
-            default:
-                continuousAEAF = 3
-            }
-            
-            switch utilities.settings.defaults.stringArray(forKey: "ui.tapgesture.elements") {
-            case ["ae", "af"]:
-                poiTapAndHold = 0
-            case ["af"]:
-                poiTapAndHold = 1
-            case ["ae"]:
-                poiTapAndHold = 2
-            default:
-                poiTapAndHold = 3
-            }
-            
-            switch utilities.settings.defaults.stringArray(forKey: "ui.hiddengestures.elements") {
-            case ["zoom", "tah"]:
-                uiHiderGestures = 0
-            case ["zoom"]:
-                uiHiderGestures = 1
-            case ["tah"]:
-                uiHiderGestures = 2
-            default:
-                uiHiderGestures = 3
-            }
-            
-            if !supportsHEIC {
-                formatFooterText = "settings.footer.photo.heif".localized
-            }
-            
-            if !supportsHDR {
-                formatFooterText = formatFooterText + "settings.footer.photo.hdr".localized
-            }
-            
-            if !utilities.settings.defaults.bool(forKey: "capture.type.heif") {
-                photoFormat = 0
-            } else {
-                photoFormat = 1
-            }
-            
-            if !utilities.settings.defaults.bool(forKey: "preview.size.fill") {
-                previewAspect = 0
-            } else {
-                previewAspect = 1
-            }
-        }
-        .onDisappear() {
-            utilities.settings.defaults.set(watermarkSwitch, forKey: "wtrmark.enabled")
-            utilities.settings.defaults.set(hdrSwitch, forKey: "capture.hdr.enabled")
-            utilities.settings.defaults.set(shouldStabilize, forKey: "preview.stblz.enabled")
-            utilities.settings.defaults.set(debugLoggingUserDefaults, forKey: "debug.logging.userdefaults")
-            utilities.settings.defaults.set(settingsGestureFingers, forKey: "ui.settingsgesture.fingers")
-            utilities.settings.defaults.set(idleTimerDisabled, forKey: "ui.idletimer.disabled")
-            utilities.settings.defaults.set(hapticsDisabled, forKey: "ui.haptics.disabled")
-            utilities.settings.defaults.set(appStartsUIHidden, forKey: "ui.applaunch.hiddenui")
-            
-            switch zoomMaximum {
-            case 0:
-                utilities.settings.defaults.set(5, forKey: "capture.zoom.maximum")
-            case 1:
-                utilities.settings.defaults.set(10, forKey: "capture.zoom.maximum")
-            default:
-                utilities.settings.defaults.set(5, forKey: "capture.zoom.maximum")
-            }
-            
-            switch continuousAEAF {
-            case 0:
-                utilities.settings.defaults.set(["ae", "af"] as Array<String>, forKey: "capture.continuous.elements")
-            case 1:
-                utilities.settings.defaults.set(["af"] as Array<String>, forKey: "capture.continuous.elements")
-            case 2:
-                utilities.settings.defaults.set(["ae"] as Array<String>, forKey: "capture.continuous.elements")
-            default:
-                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "capture.continuous.elements")
-            }
-            
-            switch poiTapAndHold {
-            case 0:
-                utilities.settings.defaults.set(["ae", "af"] as Array<String>, forKey: "ui.tapgesture.elements")
-            case 1:
-                utilities.settings.defaults.set(["af"] as Array<String>, forKey: "ui.tapgesture.elements")
-            case 2:
-                utilities.settings.defaults.set(["ae"] as Array<String>, forKey: "ui.tapgesture.elements")
-            default:
-                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "ui.tapgesture.elements")
-            }
-            
-            switch uiHiderGestures {
-            case 0:
-                utilities.settings.defaults.set(["zoom", "tah"] as Array<String>, forKey: "ui.hiddengestures.elements")
-            case 1:
-                utilities.settings.defaults.set(["zoom"] as Array<String>, forKey: "ui.hiddengestures.elements")
-            case 2:
-                utilities.settings.defaults.set(["tah"] as Array<String>, forKey: "ui.hiddengestures.elements")
-            default:
-                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "ui.hiddengestures.elements")
-            }
-            
-            if !watermarkText.isEmpty {
-                utilities.settings.defaults.set(watermarkText, forKey: "wtrmark.text")
-            } else {
-                utilities.settings.defaults.set("Shot with Malachite", forKey: "wtrmark.text")
-            }
-            
-            if photoFormat == 0 {
-                utilities.settings.defaults.set(false, forKey: "capture.type.heif")
-            } else {
-                utilities.settings.defaults.set(true, forKey: "capture.type.heif")
-            }
-            
-            if previewAspect == 0 {
-                utilities.settings.defaults.set(false, forKey: "preview.size.fill")
-            } else {
-                utilities.settings.defaults.set(true, forKey: "preview.size.fill")
-            }
-            
-            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
-            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
-            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
-            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, object: nil)
-            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
-            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, object: nil)
-            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
-            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.settingsGestureNotification.name, object: nil)
-        }
+        .onAppear { onAppear() }
+        .onDisappear { onDisappear() }
         .navigationTitle("view.title.settings")
         .toolbar(content: {
             ToolbarItemGroup(placement: .topBarLeading) {
@@ -317,28 +164,23 @@ struct MalachiteSettingsView: View {
             }
         }
         .onChange(of: previewAspect) {_ in
-            
-            if previewAspect == 0 {
-                utilities.settings.defaults.set(false, forKey: "preview.size.fill")
-            } else {
-                utilities.settings.defaults.set(true, forKey: "preview.size.fill")
-            }
+            utilities.preferences.preview.aspect = (previewAspect == 1)
             
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
         }
         .onChange(of: shouldStabilize) {_ in
-            utilities.settings.defaults.set(shouldStabilize, forKey: "preview.stblz.enabled")
+            utilities.preferences.preview.stablize = shouldStabilize
             
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
         }
         .onChange(of: zoomMaximum) {_ in
             switch zoomMaximum {
             case 0:
-                utilities.settings.defaults.set(5, forKey: "capture.zoom.maximum")
+                utilities.preferences.capture.maximumZoom = 5
             case 1:
-                utilities.settings.defaults.set(10, forKey: "capture.zoom.maximum")
+                utilities.preferences.capture.maximumZoom = 10
             default:
-                utilities.settings.defaults.set(5, forKey: "capture.zoom.maximum")
+                utilities.preferences.capture.maximumZoom = 5
             }
         }
     }
@@ -346,141 +188,90 @@ struct MalachiteSettingsView: View {
     /// A variable to hold the image resolution section.
     var resolutionSettingsSection: some View {
         Section(header: Text("settings.header.resolution")) {
-            if utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.ultrawide") > 0 {
+            if utilities.preferences.ext.dictionary.isValid(dictionary: utilities.preferences.compatibility.ultrawide) {
                 MalachiteCellViewUtils(
                     icon: "camera.aperture",
-                    disabled: utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.ultrawide") == 1,
+                    disabled: utilities.preferences.ext.dictionary.getCount(dictionary: utilities.preferences.compatibility.ultrawide) == 1,
                     dangerous: false)
                 {
                     Picker("settings.option.resolution.ultrawide", selection: $ultrawideMegapixelCount) {
-                        if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.ultrawide", key: "8") {
+                        if let mp = utilities.preferences.compatibility.ultrawide["8"] { if mp {
                             Text("settings.option.resolution.8")
                                 .tag(0)
-                        }
-                        if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.ultrawide", key: "12") {
+                        } }
+                        if let mp = utilities.preferences.compatibility.ultrawide["12"] { if mp {
                             Text("settings.option.resolution.12")
                                 .tag(1)
-                        }
-                        if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.ultrawide", key: "48") {
+                        } }
+                        if let mp = utilities.preferences.compatibility.ultrawide["48"] { if mp {
                             Text("settings.option.resolution.48")
                                 .tag(2)
-                        }
+                        } }
                     }
                 }
             }
-            if utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.wide") > 0 {
+            if utilities.preferences.ext.dictionary.isValid(dictionary: utilities.preferences.compatibility.wideangle) {
                 MalachiteCellViewUtils(
                     icon: "camera.aperture",
-                    disabled: utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.wide") == 1,
+                    disabled: utilities.preferences.ext.dictionary.getCount(dictionary: utilities.preferences.compatibility.wideangle) == 1,
                     dangerous: false)
                 {
                     Picker("settings.option.resolution.wide", selection: $wideMegapixelCount) {
-                        if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.wide", key: "8") {
+                        if let mp = utilities.preferences.compatibility.wideangle["8"] { if mp {
                             Text("settings.option.resolution.8")
                                 .tag(0)
-                        }
-                        if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.wide", key: "12") {
+                        } }
+                        if let mp = utilities.preferences.compatibility.wideangle["12"] { if mp {
                             Text("settings.option.resolution.12")
                                 .tag(1)
-                        }
-                        if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.wide", key: "48") {
+                        } }
+                        if let mp = utilities.preferences.compatibility.wideangle["48"] { if mp {
                             Text("settings.option.resolution.48")
                                 .tag(2)
-                        }
+                        } }
                     }
                 }
             }
-            if utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.telephoto") > 0 {
+            if utilities.preferences.ext.dictionary.isValid(dictionary: utilities.preferences.compatibility.telephoto) {
                 MalachiteCellViewUtils(
                     icon: "camera.aperture",
-                    disabled: utilities.settings.getCountOfDictionary(dictionary: "compatibility.dimensions.telephoto") == 1,
+                    disabled: utilities.preferences.ext.dictionary.getCount(dictionary: utilities.preferences.compatibility.telephoto) == 1,
                     dangerous: false)
                 {
                     Picker("settings.option.resolution.telephoto", selection: $telephotoMegapixelCount) {
-                        if utilities.settings.getBoolInsideDictionary(dictionary: "compatibility.dimensions.telephoto", key: "12") {
+                        if let mp = utilities.preferences.compatibility.wideangle["48"] { if mp {
                             Text("settings.option.resolution.12")
                                 .tag(0)
-                        }
+                        } }
                     }
                 }
-            }
-        }
-        .onAppear {
-            switch utilities.settings.defaults.integer(forKey: "capture.mp.ultrawide") {
-            case 12:
-                ultrawideMegapixelCount = 1
-            case 48:
-                ultrawideMegapixelCount = 2
-            default:
-                ultrawideMegapixelCount = 0
-            }
-            
-            switch utilities.settings.defaults.integer(forKey: "capture.mp.wide") {
-            case 12:
-                wideMegapixelCount = 1
-            case 48:
-                wideMegapixelCount = 2
-            default:
-                wideMegapixelCount = 0
-            }
-            
-            switch utilities.settings.defaults.integer(forKey: "capture.mp.telephoto") {
-            default:
-                telephotoMegapixelCount = 0
-            }
-        }
-        .onDisappear {
-            switch ultrawideMegapixelCount {
-            case 1:
-                utilities.settings.defaults.set(12, forKey: "capture.mp.ultrawide")
-            case 2:
-                utilities.settings.defaults.set(48, forKey: "capture.mp.ultrawide")
-            default:
-                utilities.settings.defaults.set(8, forKey: "capture.mp.ultrawide")
-            }
-            
-            switch wideMegapixelCount {
-            case 1:
-                utilities.settings.defaults.set(12, forKey: "capture.mp.wide")
-            case 2:
-                utilities.settings.defaults.set(48, forKey: "capture.mp.wide")
-            default:
-                utilities.settings.defaults.set(8, forKey: "capture.mp.wide")
-            }
-            
-            switch telephotoMegapixelCount {
-            default:
-                utilities.settings.defaults.set(12, forKey: "capture.mp.telephoto")
             }
         }
         .onChange(of: ultrawideMegapixelCount) { _ in
             switch ultrawideMegapixelCount {
             case 1:
-                utilities.settings.defaults.set(12, forKey: "capture.mp.ultrawide")
+                utilities.preferences.capture.mp.ultrawide = 12
             case 2:
-                utilities.settings.defaults.set(48, forKey: "capture.mp.ultrawide")
+                utilities.preferences.capture.mp.ultrawide = 48
             default:
-                utilities.settings.defaults.set(8, forKey: "capture.mp.ultrawide")
+                utilities.preferences.capture.mp.ultrawide = 8
             }
-            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
         }
         .onChange(of: wideMegapixelCount) { _ in
             switch wideMegapixelCount {
             case 1:
-                utilities.settings.defaults.set(12, forKey: "capture.mp.wide")
+                utilities.preferences.capture.mp.wideangle = 12
             case 2:
-                utilities.settings.defaults.set(48, forKey: "capture.mp.wide")
+                utilities.preferences.capture.mp.wideangle = 48
             default:
-                utilities.settings.defaults.set(8, forKey: "capture.mp.wide")
+                utilities.preferences.capture.mp.wideangle = 8
             }
-            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
         }
         .onChange(of: telephotoMegapixelCount) { _ in
             switch telephotoMegapixelCount {
             default:
-                utilities.settings.defaults.set(12, forKey: "capture.mp.telephoto")
+                utilities.preferences.capture.mp.telephoto = 12
             }
-            NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
         }
     }
     
@@ -525,25 +316,22 @@ struct MalachiteSettingsView: View {
             }
         }
         .onChange(of: photoFormat) {_ in
-            if photoFormat == 0 {
-                utilities.settings.defaults.set(false, forKey: "capture.type.heif")
-            } else if photoFormat == 1 {
-                utilities.settings.defaults.set(true, forKey: "capture.type.heif")
-            }
+            utilities.preferences.capture.format.jpeg = photoFormat == 0 ? true : false
+            utilities.preferences.capture.format.heic = photoFormat == 1 ? true : false
         }
         .onChange(of: hdrSwitch) { _ in
-            utilities.settings.defaults.set(hdrSwitch, forKey: "capture.hdr.enabled")
+            utilities.preferences.capture.hdr = hdrSwitch
         }
         .onChange(of: continuousAEAF) { _ in
             switch continuousAEAF {
             case 0:
-                utilities.settings.defaults.set(["ae", "af"] as Array<String>, forKey: "capture.continuous.elements")
+                utilities.preferences.capture.continuous = ["ae", "af"]
             case 1:
-                utilities.settings.defaults.set(["af"] as Array<String>, forKey: "capture.continuous.elements")
+                utilities.preferences.capture.continuous = ["af"]
             case 2:
-                utilities.settings.defaults.set(["ae"] as Array<String>, forKey: "capture.continuous.elements")
+                utilities.preferences.capture.continuous = ["ae"]
             default:
-                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "capture.continuous.elements")
+                utilities.preferences.capture.continuous = ["off"]
             }
             
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, object: nil)
@@ -574,15 +362,10 @@ struct MalachiteSettingsView: View {
             }
         }
         .onChange(of: watermarkSwitch) {_ in
-            utilities.settings.defaults.set(watermarkSwitch, forKey: "wtrmark.enabled")
+            utilities.preferences.watermark.enabled = watermarkSwitch
         }
         .onChange(of: watermarkText) {_ in
-            watermarkText = String(watermarkText.prefix(65))
-            if !watermarkText.isEmpty {
-                utilities.settings.defaults.set(watermarkText, forKey: "wtrmark.text")
-            } else {
-                utilities.settings.defaults.set("Shot with Malachite", forKey: "wtrmark.text")
-            }
+            utilities.preferences.watermark.text = watermarkText.isEmpty ? "Shot with Malachite" : String(watermarkText.prefix(65))
         }
     }
     
@@ -662,46 +445,47 @@ struct MalachiteSettingsView: View {
         .onChange(of: poiTapAndHold) {_ in
             switch poiTapAndHold {
             case 0:
-                utilities.settings.defaults.set(["ae", "af"] as Array<String>, forKey: "ui.tapgesture.elements")
+                utilities.preferences.userInterface.tapAndHold = ["ae", "af"]
             case 1:
-                utilities.settings.defaults.set(["af"] as Array<String>, forKey: "ui.tapgesture.elements")
+                utilities.preferences.userInterface.tapAndHold = ["af"]
             case 2:
-                utilities.settings.defaults.set(["ae"] as Array<String>, forKey: "ui.tapgesture.elements")
+                utilities.preferences.userInterface.tapAndHold = ["ae"]
             default:
-                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "ui.tapgesture.elements")
+                utilities.preferences.userInterface.tapAndHold = ["off"]
             }
         }
         .onChange(of: settingsGestureFingers) {_ in
-            utilities.settings.defaults.set(settingsGestureFingers, forKey: "ui.settingsgesture.fingers")
+            utilities.preferences.evaintrnl.settingsGesture = settingsGestureFingers
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.settingsGestureNotification.name, object: nil)
         }
         .onChange(of: uiHiderGestures) {_ in
             switch uiHiderGestures {
             case 0:
-                utilities.settings.defaults.set(["ae", "af"] as Array<String>, forKey: "ui.hiddengestures.elements")
+                utilities.preferences.userInterface.hiddenControls = ["zoom", "tah"]
             case 1:
-                utilities.settings.defaults.set(["af"] as Array<String>, forKey: "ui.hiddengestures.elements")
+                utilities.preferences.userInterface.hiddenControls = ["zoom"]
             case 2:
-                utilities.settings.defaults.set(["ae"] as Array<String>, forKey: "ui.hiddengestures.elements")
+                utilities.preferences.userInterface.hiddenControls = ["tah"]
             default:
-                utilities.settings.defaults.set(["off"] as Array<String>, forKey: "ui.hiddengestures.elements")
+                utilities.preferences.userInterface.hiddenControls = ["off"]
             }
             
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
         }
         .onChange(of: idleTimerDisabled) { _ in
-            utilities.settings.defaults.set(idleTimerDisabled, forKey: "ui.idletimer.disabled")
+            utilities.preferences.userInterface.idleTimerDisabled = idleTimerDisabled
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, object: nil)
         }
         .onChange(of: hapticsDisabled) { _ in
-            utilities.settings.defaults.set(hapticsDisabled, forKey: "ui.haptics.disabled")
+            utilities.preferences.userInterface.hapticFeedback = hapticsDisabled
         }
         .onChange(of: appStartsUIHidden) { _ in
-            utilities.settings.defaults.set(appStartsUIHidden, forKey: "ui.applaunch.hiddenui")
+            utilities.preferences.userInterface.appLaunch = appStartsUIHidden
         }
     }
     
     /// A variable to hold the debug settings section. Only available with debug builds.
+    // TODO: Update to the new preferences system
     var debugSettingsSection: some View {
         Section(header: Text("settings.header.debug")) {
             MalachiteCellViewUtils(
@@ -718,7 +502,7 @@ struct MalachiteSettingsView: View {
             {
                 Button {
                     utilities.debugNSLog("[Preferences] Resetting all preferences, relaunch the app to complete!")
-                    utilities.settings.resetAllSettings()
+                    utilities.preferences.ext.resetPreferences()
                 } label: {
                     if #available(iOS 17.0, *) {
                         Text("settings.option.debug.erase.userdefaults")
@@ -752,7 +536,200 @@ struct MalachiteSettingsView: View {
             }
         }
         .onChange(of: debugLoggingUserDefaults) {_ in
-            utilities.settings.defaults.set(debugLoggingUserDefaults, forKey: "debug.logging.userdefaults")
+            utilities.preferences.debug.logging.preferences = debugLoggingUserDefaults
         }
+    }
+    
+    func onAppear() {
+        supportsHDR = utilities.function.supportsHDR
+        supportsHEIC = utilities.function.supportsHEIC()
+        
+        if !supportsHEIC {
+            formatFooterText = "settings.footer.photo.heif".localized
+        }
+        
+        if !supportsHDR {
+            formatFooterText = formatFooterText + "settings.footer.photo.hdr".localized
+        }
+        
+        shouldStabilize = utilities.preferences.preview.stablize
+        
+        switch utilities.preferences.capture.maximumZoom {
+        case 5:
+            zoomMaximum = 0
+        case 10:
+            zoomMaximum = 1
+        default:
+            zoomMaximum = 0
+        }
+        
+        previewAspect = utilities.preferences.preview.aspect ? 1 : 0
+        
+        switch utilities.preferences.capture.mp.ultrawide {
+        case 12:
+            ultrawideMegapixelCount = 1
+        case 48:
+            ultrawideMegapixelCount = 2
+        default:
+            ultrawideMegapixelCount = 0
+        }
+        
+        switch utilities.preferences.capture.mp.wideangle {
+        case 12:
+            wideMegapixelCount = 1
+        case 48:
+            wideMegapixelCount = 2
+        default:
+            wideMegapixelCount = 0
+        }
+        
+        switch utilities.preferences.capture.mp.telephoto {
+        default:
+            telephotoMegapixelCount = 0
+        }
+        
+        hdrSwitch = utilities.preferences.capture.hdr
+        
+        // TODO: Better way to do this
+        photoFormat = utilities.preferences.capture.format.jpeg ? 0 : 1
+        photoFormat = utilities.preferences.capture.format.heic ? 1 : 0
+        
+        switch utilities.preferences.capture.continuous {
+        case ["ae", "af"]:
+            continuousAEAF = 0
+        case ["af"]:
+            continuousAEAF = 1
+        case ["ae"]:
+            continuousAEAF = 2
+        default:
+            continuousAEAF = 3
+        }
+        
+        watermarkText = utilities.preferences.watermark.text
+        watermarkSwitch = utilities.preferences.watermark.enabled
+        
+        settingsGestureFingers = utilities.preferences.evaintrnl.settingsGesture
+        idleTimerDisabled = utilities.preferences.userInterface.idleTimerDisabled
+        hapticsDisabled = utilities.preferences.userInterface.hapticFeedback
+        appStartsUIHidden = utilities.preferences.userInterface.appLaunch
+        
+        switch utilities.preferences.userInterface.tapAndHold {
+        case ["ae", "af"]:
+            poiTapAndHold = 0
+        case ["af"]:
+            poiTapAndHold = 1
+        case ["ae"]:
+            poiTapAndHold = 2
+        default:
+            poiTapAndHold = 3
+        }
+        
+        switch utilities.preferences.userInterface.hiddenControls {
+        case ["zoom", "tah"]:
+            uiHiderGestures = 0
+        case ["zoom"]:
+            uiHiderGestures = 1
+        case ["tah"]:
+            uiHiderGestures = 2
+        default:
+            uiHiderGestures = 3
+        }
+        
+        debugLoggingUserDefaults = utilities.preferences.debug.logging.preferences
+    }
+    
+    func onDisappear() {
+        utilities.preferences.preview.aspect = (previewAspect == 1)
+        utilities.preferences.preview.stablize = shouldStabilize
+        
+        switch zoomMaximum {
+        case 0:
+            utilities.preferences.capture.maximumZoom = 5
+        case 1:
+            utilities.preferences.capture.maximumZoom = 10
+        default:
+            utilities.preferences.capture.maximumZoom = 5
+        }
+        
+        NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
+        NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
+        
+        switch ultrawideMegapixelCount {
+        case 1:
+            utilities.preferences.capture.mp.ultrawide = 12
+        case 2:
+            utilities.preferences.capture.mp.ultrawide = 48
+        default:
+            utilities.preferences.capture.mp.ultrawide = 8
+        }
+        
+        switch wideMegapixelCount {
+        case 1:
+            utilities.preferences.capture.mp.wideangle = 12
+        case 2:
+            utilities.preferences.capture.mp.wideangle = 48
+        default:
+            utilities.preferences.capture.mp.wideangle = 8
+        }
+        
+        switch telephotoMegapixelCount {
+        default:
+            utilities.preferences.capture.mp.telephoto = 12
+        }
+        
+        NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
+        
+        utilities.preferences.capture.hdr = hdrSwitch
+        utilities.preferences.capture.format.jpeg = photoFormat == 0 ? true : false
+        utilities.preferences.capture.format.heic = photoFormat == 1 ? true : false
+        
+        switch continuousAEAF {
+        case 0:
+            utilities.preferences.capture.continuous = ["ae", "af"]
+        case 1:
+            utilities.preferences.capture.continuous = ["af"]
+        case 2:
+            utilities.preferences.capture.continuous = ["ae"]
+        default:
+            utilities.preferences.capture.continuous = ["off"]
+        }
+        
+        NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, object: nil)
+        
+        utilities.preferences.watermark.enabled = watermarkSwitch
+        utilities.preferences.watermark.text = watermarkText.isEmpty ? "Shot with Malachite" : String(watermarkText.prefix(65))
+        
+        utilities.preferences.evaintrnl.settingsGesture = settingsGestureFingers
+        utilities.preferences.userInterface.idleTimerDisabled = idleTimerDisabled
+        utilities.preferences.userInterface.hapticFeedback = hapticsDisabled
+        utilities.preferences.userInterface.appLaunch = appStartsUIHidden
+        
+        switch poiTapAndHold {
+        case 0:
+            utilities.preferences.userInterface.tapAndHold = ["ae", "af"]
+        case 1:
+            utilities.preferences.userInterface.tapAndHold = ["af"]
+        case 2:
+            utilities.preferences.userInterface.tapAndHold = ["ae"]
+        default:
+            utilities.preferences.userInterface.tapAndHold = ["off"]
+        }
+        
+        switch uiHiderGestures {
+        case 0:
+            utilities.preferences.userInterface.hiddenControls = ["zoom", "tah"]
+        case 1:
+            utilities.preferences.userInterface.hiddenControls = ["zoom"]
+        case 2:
+            utilities.preferences.userInterface.hiddenControls = ["tah"]
+        default:
+            utilities.preferences.userInterface.hiddenControls = ["off"]
+        }
+        
+        NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.settingsGestureNotification.name, object: nil)
+        NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
+        NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, object: nil)
+        
+        utilities.preferences.debug.logging.preferences = debugLoggingUserDefaults
     }
 }

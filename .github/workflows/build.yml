@@ -19,20 +19,20 @@ jobs:
           ls -lah ./
           
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build
         env:
           password: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
           security unlock-keychain -p $password login.keychain
-          xcodebuild -project Malachite.xcodeproj -target Malachite -configuration Debug -allowProvisioningUpdates
-          mkdir build/Payload && mv build/Debug-iphoneos/Malachite.app build/Payload/Malachite.app 
+          xcodebuild -project Malachite.xcodeproj -target Malachite -configuration Internal -allowProvisioningUpdates
+          mkdir build/Payload && mv build/Internal-iphoneos/Malachite.app build/Payload/Malachite.app 
           cd build && zip -r Payload.ipa Payload/
           cd ..
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Malachite.ipa
           path: build/Payload.ipa

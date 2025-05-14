@@ -13,7 +13,7 @@ I recommend one of the following configurations...
     - iPhone 13 Pro or iPhone 13 Pro Max
     - iPhone 14 Pro or iPhone 14 Pro Max
     - iPhone 15 Pro or iPhone 15 Pro Max
-    - iPhone 16 or later (excluding iPhone SE)
+    - iPhone 16 or later (excluding iPhone 16e)
   - A third-party lens attachment
 ...and **iOS 14.1** or later.
 
@@ -36,8 +36,7 @@ I don't currently have images for it; I'll be adding some as I get closer to my 
 
 ## How do I get it?
 ### TestFlight
-Malachite is available on TestFlight!  
-https://testflight.apple.com/join/Bj2HlOQV
+Malachite is on TestFlight, but only for **[my Patrons](https://patreon.com/crystall1nedev) on the Friend tier and above.** 
 
 ### Building from source
 1. Clone this repo
