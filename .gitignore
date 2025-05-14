@@ -3,6 +3,7 @@
 
 ## Xcode user settings
 xcuserdata/
+Codesigning.xcconfig
 
 ## xcodebuild
 build/

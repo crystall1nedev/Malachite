@@ -1,0 +1,10 @@
+//
+//  Codesigning.app.xcconfig
+//  Malachite
+//
+//  Created by Eva Isabella Luna on 5/13/25.
+//
+
+CODE_SIGN_STYLE = Automatic;
+DEVELOPMENT_TEAM = 95J8WZ4TN8;
+APP_IDENTIFIER = dev.crystll1ne.Malachite;
