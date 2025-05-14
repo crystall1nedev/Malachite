@@ -5,6 +5,11 @@
 //  Created by Eva Isabella Luna on 5/13/25.
 //
 
-CODE_SIGN_STYLE = Automatic;
+// Leave this line alone.
+CODE_SIGN_STYLE  = Automatic;
+// Change this to your Apple Developer Program Team ID.
+// You can find it under "Membership details" on
+// https://developer.apple.com/account
 DEVELOPMENT_TEAM = 95J8WZ4TN8;
-APP_IDENTIFIER = dev.crystll1ne.Malachite;
+// Change this to anything you want.
+APP_PREFIX       = dev.crystll1ne;

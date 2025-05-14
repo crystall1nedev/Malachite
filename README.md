@@ -40,10 +40,7 @@ Malachite is on TestFlight, but only for **[my Patrons](https://patreon.com/crys
 
 ### Building from source
 1. Clone this repo
-2. Create a file named `Codesigning.xcconfig` with the following inside:
-  - `CODE_SIGN_STYLE = Automatic;`
-  - `DEVELOPMENT_TEAM = Your Apple Developer Team ID;`
-  - `APP_IDENTIFIER = something.different.Malachite;`
+2. Open `Codesigning.example.xcconfig`, make changes, and save it as `Codesigning.xcconfig`.
 3. Open `Malachite.xcodeproj`
 4. Build!
 
