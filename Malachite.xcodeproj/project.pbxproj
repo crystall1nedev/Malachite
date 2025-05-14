@@ -159,6 +159,7 @@
 		78A9DD722CD55558002C131D /* MalachiteCaptureBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteCaptureBundle.swift; sourceTree = "<group>"; };
 		78A9DE2C2CD57F4D002C131D /* MalachiteIntentUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteIntentUtils.swift; sourceTree = "<group>"; };
 		78A9DE302CD581F1002C131D /* LockedCameraCapture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LockedCameraCapture.framework; path = System/Library/Frameworks/LockedCameraCapture.framework; sourceTree = SDKROOT; };
+		78B841F12DD4307300B088E8 /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
 		78C7EF9C2D1ECBCB001E332B /* MalachitePreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePreferences.swift; sourceTree = "<group>"; };
 		78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePreferencesUtils.swift; sourceTree = "<group>"; };
 		78E142C92DD426260016B3DB /* Codesigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Codesigning.xcconfig; sourceTree = "<group>"; };
@@ -193,6 +194,7 @@
 		5549F6162B4D36A100626B9D /* ci_scripts */ = {
 			isa = PBXGroup;
 			children = (
+				78B841F12DD4307300B088E8 /* ci_post_clone.sh */,
 				5549F6172B4D36BA00626B9D /* ci_post_xcodebuild.sh */,
 			);
 			path = ci_scripts;
