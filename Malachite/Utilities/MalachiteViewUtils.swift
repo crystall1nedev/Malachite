@@ -23,7 +23,11 @@ public class MalachiteViewUtils : NSObject {
         button.bringSubviewToFront(button.imageView!)
         button.imageView?.clipsToBounds = false
         button.imageView?.contentMode = .center
-        button.insertSubview(returnProperBlur(viewForBounds: view, blurStyle: .systemThinMaterial), at: 0)
+        if #available(iOS 26.0, *) {
+            button.configuration = .glass()
+        } else {
+            button.insertSubview(returnProperEffect(viewForBounds: view, blurStyle: .systemThinMaterial), at: 0)
+        }
         if haptic != nil {
             button.addTarget(haptic, action: #selector(haptic!.buttonMediumHaptics(_:)), for: .touchUpInside)
         }
@@ -41,14 +45,13 @@ public class MalachiteViewUtils : NSObject {
     }
     
     /// Function that returns blurs for the user interface.
-    public func returnProperBlur(viewForBounds view: UIView, blurStyle style: UIBlurEffect.Style) -> UIVisualEffectView {
-        let blur = UIBlurEffect(style: style)
-        let blurView = UIVisualEffectView(effect: blur)
-        blurView.frame = view.bounds
-        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        blurView.isUserInteractionEnabled = false
-        
-        return blurView
+    public func returnProperEffect(viewForBounds view: UIView, blurStyle style: UIBlurEffect.Style) -> UIVisualEffectView {
+        var effectView = UIVisualEffectView()
+        effectView = UIVisualEffectView(effect: UIBlurEffect(style: style))
+        effectView.frame = view.bounds
+        effectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        effectView.isUserInteractionEnabled = false
+        return effectView
     }
     
     /// Function that returns labels for the user interface.
