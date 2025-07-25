@@ -640,6 +640,28 @@
         }
       }
     },
+    "flash.off" : {
+      "comment" : "Off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        }
+      }
+    },
+    "flash.on" : {
+      "comment" : "On",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        }
+      }
+    },
     "settings.detail.debug.erase.gamekit" : {
       "localizations" : {
         "en" : {

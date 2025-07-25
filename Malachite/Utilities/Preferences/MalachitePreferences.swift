@@ -6,7 +6,6 @@
 //
 
 import Foundation
-
 // TODO: Rename a bunch of these preferences to be more concise in their meaning
 
 struct MalachitePreferences: Codable {

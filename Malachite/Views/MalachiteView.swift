@@ -32,7 +32,27 @@ extension MalachiteView_SwiftUIWrapped {
     }
 }
 
-class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCapturePhotoCaptureDelegate {
+class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCapturePhotoCaptureDelegate, AVCaptureSessionControlsDelegate {
+    func sessionControlsDidBecomeActive(_ session: AVCaptureSession) {
+        if !uiIsHidden { runUIHider() }
+    }
+    
+    func sessionControlsWillEnterFullscreenAppearance(_ session: AVCaptureSession) {
+        if !uiIsHidden { runUIHider() }
+    }
+    
+    func sessionControlsWillExitFullscreenAppearance(_ session: AVCaptureSession) {
+        if uiIsHidden { runUIHider() }
+    }
+    
+    func sessionControlsDidBecomeInactive(_ session: AVCaptureSession) {
+        if uiIsHidden { runUIHider() }
+        if cameraIndex != nil {
+            runInputSwitch()
+            self.cameraIndex = nil
+        }
+    }
+    
     /// The `AVCaptureSession` Malachite uses for everything.
     var cameraSession: AVCaptureSession?
     /// The currently selected `AVCaptureDevice` for input to ``cameraSession``.
@@ -53,6 +73,16 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     var wideAngleInUse = true
     /// A `Bool` that determines whether or not the app is still initializing. Uses for tasks that should only be run once at the start of Malachite.
     var initRun = true
+    /// A `CGFloat` that temporarily holds the zoom factor.
+    var zoomFloater: CGFloat?
+    /// A `Float` that temporarily holds the focus factor.
+    var focusFloater: Float?
+    /// A `Float` that temporarily holds the level of flash brightness to use.
+    var flashFloater: Float?
+    /// A `Bool` that temporarily holds the current status of the flashlight.
+    var flashStatus = Bool()
+    /// An `Int` that temporarily holds the index of the camera to switch to.
+    var cameraIndex: Int?
     
     /// A `UIButton` that enables the user to switch between the ultra-wide and wide angle cameras.
     var cameraButton = UIButton()
@@ -198,6 +228,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
         
         runInputSwitch()
+        
+        if #available(iOS 18.0, *) {
+            cameraSession?.setControlsDelegate(self, queue: utilities.sessionQueue)
+        }
         
         if self.availableRearCameras.first != nil {
             photoOutput = AVCapturePhotoOutput()
@@ -361,12 +395,13 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
 #endif
         
         cameraButton = utilities.views.returnProperButton(symbolName: "camera", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
+        
         flashlightButton = utilities.views.returnProperButton(symbolName: "flashlight.off.fill", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
         captureButton = utilities.views.returnProperButton(symbolName: "camera.aperture", cornerRadius: 45, viewForBounds: view, hapticClass: utilities.haptics)
-        focusButton = utilities.views.returnProperButton(symbolName: "viewfinder", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
+        focusButton = utilities.views.returnProperButton(symbolName: "scope", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
         focusSliderButton = utilities.views.returnProperButton(symbolName: "", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
         focusLockButton = utilities.views.returnProperButton(symbolName: "lock.open", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
-        exposureButton = utilities.views.returnProperButton(symbolName: "eye", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
+        exposureButton = utilities.views.returnProperButton(symbolName: "plusminus", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
         exposureSliderButton = utilities.views.returnProperButton(symbolName: "", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
         exposureLockButton = utilities.views.returnProperButton(symbolName: "lock.open", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
         settingsButton = utilities.views.returnProperButton(symbolName: "gear", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
@@ -653,19 +688,34 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to switch cameras and attach new inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.
     @objc func runInputSwitch() {
-        if self.availableRearCameras.count == 1 && !initRun{
-            utilities.debugNSLog("[Camera Input] Only one AVCaptureDevice is available to use, showing error")
-            let alert = UIAlertController(title: "alert.title.camera_switch".localized, message: "alert.detail.camera_switch".localized, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "alert.button.ok".localized, style: .default, handler: { _ in
-                self.utilities.debugNSLog("[Camera Input] Dialog has been dismissed")
-            }))
-            self.present(alert, animated: true, completion: nil)
-            return
+        cameraSession?.beginConfiguration()
+        DispatchQueue.main.async() { [self] in
+            if self.availableRearCameras.count == 1 && !initRun{
+                utilities.debugNSLog("[Camera Input] Only one AVCaptureDevice is available to use, showing error")
+                let alert = UIAlertController(title: "alert.title.camera_switch".localized, message: "alert.detail.camera_switch".localized, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "alert.button.ok".localized, style: .default, handler: { _ in
+                    self.utilities.debugNSLog("[Camera Input] Dialog has been dismissed")
+                }))
+                self.present(alert, animated: true, completion: nil)
+                return
+            }
+            
+            UIView.animate(withDuration: 0.5) {
+                self.focusSlider.value = 0.0
+                self.exposureSlider.value = 0.0
+            }
         }
         
-        UIView.animate(withDuration: 0.5) {
-            self.focusSlider.value = 0.0
-            self.exposureSlider.value = 0.0
+        if cameraIndex != nil { selectedDevice = availableRearCameras[cameraIndex!] } else {
+            if availableRearCameras.count > 1 && !initRun {
+                if let devicePosition = availableRearCameras.firstIndex(of: selectedDevice!) {
+                    if devicePosition == (availableRearCameras.count - 1) {
+                        selectedDevice = availableRearCameras[0]
+                    } else {
+                        selectedDevice = availableRearCameras[devicePosition + 1]
+                    }
+                }
+            }
         }
         
         utilities.function.switchInput(session: &cameraSession!,
@@ -673,10 +723,71 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                        device: &selectedDevice,
                                        output: &photoOutput,
                                        input: &selectedInput,
-                                       button: &cameraButton,
+                                       button: cameraButton,
                                        firstRun: &initRun)
         
-        utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: view, camera: selectedDevice)
+        
+        if #available(iOS 18.0, *) { addControls() }
+        
+        cameraSession?.commitConfiguration()
+        
+        DispatchQueue.main.async() { [self] in
+            utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: view, camera: selectedDevice)
+        }
+    }
+    
+    @available(iOS 18.0, *)
+    func addControls() {
+        guard cameraSession!.supportsControls else { return }
+        
+        let systemBiasSlider = AVCaptureSystemExposureBiasSlider(device: selectedDevice!)
+        
+        let zoomSlider = AVCaptureSlider("Zoom", symbolName: "plus.viewfinder", in: 1.0...Float(MalachiteClassesObject().preferences.capture.maximumZoom))
+        zoomSlider.setActionQueue(utilities.sessionQueue) { position in
+            self.zoomFloater = CGFloat(position)
+            self.runZoomController()
+            self.zoomFloater = nil
+        }
+        
+        let focusSlider = AVCaptureSlider("Focus", symbolName: "scope", in: 0.0...1.0)
+        focusSlider.setActionQueue(utilities.sessionQueue) { position in
+            self.focusFloater = position
+            self.runManualFocusController()
+            self.focusFloater = nil
+        }
+        
+        let cameraSwitcher = AVCaptureIndexPicker("Cameras", symbolName: "camera.fill", localizedIndexTitles: self.availableRearCameras.map { $0.localizedName } )
+        cameraSwitcher.selectedIndex = self.availableRearCameras.firstIndex(of: self.selectedDevice!)!
+        cameraSwitcher.setActionQueue(utilities.sessionQueue) { index in
+            self.cameraIndex = index
+        }
+        
+        let flashSwitcher = AVCaptureIndexPicker("Flash", symbolName: "bolt.fill", numberOfIndexes: 2, localizedTitleTransform: { index in
+            switch index {
+            case 0: return NSLocalizedString("flash.off", comment: "Off")
+            case 1: return NSLocalizedString("flash.on", comment: "On")
+            default: return ""
+            }
+        })
+        flashSwitcher.setActionQueue(utilities.sessionQueue) { index in
+            flashSwitcher.selectedIndex = self.flashStatus ? 1 : 0
+            self.runFlashlightToggle()
+            flashSwitcher.selectedIndex = self.flashStatus ? 1 : 0
+        }
+        
+        let flashSlider = AVCaptureSlider("Flash Level", symbolName: "lightbulb.fill", in: 0.0...1.0)
+        flashSlider.setActionQueue(utilities.sessionQueue) { position in
+            if (position == 0.0 && self.flashStatus) || (position != 0.0 && !self.flashStatus) {
+                self.flashFloater = position
+                self.runFlashlightToggle()
+                self.flashFloater = nil
+                flashSwitcher.selectedIndex = self.flashStatus ? 1 : 0
+            } else {
+                self.utilities.function.flashLevelTest(captureDevice: self.selectedDevice!, floater: position)
+            }
+        }
+        
+        utilities.function.addControlsToSession(session: &cameraSession!, controls: [ zoomSlider, focusSlider, cameraSwitcher, flashSwitcher, flashSlider, systemBiasSlider])
     }
     
     @objc func runInputMegapixelSwitch() {
@@ -686,10 +797,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to toggle the flashlight's on state.
     @objc func runFlashlightToggle() {
         guard let flashlight = selectedDevice?.hasFlash else { return }
-        print(flashlight)
         if flashlight {
             utilities.function.toggleFlash(captureDevice: &selectedDevice!,
-                                           flashlightButton: &flashlightButton)
+                                           flashlightButton: flashlightButton,
+                                           floater: flashFloater,
+                                           isFlashOn: &flashStatus)
         } else {
             utilities.debugNSLog("[Flashlight] No flashlight available")
             let alert = UIAlertController(title: "alert.title.flashlight".localized, message: "alert.detail.flashlight".localized, preferredStyle: .alert)
@@ -760,6 +872,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to zoom in and out with ``zoomRecognizer``.
     @objc func runZoomController() {
         utilities.function.zoom(sender: zoomRecognizer,
+                                floater: zoomFloater ?? zoomRecognizer.scale,
                                 captureDevice: &selectedDevice!,
                                 lastZoomFactor: &lastZoomFactor,
                                 hapticClass: utilities.haptics)
@@ -836,7 +949,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         guard let focus = selectedDevice?.isLockingFocusWithCustomLensPositionSupported else { return }
         if focus {
             utilities.function.manualFocus(captureDevice: &selectedDevice!,
-                                           sender: focusSlider)
+                                           sender: focusSlider,
+                                           floater: focusFloater ?? focusSlider.value)
         } else {
             utilities.debugNSLog("[Manual Focus] Current camera is not capable of adjusting focus")
             let alert = UIAlertController(title: "alert.title.focus".localized, message: "alert.detail.focus".localized, preferredStyle: .alert)
@@ -900,11 +1014,23 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to show and hide the user interface that was drawn with ``setupView()``.
     @objc func runUIHider() {
-        if uiHiderRecognizer.state != UITapGestureRecognizer.State.began { return }
+        if uiHiderRecognizer.state == UITapGestureRecognizer.State.ended || uiHiderRecognizer.state == UITapGestureRecognizer.State.changed  { return }
         
         let gestureRecognizers = [ zoomRecognizer, aeafRecognizer ]
         
-        if !uiIsHidden {
+        DispatchQueue.main.async { [self] in
+            if !uiIsHidden {
+                hideUI()
+            } else {
+                showUI()
+                utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: self.view, camera: selectedDevice)
+            }
+
+            uiIsHidden = !uiIsHidden
+            utilities.haptics.triggerNotificationHaptic(type: .success)
+        }
+        
+        func hideUI() {
             UIView.animate(withDuration: 0.25) { [self] in
                 for subview in self.view.subviews {
                     if subview != cameraView {
@@ -923,7 +1049,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                 if gestureRecognizer == zoomRecognizer && !hiddenRecognizers.contains("zoom") { self.view.removeGestureRecognizer(gestureRecognizer) }
                 if gestureRecognizer == aeafRecognizer && !hiddenRecognizers.contains("tah") { self.view.removeGestureRecognizer(gestureRecognizer) }
             }
-        } else {
+        }
+        
+        func showUI() {
             UIView.animate(withDuration: 0.25) { [self] in
                 for subview in self.view.subviews {
                     if subview != cameraView {
@@ -942,14 +1070,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                 guard let currentRecognizers = self.view.gestureRecognizers else { return }
                 if !currentRecognizers.contains(gestureRecognizer) {
                     self.view.addGestureRecognizer(gestureRecognizer)
-                    }
+                }
             }
-            
-            utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: self.view, camera: selectedDevice)
         }
-        
-        uiIsHidden = !uiIsHidden
-        utilities.haptics.triggerNotificationHaptic(type: .success)
     }
     
     /// Function to handle device rotation.
@@ -1004,3 +1127,4 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     }
     #endif
 }
+

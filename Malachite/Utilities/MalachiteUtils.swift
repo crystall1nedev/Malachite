@@ -28,6 +28,15 @@ public class MalachiteClassesObject : NSObject {
     /// An instance of ``MalachiteGameUtils``
     public let games     = MalachiteGameUtils()
     
+    /// Private static storage for the session queue.
+    @available(iOS 17.0, *)
+    private static var _sessionQueue: DispatchSerialQueue = DispatchSerialQueue(label: "dev.crystll1ne.Malachite.controlsSessionQueue")
+    /// A session queue used to absorb Camera Control states.
+    @available(iOS 18.0, *)
+    public var sessionQueue: DispatchSerialQueue {
+        return Self._sessionQueue
+    }
+    
     /// A variable that denotes the major version of Malachite.
     public let versionMajor    = "1"
     /// A variable that denotes the minor version of Malachite.
@@ -67,3 +76,4 @@ public class MalachiteClassesObject : NSObject {
         Foundation.NSLog(format)
     }
 }
+

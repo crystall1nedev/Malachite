@@ -51,7 +51,7 @@ public class MalachiteFunctionUtils : NSObject {
     }
     
     /// Function that handles pinch to zoom.
-    public func zoom(sender pinch: UIPinchGestureRecognizer, captureDevice device: inout AVCaptureDevice, lastZoomFactor zoomFactor: inout CGFloat, hapticClass haptic: MalachiteHapticUtils) {
+    public func zoom(sender pinch: UIPinchGestureRecognizer, floater float: CGFloat, captureDevice device: inout AVCaptureDevice, lastZoomFactor zoomFactor: inout CGFloat, hapticClass haptic: MalachiteHapticUtils) {
         func minMaxZoom(_ factor: CGFloat) -> CGFloat {
             return min(min(max(factor, 1.0), CGFloat(MalachitePreferencesUtils.shared.preferences.capture.maximumZoom)), device.activeFormat.videoMaxZoomFactor)
         }
@@ -61,23 +61,22 @@ public class MalachiteFunctionUtils : NSObject {
                 try device.lockForConfiguration()
                 defer { device.unlockForConfiguration() }
                 device.videoZoomFactor = factor
-                MalachiteClassesObject().debugNSLog("[Pinch to Zoom] Changed zoom factor")
+                MalachiteClassesObject().debugNSLog("[Zoom] Changed zoom factor")
             } catch {
-                MalachiteClassesObject().debugNSLog("[Pinch to Zoom] Error changing video zoom factor: \(error.localizedDescription)")
+                MalachiteClassesObject().debugNSLog("[Zoom] Error changing video zoom factor: \(error.localizedDescription)")
             }
         }
         
-        let newScaleFactor = minMaxZoom(pinch.scale * zoomFactor)
+        update(scale: minMaxZoom(float * zoomFactor))
         
         switch pinch.state {
         case .began:
             haptic.triggerMediumHaptic()
             fallthrough
         case .changed:
-            update(scale: newScaleFactor)
+            update(scale: minMaxZoom(float * zoomFactor))
         case .ended:
-            zoomFactor = minMaxZoom(newScaleFactor)
-            update(scale: zoomFactor)
+            update(scale: minMaxZoom(float * zoomFactor))
             haptic.triggerMediumHaptic()
         default: break
         }
@@ -175,7 +174,7 @@ public class MalachiteFunctionUtils : NSObject {
     }
     
     /// Function that handles toggling the flashlight's on state.
-    public func toggleFlash(captureDevice device: inout AVCaptureDevice, flashlightButton button: inout UIButton) {
+    public func toggleFlash(captureDevice device: inout AVCaptureDevice, flashlightButton button: UIButton, floater float: Float?, isFlashOn: inout Bool) {
         if device.hasTorch {
             var buttonImage = UIImage()
             do {
@@ -184,31 +183,51 @@ public class MalachiteFunctionUtils : NSObject {
                     MalachiteClassesObject().debugNSLog("[Flashlight] Flash is already on, turning off")
                     device.torchMode = AVCaptureDevice.TorchMode.off
                     buttonImage = (UIImage(systemName: "flashlight.off.fill")?.withRenderingMode(.alwaysTemplate))!
+                    isFlashOn = false
                 } else {
                     do {
                         MalachiteClassesObject().debugNSLog("[Flashlight] Flash is off, turning on")
-                        try device.setTorchModeOn(level: 1.0)
+                        try device.setTorchModeOn(level: float ?? AVCaptureDevice.maxAvailableTorchLevel)
                         buttonImage = (UIImage(systemName: "flashlight.on.fill")?.withRenderingMode(.alwaysTemplate))!
+                        isFlashOn = true
                     } catch {
                         print(error)
                         buttonImage = (UIImage(systemName: "flashlight.off.fill")?.withRenderingMode(.alwaysTemplate))!
+                        isFlashOn = false
                     }
                 }
-                button.setImage(buttonImage, for: .normal)
+                DispatchQueue.main.async() { button.setImage(buttonImage, for: .normal) }
                 device.unlockForConfiguration()
             } catch {
                 print(error)
                 buttonImage = (UIImage(systemName: "flashlight.on.fill")?.withRenderingMode(.alwaysTemplate))!
+                isFlashOn = false
             }
         }
     }
     
+    public func flashLevelTest(captureDevice device: AVCaptureDevice, floater float: Float?) {
+        var torchLevel = float ?? AVCaptureDevice.maxAvailableTorchLevel
+        if torchLevel >= AVCaptureDevice.maxAvailableTorchLevel { torchLevel = AVCaptureDevice.maxAvailableTorchLevel }
+        do {
+            try device.lockForConfiguration()
+            if device.torchMode == AVCaptureDevice.TorchMode.on {
+                do {
+                    try device.setTorchModeOn(level: torchLevel)
+                } catch {
+                    print(error)
+                }
+            }
+            device.unlockForConfiguration()
+        } catch {
+            print(error)
+        }
+    }
+    
     /// Function that handles connecting and disconnecting cameras, and changing format properties.
-    public func switchInput(session: inout AVCaptureSession, cameras: [AVCaptureDevice], device: inout AVCaptureDevice?, output: inout AVCapturePhotoOutput, input: inout AVCaptureDeviceInput?, button: inout UIButton, firstRun: inout Bool){
-        button.isUserInteractionEnabled = false
+    public func switchInput(session: inout AVCaptureSession, cameras: [AVCaptureDevice], device: inout AVCaptureDevice?, output: inout AVCapturePhotoOutput, input: inout AVCaptureDeviceInput?, button: UIButton, firstRun: inout Bool){
+        DispatchQueue.main.async { button.isUserInteractionEnabled = false }
         MalachiteClassesObject().debugNSLog("[Camera Input] Getting ready to configure session")
-        session.beginConfiguration()
-        
         
         if !firstRun {
             MalachiteClassesObject().debugNSLog("[Camera Input] Removing currently active camera input")
@@ -241,16 +260,6 @@ public class MalachiteFunctionUtils : NSObject {
                     default:
                         break
                     }
-                }
-            }
-        }
-        
-        if cameras.count > 1 && !firstRun {
-            if let devicePosition = cameras.firstIndex(of: device!) {
-                if devicePosition == (cameras.count - 1) {
-                    device = cameras[0]
-                } else {
-                    device = cameras[devicePosition + 1]
                 }
             }
         }
@@ -300,6 +309,7 @@ public class MalachiteFunctionUtils : NSObject {
             MalachiteClassesObject().debugNSLog("[Camera Input] Error adjusting device properties: \(error.localizedDescription)")
         }
         
+        
         MalachiteClassesObject().debugNSLog("[Camera Input] Attempting to attach device input to session")
         do { input = try AVCaptureDeviceInput(device: device!) }
         catch {
@@ -309,9 +319,31 @@ public class MalachiteFunctionUtils : NSObject {
         MalachiteClassesObject().debugNSLog("[Camera Input] Attached input, finishing configuration")
         if session.canAddInput(input!) { session.addInput(input!) }
         switchInputMegapixels(device: device!, photoOutput: output)
+        if !Thread.isMainThread {
+            DispatchQueue.main.async { button.isUserInteractionEnabled = true }
+        } else {
+            button.isUserInteractionEnabled = true
+        }
+    }
+    
+    @available(iOS 18.0, *)
+    public func addControlsToSession(session: inout AVCaptureSession, controls: [AVCaptureControl]) {
+        guard session.supportsControls else { return }
+        
+        session.beginConfiguration()
+        
+        
+        for control in session.controls { session.removeControl(control) }
+        
+        for control in controls {
+            if session.canAddControl(control) {
+                session.addControl(control)
+            } else {
+                print("Unable to add control \(control).")
+            }
+        }
         
         session.commitConfiguration()
-        button.isUserInteractionEnabled = true
     }
     
     @objc public func switchInputMegapixels(device: AVCaptureDevice, photoOutput: AVCapturePhotoOutput) {
@@ -375,8 +407,7 @@ public class MalachiteFunctionUtils : NSObject {
     }
     
     /// Function that handles manual focus.
-    public func manualFocus(captureDevice device: inout AVCaptureDevice, sender: UISlider) {
-        let lensPosition = sender.value
+    public func manualFocus(captureDevice device: inout AVCaptureDevice, sender: UISlider, floater float: Float) {
         do {
             try device.lockForConfiguration()
         } catch {
@@ -384,7 +415,7 @@ public class MalachiteFunctionUtils : NSObject {
             return
         }
         
-        device.setFocusModeLocked(lensPosition: lensPosition)
+        device.setFocusModeLocked(lensPosition: float)
         MalachiteClassesObject().debugNSLog("[Manual Focus] Changed lens position")
         device.unlockForConfiguration()
     }
@@ -437,3 +468,4 @@ extension RawRepresentable where RawValue == String, Self: NotificationName {
         }
     }
 }
+

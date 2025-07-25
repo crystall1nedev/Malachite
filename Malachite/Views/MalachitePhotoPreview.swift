@@ -108,7 +108,7 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
         let blurredBackgroundView = UIImageView(frame: self.view.bounds)
         blurredBackgroundView.image = rotatedImage
         blurredBackgroundView.layer.contentsGravity = .resizeAspectFill
-        blurredBackgroundView.addSubview(utilities.views.returnProperEffect(viewForBounds: self.view, blurStyle: .systemUltraThinMaterialDark))
+        blurredBackgroundView.addSubview(utilities.views.returnProperEffectView(viewForBounds: self.view, effect: UIBlurEffect(style: .systemUltraThinMaterialDark)))
         blurredBackgroundView.clipsToBounds = true
         if rotatedImage.size.width < rotatedImage.size.height {
             photoImageView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: rotatedImage.size.height / (rotatedImage.size.width / self.view.bounds.width))

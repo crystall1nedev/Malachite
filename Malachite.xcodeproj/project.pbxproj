@@ -63,6 +63,10 @@
 		78A9DE2F2CD57F51002C131D /* MalachiteIntentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9DE2C2CD57F4D002C131D /* MalachiteIntentUtils.swift */; };
 		78A9DE312CD581F1002C131D /* LockedCameraCapture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78A9DE302CD581F1002C131D /* LockedCameraCapture.framework */; };
 		78A9DE752CD5AE5F002C131D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
+		78B72B942E331711002E2D4E /* MalachiteWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 78B72B8A2E33170F002E2D4E /* MalachiteWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		78B72B9E2E33179E002E2D4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78B72B9A2E33179E002E2D4E /* Assets.xcassets */; };
+		78B72B9F2E33179E002E2D4E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B72B9B2E33179E002E2D4E /* ContentView.swift */; };
+		78B72BA02E33179E002E2D4E /* MalachiteWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B72B9C2E33179E002E2D4E /* MalachiteWatchApp.swift */; };
 		78C7EF9D2D1ECBD1001E332B /* MalachitePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C7EF9C2D1ECBCB001E332B /* MalachitePreferences.swift */; };
 		78C7EF9E2D1ECBD1001E332B /* MalachitePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C7EF9C2D1ECBCB001E332B /* MalachitePreferences.swift */; };
 		78C7EF9F2D1ECBD1001E332B /* MalachitePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C7EF9C2D1ECBCB001E332B /* MalachitePreferences.swift */; };
@@ -95,6 +99,13 @@
 			remoteGlobalIDString = 78A9DD602CD55551002C131D;
 			remoteInfo = CaptureBundle;
 		};
+		78B72B922E331711002E2D4E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 785F08412B12D41100244EB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 78B72B892E33170F002E2D4E;
+			remoteInfo = "MalachiteWatch Watch App";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -118,6 +129,17 @@
 				78A9DD6A2CD55551002C131D /* CaptureBundle.appex in Embed ExtensionKit Extensions */,
 			);
 			name = "Embed ExtensionKit Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78B72B992E331711002E2D4E /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				78B72B942E331711002E2D4E /* MalachiteWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -159,6 +181,10 @@
 		78A9DD722CD55558002C131D /* MalachiteCaptureBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteCaptureBundle.swift; sourceTree = "<group>"; };
 		78A9DE2C2CD57F4D002C131D /* MalachiteIntentUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteIntentUtils.swift; sourceTree = "<group>"; };
 		78A9DE302CD581F1002C131D /* LockedCameraCapture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LockedCameraCapture.framework; path = System/Library/Frameworks/LockedCameraCapture.framework; sourceTree = SDKROOT; };
+		78B72B8A2E33170F002E2D4E /* MalachiteWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MalachiteWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		78B72B9A2E33179E002E2D4E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		78B72B9B2E33179E002E2D4E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		78B72B9C2E33179E002E2D4E /* MalachiteWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteWatchApp.swift; sourceTree = "<group>"; };
 		78B841F12DD4307300B088E8 /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
 		78C7EF9C2D1ECBCB001E332B /* MalachitePreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePreferences.swift; sourceTree = "<group>"; };
 		78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePreferencesUtils.swift; sourceTree = "<group>"; };
@@ -185,6 +211,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				78A9DE312CD581F1002C131D /* LockedCameraCapture.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78B72B872E33170F002E2D4E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,6 +257,7 @@
 				78664F142D10E0AF003ADE09 /* .github */,
 				5549F6162B4D36A100626B9D /* ci_scripts */,
 				785F084B2B12D41100244EB4 /* Malachite */,
+				78B72B9D2E33179E002E2D4E /* MalachiteWatch */,
 				78917F5A2B99AE72005E10FA /* Frameworks */,
 				785F084A2B12D41100244EB4 /* Products */,
 			);
@@ -235,6 +269,7 @@
 				785F08492B12D41100244EB4 /* Malachite.app */,
 				78917F592B99AE72005E10FA /* WidgetBundle.appex */,
 				78A9DD612CD55551002C131D /* CaptureBundle.appex */,
+				78B72B8A2E33170F002E2D4E /* MalachiteWatch.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -316,6 +351,16 @@
 			path = CaptureBundle;
 			sourceTree = "<group>";
 		};
+		78B72B9D2E33179E002E2D4E /* MalachiteWatch */ = {
+			isa = PBXGroup;
+			children = (
+				78B72B9A2E33179E002E2D4E /* Assets.xcassets */,
+				78B72B9B2E33179E002E2D4E /* ContentView.swift */,
+				78B72B9C2E33179E002E2D4E /* MalachiteWatchApp.swift */,
+			);
+			path = MalachiteWatch;
+			sourceTree = "<group>";
+		};
 		78E67EDB2B27E05C00812A17 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,12 +388,14 @@
 				78917F6A2B99AE73005E10FA /* Embed Foundation Extensions */,
 				78A9DD702CD55551002C131D /* Embed ExtensionKit Extensions */,
 				78329B0F2C22699A006D326F /* Embed build information  */,
+				78B72B992E331711002E2D4E /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				78917F682B99AE73005E10FA /* PBXTargetDependency */,
 				78A9DD692CD55551002C131D /* PBXTargetDependency */,
+				78B72B932E331711002E2D4E /* PBXTargetDependency */,
 			);
 			name = Malachite;
 			productName = Malachite;
@@ -391,6 +438,25 @@
 			productReference = 78A9DD612CD55551002C131D /* CaptureBundle.appex */;
 			productType = "com.apple.product-type.extensionkit-extension";
 		};
+		78B72B892E33170F002E2D4E /* MalachiteWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78B72B952E331711002E2D4E /* Build configuration list for PBXNativeTarget "MalachiteWatch" */;
+			buildPhases = (
+				78B72B862E33170F002E2D4E /* Sources */,
+				78B72B872E33170F002E2D4E /* Frameworks */,
+				78B72B882E33170F002E2D4E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MalachiteWatch;
+			packageProductDependencies = (
+			);
+			productName = "MalachiteWatch Watch App";
+			productReference = 78B72B8A2E33170F002E2D4E /* MalachiteWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -398,7 +464,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					785F08482B12D41100244EB4 = {
@@ -409,6 +475,9 @@
 					};
 					78A9DD602CD55551002C131D = {
 						CreatedOnToolsVersion = 16.2;
+					};
+					78B72B892E33170F002E2D4E = {
+						CreatedOnToolsVersion = 26.0;
 					};
 				};
 			};
@@ -428,6 +497,7 @@
 				785F08482B12D41100244EB4 /* Malachite */,
 				78917F582B99AE72005E10FA /* WidgetBundle */,
 				78A9DD602CD55551002C131D /* CaptureBundle */,
+				78B72B892E33170F002E2D4E /* MalachiteWatch */,
 			);
 		};
 /* End PBXProject section */
@@ -465,6 +535,14 @@
 			files = (
 				78E142CC2DD4262F0016B3DB /* Codesigning.xcconfig in Resources */,
 				78A9DE752CD5AE5F002C131D /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78B72B882E33170F002E2D4E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78B72B9E2E33179E002E2D4E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -567,6 +645,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		78B72B862E33170F002E2D4E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78B72B9F2E33179E002E2D4E /* ContentView.swift in Sources */,
+				78B72BA02E33179E002E2D4E /* MalachiteWatchApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -579,6 +666,11 @@
 			isa = PBXTargetDependency;
 			target = 78A9DD602CD55551002C131D /* CaptureBundle */;
 			targetProxy = 78A9DD682CD55551002C131D /* PBXContainerItemProxy */;
+		};
+		78B72B932E331711002E2D4E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 78B72B892E33170F002E2D4E /* MalachiteWatch */;
+			targetProxy = 78B72B922E331711002E2D4E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -630,7 +722,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				DEVELOPMENT_TEAM = 95J8WZ4TN8;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -696,7 +788,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				DEVELOPMENT_TEAM = 95J8WZ4TN8;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -764,7 +856,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -817,7 +909,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -999,6 +1091,105 @@
 			};
 			name = Release;
 		};
+		78B72B962E331711002E2D4E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MalachiteWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.crystll1ne.Malachite;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.crystll1ne.Malachite.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		78B72B972E331711002E2D4E /* Internal */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MalachiteWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.crystll1ne.Malachite;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.crystll1ne.Malachite.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Internal;
+		};
+		78B72B982E331711002E2D4E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MalachiteWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.crystll1ne.Malachite;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.crystll1ne.Malachite.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
 		78F9DA642CBCDDB900A99638 /* Internal */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
@@ -1035,7 +1226,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				DEVELOPMENT_TEAM = 95J8WZ4TN8;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -1111,7 +1302,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -1197,6 +1388,16 @@
 				78A9DD6D2CD55551002C131D /* Debug */,
 				78A9DD6E2CD55551002C131D /* Internal */,
 				78A9DD6F2CD55551002C131D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Internal;
+		};
+		78B72B952E331711002E2D4E /* Build configuration list for PBXNativeTarget "MalachiteWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78B72B962E331711002E2D4E /* Debug */,
+				78B72B972E331711002E2D4E /* Internal */,
+				78B72B982E331711002E2D4E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Internal;
