@@ -47,7 +47,7 @@
             "scale" : 1,
             "translation-in-points" : [
               0,
-              -345
+              -500
             ]
           }
         },
@@ -75,10 +75,10 @@
           "image-name" : "0.75.png",
           "name" : "0.75",
           "position" : {
-            "scale" : 1,
+            "scale" : 1.15,
             "translation-in-points" : [
-              217,
-              -222
+              296,
+              -341
             ]
           }
         },
@@ -103,12 +103,13 @@
             }
           ],
           "glass" : true,
+          "hidden" : false,
           "image-name" : "0.5.png",
           "name" : "0.5",
           "position" : {
-            "scale" : 1,
+            "scale" : 1.5,
             "translation-in-points" : [
-              331.7,
+              450,
               0
             ]
           }
@@ -163,7 +164,7 @@
           "image-name" : "Circle.svg",
           "name" : "SmallCirc",
           "position" : {
-            "scale" : 2.13,
+            "scale" : 3.75,
             "translation-in-points" : [
               0,
               0
@@ -196,7 +197,7 @@
           "image-name" : "SpokesAndCircle.svg",
           "name" : "Spokes-And-SmallCirc",
           "position" : {
-            "scale" : 4,
+            "scale" : 7,
             "translation-in-points" : [
               0,
               0
@@ -227,7 +228,7 @@
           "image-name" : "Circle.svg",
           "name" : "MedCirc",
           "position" : {
-            "scale" : 4,
+            "scale" : 7,
             "translation-in-points" : [
               0,
               0
@@ -254,10 +255,11 @@
               }
             }
           ],
+          "hidden" : true,
           "image-name" : "Circle.svg",
           "name" : "LargeCirc",
           "position" : {
-            "scale" : 8,
+            "scale" : 11,
             "translation-in-points" : [
               0,
               0
@@ -315,7 +317,6 @@
   "supported-platforms" : {
     "circles" : [
       "watchOS"
-    ],
-    "squares" : "shared"
+    ]
   }
 }

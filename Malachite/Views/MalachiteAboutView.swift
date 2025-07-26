@@ -29,7 +29,7 @@ struct MalachiteAboutView: View {
     /// A variable used to determine the currently available app icons.
     private let appIcons = [
         AppIcon(name: "crystall1nedev", description: "about.credits.crystall1nedev", image: "crystall1nedev", symbol: false, icon: nil, achievement: "icon.default"),
-        AppIcon(name: "ThatStella7922", description: "about.credits.thatstella7922", image: "thatstella7922", symbol: false, icon: "thatsinceguy", achievement: "icon.wifey"),
+        AppIcon(name: "ThatStella7922", description: "about.credits.thatstella7922", image: "thatstella7922", symbol: false, icon: "thatsniceguy", achievement: "icon.wifey"),
         AppIcon(name: "ASentientBot", description: "about.credits.asentientbot", image: "asentientbot", symbol: false, icon: "asb_approved", achievement: "icon.marimo"),
         AppIcon(name: "The Sanctuary Discord", description: "about.credits.discord", image: "", symbol: true, icon: nil, achievement: nil),
         AppIcon(name: "Apple", description: "about.credits.apple", image: "applelogo", symbol: true, icon: nil, achievement: nil)

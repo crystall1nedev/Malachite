@@ -12,9 +12,11 @@ import SwiftUI
 struct MalachiteWidgetBundle: WidgetBundle {
     var body: some Widget {
         LockScreenWidget()
-        if #available(iOS 18.0, *) {
+        if #available(iOS 18.0, watchOS 26.0, *) {
             ControlCenterWidget()
+            #if targetEnvironment(iOS)
             CameraControlWidget()
+            #endif
         }
     }
 }

@@ -15,7 +15,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "78B72B892E33170F002E2D4E"
+               BlueprintIdentifier = "78B72BA62E33282E002E2D4E"
                BuildableName = "MalachiteWatch.app"
                BlueprintName = "MalachiteWatch"
                ReferencedContainer = "container:Malachite.xcodeproj">
@@ -58,7 +58,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "78B72B892E33170F002E2D4E"
+            BlueprintIdentifier = "78B72BA62E33282E002E2D4E"
             BuildableName = "MalachiteWatch.app"
             BlueprintName = "MalachiteWatch"
             ReferencedContainer = "container:Malachite.xcodeproj">
@@ -75,21 +75,12 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "78B72B892E33170F002E2D4E"
+            BlueprintIdentifier = "78B72BA62E33282E002E2D4E"
             BuildableName = "MalachiteWatch.app"
             BlueprintName = "MalachiteWatch"
             ReferencedContainer = "container:Malachite.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "78B72B892E33170F002E2D4E"
-            BuildableName = "MalachiteWatch.app"
-            BlueprintName = "MalachiteWatch"
-            ReferencedContainer = "container:Malachite.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

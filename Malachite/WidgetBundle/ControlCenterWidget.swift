@@ -9,7 +9,7 @@ import AVFoundation
 import SwiftUI
 import WidgetKit
 
-@available(iOS 18.0, *)
+@available(iOS 18.0, watchOS 26.0, *)
 struct ControlCenterWidget: ControlWidget {
     var body: some ControlWidgetConfiguration {
         StaticControlConfiguration(
@@ -27,10 +27,8 @@ struct ControlCenterWidget: ControlWidget {
     }
 }
 
+#if targetEnvironment(iOS)
 @available(iOS 18.0, *)
-// This is a testing control just to be sure I don't break it as a whole
-// while I'm messing with LockedCameraCapture.
-// It will eventually be integrated into the main control.
 struct CameraControlWidget: ControlWidget {
     var body: some ControlWidgetConfiguration {
         StaticControlConfiguration(
@@ -49,14 +47,15 @@ struct CameraControlWidget: ControlWidget {
 }
 
 @available(iOS 18.0, *)
-extension ControlCenterWidget {
+extension CameraControlWidget {
     struct Provider: ControlValueProvider {
         var previewValue: Bool { false }; func currentValue() async throws -> Bool { false }
     }
 }
+#endif
 
-@available(iOS 18.0, *)
-extension CameraControlWidget {
+@available(iOS 18.0, watchOS 26.0, *)
+extension ControlCenterWidget {
     struct Provider: ControlValueProvider {
         var previewValue: Bool { false }; func currentValue() async throws -> Bool { false }
     }

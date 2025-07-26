@@ -27,7 +27,7 @@ struct LockScreenWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            if #available(iOS 17.0, *) {
+            if #available(iOS 17.0, watchOS 10.0, *) {
                 LockScreenWidgetEntryView()
                     .containerBackground(.fill.tertiary, for: .widget)
             } else {
@@ -65,7 +65,7 @@ struct LockScreenWidgetEntryView : View {
 struct LockScreenCircularWidgetEntryView: View {
     
     var body: some View {
-        if #available(iOS 17.0, *) {
+        if #available(iOS 17.0, watchOS 10.0, *) {
             ZStack {
                 AccessoryWidgetBackground()
                 Image(systemName: "camera.aperture")
