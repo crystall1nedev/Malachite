@@ -11,7 +11,7 @@
 		7806973A2B27F66E00B4942B /* MalachiteTooltipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */; };
 		78163D8E2CCB7BB300146126 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 78163D8D2CCB7BAE00146126 /* CHANGELOG.md */; };
 		782FC7762B2DAFAB007709C1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 782FC7752B2DAFAB007709C1 /* README.md */; };
-		7837C0FB2E34A300009396B0 /* WidgetBundle.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 78917F592B99AE72005E10FA /* WidgetBundle.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7837C1002E34BD60009396B0 /* WidgetBundle.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 78917F592B99AE72005E10FA /* WidgetBundle.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		78562BC32B450A7600920160 /* PRIVACY_POLICY.md in Resources */ = {isa = PBXBuildFile; fileRef = 78562BC22B450A7600920160 /* PRIVACY_POLICY.md */; };
 		7859DE1A2B8308C000D1A998 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */; };
 		785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F084C2B12D41100244EB4 /* AppDelegate.swift */; };
@@ -82,6 +82,13 @@
 			remoteGlobalIDString = 78917F582B99AE72005E10FA;
 			remoteInfo = WidgetBundle;
 		};
+		7837C1012E34BD60009396B0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 785F08412B12D41100244EB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 78917F582B99AE72005E10FA;
+			remoteInfo = WidgetBundle;
+		};
 		78917F672B99AE73005E10FA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 785F08412B12D41100244EB4 /* Project object */;
@@ -103,23 +110,16 @@
 			remoteGlobalIDString = 78B72BA62E33282E002E2D4E;
 			remoteInfo = "MalachiteWatch Watch App";
 		};
-		78E826592E349EFE00A8DB50 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 785F08412B12D41100244EB4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 78917F582B99AE72005E10FA;
-			remoteInfo = WidgetBundle;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		7837C0FE2E34A300009396B0 /* Embed Foundation Extensions */ = {
+		7837C1032E34BD60009396B0 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				7837C0FB2E34A300009396B0 /* WidgetBundle.appex in Embed Foundation Extensions */,
+				7837C1002E34BD60009396B0 /* WidgetBundle.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -474,13 +474,13 @@
 				78B72BA32E33282E002E2D4E /* Sources */,
 				78B72BA42E33282E002E2D4E /* Frameworks */,
 				78B72BA52E33282E002E2D4E /* Resources */,
-				7837C0FE2E34A300009396B0 /* Embed Foundation Extensions */,
+				7837C1032E34BD60009396B0 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				78E8265A2E349EFE00A8DB50 /* PBXTargetDependency */,
 				7837C0FD2E34A300009396B0 /* PBXTargetDependency */,
+				7837C1022E34BD60009396B0 /* PBXTargetDependency */,
 			);
 			name = MalachiteWatch;
 			packageProductDependencies = (
@@ -683,6 +683,11 @@
 			target = 78917F582B99AE72005E10FA /* WidgetBundle */;
 			targetProxy = 7837C0FC2E34A300009396B0 /* PBXContainerItemProxy */;
 		};
+		7837C1022E34BD60009396B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 78917F582B99AE72005E10FA /* WidgetBundle */;
+			targetProxy = 7837C1012E34BD60009396B0 /* PBXContainerItemProxy */;
+		};
 		78917F682B99AE73005E10FA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 78917F582B99AE72005E10FA /* WidgetBundle */;
@@ -697,11 +702,6 @@
 			isa = PBXTargetDependency;
 			target = 78B72BA62E33282E002E2D4E /* MalachiteWatch */;
 			targetProxy = 78B72BAF2E332830002E2D4E /* PBXContainerItemProxy */;
-		};
-		78E8265A2E349EFE00A8DB50 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 78917F582B99AE72005E10FA /* WidgetBundle */;
-			targetProxy = 78E826592E349EFE00A8DB50 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
