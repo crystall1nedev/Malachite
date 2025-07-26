@@ -18,7 +18,6 @@
 		7837C10B2E34C45B009396B0 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5D2B99AE72005E10FA /* SwiftUI.framework */; };
 		7837C10C2E34C45B009396B0 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5B2B99AE72005E10FA /* WidgetKit.framework */; };
 		7837C10E2E34C45B009396B0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
-		7837C10F2E34C45B009396B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78917F642B99AE73005E10FA /* Assets.xcassets */; };
 		7837C1102E34C45B009396B0 /* Codesigning.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */; };
 		7837C1172E34C47D009396B0 /* WidgetBundleWatch.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7837C1152E34C45B009396B0 /* WidgetBundleWatch.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		78562BC32B450A7600920160 /* PRIVACY_POLICY.md in Resources */ = {isa = PBXBuildFile; fileRef = 78562BC22B450A7600920160 /* PRIVACY_POLICY.md */; };
@@ -39,7 +38,6 @@
 		78917F5E2B99AE72005E10FA /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5D2B99AE72005E10FA /* SwiftUI.framework */; };
 		78917F612B99AE72005E10FA /* MalachiteWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78917F602B99AE72005E10FA /* MalachiteWidgetBundle.swift */; };
 		78917F632B99AE72005E10FA /* LockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78917F622B99AE72005E10FA /* LockScreenWidget.swift */; };
-		78917F652B99AE73005E10FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78917F642B99AE73005E10FA /* Assets.xcassets */; };
 		78917F692B99AE73005E10FA /* WidgetBundle.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 78917F592B99AE72005E10FA /* WidgetBundle.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7897ECA62BA2B87100662EA0 /* MalachiteSettingsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7897ECA52BA2B87100662EA0 /* MalachiteSettingsDetailView.swift */; };
 		78A9DD6A2CD55551002C131D /* CaptureBundle.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = 78A9DD612CD55551002C131D /* CaptureBundle.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -72,6 +70,8 @@
 		78C80BF52CDABE7800F6E8A7 /* MalachitePreferencesUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils.swift */; };
 		78C80BF62CDABE7800F6E8A7 /* MalachitePreferencesUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils.swift */; };
 		78CAC36A2CCD99B600A35AE8 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
+		78CD7DB62E359B87003814B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 785F08552B12D41300244EB4 /* Assets.xcassets */; };
+		78CD7DB72E359B87003814B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 785F08552B12D41300244EB4 /* Assets.xcassets */; };
 		78E142CA2DD4262F0016B3DB /* Codesigning.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */; };
 		78E142CB2DD4262F0016B3DB /* Codesigning.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */; };
 		78E142CC2DD4262F0016B3DB /* Codesigning.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */; };
@@ -197,7 +197,6 @@
 		78917F5D2B99AE72005E10FA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		78917F602B99AE72005E10FA /* MalachiteWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteWidgetBundle.swift; sourceTree = "<group>"; };
 		78917F622B99AE72005E10FA /* LockScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenWidget.swift; sourceTree = "<group>"; };
-		78917F642B99AE73005E10FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		78917F662B99AE73005E10FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7897ECA52BA2B87100662EA0 /* MalachiteSettingsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteSettingsDetailView.swift; sourceTree = "<group>"; };
 		78A9DD612CD55551002C131D /* CaptureBundle.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = CaptureBundle.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -339,7 +338,6 @@
 				78917F602B99AE72005E10FA /* MalachiteWidgetBundle.swift */,
 				78917F622B99AE72005E10FA /* LockScreenWidget.swift */,
 				780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */,
-				78917F642B99AE73005E10FA /* Assets.xcassets */,
 				78917F662B99AE73005E10FA /* Info.plist */,
 			);
 			path = WidgetBundle;
@@ -578,7 +576,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7837C10E2E34C45B009396B0 /* Localizable.xcstrings in Resources */,
-				7837C10F2E34C45B009396B0 /* Assets.xcassets in Resources */,
+				78CD7DB72E359B87003814B5 /* Assets.xcassets in Resources */,
 				7837C1102E34C45B009396B0 /* Codesigning.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -606,7 +604,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				78CAC36A2CCD99B600A35AE8 /* Localizable.xcstrings in Resources */,
-				78917F652B99AE73005E10FA /* Assets.xcassets in Resources */,
+				78CD7DB62E359B87003814B5 /* Assets.xcassets in Resources */,
 				78E142CA2DD4262F0016B3DB /* Codesigning.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
