@@ -234,37 +234,6 @@
               0
             ]
           }
-        },
-        {
-          "fill-specializations" : [
-            {
-              "value" : {
-                "solid" : "display-p3:0.00000,0.00000,0.00000,1.00000"
-              }
-            },
-            {
-              "appearance" : "dark",
-              "value" : {
-                "solid" : "display-p3:0.09094,0.15714,0.14280,1.00000"
-              }
-            },
-            {
-              "appearance" : "tinted",
-              "value" : {
-                "solid" : "display-p3:0.40891,0.40891,0.40891,1.00000"
-              }
-            }
-          ],
-          "hidden" : true,
-          "image-name" : "Circle.svg",
-          "name" : "LargeCirc",
-          "position" : {
-            "scale" : 11,
-            "translation-in-points" : [
-              0,
-              0
-            ]
-          }
         }
       ],
       "lighting-specializations" : [
