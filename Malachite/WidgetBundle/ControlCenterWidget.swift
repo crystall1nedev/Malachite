@@ -14,19 +14,18 @@ struct ControlCenterWidget: ControlWidget {
     var body: some ControlWidgetConfiguration {
         StaticControlConfiguration(
             kind: "dev.crystall1ne.Malachite.ControlCenterWidget",
-            provider: Provider()
+            provider: ControlCenterWidget.Provider()
         ) { value in
             ControlWidgetButton(action: MalachiteLaunchIntent()) {
                 Label("appname.open", systemImage: "camera.aperture")
                     .controlWidgetActionHint("appname.open.action_button")
             }
-            .tint(.green)
+            .tint(.accentColor)
         }
         .displayName("appname.open")
         .description("appname.open.description")
     }
 }
-
 #if targetEnvironment(iOS)
 @available(iOS 18.0, *)
 struct CameraControlWidget: ControlWidget {

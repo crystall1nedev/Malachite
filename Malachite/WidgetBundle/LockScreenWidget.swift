@@ -9,7 +9,7 @@ import WidgetKit
 import SwiftUI
 import AppIntents
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, watchOS 9.0, *)
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry { SimpleEntry() }
 
@@ -18,10 +18,10 @@ struct Provider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) { completion(Timeline(entries: [SimpleEntry()], policy: .never)) }
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, watchOS 9.0, *)
 struct SimpleEntry: TimelineEntry { let date = Date() }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, watchOS 9.0, *)
 struct LockScreenWidget: Widget {
     let kind: String = "LockScreenWidget"
 
@@ -44,7 +44,7 @@ struct LockScreenWidget: Widget {
     }
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, watchOS 9.0, *)
 struct LockScreenWidgetEntryView : View {
 
         @Environment(\.widgetFamily)
@@ -61,7 +61,7 @@ struct LockScreenWidgetEntryView : View {
         }
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, watchOS 9.0, *)
 struct LockScreenCircularWidgetEntryView: View {
     
     var body: some View {

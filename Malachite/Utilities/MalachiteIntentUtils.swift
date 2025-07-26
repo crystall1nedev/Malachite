@@ -7,11 +7,12 @@
 
 import AppIntents
 
-@available(iOS 18.0, *)
+@available(iOS 18.0, watchOS 9.0, *)
 struct MalachiteLaunchIntent: AppIntent {
     static var title: LocalizedStringResource = "appname.open"
     static var description = IntentDescription("appname.open.description")
     static var openAppWhenRun: Bool = true
+    @available(iOS 26.0, watchOS 26.0, *) static var supportedModes: IntentModes = .foreground(.immediate)
     
     @MainActor
     func perform() async throws -> some IntentResult { return .result() }
