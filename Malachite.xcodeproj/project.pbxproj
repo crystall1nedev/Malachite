@@ -29,7 +29,6 @@
 		785F08592B12D41300244EB4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 785F08572B12D41300244EB4 /* LaunchScreen.storyboard */; };
 		7860DC002B897A3E00450BF8 /* MalachiteGameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7860DBFF2B897A3E00450BF8 /* MalachiteGameUtils.swift */; };
 		78789C742E3494D500862C3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 785F08552B12D41300244EB4 /* Assets.xcassets */; };
-		78789C772E34966C00862C3D /* AppIcon_Watch.icon in Resources */ = {isa = PBXBuildFile; fileRef = 78789C762E34966C00862C3D /* AppIcon_Watch.icon */; };
 		787B1CAA2B8B095E000AFECC /* Malachite.docc in Sources */ = {isa = PBXBuildFile; fileRef = 787B1CA92B8B095E000AFECC /* Malachite.docc */; };
 		7881A98C2C1F77AB00B1F83B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
 		788848B52CC74B4200B02E37 /* MalachiteCompatibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788848B42CC74B3B00B02E37 /* MalachiteCompatibilityView.swift */; };
@@ -622,7 +621,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78789C772E34966C00862C3D /* AppIcon_Watch.icon in Resources */,
 				78789C742E3494D500862C3D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
