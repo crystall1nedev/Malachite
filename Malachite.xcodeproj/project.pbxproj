@@ -185,7 +185,6 @@
 		785F08582B12D41300244EB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		785F085A2B12D41300244EB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7860DBFF2B897A3E00450BF8 /* MalachiteGameUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteGameUtils.swift; sourceTree = "<group>"; };
-		78789C762E34966C00862C3D /* AppIcon_Watch.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon_Watch.icon; sourceTree = "<group>"; };
 		787B1CA92B8B095E000AFECC /* Malachite.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Malachite.docc; sourceTree = "<group>"; };
 		7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = Malachite/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
 		788589912B8974680018E2DA /* Malachite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Malachite.entitlements; sourceTree = "<group>"; };
@@ -365,7 +364,6 @@
 			children = (
 				785F08552B12D41300244EB4 /* Assets.xcassets */,
 				78B72BA12E332744002E2D4E /* AppIcon.icon */,
-				78789C762E34966C00862C3D /* AppIcon_Watch.icon */,
 				78B72BE12E3461DA002E2D4E /* MalachiteIconMasked_Darwin24.png */,
 				78B72BE22E3461DA002E2D4E /* MalachiteIconMasked_Darwin25.png */,
 			);
@@ -1293,7 +1291,7 @@
 		78B72BB32E332830002E2D4E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_Watch;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1327,7 +1325,7 @@
 		78B72BB42E332830002E2D4E /* Internal */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_Watch;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1361,7 +1359,7 @@
 		78B72BB52E332830002E2D4E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_Watch;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

@@ -43,13 +43,27 @@
           "glass" : true,
           "image-name" : "1.png",
           "name" : "1",
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              0,
-              -345
-            ]
-          }
+          "position-specializations" : [
+            {
+              "value" : {
+                "scale" : 1,
+                "translation-in-points" : [
+                  0,
+                  -345
+                ]
+              }
+            },
+            {
+              "idiom" : "watchOS",
+              "value" : {
+                "scale" : 1,
+                "translation-in-points" : [
+                  0,
+                  -495
+                ]
+              }
+            }
+          ]
         },
         {
           "fill-specializations" : [
@@ -74,13 +88,27 @@
           "glass" : true,
           "image-name" : "0.75.png",
           "name" : "0.75",
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              217,
-              -222
-            ]
-          }
+          "position-specializations" : [
+            {
+              "value" : {
+                "scale" : 1,
+                "translation-in-points" : [
+                  217,
+                  -222
+                ]
+              }
+            },
+            {
+              "idiom" : "watchOS",
+              "value" : {
+                "scale" : 1.15,
+                "translation-in-points" : [
+                  296,
+                  -341
+                ]
+              }
+            }
+          ]
         },
         {
           "fill-specializations" : [
@@ -105,13 +133,27 @@
           "glass" : true,
           "image-name" : "0.5.png",
           "name" : "0.5",
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              331.7,
-              0
-            ]
-          }
+          "position-specializations" : [
+            {
+              "value" : {
+                "scale" : 1,
+                "translation-in-points" : [
+                  331.7,
+                  0
+                ]
+              }
+            },
+            {
+              "idiom" : "watchOS",
+              "value" : {
+                "scale" : 1.5,
+                "translation-in-points" : [
+                  450,
+                  0
+                ]
+              }
+            }
+          ]
         }
       ],
       "lighting" : "individual",
@@ -162,13 +204,27 @@
           "hidden" : false,
           "image-name" : "Circle.svg",
           "name" : "SmallCirc",
-          "position" : {
-            "scale" : 2.13,
-            "translation-in-points" : [
-              0,
-              0
-            ]
-          }
+          "position-specializations" : [
+            {
+              "value" : {
+                "scale" : 2.13,
+                "translation-in-points" : [
+                  0,
+                  0
+                ]
+              }
+            },
+            {
+              "idiom" : "watchOS",
+              "value" : {
+                "scale" : 3.75,
+                "translation-in-points" : [
+                  0,
+                  0
+                ]
+              }
+            }
+          ]
         },
         {
           "blend-mode" : "normal",
@@ -195,13 +251,27 @@
           "hidden" : false,
           "image-name" : "SpokesAndCircle.svg",
           "name" : "Spokes-And-SmallCirc",
-          "position" : {
-            "scale" : 4,
-            "translation-in-points" : [
-              0,
-              0
-            ]
-          }
+          "position-specializations" : [
+            {
+              "value" : {
+                "scale" : 4,
+                "translation-in-points" : [
+                  0,
+                  0
+                ]
+              }
+            },
+            {
+              "idiom" : "watchOS",
+              "value" : {
+                "scale" : 7,
+                "translation-in-points" : [
+                  0,
+                  0
+                ]
+              }
+            }
+          ]
         },
         {
           "fill-specializations" : [
@@ -226,13 +296,27 @@
           "hidden" : false,
           "image-name" : "Circle.svg",
           "name" : "MedCirc",
-          "position" : {
-            "scale" : 4,
-            "translation-in-points" : [
-              0,
-              0
-            ]
-          }
+          "position-specializations" : [
+            {
+              "value" : {
+                "scale" : 4,
+                "translation-in-points" : [
+                  0,
+                  0
+                ]
+              }
+            },
+            {
+              "idiom" : "watchOS",
+              "value" : {
+                "scale" : 7,
+                "translation-in-points" : [
+                  0,
+                  0
+                ]
+              }
+            }
+          ]
         },
         {
           "fill-specializations" : [
@@ -252,6 +336,12 @@
               "value" : {
                 "solid" : "display-p3:0.40891,0.40891,0.40891,1.00000"
               }
+            }
+          ],
+          "hidden-specializations" : [
+            {
+              "idiom" : "watchOS",
+              "value" : true
             }
           ],
           "image-name" : "Circle.svg",
