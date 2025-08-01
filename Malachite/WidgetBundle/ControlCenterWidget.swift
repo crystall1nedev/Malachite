@@ -26,7 +26,7 @@ struct ControlCenterWidget: ControlWidget {
         .description("appname.open.description")
     }
 }
-#if targetEnvironment(iOS)
+#if os(iOS)
 @available(iOS 18.0, *)
 struct CameraControlWidget: ControlWidget {
     var body: some ControlWidgetConfiguration {

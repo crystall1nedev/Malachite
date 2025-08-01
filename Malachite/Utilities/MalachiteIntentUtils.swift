@@ -18,7 +18,7 @@ struct MalachiteLaunchIntent: AppIntent {
     func perform() async throws -> some IntentResult { return .result() }
 }
 
-#if targetEnvironment(iOS)
+#if os(iOS)
 @available(iOS 18.0, *)
 struct MalachiteCaptureIntent: CameraCaptureIntent {
     typealias AppContext = MalachiteContext

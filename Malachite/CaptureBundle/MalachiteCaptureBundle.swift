@@ -23,6 +23,9 @@ struct MalachiteCaptureBundle: LockedCameraCaptureExtension {
 
 @available(iOS 18.0, *)
 struct MalachiteCaptureBundleViewFinder: UIViewControllerRepresentable {
+    typealias UIViewControllerType = MalachiteView
+    
+    
     // Apple's sample LockedCameraCapture code
     let session: LockedCameraCaptureSession
     var sourceType: UIImagePickerController.SourceType = .camera
