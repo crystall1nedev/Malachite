@@ -26,24 +26,6 @@
       },
       "shouldTranslate" : false
     },
-    "5x" : {
-
-    },
-    "6x" : {
-
-    },
-    "7x" : {
-
-    },
-    "8x" : {
-
-    },
-    "9x" : {
-
-    },
-    "10x" : {
-
-    },
     "about.author_note" : {
       "localizations" : {
         "en" : {
@@ -166,16 +148,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Malachite started as an app to help my love work on printed circuit boards with better clarity and manual controls that the stock iOS camera app can't provide, and it grew once my Discord community stood by, actually using it and suggesting new features. It's the first real test of my skills in Swift, and leading my own public project, and my goal is to now provide a free, all-inclusive experience to amazing macro photography - powered by your iPhone, iPad, or iPod touch."
-          }
-        }
-      }
-    },
-    "action.done_button" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Done"
           }
         }
       }
@@ -1133,6 +1105,16 @@
         }
       }
     },
+    "settings.option.preview.fastpath" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip preview and save image"
+          }
+        }
+      }
+    },
     "settings.option.preview.sbtlz" : {
       "localizations" : {
         "en" : {
@@ -1149,28 +1131,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Maximum zoom level"
-          }
-        }
-      }
-    },
-    "settings.option.preview.zoom_maximum.5" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "5x"
-          }
-        }
-      }
-    },
-    "settings.option.preview.zoom_maximum.10" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "10x"
           }
         }
       }

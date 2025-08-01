@@ -72,7 +72,8 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
      - Register notifications for changes to orientation.
      */
     override func viewDidLoad() {
-        self.finalizedImage = self.finalizeImageForExport()
+        // TODO: Decouple photo capture and processing code from MalachitePhotoPreview.swift. Refactor buttons into UIBarButtonItems.
+        self.finalizedImage = self.finalizeImageForExport(imageData: self.photoImageData)
         
         super.viewDidLoad()
         self.view.backgroundColor = .red
@@ -203,12 +204,11 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
     }
     
     /// Function to save the image to the user's Photos library.
-    @objc private func savePhoto() {
+    @objc public func savePhoto(finalImage: Data?) {
         do {
             try PHPhotoLibrary.shared().performChangesAndWait { [self] in
-                // I can move some of these variables out of this function and class-wide
                 let createRequest = PHAssetCreationRequest.forAsset()
-                createRequest.addResource(with: .photo, data: finalizedImage, options: nil)
+                createRequest.addResource(with: .photo, data: finalImage ?? self.finalizedImage, options: nil)
                 utilities.debugNSLog("[Capture Photo] Photo has been saved to the user's library")
                 self.utilities.haptics.triggerNotificationHaptic(type: .success)
                 self.dismissView()
@@ -223,8 +223,8 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
         let shareableData = try! dataToShareable(data: finalizedImage, title: "sharable.title")
         let shareSheet = UIActivityViewController(activityItems: [shareableData], applicationActivities: nil)
         shareSheet.popoverPresentationController?.sourceView = sharePhotoButton
-        if #available(iOS 16.0, *) {
-            shareSheet.popoverPresentationController?.sourceItem = sharePhotoButton
+        if #available(iOS 26.0, *) {
+            shareSheet.preferredTransition = .zoom { [self] _ in sharePhotoButton }
         }
         self.present(shareSheet, animated: true)
     }
@@ -238,15 +238,15 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
      - If the user has enabled watermarking, creates an image with the watermark and the original image's dimensions.
      - If ``enableHEIF`` is enabled, create a HEIC representation of all above images combined. Otherwise, JPEG is used.
      */
-    func finalizeImageForExport() -> Data {
+    public func finalizeImageForExport(imageData: Data) -> Data {
         var data = Data()
         var rawImage = CIImage()
         var gainMapImage = CIImage()
         
         if enableHDR {
-            rawImage = CIImage(data: self.photoImageData)!
+            rawImage = CIImage(data: imageData)!
         } else {
-            rawImage = CIImage(data: self.photoImageData, 
+            rawImage = CIImage(data: imageData,
                                options: [.toneMapHDRtoSDR : true])!
         }
         
@@ -255,7 +255,7 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
         let outputImage = watermarkImage!.composited(over: rawImage)
         
         if enableHDR {
-            gainMapImage = returnGainMap(properties: &imageProperties)
+            gainMapImage = returnGainMap(properties: &imageProperties, imageData: imageData)
         }
         
         if MalachiteClassesObject().versionType == "INTERNAL" {
@@ -337,9 +337,9 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
     }
     
     /// Function to extract gain map data from the image.
-    func returnGainMap(properties props: inout [String: Any]) -> CIImage {
+    func returnGainMap(properties props: inout [String: Any], imageData: Data) -> CIImage {
         var gainMapImage = CIImage()
-        if let gainMapDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(CGImageSourceCreateWithData(NSData(data: self.photoImageData), nil)!, 0, kCGImageAuxiliaryDataTypeHDRGainMap) as? Dictionary<CFString, Any> {
+        if let gainMapDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(CGImageSourceCreateWithData(NSData(data: imageData), nil)!, 0, kCGImageAuxiliaryDataTypeHDRGainMap) as? Dictionary<CFString, Any> {
             utilities.debugNSLog("[Capture Photo] Saving gain map properties from image")
             let gainMapData = gainMapDataInfo[kCGImageAuxiliaryDataInfoData] as! Data
             let gainMapDescription = gainMapDataInfo[kCGImageAuxiliaryDataInfoDataDescription]! as! [String: Int]

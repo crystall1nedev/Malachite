@@ -113,6 +113,7 @@ class MalachitePreferencesUtils {
         if let previewPreferences = oldPreferences["preview"] as? [ String: AnyObject ] {
             currentPreferences.preview.aspect = previewPreferences["aspect"] as? Bool ?? false
             currentPreferences.preview.stablize = previewPreferences["stabilize"] as? Bool ?? false
+            currentPreferences.preview.fastPath = true
         }
         
         if let capturePreferences = oldPreferences["capture"] as? [ String: AnyObject ] {
@@ -179,7 +180,8 @@ class MalachitePreferencesUtils {
             ),
             preview: MalachitePreferences.previewPreferences(
                 aspect: false,
-                stablize: true
+                stablize: true,
+                fastPath: true
             ),
             capture: MalachitePreferences.capturePreferences(
                 unlimitedISO: false,

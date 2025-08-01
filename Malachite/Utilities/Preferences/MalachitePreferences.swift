@@ -45,6 +45,7 @@ struct MalachitePreferences: Codable {
     struct previewPreferences: Codable {
         var aspect:         Bool
         var stablize:       Bool
+        var fastPath:       Bool
     }
     
     var capture:       capturePreferences

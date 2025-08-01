@@ -32,13 +32,15 @@ struct MalachiteSettingsDetailView: View {
                         self.dismissAction()
                     } label: {
                         Image(systemName: "checkmark")
+                            .tint(.primary)
                     }
-                    .buttonStyle(GlassProminentButtonStyle())
+                    .buttonStyle(.borderedProminent)
                 } else {
                     Button {
                         self.dismissAction()
                     } label: {
                         Image(systemName: "checkmark")
+                            .tint(.primary)
                     }
                 }
             }

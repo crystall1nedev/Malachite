@@ -80,13 +80,15 @@ struct MalachiteAboutView: View {
                         self.dismissAction()
                     } label: {
                         Image(systemName: "checkmark")
+                            .tint(.primary)
                     }
-                    .buttonStyle(GlassProminentButtonStyle())
+                    .buttonStyle(.borderedProminent)
                 } else {
                     Button {
                         self.dismissAction()
                     } label: {
-                        Text("action.done_button")
+                        Image(systemName: "checkmark")
+                            .tint(.primary)
                     }
                 }
             }

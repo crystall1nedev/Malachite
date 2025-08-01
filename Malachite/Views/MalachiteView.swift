@@ -685,6 +685,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         hostingController.modalPresentationStyle = UIModalPresentationStyle.popover
         hostingController.popoverPresentationController?.sourceView = settingsButton
         hostingController.isModalInPresentation = true
+        if #available(iOS 26.0, *) {
+            hostingController.preferredTransition = .zoom { [self] _ in
+                settingsButton
+            }
+        }
         self.present(hostingController, animated: true, completion: nil)
     }
     
@@ -693,14 +698,14 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         cameraSession?.beginConfiguration()
         if self.availableRearCameras.count < 2 && !self.initRun {
             utilities.debugNSLog("[Camera Input] Only one AVCaptureDevice is available to use, showing error")
-            let alert = UIAlertController(title: "alert.title.camera_switch".localized, message: "alert.detail.camera_switch".localized, preferredStyle: .alert)
+            let alert = UIAlertController(title: "alert.title.camera_switch".localized, message: "alert.detail.camera_switch".localized, preferredStyle: .actionSheet)
+            alert.popoverPresentationController?.sourceView = cameraButton
+            if #available(iOS 26.0, *) {
+                alert.preferredTransition = .zoom { [self] _ in cameraButton }
+            }
             alert.addAction(UIAlertAction(title: "alert.button.ok".localized, style: .default, handler: { _ in
                 self.utilities.debugNSLog("[Camera Input] Dialog has been dismissed")
             }))
-            if #available(iOS 16.0, *) {
-                alert.popoverPresentationController?.sourceView = cameraButton
-                alert.popoverPresentationController?.sourceItem = cameraButton
-            }
             self.present(alert, animated: true, completion: nil)
             return
         }
@@ -808,7 +813,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                            isFlashOn: &flashStatus)
         } else {
             utilities.debugNSLog("[Flashlight] No flashlight available")
-            let alert = UIAlertController(title: "alert.title.flashlight".localized, message: "alert.detail.flashlight".localized, preferredStyle: .alert)
+            let alert = UIAlertController(title: "alert.title.flashlight".localized, message: "alert.detail.flashlight".localized, preferredStyle: .actionSheet)
+            alert.popoverPresentationController?.sourceView = flashlightButton
+            if #available(iOS 26.0, *) {
+                alert.preferredTransition = .zoom { [self] _ in flashlightButton }
+            }
             alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
                 self.utilities.debugNSLog("[Flashlight] Dialog has been dismissed")
             }))
@@ -830,7 +839,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             self.photoOutput = utilities.function.captureImage(output: self.photoOutput, viewForBounds: self.view, captureDelegate: self)
         } else {
             utilities.debugNSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
-            let alert = UIAlertController(title: "alert.title.phphotolibrary".localized, message: "alert.detail.phphotolibrary".localized, preferredStyle: .alert)
+            let alert = UIAlertController(title: "alert.title.phphotolibrary".localized, message: "alert.detail.phphotolibrary".localized, preferredStyle: .actionSheet)
+            alert.popoverPresentationController?.sourceView = captureButton
+            if #available(iOS 26.0, *) {
+                alert.preferredTransition = .zoom { [self] _ in captureButton }
+            }
             alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
                 self.utilities.debugNSLog("[Capture Photo] Dialog has been dismissed")
             }))
@@ -848,12 +861,20 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         photoPreview.photoImageData = imageData
         photoPreview.photoImageView.frame = view.frame
         photoPreview.photoImage = previewImage
-        let navigationController = UINavigationController(rootViewController: photoPreview)
-        navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
-        navigationController.isModalInPresentation = true
-        navigationController.isNavigationBarHidden = true
-        self.present(navigationController, animated: true, completion: nil)
-        NotificationCenter.default.addObserver(photoPreview, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+        if utilities.versionType == "INTERNAL" && utilities.preferences.preview.fastPath {
+            photoPreview.savePhoto(finalImage: photoPreview.finalizeImageForExport(imageData: imageData))
+        } else {
+            let navigationController = UINavigationController(rootViewController: photoPreview)
+            navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
+            navigationController.isModalInPresentation = true
+            navigationController.isNavigationBarHidden = true
+            navigationController.popoverPresentationController?.sourceView = captureButton
+            if #available(iOS 26.0, *) {
+                navigationController.preferredTransition = .zoom { [self] _ in captureButton }
+            }
+            self.present(navigationController, animated: true, completion: nil)
+            NotificationCenter.default.addObserver(photoPreview, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+        }
         
         self.captureButton.isEnabled = true
         self.captureButton.setImage(UIImage(systemName: "camera.aperture"), for: .normal)
@@ -899,7 +920,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                               sender: exposureSlider)
         } else {
             utilities.debugNSLog("[Manual Exposure] Current camera is not capable of adjusting exposure")
-            let alert = UIAlertController(title: "alert.title.exposure".localized, message: "alert.detail.exposure".localized, preferredStyle: .alert)
+            let alert = UIAlertController(title: "alert.title.exposure".localized, message: "alert.detail.exposure".localized, preferredStyle: .actionSheet)
+            alert.popoverPresentationController?.sourceView = exposureButton
+            if #available(iOS 26.0, *) {
+                alert.preferredTransition = .zoom { [self] _ in exposureButton }
+            }
             alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
                 self.utilities.debugNSLog("[Manual Exposure] Dialog has been dismissed")
             }))
@@ -917,7 +942,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                                                                 associatedSliderButton: exposureSliderButton)
         } else {
             utilities.debugNSLog("[Manual Focus] Current camera is not capable of adjusting exposure")
-            let alert = UIAlertController(title: "alert.title.exposure".localized, message: "alert.detail.exposure".localized, preferredStyle: .alert)
+            let alert = UIAlertController(title: "alert.title.exposure".localized, message: "alert.detail.exposure".localized, preferredStyle: .actionSheet)
+            alert.popoverPresentationController?.sourceView = exposureButton
+            if #available(iOS 26.0, *) {
+                alert.preferredTransition = .zoom { [self] _ in exposureButton }
+            }
             alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
                 self.utilities.debugNSLog("[Manual Exposure] Dialog has been dismissed")
             }))
@@ -957,7 +986,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                            floater: focusFloater ?? focusSlider.value)
         } else {
             utilities.debugNSLog("[Manual Focus] Current camera is not capable of adjusting focus")
-            let alert = UIAlertController(title: "alert.title.focus".localized, message: "alert.detail.focus".localized, preferredStyle: .alert)
+            let alert = UIAlertController(title: "alert.title.focus".localized, message: "alert.detail.focus".localized, preferredStyle: .actionSheet)
+            alert.popoverPresentationController?.sourceView = focusButton
+            if #available(iOS 26.0, *) {
+                alert.preferredTransition = .zoom { [self] _ in focusButton }
+            }
             alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
                 self.utilities.debugNSLog("[Manual Focus] Dialog has been dismissed")
             }))
@@ -975,7 +1008,11 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                                                                          associatedSliderButton: focusSliderButton)
         } else {
             utilities.debugNSLog("[Manual Focus] Current camera is not capable of adjusting focus")
-            let alert = UIAlertController(title: "alert.title.focus".localized, message: "alert.detail.focus".localized, preferredStyle: .alert)
+            let alert = UIAlertController(title: "alert.title.focus".localized, message: "alert.detail.focus".localized, preferredStyle: .actionSheet)
+            alert.popoverPresentationController?.sourceView = focusButton
+            if #available(iOS 26.0, *) {
+                alert.preferredTransition = .zoom { [self] _ in focusButton }
+            }
             alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
                 self.utilities.debugNSLog("[Manual Focus] Dialog has been dismissed")
             }))

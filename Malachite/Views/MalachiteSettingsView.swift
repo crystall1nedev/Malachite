@@ -18,6 +18,8 @@ struct MalachiteSettingsView: View {
     @State private var previewAspect = Int()
     /// A State variable used for determining whether or not to stabilize the ``cameraPreview``.
     @State private var shouldStabilize = Bool()
+    /// A State variable used for determining whether or not to skip opening ``MalachitePhotoPreview`` and save the photo.
+    @State private var shouldUseFastPath = Bool()
     /// A State variable used for determining what the maximum zoom level for each camera should be.
     @State private var zoomMaximum = Int()
     /// A State variable used for determining whether or not to capture in HDR.
@@ -100,13 +102,15 @@ struct MalachiteSettingsView: View {
                         self.dismissAction()
                     } label: {
                         Image(systemName: "checkmark")
+                            .tint(.primary)
                     }
-                    .buttonStyle(GlassProminentButtonStyle())
+                    .buttonStyle(.borderedProminent)
                 } else {
                     Button {
                         self.dismissAction()
                     } label: {
                         Image(systemName: "checkmark")
+                            .tint(.primary)
                     }
                 }
             }
@@ -164,42 +168,28 @@ struct MalachiteSettingsView: View {
             // Testing things out
             if utilities.versionType == "INTERNAL" {
                 MalachiteCellViewUtils(
-                    icon: "plus.magnifyingglass",
+                    icon: "forward",
                     disabled: nil,
                     dangerous: false)
                 {
-                    Stepper {
-                        Text("settings.option.preview.zoom_maximum")
-                    } onIncrement: {
-                        if zoomMaximum < 10 { zoomMaximum += 1 }
-                    } onDecrement: {
-                        if zoomMaximum > 5 { zoomMaximum -= 1 }
-                    }
-                    Text(String(format: "%lldx", Int(zoomMaximum)))
-                        .font(.footnote)
-                        .foregroundColor(.gray)
+                    Toggle("settings.option.preview.fastpath", isOn: $shouldUseFastPath)
                 }
-            } else {
-                MalachiteCellViewUtils(
-                    icon: "plus.magnifyingglass",
-                    disabled: nil,
-                    dangerous: false)
-                {
-                    Picker("settings.option.preview.zoom_maximum", selection: $zoomMaximum) {
-                        Text("5x")
-                            .tag(5)
-                        Text("6x")
-                            .tag(6)
-                        Text("7x")
-                            .tag(7)
-                        Text("8x")
-                            .tag(8)
-                        Text("9x")
-                            .tag(9)
-                        Text("10x")
-                            .tag(10)
-                    }
+            }
+            MalachiteCellViewUtils(
+                icon: "plus.magnifyingglass",
+                disabled: nil,
+                dangerous: false)
+            {
+                Stepper {
+                    Text("settings.option.preview.zoom_maximum")
+                } onIncrement: {
+                    if zoomMaximum < 10 { zoomMaximum += 1 }
+                } onDecrement: {
+                    if zoomMaximum > 5 { zoomMaximum -= 1 }
                 }
+                Text(String(format: "%lldx", Int(zoomMaximum)))
+                    .font(.footnote)
+                    .foregroundColor(.gray)
             }
         }
         .onChange(of: previewAspect) {_ in
@@ -211,6 +201,9 @@ struct MalachiteSettingsView: View {
             utilities.preferences.preview.stablize = shouldStabilize
             
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
+        }
+        .onChange(of: shouldUseFastPath) {_ in
+            utilities.preferences.preview.fastPath = shouldUseFastPath
         }
         .onChange(of: zoomMaximum) {_ in
             utilities.preferences.capture.maximumZoom = zoomMaximum
@@ -585,9 +578,8 @@ struct MalachiteSettingsView: View {
         }
         
         shouldStabilize = utilities.preferences.preview.stablize
-        
+        shouldUseFastPath = utilities.preferences.preview.fastPath
         zoomMaximum = utilities.preferences.capture.maximumZoom
-        
         previewAspect = utilities.preferences.preview.aspect ? 1 : 0
         
         switch utilities.preferences.capture.mp.ultrawide {
@@ -666,6 +658,7 @@ struct MalachiteSettingsView: View {
     func onDisappear() {
         utilities.preferences.preview.aspect = (previewAspect == 1)
         utilities.preferences.preview.stablize = shouldStabilize
+        utilities.preferences.preview.fastPath = shouldUseFastPath
         utilities.preferences.capture.maximumZoom = zoomMaximum
         
         NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
