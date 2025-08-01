@@ -236,34 +236,11 @@ struct MalachiteCellViewUtils<Content : View>: View {
     
     var body: some View {
         VStack() {
-            HStack(spacing: 0) {
-                if dangerous {
-                    if #available(iOS 15.0, *) {
-                        Image(systemName: icon)
-                            .frame(maxWidth: 20)
-                            .foregroundStyle(.red)
-                            .symbolRenderingMode(.hierarchical)
-                            .padding(.trailing)
-                    } else {
-                        Image(systemName: icon)
-                            .frame(maxWidth: 20)
-                            .foregroundColor(.red)
-                            .padding(.trailing)
-                    }
-                } else {
-                    if #available(iOS 15.0, *) {
-                        Image(systemName: icon)
-                            .frame(maxWidth: 20)
-                            .foregroundStyle(Color.accentColor)
-                            .symbolRenderingMode(.hierarchical)
-                            .padding(.trailing)
-                    } else {
-                        Image(systemName: icon)
-                            .frame(maxWidth: 20)
-                            .foregroundColor(Color.accentColor)
-                            .padding(.trailing)
-                    }
-                }
+            HStack(spacing: 10) {
+                Image(systemName: icon)
+                    .frame(maxWidth: 20)
+                    .foregroundStyle(dangerous ? .red : Color.accentColor)
+                    .symbolRenderingMode(.hierarchical)
                 content
                     .disabled(disabled)
             }
@@ -286,45 +263,19 @@ struct MalachiteCompatibilityViewUtils: View {
     var body: some View {
         VStack {
             HStack {
-                if !available {
-                    if #available(iOS 17.0, *) {
-                        Text("\(title).unsupported".localized)
-                            .foregroundStyle(.red)
-                    } else {
-                        Text("\(title).unsupported".localized)
-                            .foregroundColor(.red)
-                    }
+                if #available(iOS 17.0, *) {
+                    Text(available ? title.localized : "\(title).unsupported".localized)
+                        .foregroundStyle(available ? Color.primary : Color.red)
                 } else {
-                    Text(title.localized)
+                    Text(available ? title.localized : "\(title).unsupported".localized)
+                        .foregroundColor(available ? Color.primary : Color.red)
                 }
                 Spacer()
-                if !available {
-                    if #available(iOS 15.0, *) {
-                        Image(systemName: "xmark.circle.fill")
-                            .frame(maxWidth: 20)
-                            .foregroundStyle(.red)
-                            .symbolRenderingMode(.hierarchical)
-                            .padding(.trailing)
-                    } else {
-                        Image(systemName: "xmark.circle.fill")
-                            .frame(maxWidth: 20)
-                            .foregroundColor(.red)
-                            .padding(.trailing)
-                    }
-                } else {
-                    if #available(iOS 15.0, *) {
-                        Image(systemName: "checkmark.seal.fill")
-                            .frame(maxWidth: 20)
-                            .foregroundStyle(Color.accentColor)
-                            .symbolRenderingMode(.hierarchical)
-                            .padding(.trailing)
-                    } else {
-                        Image(systemName: "checkmark.seal.fill")
-                            .frame(maxWidth: 20)
-                            .foregroundColor(Color.accentColor)
-                            .padding(.trailing)
-                    }
-                }
+                Image(systemName: available ? "checkmark.seal.fill" : "xmark.circle.fill")
+                    .frame(maxWidth: 20)
+                    .foregroundStyle(available ? Color.accentColor : Color.red)
+                    .symbolRenderingMode(.hierarchical)
+                    .padding(.trailing)
             }
         }
     }

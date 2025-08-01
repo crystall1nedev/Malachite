@@ -20,7 +20,7 @@ private struct AppIcon {
 
 struct MalachiteAboutView: View {
     /// A State variable used for determining whether or not this view is being presented as a modal.
-    @Binding var presentedAsModal: Bool
+    var dismissAction: (() -> Void)
     /// A State variable used for determining whether or not to enable Game Center integration.
     @State private var gamekitSwitch = false
     /// A State variable used for determining whether or not to uncap the exposure slider.
@@ -75,10 +75,19 @@ struct MalachiteAboutView: View {
         .navigationTitle("view.title.about")
         .toolbar(content: {
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    self.presentedAsModal = false
-                } label: {
-                    Text("action.done_button")
+                if #available(iOS 26.0, *) {
+                    Button {
+                        self.dismissAction()
+                    } label: {
+                        Image(systemName: "checkmark")
+                    }
+                    .buttonStyle(GlassProminentButtonStyle())
+                } else {
+                    Button {
+                        self.dismissAction()
+                    } label: {
+                        Text("action.done_button")
+                    }
                 }
             }
         })

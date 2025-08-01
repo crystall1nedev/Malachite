@@ -41,7 +41,7 @@ struct MalachiteSettingsView: View {
     /// A State variable used for determining whether or not the device supports HEIC capture.
     @State private var supportsHEIC = Bool()
     /// A State variable used for presenting the user with a footer based on capabilities.
-    @State private var formatFooterText = ""
+    @State private var formatFooterText: String?
     /// A State variable used for determining whether or not debug logging UserDefaults is enabled.
     @State private var debugLoggingUserDefaults = false
     /// A State variable used for determining what megapixel count the ultrawide camera should shoot in.
@@ -95,10 +95,19 @@ struct MalachiteSettingsView: View {
                 }
             }
             ToolbarItemGroup(placement: .topBarTrailing) {
-                Button {
-                    self.dismissAction()
-                } label: {
-                    Text("action.done_button")
+                if #available(iOS 26.0, *) {
+                    Button {
+                        self.dismissAction()
+                    } label: {
+                        Image(systemName: "checkmark")
+                    }
+                    .buttonStyle(GlassProminentButtonStyle())
+                } else {
+                    Button {
+                        self.dismissAction()
+                    } label: {
+                        Image(systemName: "checkmark")
+                    }
                 }
             }
         })
@@ -112,8 +121,9 @@ struct MalachiteSettingsView: View {
                 disabled: nil,
                 dangerous: false)
             {
-                Button("view.title.about") { self.presentingAboutModal = true }
-                    .sheet(isPresented: $presentingAboutModal) { MalachiteAboutView(presentedAsModal: self.$presentingAboutModal) }
+                NavigationLink(destination: MalachiteAboutView(dismissAction: dismissAction)) {
+                    Text("view.title.about")
+                }
             }
             if utilities.versionType == "INTERNAL" {
                 MalachiteCellViewUtils(
@@ -121,8 +131,9 @@ struct MalachiteSettingsView: View {
                     disabled: nil,
                     dangerous: false)
                 {
-                    Button("view.title.compatibility") { self.presentingCompatibilityModal = true }
-                        .sheet(isPresented: $presentingCompatibilityModal) { MalachiteCompatibilityView(presentedAsModal: self.$presentingCompatibilityModal, utilities: utilities) }
+                    NavigationLink(destination: MalachiteCompatibilityView(dismissAction: dismissAction, utilities: utilities)) {
+                        Text("view.title.compatibility")
+                    }
                 }
             }
         }
@@ -150,16 +161,44 @@ struct MalachiteSettingsView: View {
             {
                 Toggle("settings.option.preview.sbtlz", isOn: $shouldStabilize)
             }
-            MalachiteCellViewUtils(
-                icon: "plus.magnifyingglass",
-                disabled: nil,
-                dangerous: false)
-            {
-                Picker("settings.option.preview.zoom_maximum", selection: $zoomMaximum) {
-                    Text("settings.option.preview.zoom_maximum.5")
-                        .tag(0)
-                    Text("settings.option.preview.zoom_maximum.10")
-                        .tag(1)
+            // Testing things out
+            if utilities.versionType == "INTERNAL" {
+                MalachiteCellViewUtils(
+                    icon: "plus.magnifyingglass",
+                    disabled: nil,
+                    dangerous: false)
+                {
+                    Stepper {
+                        Text("settings.option.preview.zoom_maximum")
+                    } onIncrement: {
+                        if zoomMaximum < 10 { zoomMaximum += 1 }
+                    } onDecrement: {
+                        if zoomMaximum > 5 { zoomMaximum -= 1 }
+                    }
+                    Text(String(format: "%lldx", Int(zoomMaximum)))
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                }
+            } else {
+                MalachiteCellViewUtils(
+                    icon: "plus.magnifyingglass",
+                    disabled: nil,
+                    dangerous: false)
+                {
+                    Picker("settings.option.preview.zoom_maximum", selection: $zoomMaximum) {
+                        Text("5x")
+                            .tag(5)
+                        Text("6x")
+                            .tag(6)
+                        Text("7x")
+                            .tag(7)
+                        Text("8x")
+                            .tag(8)
+                        Text("9x")
+                            .tag(9)
+                        Text("10x")
+                            .tag(10)
+                    }
                 }
             }
         }
@@ -174,14 +213,7 @@ struct MalachiteSettingsView: View {
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
         }
         .onChange(of: zoomMaximum) {_ in
-            switch zoomMaximum {
-            case 0:
-                utilities.preferences.capture.maximumZoom = 5
-            case 1:
-                utilities.preferences.capture.maximumZoom = 10
-            default:
-                utilities.preferences.capture.maximumZoom = 5
-            }
+            utilities.preferences.capture.maximumZoom = zoomMaximum
         }
     }
     
@@ -277,7 +309,7 @@ struct MalachiteSettingsView: View {
     
     /// A variable to hold the photo settings section.
     var photoSettingsSection: some View {
-        Section(header: Text("settings.header.photo"), footer: Text(formatFooterText)) {
+        Section(header: Text("settings.header.photo"), footer: (formatFooterText != nil) ? Text(formatFooterText!) : nil) {
             MalachiteCellViewUtils(
                 icon: "square.and.arrow.down",
                 disabled: !supportsHEIC,
@@ -549,19 +581,12 @@ struct MalachiteSettingsView: View {
         }
         
         if !supportsHDR {
-            formatFooterText = formatFooterText + "settings.footer.photo.hdr".localized
+            formatFooterText = (formatFooterText != nil) ? formatFooterText! + "settings.footer.photo.hdr".localized : "settings.footer.photo.hdr".localized
         }
         
         shouldStabilize = utilities.preferences.preview.stablize
         
-        switch utilities.preferences.capture.maximumZoom {
-        case 5:
-            zoomMaximum = 0
-        case 10:
-            zoomMaximum = 1
-        default:
-            zoomMaximum = 0
-        }
+        zoomMaximum = utilities.preferences.capture.maximumZoom
         
         previewAspect = utilities.preferences.preview.aspect ? 1 : 0
         
@@ -641,15 +666,7 @@ struct MalachiteSettingsView: View {
     func onDisappear() {
         utilities.preferences.preview.aspect = (previewAspect == 1)
         utilities.preferences.preview.stablize = shouldStabilize
-        
-        switch zoomMaximum {
-        case 0:
-            utilities.preferences.capture.maximumZoom = 5
-        case 1:
-            utilities.preferences.capture.maximumZoom = 10
-        default:
-            utilities.preferences.capture.maximumZoom = 5
-        }
+        utilities.preferences.capture.maximumZoom = zoomMaximum
         
         NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
         NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)

@@ -1,5 +1,25 @@
 # 1.0.0 (build xxx)
 
+- **Increased the minimum version requirement from iOS 14.1 to iOS 15**
+    - Supporting the few users on iOS 14 is no longer worth the extra complexity for my workflow
+- Fixed an issue where the camera switching alert would display on launch
+- Fixed an issue where the padding between Photo and Watermark settings would be too large
+- Changed the way the Settings view is presented on iPadOS
+    - It now uses a popover, check it out!
+- Moved the About screen to using a simpler navigation flow
+- Add support for watchOS
+    - Working on Malachite Remote, not much to see yet!
+- Add support for Camera Control on iPhone 16 series (excluding 16e)
+    - Press Camera Control to take photos
+    - Light-press to access controls
+- Add support for iOS 26
+    - Updated app icon with Liquid Glass
+    - Support Liquid Glass in UI elements
+- Switch to Codesigning.xcconfig to prevent conflicts when changing development teams or bundle identifiers
+- Adds support for customizable digital zoom levels
+- Switched from Photo library access permission to Photo library additions permission
+- Fixed an issue where Malachite would disable HDR even if the device supports it
+- Added more descriptive errors for exposure and flashlight
 - Localize the lock screen, control center, and Action Button widgets
 - Fix an issue where the resolution controls in Settings wouldn't appear
     - Addressed an internal check in the wrong place

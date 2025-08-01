@@ -27,10 +27,19 @@ struct MalachiteSettingsDetailView: View {
         .navigationTitle("view.title.help")
         .toolbar(content: {
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    self.dismissAction()
-                } label: {
-                    Text("action.done_button")
+                if #available(iOS 26.0, *) {
+                    Button {
+                        self.dismissAction()
+                    } label: {
+                        Image(systemName: "checkmark")
+                    }
+                    .buttonStyle(GlassProminentButtonStyle())
+                } else {
+                    Button {
+                        self.dismissAction()
+                    } label: {
+                        Image(systemName: "checkmark")
+                    }
                 }
             }
         })
@@ -118,29 +127,10 @@ struct MalachiteSettingsDetailUtils<Content : View>: View {
     
     var body: some View {
         HStack() {
-            if dangerous {
-                if #available(iOS 15.0, *) {
-                    Image(systemName: icon)
-                        .frame(maxWidth: 30)
-                        .foregroundStyle(.red)
-                        .symbolRenderingMode(.hierarchical)
-                } else {
-                    Image(systemName: icon)
-                        .frame(maxWidth: 30)
-                        .foregroundColor(.red)
-                }
-            } else {
-                if #available(iOS 15.0, *) {
-                    Image(systemName: icon)
-                        .frame(maxWidth: 30)
-                        .foregroundStyle(Color.accentColor)
-                        .symbolRenderingMode(.hierarchical)
-                } else {
-                    Image(systemName: icon)
-                        .frame(maxWidth: 30)
-                        .foregroundColor(Color.accentColor)
-                }
-            }
+            Image(systemName: icon)
+                .frame(maxWidth: 30)
+                .foregroundStyle(dangerous ? .red : Color.accentColor)
+                .symbolRenderingMode(.hierarchical)
             VStack {
                 HStack {
                     if dangerous {

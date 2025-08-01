@@ -222,7 +222,10 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
     @objc private func sharePhoto() {
         let shareableData = try! dataToShareable(data: finalizedImage, title: "sharable.title")
         let shareSheet = UIActivityViewController(activityItems: [shareableData], applicationActivities: nil)
-        shareSheet.popoverPresentationController?.sourceView = self.view
+        shareSheet.popoverPresentationController?.sourceView = sharePhotoButton
+        if #available(iOS 16.0, *) {
+            shareSheet.popoverPresentationController?.sourceItem = sharePhotoButton
+        }
         self.present(shareSheet, animated: true)
     }
     

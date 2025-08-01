@@ -15,18 +15,19 @@ I recommend one of the following configurations...
     - iPhone 15 Pro or iPhone 15 Pro Max
     - iPhone 16 or later (excluding iPhone 16e)
   - A third-party lens attachment
-...and **iOS 14.1** or later.
+...and **iOS 15.0** or later.
 
 ## What can I do with this?  
 - [x] Enjoy a fully-native, no-external library Swift app
-- [x] Quickly open Malachite with a lock screen widget, Control Center, or even the Action Button![^2]
+- [x] Quickly open Malachite with a lock screen widget, Control Center, Action Button, or Camera Control
+- [x] Quickly access controls using Camera Control
 - [x] Basic camera view, with buttons that are out of the way  
 - [x] Switch between the ultra-wide and wide cameras, with fallback support for devices with one camera  
-- [x] Pinch-to-zoom gesture[^3]  
+- [x] Pinch-to-zoom gesture[^2]  
 - [x] Autofocus and autoexposure adjustments by tapping and holding the display 
 - [x] Manual focus adjustments by adjusting a slider next to the other controls  
 - [x] Photo capture support, even when library access is set to Limited
-- [x] JPEG and HEIC support[^5]
+- [x] JPEG and HEIC support[^3]
 - [x] 48MP and high dynamic range support
 - [x] Watermarking support! 
 - [ ] More features, coming soon...  
@@ -47,7 +48,6 @@ Malachite is on TestFlight, but only for **[my Patrons](https://patreon.com/crys
 ## What started this one, Eva?
 So, I live with my love: @ThatStella7922. She and I are both big nerds, and I caught her using her macro lens on an Xbox 360 motherboard to let her work with traces and pads while she was RGH'ing it. The idea for a magnifier app came from how much time it took for her to get into the right camera setting, turn the flashlight on, and still not have much control beyond autofocus and zooming. With Malachite, I strove to solve this problem - and then I ended up making it even greater for the people who love macro photography on their own iPhones.
 
-[^1]: Malachite is validated against iPhone SE (1st generation) with no lens attachment, iPhone 8 Plus with no working main camera, iPhone 11, iPhone 15 Pro Max, and iPad Pro (11-inch). Not all features are available across all devices, due to hardware and software limitations. iOS version support may change depending on the difficulty of targeting older iOS versions and/or other factors.
-[^2]: Support for the Camera Control button on iPhone 16 and later is planned and will be implemented when I receive my iPhone 16 Pro Max.
-[^3]: Pinch-to-zoom will feature haptic feedback when reaching the minimum and maximum zoom levels in a future commit.
-[^5]: Capturing images in RAW and ProRAW is being looked into. HEIC requires iPhone 7 or later, iPad (6th generation) or later, iPad Air (3rd generation) or later, iPad mini (5th generation) or later, iPad Pro (12.9-inch, 2nd generation) or later, iPad Pro (10.5-inch), iPad Pro (11-inch) or later, or iPod touch (7th generation)
+[^1]: Malachite is validated against iPhone SE (1st generation) with no lens attachment, iPhone 8 Plus with no working main camera, iPhone 11, iPhone 16 Pro Max, and iPad Pro (11-inch). Not all features are available across all devices, due to hardware and software limitations. iOS version support may change depending on the difficulty of targeting older iOS versions and/or other factors.
+[^2]: Pinch-to-zoom will feature haptic feedback when reaching the minimum and maximum zoom levels in a future commit.
+[^3]: Capturing images in RAW and ProRAW is being looked into. HEIC requires iPhone 7 or later, iPad (6th generation) or later, iPad Air (3rd generation) or later, iPad mini (5th generation) or later, iPad Pro (12.9-inch, 2nd generation) or later, iPad Pro (10.5-inch), iPad Pro (11-inch) or later, or iPod touch (7th generation)

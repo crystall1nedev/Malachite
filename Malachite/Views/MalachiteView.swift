@@ -682,28 +682,32 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         var aboutView = MalachiteSettingsView(dismissAction: {self.dismiss( animated: true, completion: nil )})
         aboutView.utilities = self.utilities
         let hostingController = UIHostingController(rootView: aboutView)
-        hostingController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
+        hostingController.modalPresentationStyle = UIModalPresentationStyle.popover
+        hostingController.popoverPresentationController?.sourceView = settingsButton
+        hostingController.isModalInPresentation = true
         self.present(hostingController, animated: true, completion: nil)
     }
     
     /// Function to switch cameras and attach new inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.
     @objc func runInputSwitch() {
         cameraSession?.beginConfiguration()
-        DispatchQueue.main.async() { [self] in
-            if self.availableRearCameras.count == 1 && !initRun{
-                utilities.debugNSLog("[Camera Input] Only one AVCaptureDevice is available to use, showing error")
-                let alert = UIAlertController(title: "alert.title.camera_switch".localized, message: "alert.detail.camera_switch".localized, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "alert.button.ok".localized, style: .default, handler: { _ in
-                    self.utilities.debugNSLog("[Camera Input] Dialog has been dismissed")
-                }))
-                self.present(alert, animated: true, completion: nil)
-                return
+        if self.availableRearCameras.count < 2 && !self.initRun {
+            utilities.debugNSLog("[Camera Input] Only one AVCaptureDevice is available to use, showing error")
+            let alert = UIAlertController(title: "alert.title.camera_switch".localized, message: "alert.detail.camera_switch".localized, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "alert.button.ok".localized, style: .default, handler: { _ in
+                self.utilities.debugNSLog("[Camera Input] Dialog has been dismissed")
+            }))
+            if #available(iOS 16.0, *) {
+                alert.popoverPresentationController?.sourceView = cameraButton
+                alert.popoverPresentationController?.sourceItem = cameraButton
             }
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
             
-            UIView.animate(withDuration: 0.5) {
-                self.focusSlider.value = 0.0
-                self.exposureSlider.value = 0.0
-            }
+        UIView.animate(withDuration: 0.5) {
+            self.focusSlider.value = 0.0
+            self.exposureSlider.value = 0.0
         }
         
         if cameraIndex != nil { selectedDevice = availableRearCameras[cameraIndex!] } else {

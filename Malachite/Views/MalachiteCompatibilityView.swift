@@ -9,7 +9,7 @@ import SwiftUI
 
 public struct MalachiteCompatibilityView: View {
     /// A State variable used for determining whether or not this view is being presented as a modal.
-    @Binding var presentedAsModal: Bool
+    var dismissAction: (() -> Void)
     /// A variable to hold the existing instance of ``MalachiteClassesObject``.
     var utilities = MalachiteClassesObject()
     
@@ -53,10 +53,19 @@ public struct MalachiteCompatibilityView: View {
             .navigationTitle("view.title.compatibility")
             .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        self.presentedAsModal = false
-                    } label: {
-                        Text("action.done_button")
+                    if #available(iOS 26.0, *) {
+                        Button {
+                            self.dismissAction()
+                        } label: {
+                            Image(systemName: "checkmark")
+                        }
+                        .buttonStyle(GlassProminentButtonStyle())
+                    } else {
+                        Button {
+                            self.dismissAction()
+                        } label: {
+                            Image(systemName: "checkmark")
+                        }
                     }
                 }
             })

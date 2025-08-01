@@ -26,6 +26,24 @@
       },
       "shouldTranslate" : false
     },
+    "5x" : {
+
+    },
+    "6x" : {
+
+    },
+    "7x" : {
+
+    },
+    "8x" : {
+
+    },
+    "9x" : {
+
+    },
+    "10x" : {
+
+    },
     "about.author_note" : {
       "localizations" : {
         "en" : {
@@ -1136,6 +1154,7 @@
       }
     },
     "settings.option.preview.zoom_maximum.5" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1146,6 +1165,7 @@
       }
     },
     "settings.option.preview.zoom_maximum.10" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
