@@ -6,7 +6,14 @@
 //
 
 import Foundation
+import AppIntents
 // TODO: Rename a bunch of these preferences to be more concise in their meaning
+
+struct MalachitePreferences_AppContext: Codable, IntentResult {
+    var value: Never?
+    
+    var preferences: MalachitePreferences
+}
 
 struct MalachitePreferences: Codable {
     

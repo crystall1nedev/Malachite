@@ -196,6 +196,17 @@
         }
       }
     },
+    "alert.detail.app_extensions.settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In order to change Malachite’s settings, this device will need to be unlocked."
+          }
+        }
+      }
+    },
     "alert.detail.camera_switch" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -258,6 +269,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Malachite requires photo library access in order to capture images. Go to Settings > Apps > Malachite to enable this permission."
+          }
+        }
+      }
+    },
+    "alert.title.app_extensions.settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings is not currently accessible."
           }
         }
       }

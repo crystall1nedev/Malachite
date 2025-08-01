@@ -679,6 +679,19 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to present ``MalachiteSettingsView``
     @objc func presentSettingsView() {
+#if APP_EXTENSION
+        utilities.debugNSLog("[Settings] Attempt to access Settings UI from app extension")
+        let alert = UIAlertController(title: "alert.title.app_extensions.settings".localized, message: "alert.detail.app_extensions.settings".localized, preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.sourceView = settingsButton
+        if #available(iOS 26.0, *) {
+            alert.preferredTransition = .zoom { [self] _ in settingsButton }
+        }
+        alert.addAction(UIAlertAction(title: "alert.button.ok".localized, style: .default, handler: { _ in
+            self.utilities.debugNSLog("[Settings] Dialog has been dismissed")
+        }))
+        self.present(alert, animated: true, completion: nil)
+        return
+#elseif MAIN_APP
         var aboutView = MalachiteSettingsView(dismissAction: {self.dismiss( animated: true, completion: nil )})
         aboutView.utilities = self.utilities
         let hostingController = UIHostingController(rootView: aboutView)
@@ -691,6 +704,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             }
         }
         self.present(hostingController, animated: true, completion: nil)
+#endif
     }
     
     /// Function to switch cameras and attach new inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.

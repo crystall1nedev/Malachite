@@ -21,16 +21,14 @@ struct MalachiteLaunchIntent: AppIntent {
 #if os(iOS)
 @available(iOS 18.0, *)
 struct MalachiteCaptureIntent: CameraCaptureIntent {
-    typealias AppContext = MalachiteContext
+    typealias AppContext = MalachitePreferences
     
     static let title: LocalizedStringResource = "appname.open"
     static let description = IntentDescription("appname.open.description")
     
     @MainActor
-    func perform() async throws -> some IntentResult { return .result() }
-}
-
-struct MalachiteContext: Codable {
-    // TODO
+    func perform() async throws -> some IntentResult {
+        return .result()
+    }
 }
 #endif

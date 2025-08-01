@@ -41,4 +41,3 @@ struct MalachiteCaptureBundleViewFinder: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: MalachiteView, context: Self.Context) {
     }
 }
-
