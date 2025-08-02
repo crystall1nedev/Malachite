@@ -710,7 +710,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to switch cameras and attach new inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.
     @objc func runInputSwitch() {
         cameraSession?.beginConfiguration()
-        if (self.availableRearCameras.count < 2 && !self.initRun) || utilities.preferences.debug.breakApp {
+        if (self.availableRearCameras.count < 2 || utilities.preferences.debug.breakApp) && !self.initRun  {
             utilities.debugNSLog("[Camera Input] Only one AVCaptureDevice is available to use, showing error")
             let alert = UIAlertController(title: "alert.title.camera_switch".localized, message: "alert.detail.camera_switch".localized, preferredStyle: .actionSheet)
             alert.popoverPresentationController?.sourceView = cameraButton
