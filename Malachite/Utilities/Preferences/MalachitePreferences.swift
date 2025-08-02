@@ -100,6 +100,7 @@ struct MalachitePreferences: Codable {
     
     struct debugPreferences: Codable {
         var logging:        debug_loggingPreferences
+        var breakApp:       Bool
         
         struct debug_loggingPreferences: Codable {
             var preferences:    Bool

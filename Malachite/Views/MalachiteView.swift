@@ -710,7 +710,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to switch cameras and attach new inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.
     @objc func runInputSwitch() {
         cameraSession?.beginConfiguration()
-        if self.availableRearCameras.count < 2 && !self.initRun {
+        if (self.availableRearCameras.count < 2 && !self.initRun) || utilities.preferences.debug.breakApp {
             utilities.debugNSLog("[Camera Input] Only one AVCaptureDevice is available to use, showing error")
             let alert = UIAlertController(title: "alert.title.camera_switch".localized, message: "alert.detail.camera_switch".localized, preferredStyle: .actionSheet)
             alert.popoverPresentationController?.sourceView = cameraButton
@@ -820,7 +820,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to toggle the flashlight's on state.
     @objc func runFlashlightToggle() {
         guard let flashlight = selectedDevice?.hasFlash else { return }
-        if flashlight {
+        if flashlight && !utilities.preferences.debug.breakApp {
             utilities.function.toggleFlash(captureDevice: &selectedDevice!,
                                            flashlightButton: flashlightButton,
                                            floater: flashFloater,
@@ -849,7 +849,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
         
-        if status == .authorized || status == .limited {
+        if (status == .authorized || status == .limited) && !utilities.preferences.debug.breakApp {
             self.photoOutput = utilities.function.captureImage(output: self.photoOutput, viewForBounds: self.view, captureDelegate: self)
         } else {
             utilities.debugNSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
@@ -929,7 +929,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to handle ``exposureSlider`` interaction.
     @objc func runManualExposureController() {
         guard let exposure = selectedDevice?.isExposureModeSupported(.custom) else { return }
-        if exposure {
+        if exposure && !utilities.preferences.debug.breakApp {
             utilities.function.manualExposure(captureDevice: &selectedDevice!,
                                               sender: exposureSlider)
         } else {
@@ -949,7 +949,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to show and hide the ``exposureSliderButton`` and ``exposureLockButton``.
     @objc func runManualExposureUIHider() {
         guard let exposure = selectedDevice?.isExposureModeSupported(.custom) else { return }
-        if exposure {
+        if exposure && !utilities.preferences.debug.breakApp {
             manualExposureSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualExposureSliderIsActive,
                                                                                 optionButton: exposureButton,
                                                                                 lockButton: exposureLockButton,
@@ -994,7 +994,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to handle ``focusSlider`` interaction.
     @objc func runManualFocusController() {
         guard let focus = selectedDevice?.isLockingFocusWithCustomLensPositionSupported else { return }
-        if focus {
+        if focus && !utilities.preferences.debug.breakApp {
             utilities.function.manualFocus(captureDevice: &selectedDevice!,
                                            sender: focusSlider,
                                            floater: focusFloater ?? focusSlider.value)
@@ -1015,7 +1015,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to handle ``focusSlider`` interaction.
     @objc func runManualFocusUIHider() {
         guard let focus = selectedDevice?.isLockingFocusWithCustomLensPositionSupported else { return }
-        if focus {
+        if focus && !utilities.preferences.debug.breakApp {
         manualFocusSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualFocusSliderIsActive,
                                                                          optionButton: focusButton,
                                                                          lockButton: focusLockButton,

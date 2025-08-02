@@ -46,6 +46,8 @@ struct MalachiteSettingsView: View {
     @State private var formatFooterText: String?
     /// A State variable used for determining whether or not debug logging UserDefaults is enabled.
     @State private var debugLoggingUserDefaults = false
+    /// A State variable used for determining whether or not to literally break the app.
+    @State private var breakApp = false
     /// A State variable used for determining what megapixel count the ultrawide camera should shoot in.
     @State private var ultrawideMegapixelCount = Int()
     /// A State variable used for determining what megapixel count the wide angle camera should shoot in.
@@ -521,6 +523,13 @@ struct MalachiteSettingsView: View {
                 Toggle("settings.option.debug.logging.userdefaults", isOn: $debugLoggingUserDefaults)
             }
             MalachiteCellViewUtils(
+                icon: "iphone.slash",
+                disabled: nil,
+                dangerous: false)
+            {
+                Toggle("settings.option.debug.breakapp", isOn: $breakApp)
+            }
+            MalachiteCellViewUtils(
                 icon: "trash",
                 disabled: nil,
                 dangerous: true)
@@ -653,6 +662,7 @@ struct MalachiteSettingsView: View {
         }
         
         debugLoggingUserDefaults = utilities.preferences.debug.logging.preferences
+        breakApp = utilities.preferences.debug.breakApp
     }
     
     func onDisappear() {
@@ -741,5 +751,6 @@ struct MalachiteSettingsView: View {
         NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, object: nil)
         
         utilities.preferences.debug.logging.preferences = debugLoggingUserDefaults
+        utilities.preferences.debug.breakApp = breakApp
     }
 }

@@ -1007,6 +1007,16 @@
         }
       }
     },
+    "settings.option.debug.breakapp" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Break the app"
+          }
+        }
+      }
+    },
     "settings.option.debug.erase.gamekit" : {
       "localizations" : {
         "en" : {
@@ -1508,5 +1518,5 @@
       }
     }
   },
-  "version" : "1.0"
+  "version" : "1.1"
 }
