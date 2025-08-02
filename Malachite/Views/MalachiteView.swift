@@ -243,13 +243,14 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             utilities.debugNSLog("[Initialization] Bringing up AVCaptureVideoPreviewLayer")
             cameraPreview = AVCaptureVideoPreviewLayer(session: cameraSession!)
             
+            var statusBarOrientation = UIInterfaceOrientation.portrait
             #if MAIN_APP
-            let statusBarOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation ?? UIInterfaceOrientation.portrait
-            #else
-            let statusBarOrientation = UIInterfaceOrientation.portrait
+            if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0 is UIWindowScene }) as? UIWindowScene {
+                statusBarOrientation = windowScene.interfaceOrientation
+            }
             #endif
-            let videoOrientation: AVCaptureVideoOrientation = (statusBarOrientation.videoOrientation)
             cameraPreview?.frame = view.layer.bounds
+            let videoOrientation: AVCaptureVideoOrientation = (statusBarOrientation.videoOrientation)
             cameraPreview?.connection?.videoOrientation = videoOrientation
             
             if utilities.preferences.preview.aspect {
@@ -1175,7 +1176,10 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         coordinator.animate(alongsideTransition: { [self] context in
             #if MAIN_APP
-            self.cameraPreview?.connection!.videoOrientation = self.transformOrientation(orientation: UIInterfaceOrientation(rawValue: UIApplication.shared.windows.first!.windowScene!.interfaceOrientation.rawValue)!)
+            if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0 is UIWindowScene }) as? UIWindowScene {
+                let orientation = windowScene.interfaceOrientation
+                self.cameraPreview?.connection!.videoOrientation = self.transformOrientation(orientation: orientation)
+            }
             #endif
             self.cameraPreview?.frame.size = self.view.frame.size
         })
