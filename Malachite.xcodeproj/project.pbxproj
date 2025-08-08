@@ -1353,6 +1353,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = arm64e;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MalachiteWatch/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Malachite Remote";
@@ -1388,6 +1389,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = arm64e;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MalachiteWatch/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Malachite Remote";
@@ -1423,6 +1425,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = arm64e;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MalachiteWatch/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Malachite Remote";
