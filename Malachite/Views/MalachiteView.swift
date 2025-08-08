@@ -1169,7 +1169,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         cameraView.frame = self.view.bounds
     }
     
-    #if MAIN_APP
     /// Override function to trigger actions when the screen rotates.
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -1184,6 +1183,5 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             self.cameraPreview?.frame.size = self.view.frame.size
         })
     }
-    #endif
 }
 
