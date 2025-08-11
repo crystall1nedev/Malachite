@@ -71,6 +71,7 @@ struct LockScreenCircularWidgetEntryView: View {
                 Image(systemName: "camera.aperture")
             }
             .containerBackground(for: .widget) { }
+            .widgetAccentable()
         } else {
             ZStack {
                 AccessoryWidgetBackground()
@@ -78,6 +79,7 @@ struct LockScreenCircularWidgetEntryView: View {
             }
             .padding()
             .background()
+            .widgetAccentable()
         }
     }
 }

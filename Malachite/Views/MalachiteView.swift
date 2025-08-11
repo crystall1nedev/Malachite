@@ -811,7 +811,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             }
         }
         
-        utilities.function.addControlsToSession(session: &cameraSession!, controls: [ zoomSlider, focusSlider, cameraSwitcher, flashSwitcher, flashSlider, systemBiasSlider])
+        if utilities.versionType == "INTERNAL" {
+            utilities.function.addControlsToSession(session: &cameraSession!, controls: [ zoomSlider, focusSlider, cameraSwitcher, flashSwitcher, flashSlider, systemBiasSlider])
+        }
     }
     
     @objc func runInputMegapixelSwitch() {
