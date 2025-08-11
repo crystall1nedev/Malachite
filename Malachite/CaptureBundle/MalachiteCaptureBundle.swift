@@ -11,7 +11,6 @@ import UniformTypeIdentifiers
 import LockedCameraCapture
 import SwiftUI
 
-@available(iOS 18.0, *)
 @main
 struct MalachiteCaptureBundle: LockedCameraCaptureExtension {
     var body: some LockedCameraCaptureExtensionScene {
@@ -21,10 +20,8 @@ struct MalachiteCaptureBundle: LockedCameraCaptureExtension {
     }
 }
 
-@available(iOS 18.0, *)
 struct MalachiteCaptureBundleViewFinder: UIViewControllerRepresentable {
     typealias UIViewControllerType = MalachiteView
-    
     
     // Apple's sample LockedCameraCapture code
     let session: LockedCameraCaptureSession

@@ -1,5 +1,9 @@
 # 1.0.0 (build xxx)
 
+
+
+# 1.0.0 (build 50)
+
 - **Increased the minimum version requirement from iOS 14.1 to iOS 15**
     - Supporting the few users on iOS 14 is no longer worth the extra complexity for my workflow
 - Add support for Camera Control on iPhone 16 series (excluding 16e)

@@ -822,6 +822,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to toggle the flashlight's on state.
     @objc func runFlashlightToggle() {
+        // TODO: change to isFlashAvailable. hasFlash doesn't mean it can currently be used
         guard let flashlight = selectedDevice?.hasFlash else { return }
         if flashlight && !utilities.preferences.debug.breakApp {
             utilities.function.toggleFlash(captureDevice: &selectedDevice!,
