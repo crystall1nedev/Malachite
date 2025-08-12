@@ -95,7 +95,11 @@ struct MalachiteSettingsView: View {
         .toolbar(content: {
             ToolbarItemGroup(placement: .topBarLeading) {
                 NavigationLink(destination: MalachiteSettingsDetailView(dismissAction: dismissAction)) {
-                    Image(systemName: "questionmark.circle")
+                    if #available(iOS 26.0, *) {
+                        Image(systemName: "questionmark.circle")
+                    } else {
+                        Image(systemName: "questionmark.circle").tint(.primary)
+                    }
                 }
             }
             ToolbarItemGroup(placement: .topBarTrailing) {
@@ -106,13 +110,12 @@ struct MalachiteSettingsView: View {
                         Image(systemName: "checkmark")
                             .tint(.primary)
                     }
-                    .buttonStyle(.borderedProminent)
+                    .buttonStyle(.glassProminent)
                 } else {
                     Button {
                         self.dismissAction()
                     } label: {
-                        Image(systemName: "checkmark")
-                            .tint(.primary)
+                        Image(systemName: "checkmark.circle")
                     }
                 }
             }

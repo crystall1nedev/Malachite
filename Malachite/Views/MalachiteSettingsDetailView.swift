@@ -26,7 +26,7 @@ struct MalachiteSettingsDetailView: View {
         }
         .navigationTitle("view.title.help")
         .toolbar(content: {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItemGroup(placement: .topBarTrailing) {
                 if #available(iOS 26.0, *) {
                     Button {
                         self.dismissAction()
@@ -34,13 +34,12 @@ struct MalachiteSettingsDetailView: View {
                         Image(systemName: "checkmark")
                             .tint(.primary)
                     }
-                    .buttonStyle(.borderedProminent)
+                    .buttonStyle(.glassProminent)
                 } else {
                     Button {
                         self.dismissAction()
                     } label: {
-                        Image(systemName: "checkmark")
-                            .tint(.primary)
+                        Image(systemName: "checkmark.circle")
                     }
                 }
             }

@@ -74,7 +74,7 @@ struct MalachiteAboutView: View {
         }
         .navigationTitle("view.title.about")
         .toolbar(content: {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItemGroup(placement: .topBarTrailing) {
                 if #available(iOS 26.0, *) {
                     Button {
                         self.dismissAction()
@@ -82,13 +82,12 @@ struct MalachiteAboutView: View {
                         Image(systemName: "checkmark")
                             .tint(.primary)
                     }
-                    .buttonStyle(.borderedProminent)
+                    .buttonStyle(.glassProminent)
                 } else {
                     Button {
                         self.dismissAction()
                     } label: {
-                        Image(systemName: "checkmark")
-                            .tint(.primary)
+                        Image(systemName: "checkmark.circle")
                     }
                 }
             }

@@ -26,6 +26,7 @@ public class MalachiteViewUtils : NSObject {
             button.configuration = .glass()
         } else {
             button.insertSubview(returnProperEffectView(viewForBounds: view, effect: UIBlurEffect(style: .systemThinMaterial)), at: 0)
+            button.tintColor = UIColor(.primary)
         }
         if haptic != nil {
             button.addTarget(haptic, action: #selector(haptic!.buttonMediumHaptics(_:)), for: .touchUpInside)
