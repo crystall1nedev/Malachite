@@ -788,8 +788,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         let flashSwitcher = AVCaptureIndexPicker("Flash", symbolName: "bolt.fill", numberOfIndexes: 2, localizedTitleTransform: { index in
             switch index {
-            case 0: return NSLocalizedString("flash.off", comment: "Off")
-            case 1: return NSLocalizedString("flash.on", comment: "On")
+            case 0: return NSLocalizedString("flash.off", comment: "")
+            case 1: return NSLocalizedString("flash.on", comment: "")
             default: return ""
             }
         })
