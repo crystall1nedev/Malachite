@@ -7,84 +7,89 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		780067E12CBDCEA0004BB595 /* ControlCenterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */; };
-		7806973A2B27F66E00B4942B /* MalachiteTooltipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */; };
-		7837C1062E34C45B009396B0 /* MalachiteIntentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9DE2C2CD57F4D002C131D /* MalachiteIntentUtils.swift */; };
-		7837C1072E34C45B009396B0 /* ControlCenterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */; };
-		7837C1082E34C45B009396B0 /* LockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78917F622B99AE72005E10FA /* LockScreenWidget.swift */; };
-		7837C1092E34C45B009396B0 /* MalachiteWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78917F602B99AE72005E10FA /* MalachiteWidgetBundle.swift */; };
 		7837C10B2E34C45B009396B0 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5D2B99AE72005E10FA /* SwiftUI.framework */; };
 		7837C10C2E34C45B009396B0 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5B2B99AE72005E10FA /* WidgetKit.framework */; };
 		7837C10E2E34C45B009396B0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
 		7837C1172E34C47D009396B0 /* WidgetBundleWatch.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7837C1152E34C45B009396B0 /* WidgetBundleWatch.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		7859DE1A2B8308C000D1A998 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */; };
 		785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F084C2B12D41100244EB4 /* AppDelegate.swift */; };
 		785F084F2B12D41100244EB4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F084E2B12D41100244EB4 /* SceneDelegate.swift */; };
-		785F08512B12D41100244EB4 /* MalachiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F08502B12D41100244EB4 /* MalachiteView.swift */; };
-		785F08562B12D41300244EB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 785F08552B12D41300244EB4 /* Assets.xcassets */; };
 		785F08592B12D41300244EB4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 785F08572B12D41300244EB4 /* LaunchScreen.storyboard */; };
-		7860DC002B897A3E00450BF8 /* MalachiteGameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7860DBFF2B897A3E00450BF8 /* MalachiteGameUtils.swift */; };
-		78789C742E3494D500862C3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 785F08552B12D41300244EB4 /* Assets.xcassets */; };
+		786DAE232E4F28A600BE3137 /* DeveloperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE172E4F28A600BE3137 /* DeveloperView.swift */; };
+		786DAE242E4F28A600BE3137 /* DeveloperView+BuildInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE182E4F28A600BE3137 /* DeveloperView+BuildInfo.swift */; };
+		786DAE252E4F28A600BE3137 /* DeveloperView+DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE192E4F28A600BE3137 /* DeveloperView+DeviceInfo.swift */; };
+		786DAE262E4F28A600BE3137 /* DeveloperView+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1A2E4F28A600BE3137 /* DeveloperView+Settings.swift */; };
+		786DAE272E4F28A600BE3137 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1C2E4F28A600BE3137 /* MalachiteAboutView.swift */; };
+		786DAE282E4F28A600BE3137 /* MalachiteCompatibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1D2E4F28A600BE3137 /* MalachiteCompatibilityView.swift */; };
+		786DAE292E4F28A600BE3137 /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1E2E4F28A600BE3137 /* MalachitePhotoPreview.swift */; };
+		786DAE2A2E4F28A600BE3137 /* SettingsView+Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1F2E4F28A600BE3137 /* SettingsView+Help.swift */; };
+		786DAE2B2E4F28A600BE3137 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE202E4F28A600BE3137 /* SettingsView.swift */; };
+		786DAE2C2E4F28A600BE3137 /* MalachiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE212E4F28A600BE3137 /* MalachiteView.swift */; };
+		786DAE2D2E4F28A600BE3137 /* DeveloperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE172E4F28A600BE3137 /* DeveloperView.swift */; };
+		786DAE2E2E4F28A600BE3137 /* DeveloperView+BuildInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE182E4F28A600BE3137 /* DeveloperView+BuildInfo.swift */; };
+		786DAE2F2E4F28A600BE3137 /* DeveloperView+DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE192E4F28A600BE3137 /* DeveloperView+DeviceInfo.swift */; };
+		786DAE302E4F28A600BE3137 /* DeveloperView+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1A2E4F28A600BE3137 /* DeveloperView+Settings.swift */; };
+		786DAE312E4F28A600BE3137 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1C2E4F28A600BE3137 /* MalachiteAboutView.swift */; };
+		786DAE322E4F28A600BE3137 /* MalachiteCompatibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1D2E4F28A600BE3137 /* MalachiteCompatibilityView.swift */; };
+		786DAE332E4F28A600BE3137 /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1E2E4F28A600BE3137 /* MalachitePhotoPreview.swift */; };
+		786DAE342E4F28A600BE3137 /* SettingsView+Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1F2E4F28A600BE3137 /* SettingsView+Help.swift */; };
+		786DAE352E4F28A600BE3137 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE202E4F28A600BE3137 /* SettingsView.swift */; };
+		786DAE362E4F28A600BE3137 /* MalachiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE212E4F28A600BE3137 /* MalachiteView.swift */; };
+		786DAE372E4F28A600BE3137 /* DeveloperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE172E4F28A600BE3137 /* DeveloperView.swift */; };
+		786DAE382E4F28A600BE3137 /* DeveloperView+BuildInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE182E4F28A600BE3137 /* DeveloperView+BuildInfo.swift */; };
+		786DAE392E4F28A600BE3137 /* DeveloperView+DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE192E4F28A600BE3137 /* DeveloperView+DeviceInfo.swift */; };
+		786DAE3A2E4F28A600BE3137 /* DeveloperView+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1A2E4F28A600BE3137 /* DeveloperView+Settings.swift */; };
+		786DAE3B2E4F28A600BE3137 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1C2E4F28A600BE3137 /* MalachiteAboutView.swift */; };
+		786DAE3C2E4F28A600BE3137 /* MalachiteCompatibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1D2E4F28A600BE3137 /* MalachiteCompatibilityView.swift */; };
+		786DAE3D2E4F28A600BE3137 /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1E2E4F28A600BE3137 /* MalachitePhotoPreview.swift */; };
+		786DAE3E2E4F28A600BE3137 /* SettingsView+Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1F2E4F28A600BE3137 /* SettingsView+Help.swift */; };
+		786DAE3F2E4F28A600BE3137 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE202E4F28A600BE3137 /* SettingsView.swift */; };
+		786DAE402E4F28A600BE3137 /* MalachiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE212E4F28A600BE3137 /* MalachiteView.swift */; };
+		786DAE4C2E4F28B100BE3137 /* MalachitePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE412E4F28B100BE3137 /* MalachitePreferences.swift */; };
+		786DAE4D2E4F28B100BE3137 /* MalachitePreferencesUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE422E4F28B100BE3137 /* MalachitePreferencesUtils.swift */; };
+		786DAE4E2E4F28B100BE3137 /* MalachiteFunctionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE442E4F28B100BE3137 /* MalachiteFunctionUtils.swift */; };
+		786DAE4F2E4F28B100BE3137 /* MalachiteGameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE452E4F28B100BE3137 /* MalachiteGameUtils.swift */; };
+		786DAE502E4F28B100BE3137 /* MalachiteHapticUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE462E4F28B100BE3137 /* MalachiteHapticUtils.swift */; };
+		786DAE512E4F28B100BE3137 /* MalachiteIntentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE472E4F28B100BE3137 /* MalachiteIntentUtils.swift */; };
+		786DAE522E4F28B100BE3137 /* MalachiteTooltipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE482E4F28B100BE3137 /* MalachiteTooltipUtils.swift */; };
+		786DAE532E4F28B100BE3137 /* MalachiteUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE492E4F28B100BE3137 /* MalachiteUtils.swift */; };
+		786DAE542E4F28B100BE3137 /* MalachiteViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE4A2E4F28B100BE3137 /* MalachiteViewUtils.swift */; };
+		786DAE552E4F28B100BE3137 /* MalachitePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE412E4F28B100BE3137 /* MalachitePreferences.swift */; };
+		786DAE562E4F28B100BE3137 /* MalachitePreferencesUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE422E4F28B100BE3137 /* MalachitePreferencesUtils.swift */; };
+		786DAE572E4F28B100BE3137 /* MalachiteFunctionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE442E4F28B100BE3137 /* MalachiteFunctionUtils.swift */; };
+		786DAE582E4F28B100BE3137 /* MalachiteGameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE452E4F28B100BE3137 /* MalachiteGameUtils.swift */; };
+		786DAE592E4F28B100BE3137 /* MalachiteHapticUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE462E4F28B100BE3137 /* MalachiteHapticUtils.swift */; };
+		786DAE5A2E4F28B100BE3137 /* MalachiteIntentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE472E4F28B100BE3137 /* MalachiteIntentUtils.swift */; };
+		786DAE5B2E4F28B100BE3137 /* MalachiteTooltipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE482E4F28B100BE3137 /* MalachiteTooltipUtils.swift */; };
+		786DAE5C2E4F28B100BE3137 /* MalachiteUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE492E4F28B100BE3137 /* MalachiteUtils.swift */; };
+		786DAE5D2E4F28B100BE3137 /* MalachiteViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE4A2E4F28B100BE3137 /* MalachiteViewUtils.swift */; };
+		786DAE5E2E4F28B100BE3137 /* MalachitePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE412E4F28B100BE3137 /* MalachitePreferences.swift */; };
+		786DAE5F2E4F28B100BE3137 /* MalachitePreferencesUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE422E4F28B100BE3137 /* MalachitePreferencesUtils.swift */; };
+		786DAE602E4F28B100BE3137 /* MalachiteFunctionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE442E4F28B100BE3137 /* MalachiteFunctionUtils.swift */; };
+		786DAE612E4F28B100BE3137 /* MalachiteGameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE452E4F28B100BE3137 /* MalachiteGameUtils.swift */; };
+		786DAE622E4F28B100BE3137 /* MalachiteHapticUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE462E4F28B100BE3137 /* MalachiteHapticUtils.swift */; };
+		786DAE632E4F28B100BE3137 /* MalachiteIntentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE472E4F28B100BE3137 /* MalachiteIntentUtils.swift */; };
+		786DAE642E4F28B100BE3137 /* MalachiteTooltipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE482E4F28B100BE3137 /* MalachiteTooltipUtils.swift */; };
+		786DAE652E4F28B100BE3137 /* MalachiteUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE492E4F28B100BE3137 /* MalachiteUtils.swift */; };
+		786DAE662E4F28B100BE3137 /* MalachiteViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE4A2E4F28B100BE3137 /* MalachiteViewUtils.swift */; };
+		786DAE672E4F28B100BE3137 /* MalachiteIntentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE472E4F28B100BE3137 /* MalachiteIntentUtils.swift */; };
+		786DAE6D2E4F28B700BE3137 /* ControlCenterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE682E4F28B700BE3137 /* ControlCenterWidget.swift */; };
+		786DAE6E2E4F28B700BE3137 /* LockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE6A2E4F28B700BE3137 /* LockScreenWidget.swift */; };
+		786DAE6F2E4F28B700BE3137 /* MalachiteWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE6B2E4F28B700BE3137 /* MalachiteWidgetBundle.swift */; };
+		786DAE712E4F28B700BE3137 /* ControlCenterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE682E4F28B700BE3137 /* ControlCenterWidget.swift */; };
+		786DAE722E4F28B700BE3137 /* LockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE6A2E4F28B700BE3137 /* LockScreenWidget.swift */; };
+		786DAE732E4F28B700BE3137 /* MalachiteWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE6B2E4F28B700BE3137 /* MalachiteWidgetBundle.swift */; };
+		786DAE782E4F28B900BE3137 /* MalachiteCaptureBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE762E4F28B900BE3137 /* MalachiteCaptureBundle.swift */; };
+		786DAE7D2E4F28BF00BE3137 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE792E4F28BF00BE3137 /* ContentView.swift */; };
+		786DAE7E2E4F28BF00BE3137 /* MalachiteWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE7B2E4F28BF00BE3137 /* MalachiteWatchApp.swift */; };
 		787B1CAA2B8B095E000AFECC /* Malachite.docc in Sources */ = {isa = PBXBuildFile; fileRef = 787B1CA92B8B095E000AFECC /* Malachite.docc */; };
-		7886C6C22E45E2E10095460C /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 78B72BA12E332744002E2D4E /* AppIcon.icon */; };
-		788848B52CC74B4200B02E37 /* MalachiteCompatibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788848B42CC74B3B00B02E37 /* MalachiteCompatibilityView.swift */; };
-		788E74B32B13D8200024B586 /* MalachiteSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788E74B22B13D8200024B586 /* MalachiteSettingsView.swift */; };
 		78917F5C2B99AE72005E10FA /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5B2B99AE72005E10FA /* WidgetKit.framework */; };
 		78917F5E2B99AE72005E10FA /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5D2B99AE72005E10FA /* SwiftUI.framework */; };
-		78917F612B99AE72005E10FA /* MalachiteWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78917F602B99AE72005E10FA /* MalachiteWidgetBundle.swift */; };
-		78917F632B99AE72005E10FA /* LockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78917F622B99AE72005E10FA /* LockScreenWidget.swift */; };
 		78917F692B99AE73005E10FA /* WidgetBundle.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 78917F592B99AE72005E10FA /* WidgetBundle.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		7897ECA62BA2B87100662EA0 /* MalachiteSettingsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7897ECA52BA2B87100662EA0 /* MalachiteSettingsDetailView.swift */; };
 		78A9DD6A2CD55551002C131D /* CaptureBundle.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = 78A9DD612CD55551002C131D /* CaptureBundle.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		78A9DD762CD55558002C131D /* MalachiteCaptureBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9DD722CD55558002C131D /* MalachiteCaptureBundle.swift */; };
-		78A9DD7C2CD5562B002C131D /* MalachiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F08502B12D41100244EB4 /* MalachiteView.swift */; };
-		78A9DD7D2CD55631002C131D /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */; };
-		78A9DD7E2CD55631002C131D /* MalachiteUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDE2B27E07300812A17 /* MalachiteUtils.swift */; };
-		78A9DD7F2CD55631002C131D /* MalachiteSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788E74B22B13D8200024B586 /* MalachiteSettingsView.swift */; };
-		78A9DD812CD55631002C131D /* MalachiteFunctionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EE42B27E0A200812A17 /* MalachiteFunctionUtils.swift */; };
-		78A9DD822CD55631002C131D /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */; };
-		78A9DD832CD55631002C131D /* MalachiteCompatibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788848B42CC74B3B00B02E37 /* MalachiteCompatibilityView.swift */; };
-		78A9DD842CD55631002C131D /* MalachiteViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */; };
-		78A9DD852CD55631002C131D /* MalachiteSettingsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7897ECA52BA2B87100662EA0 /* MalachiteSettingsDetailView.swift */; };
-		78A9DD862CD55631002C131D /* MalachiteTooltipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */; };
-		78A9DD872CD55631002C131D /* MalachiteGameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7860DBFF2B897A3E00450BF8 /* MalachiteGameUtils.swift */; };
-		78A9DD882CD55631002C131D /* MalachiteHapticUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */; };
-		78A9DE2D2CD57F51002C131D /* MalachiteIntentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9DE2C2CD57F4D002C131D /* MalachiteIntentUtils.swift */; };
-		78A9DE2F2CD57F51002C131D /* MalachiteIntentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9DE2C2CD57F4D002C131D /* MalachiteIntentUtils.swift */; };
 		78A9DE312CD581F1002C131D /* LockedCameraCapture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78A9DE302CD581F1002C131D /* LockedCameraCapture.framework */; };
 		78A9DE752CD5AE5F002C131D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
-		78B72BA22E332744002E2D4E /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 78B72BA12E332744002E2D4E /* AppIcon.icon */; };
 		78B72BB12E332830002E2D4E /* MalachiteWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 78B72BA72E33282E002E2D4E /* MalachiteWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		78B72BDA2E345301002E2D4E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B72BD62E345301002E2D4E /* ContentView.swift */; };
-		78B72BDB2E345301002E2D4E /* MalachiteWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B72BD72E345301002E2D4E /* MalachiteWatchApp.swift */; };
-		78C7EF9D2D1ECBD1001E332B /* MalachitePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C7EF9C2D1ECBCB001E332B /* MalachitePreferences.swift */; };
-		78C7EF9E2D1ECBD1001E332B /* MalachitePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C7EF9C2D1ECBCB001E332B /* MalachitePreferences.swift */; };
-		78C80BF52CDABE7800F6E8A7 /* MalachitePreferencesUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils.swift */; };
-		78C80BF62CDABE7800F6E8A7 /* MalachitePreferencesUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils.swift */; };
 		78CAC36A2CCD99B600A35AE8 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
-		78CD7DB62E359B87003814B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 785F08552B12D41300244EB4 /* Assets.xcassets */; };
-		78CD7DB72E359B87003814B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 785F08552B12D41300244EB4 /* Assets.xcassets */; };
-		78D570762E3C7C5E0025B9B3 /* MalachiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F08502B12D41100244EB4 /* MalachiteView.swift */; };
-		78D570772E3C7CB20025B9B3 /* MalachiteUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDE2B27E07300812A17 /* MalachiteUtils.swift */; };
-		78D570782E3C7CB80025B9B3 /* MalachiteTooltipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */; };
-		78D570792E3C7CB80025B9B3 /* MalachiteViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */; };
-		78D5707A2E3C7CB80025B9B3 /* MalachiteHapticUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */; };
-		78D5707B2E3C7CB80025B9B3 /* MalachiteFunctionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EE42B27E0A200812A17 /* MalachiteFunctionUtils.swift */; };
-		78D5707C2E3C7CB80025B9B3 /* MalachiteGameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7860DBFF2B897A3E00450BF8 /* MalachiteGameUtils.swift */; };
-		78D5707D2E3C7CC60025B9B3 /* MalachitePreferencesUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils.swift */; };
-		78D5707E2E3C7CC60025B9B3 /* MalachitePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C7EF9C2D1ECBCB001E332B /* MalachitePreferences.swift */; };
-		78D5707F2E3C7CF50025B9B3 /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */; };
-		78D570802E3C7D050025B9B3 /* MalachiteSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788E74B22B13D8200024B586 /* MalachiteSettingsView.swift */; };
-		78D570812E3C7D050025B9B3 /* MalachiteCompatibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788848B42CC74B3B00B02E37 /* MalachiteCompatibilityView.swift */; };
-		78D570822E3C7D0B0025B9B3 /* MalachiteSettingsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7897ECA52BA2B87100662EA0 /* MalachiteSettingsDetailView.swift */; };
-		78D570832E3C7D0B0025B9B3 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */; };
-		78D570842E3C7E530025B9B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 785F08552B12D41300244EB4 /* Assets.xcassets */; };
-		78E5EFC02B15748400F15250 /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */; };
-		78E67EE02B27E07300812A17 /* MalachiteHapticUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */; };
-		78E67EE12B27E07300812A17 /* MalachiteViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */; };
-		78E67EE22B27E07300812A17 /* MalachiteUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDE2B27E07300812A17 /* MalachiteUtils.swift */; };
-		78E67EE52B27E0A200812A17 /* MalachiteFunctionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EE42B27E0A200812A17 /* MalachiteFunctionUtils.swift */; };
-		78E8265B2E349FEC00A8DB50 /* MalachiteIntentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9DE2C2CD57F4D002C131D /* MalachiteIntentUtils.swift */; };
 		78EC5D5F2E4EC110005044E2 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
@@ -174,58 +179,120 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCenterWidget.swift; sourceTree = "<group>"; };
-		780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteTooltipUtils.swift; sourceTree = "<group>"; };
 		78163D8D2CCB7BAE00146126 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		782FC7752B2DAFAB007709C1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
-		7837C0FF2E34A5B7009396B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7837C1152E34C45B009396B0 /* WidgetBundleWatch.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetBundleWatch.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		78474D2B2D7AC879006FBB96 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		78562BC22B450A7600920160 /* PRIVACY_POLICY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_POLICY.md; sourceTree = SOURCE_ROOT; };
-		7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteAboutView.swift; sourceTree = "<group>"; };
 		785F08492B12D41100244EB4 /* Malachite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Malachite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		785F084C2B12D41100244EB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		785F084E2B12D41100244EB4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		785F08502B12D41100244EB4 /* MalachiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteView.swift; sourceTree = "<group>"; };
-		785F08552B12D41300244EB4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		785F08582B12D41300244EB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		785F085A2B12D41300244EB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7860DBFF2B897A3E00450BF8 /* MalachiteGameUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteGameUtils.swift; sourceTree = "<group>"; };
+		786DAE172E4F28A600BE3137 /* DeveloperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperView.swift; sourceTree = "<group>"; };
+		786DAE182E4F28A600BE3137 /* DeveloperView+BuildInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeveloperView+BuildInfo.swift"; sourceTree = "<group>"; };
+		786DAE192E4F28A600BE3137 /* DeveloperView+DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeveloperView+DeviceInfo.swift"; sourceTree = "<group>"; };
+		786DAE1A2E4F28A600BE3137 /* DeveloperView+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeveloperView+Settings.swift"; sourceTree = "<group>"; };
+		786DAE1C2E4F28A600BE3137 /* MalachiteAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteAboutView.swift; sourceTree = "<group>"; };
+		786DAE1D2E4F28A600BE3137 /* MalachiteCompatibilityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteCompatibilityView.swift; sourceTree = "<group>"; };
+		786DAE1E2E4F28A600BE3137 /* MalachitePhotoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePhotoPreview.swift; sourceTree = "<group>"; };
+		786DAE1F2E4F28A600BE3137 /* SettingsView+Help.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView+Help.swift"; sourceTree = "<group>"; };
+		786DAE202E4F28A600BE3137 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		786DAE212E4F28A600BE3137 /* MalachiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteView.swift; sourceTree = "<group>"; };
+		786DAE412E4F28B100BE3137 /* MalachitePreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePreferences.swift; sourceTree = "<group>"; };
+		786DAE422E4F28B100BE3137 /* MalachitePreferencesUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePreferencesUtils.swift; sourceTree = "<group>"; };
+		786DAE442E4F28B100BE3137 /* MalachiteFunctionUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteFunctionUtils.swift; sourceTree = "<group>"; };
+		786DAE452E4F28B100BE3137 /* MalachiteGameUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteGameUtils.swift; sourceTree = "<group>"; };
+		786DAE462E4F28B100BE3137 /* MalachiteHapticUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteHapticUtils.swift; sourceTree = "<group>"; };
+		786DAE472E4F28B100BE3137 /* MalachiteIntentUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteIntentUtils.swift; sourceTree = "<group>"; };
+		786DAE482E4F28B100BE3137 /* MalachiteTooltipUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteTooltipUtils.swift; sourceTree = "<group>"; };
+		786DAE492E4F28B100BE3137 /* MalachiteUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteUtils.swift; sourceTree = "<group>"; };
+		786DAE4A2E4F28B100BE3137 /* MalachiteViewUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteViewUtils.swift; sourceTree = "<group>"; };
+		786DAE682E4F28B700BE3137 /* ControlCenterWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCenterWidget.swift; sourceTree = "<group>"; };
+		786DAE692E4F28B700BE3137 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		786DAE6A2E4F28B700BE3137 /* LockScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenWidget.swift; sourceTree = "<group>"; };
+		786DAE6B2E4F28B700BE3137 /* MalachiteWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteWidgetBundle.swift; sourceTree = "<group>"; };
+		786DAE752E4F28B900BE3137 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		786DAE762E4F28B900BE3137 /* MalachiteCaptureBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteCaptureBundle.swift; sourceTree = "<group>"; };
+		786DAE792E4F28BF00BE3137 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		786DAE7A2E4F28BF00BE3137 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		786DAE7B2E4F28BF00BE3137 /* MalachiteWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteWatchApp.swift; sourceTree = "<group>"; };
 		787B1CA92B8B095E000AFECC /* Malachite.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Malachite.docc; sourceTree = "<group>"; };
 		7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = Malachite/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
 		788589912B8974680018E2DA /* Malachite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Malachite.entitlements; sourceTree = "<group>"; };
-		788848B42CC74B3B00B02E37 /* MalachiteCompatibilityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteCompatibilityView.swift; sourceTree = "<group>"; };
-		788E74B22B13D8200024B586 /* MalachiteSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteSettingsView.swift; sourceTree = "<group>"; };
 		78917F592B99AE72005E10FA /* WidgetBundle.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetBundle.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		78917F5B2B99AE72005E10FA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		78917F5D2B99AE72005E10FA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		78917F602B99AE72005E10FA /* MalachiteWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteWidgetBundle.swift; sourceTree = "<group>"; };
-		78917F622B99AE72005E10FA /* LockScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenWidget.swift; sourceTree = "<group>"; };
-		78917F662B99AE73005E10FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7897ECA52BA2B87100662EA0 /* MalachiteSettingsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteSettingsDetailView.swift; sourceTree = "<group>"; };
 		78A9DD612CD55551002C131D /* CaptureBundle.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = CaptureBundle.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		78A9DD712CD55558002C131D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		78A9DD722CD55558002C131D /* MalachiteCaptureBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteCaptureBundle.swift; sourceTree = "<group>"; };
-		78A9DE2C2CD57F4D002C131D /* MalachiteIntentUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteIntentUtils.swift; sourceTree = "<group>"; };
 		78A9DE302CD581F1002C131D /* LockedCameraCapture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LockedCameraCapture.framework; path = System/Library/Frameworks/LockedCameraCapture.framework; sourceTree = SDKROOT; };
-		78B72BA12E332744002E2D4E /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		78B72BA72E33282E002E2D4E /* MalachiteWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MalachiteWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		78B72BCE2E3452A0002E2D4E /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
-		78B72BCF2E3452A0002E2D4E /* ci_post_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_xcodebuild.sh; sourceTree = "<group>"; };
-		78B72BD12E3452A2002E2D4E /* build.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = build.yml; sourceTree = "<group>"; };
-		78B72BD62E345301002E2D4E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		78B72BD72E345301002E2D4E /* MalachiteWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteWatchApp.swift; sourceTree = "<group>"; };
-		78B72BE12E3461DA002E2D4E /* MalachiteIconMasked_Darwin24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MalachiteIconMasked_Darwin24.png; sourceTree = "<group>"; };
-		78B72BE22E3461DA002E2D4E /* MalachiteIconMasked_Darwin25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MalachiteIconMasked_Darwin25.png; sourceTree = "<group>"; };
-		78C7EF9C2D1ECBCB001E332B /* MalachitePreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePreferences.swift; sourceTree = "<group>"; };
-		78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePreferencesUtils.swift; sourceTree = "<group>"; };
 		78E142C92DD426260016B3DB /* Codesigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Codesigning.xcconfig; sourceTree = "<group>"; };
-		78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePhotoPreview.swift; sourceTree = "<group>"; };
-		78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteHapticUtils.swift; sourceTree = "<group>"; };
-		78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteViewUtils.swift; sourceTree = "<group>"; };
-		78E67EDE2B27E07300812A17 /* MalachiteUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalachiteUtils.swift; sourceTree = "<group>"; };
-		78E67EE42B27E0A200812A17 /* MalachiteFunctionUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteFunctionUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		786DADA02E4F283500BE3137 /* Exceptions for "Assets" folder in "Malachite" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AppIcon.icon,
+				Assets.xcassets,
+			);
+			target = 785F08482B12D41100244EB4 /* Malachite */;
+		};
+		786DADA12E4F283500BE3137 /* Exceptions for "Assets" folder in "MalachiteWatch" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AppIcon.icon,
+				Assets.xcassets,
+			);
+			target = 78B72BA62E33282E002E2D4E /* MalachiteWatch */;
+		};
+		786DADA22E4F283500BE3137 /* Exceptions for "Assets" folder in "WidgetBundle" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = 78917F582B99AE72005E10FA /* WidgetBundle */;
+		};
+		786DADA32E4F283500BE3137 /* Exceptions for "Assets" folder in "WidgetBundleWatch" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = 7837C1042E34C45B009396B0 /* WidgetBundleWatch */;
+		};
+		786DADA42E4F283500BE3137 /* Exceptions for "Assets" folder in "CaptureBundle" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = 78A9DD602CD55551002C131D /* CaptureBundle */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		786DAD902E4F282E00BE3137 /* .github */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = .github;
+			sourceTree = "<group>";
+		};
+		786DAD932E4F283000BE3137 /* ci_scripts */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ci_scripts;
+			sourceTree = "<group>";
+		};
+		786DAD982E4F283500BE3137 /* Assets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				786DADA02E4F283500BE3137 /* Exceptions for "Assets" folder in "Malachite" target */,
+				786DADA12E4F283500BE3137 /* Exceptions for "Assets" folder in "MalachiteWatch" target */,
+				786DADA22E4F283500BE3137 /* Exceptions for "Assets" folder in "WidgetBundle" target */,
+				786DADA32E4F283500BE3137 /* Exceptions for "Assets" folder in "WidgetBundleWatch" target */,
+				786DADA42E4F283500BE3137 /* Exceptions for "Assets" folder in "CaptureBundle" target */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		7837C10A2E34C45B009396B0 /* Frameworks */ = {
@@ -264,20 +331,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7859DE182B83089500D1A998 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				788848B42CC74B3B00B02E37 /* MalachiteCompatibilityView.swift */,
-				785F08502B12D41100244EB4 /* MalachiteView.swift */,
-				78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */,
-				788E74B22B13D8200024B586 /* MalachiteSettingsView.swift */,
-				7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */,
-				7897ECA52BA2B87100662EA0 /* MalachiteSettingsDetailView.swift */,
-			);
-			name = Views;
-			path = Malachite/Views;
-			sourceTree = SOURCE_ROOT;
-		};
 		785F08402B12D41100244EB4 = {
 			isa = PBXGroup;
 			children = (
@@ -285,10 +338,10 @@
 				78163D8D2CCB7BAE00146126 /* CHANGELOG.md */,
 				782FC7752B2DAFAB007709C1 /* README.md */,
 				78562BC22B450A7600920160 /* PRIVACY_POLICY.md */,
-				78B72BD32E3452A2002E2D4E /* .github */,
-				78B72BD02E3452A0002E2D4E /* ci_scripts */,
+				786DAD902E4F282E00BE3137 /* .github */,
+				786DAD932E4F283000BE3137 /* ci_scripts */,
 				785F084B2B12D41100244EB4 /* Malachite */,
-				78B72BD82E345301002E2D4E /* MalachiteWatch */,
+				786DAE7C2E4F28BF00BE3137 /* MalachiteWatch */,
 				78917F5A2B99AE72005E10FA /* Frameworks */,
 				785F084A2B12D41100244EB4 /* Products */,
 			);
@@ -309,21 +362,108 @@
 		785F084B2B12D41100244EB4 /* Malachite */ = {
 			isa = PBXGroup;
 			children = (
-				78B72BCD2E34529A002E2D4E /* Assets */,
+				786DAD982E4F283500BE3137 /* Assets */,
 				78E142C92DD426260016B3DB /* Codesigning.xcconfig */,
 				787B1CA92B8B095E000AFECC /* Malachite.docc */,
 				788589912B8974680018E2DA /* Malachite.entitlements */,
 				785F085A2B12D41300244EB4 /* Info.plist */,
-				7859DE182B83089500D1A998 /* Views */,
-				78E67EDB2B27E05C00812A17 /* Utilities */,
-				78A9DD742CD55558002C131D /* CaptureBundle */,
-				78917F5F2B99AE72005E10FA /* WidgetBundle */,
-				7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */,
+				786DAE222E4F28A600BE3137 /* Views */,
+				786DAE4B2E4F28B100BE3137 /* Utilities */,
+				786DAE772E4F28B900BE3137 /* CaptureBundle */,
+				786DAE6C2E4F28B700BE3137 /* WidgetBundle */,
 				785F08572B12D41300244EB4 /* LaunchScreen.storyboard */,
+				7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */,
 				785F084C2B12D41100244EB4 /* AppDelegate.swift */,
 				785F084E2B12D41100244EB4 /* SceneDelegate.swift */,
 			);
 			path = Malachite;
+			sourceTree = "<group>";
+		};
+		786DAE1B2E4F28A600BE3137 /* DeveloperView */ = {
+			isa = PBXGroup;
+			children = (
+				786DAE172E4F28A600BE3137 /* DeveloperView.swift */,
+				786DAE182E4F28A600BE3137 /* DeveloperView+BuildInfo.swift */,
+				786DAE192E4F28A600BE3137 /* DeveloperView+DeviceInfo.swift */,
+				786DAE1A2E4F28A600BE3137 /* DeveloperView+Settings.swift */,
+			);
+			path = DeveloperView;
+			sourceTree = "<group>";
+		};
+		786DAE222E4F28A600BE3137 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				786DAE802E4F28D600BE3137 /* SettingsView */,
+				786DAE1B2E4F28A600BE3137 /* DeveloperView */,
+				786DAE1C2E4F28A600BE3137 /* MalachiteAboutView.swift */,
+				786DAE1D2E4F28A600BE3137 /* MalachiteCompatibilityView.swift */,
+				786DAE1E2E4F28A600BE3137 /* MalachitePhotoPreview.swift */,
+				786DAE212E4F28A600BE3137 /* MalachiteView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		786DAE432E4F28B100BE3137 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				786DAE412E4F28B100BE3137 /* MalachitePreferences.swift */,
+				786DAE422E4F28B100BE3137 /* MalachitePreferencesUtils.swift */,
+			);
+			path = Preferences;
+			sourceTree = "<group>";
+		};
+		786DAE4B2E4F28B100BE3137 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				786DAE432E4F28B100BE3137 /* Preferences */,
+				786DAE442E4F28B100BE3137 /* MalachiteFunctionUtils.swift */,
+				786DAE452E4F28B100BE3137 /* MalachiteGameUtils.swift */,
+				786DAE462E4F28B100BE3137 /* MalachiteHapticUtils.swift */,
+				786DAE472E4F28B100BE3137 /* MalachiteIntentUtils.swift */,
+				786DAE482E4F28B100BE3137 /* MalachiteTooltipUtils.swift */,
+				786DAE492E4F28B100BE3137 /* MalachiteUtils.swift */,
+				786DAE4A2E4F28B100BE3137 /* MalachiteViewUtils.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		786DAE6C2E4F28B700BE3137 /* WidgetBundle */ = {
+			isa = PBXGroup;
+			children = (
+				786DAE682E4F28B700BE3137 /* ControlCenterWidget.swift */,
+				786DAE692E4F28B700BE3137 /* Info.plist */,
+				786DAE6A2E4F28B700BE3137 /* LockScreenWidget.swift */,
+				786DAE6B2E4F28B700BE3137 /* MalachiteWidgetBundle.swift */,
+			);
+			path = WidgetBundle;
+			sourceTree = "<group>";
+		};
+		786DAE772E4F28B900BE3137 /* CaptureBundle */ = {
+			isa = PBXGroup;
+			children = (
+				786DAE752E4F28B900BE3137 /* Info.plist */,
+				786DAE762E4F28B900BE3137 /* MalachiteCaptureBundle.swift */,
+			);
+			path = CaptureBundle;
+			sourceTree = "<group>";
+		};
+		786DAE7C2E4F28BF00BE3137 /* MalachiteWatch */ = {
+			isa = PBXGroup;
+			children = (
+				786DAE792E4F28BF00BE3137 /* ContentView.swift */,
+				786DAE7A2E4F28BF00BE3137 /* Info.plist */,
+				786DAE7B2E4F28BF00BE3137 /* MalachiteWatchApp.swift */,
+			);
+			path = MalachiteWatch;
+			sourceTree = "<group>";
+		};
+		786DAE802E4F28D600BE3137 /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				786DAE202E4F28A600BE3137 /* SettingsView.swift */,
+				786DAE1F2E4F28A600BE3137 /* SettingsView+Help.swift */,
+			);
+			path = SettingsView;
 			sourceTree = "<group>";
 		};
 		78917F5A2B99AE72005E10FA /* Frameworks */ = {
@@ -334,96 +474,6 @@
 				78917F5D2B99AE72005E10FA /* SwiftUI.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		78917F5F2B99AE72005E10FA /* WidgetBundle */ = {
-			isa = PBXGroup;
-			children = (
-				78917F602B99AE72005E10FA /* MalachiteWidgetBundle.swift */,
-				78917F622B99AE72005E10FA /* LockScreenWidget.swift */,
-				780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */,
-				78917F662B99AE73005E10FA /* Info.plist */,
-			);
-			path = WidgetBundle;
-			sourceTree = "<group>";
-		};
-		78A8FEEE2D2B218400BCA9C5 /* Preferences */ = {
-			isa = PBXGroup;
-			children = (
-				78C7EF9C2D1ECBCB001E332B /* MalachitePreferences.swift */,
-				78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils.swift */,
-			);
-			path = Preferences;
-			sourceTree = "<group>";
-		};
-		78A9DD742CD55558002C131D /* CaptureBundle */ = {
-			isa = PBXGroup;
-			children = (
-				78A9DD712CD55558002C131D /* Info.plist */,
-				78A9DD722CD55558002C131D /* MalachiteCaptureBundle.swift */,
-			);
-			path = CaptureBundle;
-			sourceTree = "<group>";
-		};
-		78B72BCD2E34529A002E2D4E /* Assets */ = {
-			isa = PBXGroup;
-			children = (
-				785F08552B12D41300244EB4 /* Assets.xcassets */,
-				78B72BA12E332744002E2D4E /* AppIcon.icon */,
-				78B72BE12E3461DA002E2D4E /* MalachiteIconMasked_Darwin24.png */,
-				78B72BE22E3461DA002E2D4E /* MalachiteIconMasked_Darwin25.png */,
-			);
-			path = Assets;
-			sourceTree = "<group>";
-		};
-		78B72BD02E3452A0002E2D4E /* ci_scripts */ = {
-			isa = PBXGroup;
-			children = (
-				78B72BCE2E3452A0002E2D4E /* ci_post_clone.sh */,
-				78B72BCF2E3452A0002E2D4E /* ci_post_xcodebuild.sh */,
-			);
-			path = ci_scripts;
-			sourceTree = "<group>";
-		};
-		78B72BD22E3452A2002E2D4E /* workflows */ = {
-			isa = PBXGroup;
-			children = (
-				78B72BD12E3452A2002E2D4E /* build.yml */,
-			);
-			path = workflows;
-			sourceTree = "<group>";
-		};
-		78B72BD32E3452A2002E2D4E /* .github */ = {
-			isa = PBXGroup;
-			children = (
-				78B72BD22E3452A2002E2D4E /* workflows */,
-			);
-			path = .github;
-			sourceTree = "<group>";
-		};
-		78B72BD82E345301002E2D4E /* MalachiteWatch */ = {
-			isa = PBXGroup;
-			children = (
-				7837C0FF2E34A5B7009396B0 /* Info.plist */,
-				78B72BD62E345301002E2D4E /* ContentView.swift */,
-				78B72BD72E345301002E2D4E /* MalachiteWatchApp.swift */,
-			);
-			path = MalachiteWatch;
-			sourceTree = "<group>";
-		};
-		78E67EDB2B27E05C00812A17 /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				78A8FEEE2D2B218400BCA9C5 /* Preferences */,
-				78A9DE2C2CD57F4D002C131D /* MalachiteIntentUtils.swift */,
-				78E67EDE2B27E07300812A17 /* MalachiteUtils.swift */,
-				78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */,
-				78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */,
-				78E67EE42B27E0A200812A17 /* MalachiteFunctionUtils.swift */,
-				780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */,
-				7860DBFF2B897A3E00450BF8 /* MalachiteGameUtils.swift */,
-			);
-			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -580,7 +630,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7837C10E2E34C45B009396B0 /* Localizable.xcstrings in Resources */,
-				78CD7DB72E359B87003814B5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,10 +637,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78B72BA22E332744002E2D4E /* AppIcon.icon in Resources */,
 				78EC5D5F2E4EC110005044E2 /* Localizable.xcstrings in Resources */,
 				785F08592B12D41300244EB4 /* LaunchScreen.storyboard in Resources */,
-				785F08562B12D41300244EB4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -600,7 +647,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				78CAC36A2CCD99B600A35AE8 /* Localizable.xcstrings in Resources */,
-				78CD7DB62E359B87003814B5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -608,7 +654,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78D570842E3C7E530025B9B3 /* Assets.xcassets in Resources */,
 				78A9DE752CD5AE5F002C131D /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -617,8 +662,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78789C742E3494D500862C3D /* Assets.xcassets in Resources */,
-				7886C6C22E45E2E10095460C /* AppIcon.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -643,7 +686,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "eval \"${GCC_PREPROCESSOR_DEFINITIONS}\"\n\nPATH=/opt/homebrew/bin:/usr/local/bin:$PATH\nPLISTBUDDY=\"/usr/libexec/PlistBuddy\"\nINFOPLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n\n# If there is no git repo to pull this info from, this is set to undefined later.\nCFBUILDHASH=$(git --git-dir=\"${PROJECT_DIR}/.git\" --work-tree=\"${PROJECT_DIR}\" rev-parse --short HEAD)\nCFBUILDDATE=$(date +'%Y-%m-%d-%H.%M.%S')\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then\n    # If the build is not INTERNAL, these are set to redacted later.\n    CFBUILDUSER=$(whoami)\n    CFBUILDHOST=$(hostname)\nelif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && !(-z $(system_profiler SPHardwareDataType | grep 'MacVM1,1')) ]]; then\n    # Xcode Cloud built this, but the hostname string is atrocious. Replace with these.\n    CFBUILDUSER=\"evaluna (App Store Connect)\"\n    CFBUILDHOST=\"Xcode Cloud\"\nfi\n\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(gpg --list-secret-keys | grep 4A5B8C2A065654E24DE50FF03716ACDC524F1879) ]]; then\n    echo \"Error: INTERNAL build type detected but Eva's GPG key was not found.\"\n    echo \"Error: See 'Embed build information' in Build Phases for a solution\"\n    # Be aware that I use the INTERNAL target to gate off any unstable/unready features. By removing this line, \n    # you are acknowledging that you will not receive support for any issues encountered with Malachite until you \n    # are running DEBUG or RELEASE. If you just want a DEBUG build, change the Build Configuration to Debug in \n    # Product > Scheme > Edit Scheme...\n    if [[ -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then\n        exit\n    else\n        # This line of code should keep internal TestFlight builds as INTERNAL, and external ones as DEBUG\n        if [[ $(git --git-dir=\"${PROJECT_DIR}/.git\" rev-parse --abbrev-ref HEAD) != *\"dev\"* ]]; then\n            CFBUILDTYPE=\"DEBUG\"\n        fi\n    fi\nfi\n\n\n\n# Print all of the variables in the build log. Useful for debugging\necho \"\"\necho \"CFBUILDHASH = ${CFBUILDHASH}\"\necho \"CFBUILDDATE = ${CFBUILDDATE}\"\necho \"CFBUILDTYPE = ${CFBUILDTYPE}\"\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" ]]; then\n    echo \"CFBUILDUSER = ${CFBUILDUSER}\"\n    echo \"CFBUILDHOST = ${CFBUILDHOST}\"\nfi\necho \"INFOPLIST = ${INFOPLIST}\"\n\n# Make sure the key is present in the plist before trying to set it.\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHash' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHash string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildDate' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildDate string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildType' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildType string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildUser' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildUser string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHost' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHost string\" \"${INFOPLIST}\"; fi\n\n# Fallback values, either to fill in the gaps or prevent app crashes\nif [ -z \"$CFBUILDHASH\" ]; then CFBUILDHASH=undefined; fi\nif [ -z \"$CFBUILDTYPE\" ]; then CFBUILDTYPE=debug; fi\nif [ -z \"$CFBUILDUSER\" ]; then CFBUILDUSER=redacted; fi\nif [ -z \"$CFBUILDHOST\" ]; then CFBUILDHOST=redacted; fi\n\n# Set the values in the Info.plist\n$PLISTBUDDY -c \"Set :CFBuildHash $CFBUILDHASH\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildDate $CFBUILDDATE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"\n";
+			shellScript = "eval \"${GCC_PREPROCESSOR_DEFINITIONS}\"\n\nPATH=/opt/homebrew/bin:/usr/local/bin:$PATH\nPLISTBUDDY=\"/usr/libexec/PlistBuddy\"\nINFOPLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n\n# If there is no git repo to pull this info from, this is set to undefined later.\nCFBUILDHASH=$(git --git-dir=\"${PROJECT_DIR}/.git\" --work-tree=\"${PROJECT_DIR}\" rev-parse --short HEAD)\nCFBUILDBRAN=$(git branch --show-current)\nCFBUILDDATE=$(date +'%Y-%m-%d-%H.%M.%S')\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then\n    # If the build is not INTERNAL, these are set to redacted later.\n    CFBUILDUSER=$(whoami)\n    CFBUILDHOST=$(hostname)\nelif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && !(-z $(system_profiler SPHardwareDataType | grep 'MacVM1,1')) ]]; then\n    # Xcode Cloud built this, but the hostname string is atrocious. Replace with these.\n    CFBUILDUSER=\"evaluna (App Store Connect)\"\n    CFBUILDHOST=\"Xcode Cloud\"\nfi\n\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(gpg --list-secret-keys | grep 4A5B8C2A065654E24DE50FF03716ACDC524F1879) ]]; then\n    echo \"Error: INTERNAL build type detected but Eva's GPG key was not found.\"\n    echo \"Error: See 'Embed build information' in Build Phases for a solution\"\n    # Be aware that I use the INTERNAL target to gate off any unstable/unready features. By removing this line, \n    # you are acknowledging that you will not receive support for any issues encountered with Malachite until you \n    # are running DEBUG or RELEASE. If you just want a DEBUG build, change the Build Configuration to Debug in \n    # Product > Scheme > Edit Scheme...\n    if [[ -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then\n        exit\n    else\n        # This line of code should keep internal TestFlight builds as INTERNAL, and external ones as DEBUG\n        if [[ $(git --git-dir=\"${PROJECT_DIR}/.git\" rev-parse --abbrev-ref HEAD) != *\"dev\"* ]]; then\n            CFBUILDTYPE=\"DEBUG\"\n        fi\n    fi\nfi\n\n\n\n# Print all of the variables in the build log. Useful for debugging\necho \"\"\necho \"CFBUILDHASH = ${CFBUILDHASH}\"\necho \"CFBUILDBRAN = ${CFBUILDBRAN}\"\necho \"CFBUILDDATE = ${CFBUILDDATE}\"\necho \"CFBUILDTYPE = ${CFBUILDTYPE}\"\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" ]]; then\n    echo \"CFBUILDUSER = ${CFBUILDUSER}\"\n    echo \"CFBUILDHOST = ${CFBUILDHOST}\"\nfi\necho \"INFOPLIST = ${INFOPLIST}\"\n\n# Make sure the key is present in the plist before trying to set it.\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHash' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHash string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildBran' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildBran string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildDate' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildDate string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildType' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildType string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildUser' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildUser string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHost' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHost string\" \"${INFOPLIST}\"; fi\n\n# Fallback values, either to fill in the gaps or prevent app crashes\nif [ -z \"$CFBUILDHASH\" ]; then CFBUILDHASH=undefined; fi\nif [ -z \"$CFBUILDBRAN\" ]; then CFBUILDBRAN=undefined; fi\nif [ -z \"$CFBUILDTYPE\" ]; then CFBUILDTYPE=debug; fi\nif [ -z \"$CFBUILDUSER\" ]; then CFBUILDUSER=redacted; fi\nif [ -z \"$CFBUILDHOST\" ]; then CFBUILDHOST=redacted; fi\n\n# Set the values in the Info.plist\n$PLISTBUDDY -c \"Set :CFBuildHash $CFBUILDHASH\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildBran $CFBUILDBRAN\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildDate $CFBUILDDATE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"\n";
 		};
 		78EC5D602E4EC1AD005044E2 /* Embed build information */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -663,7 +706,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "eval \"${GCC_PREPROCESSOR_DEFINITIONS}\"\n\nPATH=/opt/homebrew/bin:/usr/local/bin:$PATH\nPLISTBUDDY=\"/usr/libexec/PlistBuddy\"\nINFOPLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n\n# If there is no git repo to pull this info from, this is set to undefined later.\nCFBUILDHASH=$(git --git-dir=\"${PROJECT_DIR}/.git\" --work-tree=\"${PROJECT_DIR}\" rev-parse --short HEAD)\nCFBUILDDATE=$(date +'%Y-%m-%d-%H.%M.%S')\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then\n    # If the build is not INTERNAL, these are set to redacted later.\n    CFBUILDUSER=$(whoami)\n    CFBUILDHOST=$(hostname)\nelif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && !(-z $(system_profiler SPHardwareDataType | grep 'MacVM1,1')) ]]; then\n    # Xcode Cloud built this, but the hostname string is atrocious. Replace with these.\n    CFBUILDUSER=\"evaluna (App Store Connect)\"\n    CFBUILDHOST=\"Xcode Cloud\"\nfi\n\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(gpg --list-secret-keys | grep 4A5B8C2A065654E24DE50FF03716ACDC524F1879) ]]; then\n    echo \"Error: INTERNAL build type detected but Eva's GPG key was not found.\"\n    echo \"Error: See 'Embed build information' in Build Phases for a solution\"\n    # Be aware that I use the INTERNAL target to gate off any unstable/unready features. By removing this line, \n    # you are acknowledging that you will not receive support for any issues encountered with Malachite until you \n    # are running DEBUG or RELEASE. If you just want a DEBUG build, change the Build Configuration to Debug in \n    # Product > Scheme > Edit Scheme...\n    if [[ -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then\n        exit\n    else\n        # This line of code should keep internal TestFlight builds as INTERNAL, and external ones as DEBUG\n        if [[ $(git --git-dir=\"${PROJECT_DIR}/.git\" rev-parse --abbrev-ref HEAD) != *\"dev\"* ]]; then\n            CFBUILDTYPE=\"DEBUG\"\n        fi\n    fi\nfi\n\n\n\n# Print all of the variables in the build log. Useful for debugging\necho \"\"\necho \"CFBUILDHASH = ${CFBUILDHASH}\"\necho \"CFBUILDDATE = ${CFBUILDDATE}\"\necho \"CFBUILDTYPE = ${CFBUILDTYPE}\"\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" ]]; then\n    echo \"CFBUILDUSER = ${CFBUILDUSER}\"\n    echo \"CFBUILDHOST = ${CFBUILDHOST}\"\nfi\necho \"INFOPLIST = ${INFOPLIST}\"\n\n# Make sure the key is present in the plist before trying to set it.\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHash' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHash string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildDate' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildDate string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildType' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildType string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildUser' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildUser string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHost' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHost string\" \"${INFOPLIST}\"; fi\n\n# Fallback values, either to fill in the gaps or prevent app crashes\nif [ -z \"$CFBUILDHASH\" ]; then CFBUILDHASH=undefined; fi\nif [ -z \"$CFBUILDTYPE\" ]; then CFBUILDTYPE=debug; fi\nif [ -z \"$CFBUILDUSER\" ]; then CFBUILDUSER=redacted; fi\nif [ -z \"$CFBUILDHOST\" ]; then CFBUILDHOST=redacted; fi\n\n# Set the values in the Info.plist\n$PLISTBUDDY -c \"Set :CFBuildHash $CFBUILDHASH\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildDate $CFBUILDDATE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"\n";
+			shellScript = "eval \"${GCC_PREPROCESSOR_DEFINITIONS}\"\n\nPATH=/opt/homebrew/bin:/usr/local/bin:$PATH\nPLISTBUDDY=\"/usr/libexec/PlistBuddy\"\nINFOPLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n\n# If there is no git repo to pull this info from, this is set to undefined later.\nCFBUILDHASH=$(git --git-dir=\"${PROJECT_DIR}/.git\" --work-tree=\"${PROJECT_DIR}\" rev-parse --short HEAD)\nCFBUILDBRAN=$(git branch --show-current)\nCFBUILDDATE=$(date +'%Y-%m-%d-%H.%M.%S')\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then\n    # If the build is not INTERNAL, these are set to redacted later.\n    CFBUILDUSER=$(whoami)\n    CFBUILDHOST=$(hostname)\nelif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && !(-z $(system_profiler SPHardwareDataType | grep 'MacVM1,1')) ]]; then\n    # Xcode Cloud built this, but the hostname string is atrocious. Replace with these.\n    CFBUILDUSER=\"evaluna (App Store Connect)\"\n    CFBUILDHOST=\"Xcode Cloud\"\nfi\n\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(gpg --list-secret-keys | grep 4A5B8C2A065654E24DE50FF03716ACDC524F1879) ]]; then\n    echo \"Error: INTERNAL build type detected but Eva's GPG key was not found.\"\n    echo \"Error: See 'Embed build information' in Build Phases for a solution\"\n    # Be aware that I use the INTERNAL target to gate off any unstable/unready features. By removing this line, \n    # you are acknowledging that you will not receive support for any issues encountered with Malachite until you \n    # are running DEBUG or RELEASE. If you just want a DEBUG build, change the Build Configuration to Debug in \n    # Product > Scheme > Edit Scheme...\n    if [[ -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then\n        exit\n    else\n        # This line of code should keep internal TestFlight builds as INTERNAL, and external ones as DEBUG\n        if [[ $(git --git-dir=\"${PROJECT_DIR}/.git\" rev-parse --abbrev-ref HEAD) != *\"dev\"* ]]; then\n            CFBUILDTYPE=\"DEBUG\"\n        fi\n    fi\nfi\n\n\n\n# Print all of the variables in the build log. Useful for debugging\necho \"\"\necho \"CFBUILDHASH = ${CFBUILDHASH}\"\necho \"CFBUILDBRAN = ${CFBUILDBRAN}\"\necho \"CFBUILDDATE = ${CFBUILDDATE}\"\necho \"CFBUILDTYPE = ${CFBUILDTYPE}\"\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" ]]; then\n    echo \"CFBUILDUSER = ${CFBUILDUSER}\"\n    echo \"CFBUILDHOST = ${CFBUILDHOST}\"\nfi\necho \"INFOPLIST = ${INFOPLIST}\"\n\n# Make sure the key is present in the plist before trying to set it.\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHash' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHash string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildBran' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildBran string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildDate' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildDate string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildType' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildType string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildUser' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildUser string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHost' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHost string\" \"${INFOPLIST}\"; fi\n\n# Fallback values, either to fill in the gaps or prevent app crashes\nif [ -z \"$CFBUILDHASH\" ]; then CFBUILDHASH=undefined; fi\nif [ -z \"$CFBUILDBRAN\" ]; then CFBUILDBRAN=undefined; fi\nif [ -z \"$CFBUILDTYPE\" ]; then CFBUILDTYPE=debug; fi\nif [ -z \"$CFBUILDUSER\" ]; then CFBUILDUSER=redacted; fi\nif [ -z \"$CFBUILDHOST\" ]; then CFBUILDHOST=redacted; fi\n\n# Set the values in the Info.plist\n$PLISTBUDDY -c \"Set :CFBuildHash $CFBUILDHASH\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildBran $CFBUILDBRAN\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildDate $CFBUILDDATE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -672,10 +715,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7837C1062E34C45B009396B0 /* MalachiteIntentUtils.swift in Sources */,
-				7837C1072E34C45B009396B0 /* ControlCenterWidget.swift in Sources */,
-				7837C1082E34C45B009396B0 /* LockScreenWidget.swift in Sources */,
-				7837C1092E34C45B009396B0 /* MalachiteWidgetBundle.swift in Sources */,
+				786DAE712E4F28B700BE3137 /* ControlCenterWidget.swift in Sources */,
+				786DAE722E4F28B700BE3137 /* LockScreenWidget.swift in Sources */,
+				786DAE732E4F28B700BE3137 /* MalachiteWidgetBundle.swift in Sources */,
+				786DAE672E4F28B100BE3137 /* MalachiteIntentUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -683,24 +726,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78E67EE22B27E07300812A17 /* MalachiteUtils.swift in Sources */,
-				785F08512B12D41100244EB4 /* MalachiteView.swift in Sources */,
-				78C80BF62CDABE7800F6E8A7 /* MalachitePreferencesUtils.swift in Sources */,
-				78E67EE02B27E07300812A17 /* MalachiteHapticUtils.swift in Sources */,
-				788E74B32B13D8200024B586 /* MalachiteSettingsView.swift in Sources */,
-				7806973A2B27F66E00B4942B /* MalachiteTooltipUtils.swift in Sources */,
-				7859DE1A2B8308C000D1A998 /* MalachiteAboutView.swift in Sources */,
-				7860DC002B897A3E00450BF8 /* MalachiteGameUtils.swift in Sources */,
-				7897ECA62BA2B87100662EA0 /* MalachiteSettingsDetailView.swift in Sources */,
+				786DAE552E4F28B100BE3137 /* MalachitePreferences.swift in Sources */,
+				786DAE562E4F28B100BE3137 /* MalachitePreferencesUtils.swift in Sources */,
+				786DAE572E4F28B100BE3137 /* MalachiteFunctionUtils.swift in Sources */,
+				786DAE582E4F28B100BE3137 /* MalachiteGameUtils.swift in Sources */,
+				786DAE592E4F28B100BE3137 /* MalachiteHapticUtils.swift in Sources */,
+				786DAE5A2E4F28B100BE3137 /* MalachiteIntentUtils.swift in Sources */,
+				786DAE5B2E4F28B100BE3137 /* MalachiteTooltipUtils.swift in Sources */,
+				786DAE5C2E4F28B100BE3137 /* MalachiteUtils.swift in Sources */,
+				786DAE5D2E4F28B100BE3137 /* MalachiteViewUtils.swift in Sources */,
+				786DAE2D2E4F28A600BE3137 /* DeveloperView.swift in Sources */,
+				786DAE2E2E4F28A600BE3137 /* DeveloperView+BuildInfo.swift in Sources */,
+				786DAE2F2E4F28A600BE3137 /* DeveloperView+DeviceInfo.swift in Sources */,
+				786DAE302E4F28A600BE3137 /* DeveloperView+Settings.swift in Sources */,
+				786DAE312E4F28A600BE3137 /* MalachiteAboutView.swift in Sources */,
+				786DAE322E4F28A600BE3137 /* MalachiteCompatibilityView.swift in Sources */,
+				786DAE332E4F28A600BE3137 /* MalachitePhotoPreview.swift in Sources */,
+				786DAE342E4F28A600BE3137 /* SettingsView+Help.swift in Sources */,
+				786DAE352E4F28A600BE3137 /* SettingsView.swift in Sources */,
+				786DAE362E4F28A600BE3137 /* MalachiteView.swift in Sources */,
 				785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */,
-				788848B52CC74B4200B02E37 /* MalachiteCompatibilityView.swift in Sources */,
-				78A9DE2F2CD57F51002C131D /* MalachiteIntentUtils.swift in Sources */,
-				78C7EF9D2D1ECBD1001E332B /* MalachitePreferences.swift in Sources */,
 				787B1CAA2B8B095E000AFECC /* Malachite.docc in Sources */,
-				78E67EE12B27E07300812A17 /* MalachiteViewUtils.swift in Sources */,
-				78E5EFC02B15748400F15250 /* MalachitePhotoPreview.swift in Sources */,
 				785F084F2B12D41100244EB4 /* SceneDelegate.swift in Sources */,
-				78E67EE52B27E0A200812A17 /* MalachiteFunctionUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -708,24 +755,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78D5707D2E3C7CC60025B9B3 /* MalachitePreferencesUtils.swift in Sources */,
-				78D5707E2E3C7CC60025B9B3 /* MalachitePreferences.swift in Sources */,
-				78D570762E3C7C5E0025B9B3 /* MalachiteView.swift in Sources */,
-				78E8265B2E349FEC00A8DB50 /* MalachiteIntentUtils.swift in Sources */,
-				780067E12CBDCEA0004BB595 /* ControlCenterWidget.swift in Sources */,
-				78D570782E3C7CB80025B9B3 /* MalachiteTooltipUtils.swift in Sources */,
-				78D570792E3C7CB80025B9B3 /* MalachiteViewUtils.swift in Sources */,
-				78D5707A2E3C7CB80025B9B3 /* MalachiteHapticUtils.swift in Sources */,
-				78D5707B2E3C7CB80025B9B3 /* MalachiteFunctionUtils.swift in Sources */,
-				78D570802E3C7D050025B9B3 /* MalachiteSettingsView.swift in Sources */,
-				78D570812E3C7D050025B9B3 /* MalachiteCompatibilityView.swift in Sources */,
-				78D5707C2E3C7CB80025B9B3 /* MalachiteGameUtils.swift in Sources */,
-				78917F632B99AE72005E10FA /* LockScreenWidget.swift in Sources */,
-				78D570822E3C7D0B0025B9B3 /* MalachiteSettingsDetailView.swift in Sources */,
-				78D570832E3C7D0B0025B9B3 /* MalachiteAboutView.swift in Sources */,
-				78D570772E3C7CB20025B9B3 /* MalachiteUtils.swift in Sources */,
-				78D5707F2E3C7CF50025B9B3 /* MalachitePhotoPreview.swift in Sources */,
-				78917F612B99AE72005E10FA /* MalachiteWidgetBundle.swift in Sources */,
+				786DAE5E2E4F28B100BE3137 /* MalachitePreferences.swift in Sources */,
+				786DAE5F2E4F28B100BE3137 /* MalachitePreferencesUtils.swift in Sources */,
+				786DAE602E4F28B100BE3137 /* MalachiteFunctionUtils.swift in Sources */,
+				786DAE612E4F28B100BE3137 /* MalachiteGameUtils.swift in Sources */,
+				786DAE622E4F28B100BE3137 /* MalachiteHapticUtils.swift in Sources */,
+				786DAE632E4F28B100BE3137 /* MalachiteIntentUtils.swift in Sources */,
+				786DAE642E4F28B100BE3137 /* MalachiteTooltipUtils.swift in Sources */,
+				786DAE652E4F28B100BE3137 /* MalachiteUtils.swift in Sources */,
+				786DAE662E4F28B100BE3137 /* MalachiteViewUtils.swift in Sources */,
+				786DAE372E4F28A600BE3137 /* DeveloperView.swift in Sources */,
+				786DAE382E4F28A600BE3137 /* DeveloperView+BuildInfo.swift in Sources */,
+				786DAE392E4F28A600BE3137 /* DeveloperView+DeviceInfo.swift in Sources */,
+				786DAE6D2E4F28B700BE3137 /* ControlCenterWidget.swift in Sources */,
+				786DAE6E2E4F28B700BE3137 /* LockScreenWidget.swift in Sources */,
+				786DAE6F2E4F28B700BE3137 /* MalachiteWidgetBundle.swift in Sources */,
+				786DAE3A2E4F28A600BE3137 /* DeveloperView+Settings.swift in Sources */,
+				786DAE3B2E4F28A600BE3137 /* MalachiteAboutView.swift in Sources */,
+				786DAE3C2E4F28A600BE3137 /* MalachiteCompatibilityView.swift in Sources */,
+				786DAE3D2E4F28A600BE3137 /* MalachitePhotoPreview.swift in Sources */,
+				786DAE3E2E4F28A600BE3137 /* SettingsView+Help.swift in Sources */,
+				786DAE3F2E4F28A600BE3137 /* SettingsView.swift in Sources */,
+				786DAE402E4F28A600BE3137 /* MalachiteView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -733,22 +784,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78A9DE2D2CD57F51002C131D /* MalachiteIntentUtils.swift in Sources */,
-				78A9DD762CD55558002C131D /* MalachiteCaptureBundle.swift in Sources */,
-				78A9DD7C2CD5562B002C131D /* MalachiteView.swift in Sources */,
-				78A9DD7D2CD55631002C131D /* MalachiteAboutView.swift in Sources */,
-				78A9DD7E2CD55631002C131D /* MalachiteUtils.swift in Sources */,
-				78A9DD7F2CD55631002C131D /* MalachiteSettingsView.swift in Sources */,
-				78C80BF52CDABE7800F6E8A7 /* MalachitePreferencesUtils.swift in Sources */,
-				78A9DD812CD55631002C131D /* MalachiteFunctionUtils.swift in Sources */,
-				78A9DD822CD55631002C131D /* MalachitePhotoPreview.swift in Sources */,
-				78A9DD832CD55631002C131D /* MalachiteCompatibilityView.swift in Sources */,
-				78A9DD842CD55631002C131D /* MalachiteViewUtils.swift in Sources */,
-				78A9DD852CD55631002C131D /* MalachiteSettingsDetailView.swift in Sources */,
-				78A9DD862CD55631002C131D /* MalachiteTooltipUtils.swift in Sources */,
-				78A9DD872CD55631002C131D /* MalachiteGameUtils.swift in Sources */,
-				78C7EF9E2D1ECBD1001E332B /* MalachitePreferences.swift in Sources */,
-				78A9DD882CD55631002C131D /* MalachiteHapticUtils.swift in Sources */,
+				786DAE232E4F28A600BE3137 /* DeveloperView.swift in Sources */,
+				786DAE242E4F28A600BE3137 /* DeveloperView+BuildInfo.swift in Sources */,
+				786DAE252E4F28A600BE3137 /* DeveloperView+DeviceInfo.swift in Sources */,
+				786DAE4C2E4F28B100BE3137 /* MalachitePreferences.swift in Sources */,
+				786DAE4D2E4F28B100BE3137 /* MalachitePreferencesUtils.swift in Sources */,
+				786DAE782E4F28B900BE3137 /* MalachiteCaptureBundle.swift in Sources */,
+				786DAE4E2E4F28B100BE3137 /* MalachiteFunctionUtils.swift in Sources */,
+				786DAE4F2E4F28B100BE3137 /* MalachiteGameUtils.swift in Sources */,
+				786DAE502E4F28B100BE3137 /* MalachiteHapticUtils.swift in Sources */,
+				786DAE512E4F28B100BE3137 /* MalachiteIntentUtils.swift in Sources */,
+				786DAE522E4F28B100BE3137 /* MalachiteTooltipUtils.swift in Sources */,
+				786DAE532E4F28B100BE3137 /* MalachiteUtils.swift in Sources */,
+				786DAE542E4F28B100BE3137 /* MalachiteViewUtils.swift in Sources */,
+				786DAE262E4F28A600BE3137 /* DeveloperView+Settings.swift in Sources */,
+				786DAE272E4F28A600BE3137 /* MalachiteAboutView.swift in Sources */,
+				786DAE282E4F28A600BE3137 /* MalachiteCompatibilityView.swift in Sources */,
+				786DAE292E4F28A600BE3137 /* MalachitePhotoPreview.swift in Sources */,
+				786DAE2A2E4F28A600BE3137 /* SettingsView+Help.swift in Sources */,
+				786DAE2B2E4F28A600BE3137 /* SettingsView.swift in Sources */,
+				786DAE2C2E4F28A600BE3137 /* MalachiteView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -756,8 +811,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78B72BDA2E345301002E2D4E /* ContentView.swift in Sources */,
-				78B72BDB2E345301002E2D4E /* MalachiteWatchApp.swift in Sources */,
+				786DAE7D2E4F28BF00BE3137 /* ContentView.swift in Sources */,
+				786DAE7E2E4F28BF00BE3137 /* MalachiteWatchApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

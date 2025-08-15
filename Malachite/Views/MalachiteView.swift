@@ -693,7 +693,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         self.present(alert, animated: true, completion: nil)
         return
 #elseif MAIN_APP
-        var aboutView = MalachiteSettingsView(dismissAction: {self.dismiss( animated: true, completion: nil )})
+        var aboutView = SettingsView(dismissAction: {self.dismiss( animated: true, completion: nil )})
         aboutView.utilities = self.utilities
         let hostingController = UIHostingController(rootView: aboutView)
         hostingController.modalPresentationStyle = UIModalPresentationStyle.popover

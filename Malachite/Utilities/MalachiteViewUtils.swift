@@ -282,39 +282,6 @@ struct MalachiteCompatibilityViewUtils: View {
     }
 }
 
-struct MalachiteSettingsDetailViewUtils<Content : View>: View {
-    var title: Text
-    var subtitle: Text
-    let content: Content?
-    
-    init(
-        title: Text,
-        subtitle: Text,
-        @ViewBuilder content: () -> Content?
-    ) {
-        self.title = title
-        self.subtitle = subtitle
-        self.content = content() ?? nil
-    }
-    
-    var body: some View {
-        VStack {
-            HStack {
-                title
-                    .bold()
-                Spacer()
-                
-            }
-            HStack {
-                subtitle
-                    .font(.footnote)
-                Spacer()
-            }
-        }
-    }
-}
-
-
 struct MalachiteNagivationViewUtils<Content : View>: View {
     let content: Content
     

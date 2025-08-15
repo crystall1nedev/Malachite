@@ -1,5 +1,5 @@
 //
-//  MalachiteSettingsView.swift
+//  SettingsView.swift
 //  Malachite
 //
 //  Created by Eva Isabella Luna on 11/26/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MalachiteSettingsView: View {
+struct SettingsView: View {
     /// A State variable used for determining whether or not watermarking is enabled.
     @State private var watermarkSwitch = false
     /// A State variable used for determining the current watermark string.
@@ -85,8 +85,8 @@ struct MalachiteSettingsView: View {
             photoSettingsSection
             watermarkSettingsSection
             uiSettingsSection
-            if utilities.versionType == "DEBUG" || utilities.versionType == "INTERNAL" {
-                debugSettingsSection
+            if utilities.versionType == "DEBUG" {
+                DeveloperView.Settings(utilities: utilities)
             }
         }
         .onAppear { onAppear() }
@@ -94,7 +94,7 @@ struct MalachiteSettingsView: View {
         .navigationTitle("view.title.settings")
         .toolbar(content: {
             ToolbarItemGroup(placement: .topBarLeading) {
-                NavigationLink(destination: MalachiteSettingsDetailView(dismissAction: dismissAction)) {
+                NavigationLink(destination: Help(dismissAction: dismissAction)) {
                     if #available(iOS 26.0, *) {
                         Image(systemName: "questionmark.circle")
                     } else {
@@ -142,6 +142,15 @@ struct MalachiteSettingsView: View {
                 {
                     NavigationLink(destination: MalachiteCompatibilityView(dismissAction: dismissAction, utilities: utilities)) {
                         Text("view.title.compatibility")
+                    }
+                }
+                MalachiteCellViewUtils(
+                    icon: "wrench.and.screwdriver",
+                    disabled: nil,
+                    dangerous: false)
+                {
+                    NavigationLink(destination: DeveloperView(dismissAction: dismissAction)) {
+                        Text("view.title.developer")
                     }
                 }
             }
@@ -514,69 +523,6 @@ struct MalachiteSettingsView: View {
         }
     }
     
-    /// A variable to hold the debug settings section. Only available with debug builds.
-    // TODO: Update to the new preferences system
-    var debugSettingsSection: some View {
-        Section(header: Text("settings.header.debug")) {
-            MalachiteCellViewUtils(
-                icon: "text.redaction",
-                disabled: nil,
-                dangerous: false)
-            {
-                Toggle("settings.option.debug.logging.userdefaults", isOn: $debugLoggingUserDefaults)
-            }
-            MalachiteCellViewUtils(
-                icon: "iphone.slash",
-                disabled: nil,
-                dangerous: false)
-            {
-                Toggle("settings.option.debug.breakapp", isOn: $breakApp)
-            }
-            MalachiteCellViewUtils(
-                icon: "trash",
-                disabled: nil,
-                dangerous: true)
-            {
-                Button {
-                    utilities.debugNSLog("[Preferences] Resetting all preferences, relaunch the app to complete!")
-                    utilities.preferences.ext.resetPreferences()
-                } label: {
-                    if #available(iOS 17.0, *) {
-                        Text("settings.option.debug.erase.userdefaults")
-                            .foregroundStyle(.red)
-                    } else {
-                        Text("settings.option.debug.erase.userdefaults")
-                            .foregroundColor(.red)
-                    }
-                }
-            }
-            
-            if utilities.versionType == "INTERNAL" {
-                MalachiteCellViewUtils(
-                    icon: "trash",
-                    disabled: nil,
-                    dangerous: true)
-                {
-                    Button {
-                        utilities.internalNSLog("[Preferences] Resetting all GameKit data!")
-                        utilities.games.achievements.resetAchievements()
-                    } label: {
-                        if #available(iOS 17.0, *) {
-                            Text("settings.option.debug.erase.gamekit")
-                                .foregroundStyle(.red)
-                        } else {
-                            Text("settings.option.debug.erase.gamekit")
-                                .foregroundColor(.red)
-                        }
-                    }
-                }
-            }
-        }
-        .onChange(of: debugLoggingUserDefaults) {_ in
-            utilities.preferences.debug.logging.preferences = debugLoggingUserDefaults
-        }
-    }
-    
     func onAppear() {
         supportsHDR = utilities.function.supportsHDR
         supportsHEIC = utilities.function.supportsHEIC()
@@ -757,3 +703,4 @@ struct MalachiteSettingsView: View {
         utilities.preferences.debug.breakApp = breakApp
     }
 }
+

@@ -141,17 +141,9 @@ struct MalachiteAboutView: View {
     
     var aboutSectionFooter: some View {
         VStack {
-            if utilities.versionType == "DEBUG" || utilities.versionType == "INTERNAL" {
+            if utilities.versionType == "DEBUG" {
                 HStack {
                     Text("\(utilities.versionType) - \(utilities.versionHash) - \(utilities.versionDate)")
-                        .font(.footnote)
-                        .frame(alignment: .leading)
-                    Spacer()
-                }
-            }
-            if utilities.versionType == "INTERNAL" {
-                HStack {
-                    Text("Built by \(utilities.versionUser) on \(utilities.versionHost)")
                         .font(.footnote)
                         .frame(alignment: .leading)
                     Spacer()

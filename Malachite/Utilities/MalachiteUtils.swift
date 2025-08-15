@@ -45,6 +45,8 @@ public class MalachiteClassesObject : NSObject {
     public let versionFixer    = "0"
     /// A variable that can be used to pull the git commit hash from the Info.plist
     public let versionHash     = Bundle.main.object(forInfoDictionaryKey: "CFBuildHash") as? String ?? "undefined"
+    /// A variable that can be used to pull the git branch from the Info.plist
+    public let versionBranch   = Bundle.main.object(forInfoDictionaryKey: "CFBuildBran") as? String ?? "undefined"
     /// A variable that can be used to pull the build time from the Info.plist
     public let versionDate     = Bundle.main.object(forInfoDictionaryKey: "CFBuildDate") as? String ?? "undefined"
     /// A variable that can be used to identify the variant of the build from the Info.plist
