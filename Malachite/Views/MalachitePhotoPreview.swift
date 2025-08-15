@@ -72,7 +72,7 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
      - Register notifications for changes to orientation.
      */
     override func viewDidLoad() {
-        // TODO: Decouple photo capture and processing code from MalachitePhotoPreview.swift. Refactor buttons into UIBarButtonItems.
+        // TODO: dev/malachitekit refactor this file
         self.finalizedImage = self.finalizeImageForExport(imageData: self.photoImageData)
         
         super.viewDidLoad()
@@ -164,7 +164,7 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
             savePhotoButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
             savePhotoButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
-        savePhotoButton.addTarget(self, action: #selector(self.savePhoto), for: .touchUpInside)
+        savePhotoButton.addTarget(self, action: #selector(self.savePhotoWrapped), for: .touchUpInside)
         
         sharePhotoButton = utilities.views.returnProperButton(symbolName: "square.and.arrow.up", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
         self.view.addSubview(sharePhotoButton)
@@ -203,12 +203,17 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
         utilities.views.rotateButtonsWithOrientation(buttonsToRotate: [ dismissButton, savePhotoButton, sharePhotoButton ])
     }
     
+    /// Wrapper function to save the image to the user's Photos library, for the UIButton.
+    @objc public func savePhotoWrapped() {
+        self.savePhoto(finalImage: self.finalizedImage)
+    }
+    
     /// Function to save the image to the user's Photos library.
-    @objc public func savePhoto(finalImage: Data?) {
+    public func savePhoto(finalImage: Data) {
         do {
             try PHPhotoLibrary.shared().performChangesAndWait { [self] in
                 let createRequest = PHAssetCreationRequest.forAsset()
-                createRequest.addResource(with: .photo, data: finalImage ?? self.finalizedImage, options: nil)
+                createRequest.addResource(with: .photo, data: finalImage, options: nil)
                 utilities.debugNSLog("[Capture Photo] Photo has been saved to the user's library")
                 self.utilities.haptics.triggerNotificationHaptic(type: .success)
                 self.dismissView()
