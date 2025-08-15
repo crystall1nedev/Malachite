@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		780067E12CBDCEA0004BB595 /* ControlCenterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */; };
 		7806973A2B27F66E00B4942B /* MalachiteTooltipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780697392B27F66E00B4942B /* MalachiteTooltipUtils.swift */; };
-		78163D8E2CCB7BB300146126 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 78163D8D2CCB7BAE00146126 /* CHANGELOG.md */; };
-		782FC7762B2DAFAB007709C1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 782FC7752B2DAFAB007709C1 /* README.md */; };
 		7837C1062E34C45B009396B0 /* MalachiteIntentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9DE2C2CD57F4D002C131D /* MalachiteIntentUtils.swift */; };
 		7837C1072E34C45B009396B0 /* ControlCenterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780067CF2CBDCB94004BB595 /* ControlCenterWidget.swift */; };
 		7837C1082E34C45B009396B0 /* LockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78917F622B99AE72005E10FA /* LockScreenWidget.swift */; };
@@ -18,9 +16,7 @@
 		7837C10B2E34C45B009396B0 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5D2B99AE72005E10FA /* SwiftUI.framework */; };
 		7837C10C2E34C45B009396B0 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5B2B99AE72005E10FA /* WidgetKit.framework */; };
 		7837C10E2E34C45B009396B0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
-		7837C1102E34C45B009396B0 /* Codesigning.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */; };
 		7837C1172E34C47D009396B0 /* WidgetBundleWatch.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7837C1152E34C45B009396B0 /* WidgetBundleWatch.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		78562BC32B450A7600920160 /* PRIVACY_POLICY.md in Resources */ = {isa = PBXBuildFile; fileRef = 78562BC22B450A7600920160 /* PRIVACY_POLICY.md */; };
 		7859DE1A2B8308C000D1A998 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */; };
 		785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F084C2B12D41100244EB4 /* AppDelegate.swift */; };
 		785F084F2B12D41100244EB4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F084E2B12D41100244EB4 /* SceneDelegate.swift */; };
@@ -30,7 +26,6 @@
 		7860DC002B897A3E00450BF8 /* MalachiteGameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7860DBFF2B897A3E00450BF8 /* MalachiteGameUtils.swift */; };
 		78789C742E3494D500862C3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 785F08552B12D41300244EB4 /* Assets.xcassets */; };
 		787B1CAA2B8B095E000AFECC /* Malachite.docc in Sources */ = {isa = PBXBuildFile; fileRef = 787B1CA92B8B095E000AFECC /* Malachite.docc */; };
-		7881A98C2C1F77AB00B1F83B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
 		7886C6C22E45E2E10095460C /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 78B72BA12E332744002E2D4E /* AppIcon.icon */; };
 		788848B52CC74B4200B02E37 /* MalachiteCompatibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788848B42CC74B3B00B02E37 /* MalachiteCompatibilityView.swift */; };
 		788E74B32B13D8200024B586 /* MalachiteSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788E74B22B13D8200024B586 /* MalachiteSettingsView.swift */; };
@@ -60,11 +55,8 @@
 		78A9DE752CD5AE5F002C131D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
 		78B72BA22E332744002E2D4E /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 78B72BA12E332744002E2D4E /* AppIcon.icon */; };
 		78B72BB12E332830002E2D4E /* MalachiteWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 78B72BA72E33282E002E2D4E /* MalachiteWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		78B72BD42E3452A2002E2D4E /* build.yml in Resources */ = {isa = PBXBuildFile; fileRef = 78B72BD12E3452A2002E2D4E /* build.yml */; };
 		78B72BDA2E345301002E2D4E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B72BD62E345301002E2D4E /* ContentView.swift */; };
 		78B72BDB2E345301002E2D4E /* MalachiteWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B72BD72E345301002E2D4E /* MalachiteWatchApp.swift */; };
-		78B72BE32E3461DA002E2D4E /* MalachiteIconMasked_Darwin25.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B72BE22E3461DA002E2D4E /* MalachiteIconMasked_Darwin25.png */; };
-		78B72BE42E3461DA002E2D4E /* MalachiteIconMasked_Darwin24.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B72BE12E3461DA002E2D4E /* MalachiteIconMasked_Darwin24.png */; };
 		78C7EF9D2D1ECBD1001E332B /* MalachitePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C7EF9C2D1ECBCB001E332B /* MalachitePreferences.swift */; };
 		78C7EF9E2D1ECBD1001E332B /* MalachitePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C7EF9C2D1ECBCB001E332B /* MalachitePreferences.swift */; };
 		78C80BF52CDABE7800F6E8A7 /* MalachitePreferencesUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C80BF32CDABE7200F6E8A7 /* MalachitePreferencesUtils.swift */; };
@@ -87,15 +79,13 @@
 		78D570822E3C7D0B0025B9B3 /* MalachiteSettingsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7897ECA52BA2B87100662EA0 /* MalachiteSettingsDetailView.swift */; };
 		78D570832E3C7D0B0025B9B3 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7859DE192B8308C000D1A998 /* MalachiteAboutView.swift */; };
 		78D570842E3C7E530025B9B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 785F08552B12D41300244EB4 /* Assets.xcassets */; };
-		78E142CA2DD4262F0016B3DB /* Codesigning.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */; };
-		78E142CB2DD4262F0016B3DB /* Codesigning.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */; };
-		78E142CC2DD4262F0016B3DB /* Codesigning.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */; };
 		78E5EFC02B15748400F15250 /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E5EFBF2B15748400F15250 /* MalachitePhotoPreview.swift */; };
 		78E67EE02B27E07300812A17 /* MalachiteHapticUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDC2B27E07300812A17 /* MalachiteHapticUtils.swift */; };
 		78E67EE12B27E07300812A17 /* MalachiteViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDD2B27E07300812A17 /* MalachiteViewUtils.swift */; };
 		78E67EE22B27E07300812A17 /* MalachiteUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EDE2B27E07300812A17 /* MalachiteUtils.swift */; };
 		78E67EE52B27E0A200812A17 /* MalachiteFunctionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E67EE42B27E0A200812A17 /* MalachiteFunctionUtils.swift */; };
 		78E8265B2E349FEC00A8DB50 /* MalachiteIntentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9DE2C2CD57F4D002C131D /* MalachiteIntentUtils.swift */; };
+		78EC5D5F2E4EC110005044E2 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -523,6 +513,7 @@
 				78B72BA42E33282E002E2D4E /* Frameworks */,
 				78B72BA52E33282E002E2D4E /* Resources */,
 				7837C11A2E34C47D009396B0 /* Embed Foundation Extensions */,
+				78EC5D602E4EC1AD005044E2 /* Embed build information */,
 			);
 			buildRules = (
 			);
@@ -590,7 +581,6 @@
 			files = (
 				7837C10E2E34C45B009396B0 /* Localizable.xcstrings in Resources */,
 				78CD7DB72E359B87003814B5 /* Assets.xcassets in Resources */,
-				7837C1102E34C45B009396B0 /* Codesigning.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,16 +588,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				782FC7762B2DAFAB007709C1 /* README.md in Resources */,
-				7881A98C2C1F77AB00B1F83B /* Localizable.xcstrings in Resources */,
-				78562BC32B450A7600920160 /* PRIVACY_POLICY.md in Resources */,
-				78E142CB2DD4262F0016B3DB /* Codesigning.xcconfig in Resources */,
-				78B72BE32E3461DA002E2D4E /* MalachiteIconMasked_Darwin25.png in Resources */,
-				78B72BE42E3461DA002E2D4E /* MalachiteIconMasked_Darwin24.png in Resources */,
-				78B72BD42E3452A2002E2D4E /* build.yml in Resources */,
 				78B72BA22E332744002E2D4E /* AppIcon.icon in Resources */,
+				78EC5D5F2E4EC110005044E2 /* Localizable.xcstrings in Resources */,
 				785F08592B12D41300244EB4 /* LaunchScreen.storyboard in Resources */,
-				78163D8E2CCB7BB300146126 /* CHANGELOG.md in Resources */,
 				785F08562B12D41300244EB4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -618,7 +601,6 @@
 			files = (
 				78CAC36A2CCD99B600A35AE8 /* Localizable.xcstrings in Resources */,
 				78CD7DB62E359B87003814B5 /* Assets.xcassets in Resources */,
-				78E142CA2DD4262F0016B3DB /* Codesigning.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -626,7 +608,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78E142CC2DD4262F0016B3DB /* Codesigning.xcconfig in Resources */,
 				78D570842E3C7E530025B9B3 /* Assets.xcassets in Resources */,
 				78A9DE752CD5AE5F002C131D /* Localizable.xcstrings in Resources */,
 			);
@@ -656,6 +637,26 @@
 				"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}",
 			);
 			name = "Embed build information ";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "eval \"${GCC_PREPROCESSOR_DEFINITIONS}\"\n\nPATH=/opt/homebrew/bin:/usr/local/bin:$PATH\nPLISTBUDDY=\"/usr/libexec/PlistBuddy\"\nINFOPLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n\n# If there is no git repo to pull this info from, this is set to undefined later.\nCFBUILDHASH=$(git --git-dir=\"${PROJECT_DIR}/.git\" --work-tree=\"${PROJECT_DIR}\" rev-parse --short HEAD)\nCFBUILDDATE=$(date +'%Y-%m-%d-%H.%M.%S')\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then\n    # If the build is not INTERNAL, these are set to redacted later.\n    CFBUILDUSER=$(whoami)\n    CFBUILDHOST=$(hostname)\nelif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && !(-z $(system_profiler SPHardwareDataType | grep 'MacVM1,1')) ]]; then\n    # Xcode Cloud built this, but the hostname string is atrocious. Replace with these.\n    CFBUILDUSER=\"evaluna (App Store Connect)\"\n    CFBUILDHOST=\"Xcode Cloud\"\nfi\n\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(gpg --list-secret-keys | grep 4A5B8C2A065654E24DE50FF03716ACDC524F1879) ]]; then\n    echo \"Error: INTERNAL build type detected but Eva's GPG key was not found.\"\n    echo \"Error: See 'Embed build information' in Build Phases for a solution\"\n    # Be aware that I use the INTERNAL target to gate off any unstable/unready features. By removing this line, \n    # you are acknowledging that you will not receive support for any issues encountered with Malachite until you \n    # are running DEBUG or RELEASE. If you just want a DEBUG build, change the Build Configuration to Debug in \n    # Product > Scheme > Edit Scheme...\n    if [[ -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then\n        exit\n    else\n        # This line of code should keep internal TestFlight builds as INTERNAL, and external ones as DEBUG\n        if [[ $(git --git-dir=\"${PROJECT_DIR}/.git\" rev-parse --abbrev-ref HEAD) != *\"dev\"* ]]; then\n            CFBUILDTYPE=\"DEBUG\"\n        fi\n    fi\nfi\n\n\n\n# Print all of the variables in the build log. Useful for debugging\necho \"\"\necho \"CFBUILDHASH = ${CFBUILDHASH}\"\necho \"CFBUILDDATE = ${CFBUILDDATE}\"\necho \"CFBUILDTYPE = ${CFBUILDTYPE}\"\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" ]]; then\n    echo \"CFBUILDUSER = ${CFBUILDUSER}\"\n    echo \"CFBUILDHOST = ${CFBUILDHOST}\"\nfi\necho \"INFOPLIST = ${INFOPLIST}\"\n\n# Make sure the key is present in the plist before trying to set it.\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHash' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHash string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildDate' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildDate string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildType' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildType string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildUser' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildUser string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHost' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHost string\" \"${INFOPLIST}\"; fi\n\n# Fallback values, either to fill in the gaps or prevent app crashes\nif [ -z \"$CFBUILDHASH\" ]; then CFBUILDHASH=undefined; fi\nif [ -z \"$CFBUILDTYPE\" ]; then CFBUILDTYPE=debug; fi\nif [ -z \"$CFBUILDUSER\" ]; then CFBUILDUSER=redacted; fi\nif [ -z \"$CFBUILDHOST\" ]; then CFBUILDHOST=redacted; fi\n\n# Set the values in the Info.plist\n$PLISTBUDDY -c \"Set :CFBuildHash $CFBUILDHASH\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildDate $CFBUILDDATE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"\n";
+		};
+		78EC5D602E4EC1AD005044E2 /* Embed build information */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}",
+			);
+			name = "Embed build information";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -1370,6 +1371,7 @@
 				ENABLE_ENHANCED_SECURITY = NO;
 				ENABLE_POINTER_AUTHENTICATION = NO;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				EXCLUDED_ARCHS = arm64e;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MalachiteWatch/Info.plist;
@@ -1408,6 +1410,7 @@
 				ENABLE_ENHANCED_SECURITY = NO;
 				ENABLE_POINTER_AUTHENTICATION = NO;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				EXCLUDED_ARCHS = arm64e;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MalachiteWatch/Info.plist;
@@ -1446,6 +1449,7 @@
 				ENABLE_ENHANCED_SECURITY = NO;
 				ENABLE_POINTER_AUTHENTICATION = NO;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				EXCLUDED_ARCHS = arm64e;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MalachiteWatch/Info.plist;
