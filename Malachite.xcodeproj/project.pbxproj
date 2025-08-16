@@ -21,7 +21,7 @@
 		786DAE272E4F28A600BE3137 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1C2E4F28A600BE3137 /* MalachiteAboutView.swift */; };
 		786DAE282E4F28A600BE3137 /* MalachiteCompatibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1D2E4F28A600BE3137 /* MalachiteCompatibilityView.swift */; };
 		786DAE292E4F28A600BE3137 /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1E2E4F28A600BE3137 /* MalachitePhotoPreview.swift */; };
-		786DAE2A2E4F28A600BE3137 /* SettingsView+Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1F2E4F28A600BE3137 /* SettingsView+Help.swift */; };
+		786DAE2A2E4F28A600BE3137 /* QuickHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1F2E4F28A600BE3137 /* QuickHelpView.swift */; };
 		786DAE2B2E4F28A600BE3137 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE202E4F28A600BE3137 /* SettingsView.swift */; };
 		786DAE2C2E4F28A600BE3137 /* MalachiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE212E4F28A600BE3137 /* MalachiteView.swift */; };
 		786DAE2D2E4F28A600BE3137 /* DeveloperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE172E4F28A600BE3137 /* DeveloperView.swift */; };
@@ -31,7 +31,7 @@
 		786DAE312E4F28A600BE3137 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1C2E4F28A600BE3137 /* MalachiteAboutView.swift */; };
 		786DAE322E4F28A600BE3137 /* MalachiteCompatibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1D2E4F28A600BE3137 /* MalachiteCompatibilityView.swift */; };
 		786DAE332E4F28A600BE3137 /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1E2E4F28A600BE3137 /* MalachitePhotoPreview.swift */; };
-		786DAE342E4F28A600BE3137 /* SettingsView+Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1F2E4F28A600BE3137 /* SettingsView+Help.swift */; };
+		786DAE342E4F28A600BE3137 /* QuickHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1F2E4F28A600BE3137 /* QuickHelpView.swift */; };
 		786DAE352E4F28A600BE3137 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE202E4F28A600BE3137 /* SettingsView.swift */; };
 		786DAE362E4F28A600BE3137 /* MalachiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE212E4F28A600BE3137 /* MalachiteView.swift */; };
 		786DAE372E4F28A600BE3137 /* DeveloperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE172E4F28A600BE3137 /* DeveloperView.swift */; };
@@ -41,7 +41,7 @@
 		786DAE3B2E4F28A600BE3137 /* MalachiteAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1C2E4F28A600BE3137 /* MalachiteAboutView.swift */; };
 		786DAE3C2E4F28A600BE3137 /* MalachiteCompatibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1D2E4F28A600BE3137 /* MalachiteCompatibilityView.swift */; };
 		786DAE3D2E4F28A600BE3137 /* MalachitePhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1E2E4F28A600BE3137 /* MalachitePhotoPreview.swift */; };
-		786DAE3E2E4F28A600BE3137 /* SettingsView+Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1F2E4F28A600BE3137 /* SettingsView+Help.swift */; };
+		786DAE3E2E4F28A600BE3137 /* QuickHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE1F2E4F28A600BE3137 /* QuickHelpView.swift */; };
 		786DAE3F2E4F28A600BE3137 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE202E4F28A600BE3137 /* SettingsView.swift */; };
 		786DAE402E4F28A600BE3137 /* MalachiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE212E4F28A600BE3137 /* MalachiteView.swift */; };
 		786DAE4C2E4F28B100BE3137 /* MalachitePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE412E4F28B100BE3137 /* MalachitePreferences.swift */; };
@@ -82,6 +82,45 @@
 		786DAE7D2E4F28BF00BE3137 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE792E4F28BF00BE3137 /* ContentView.swift */; };
 		786DAE7E2E4F28BF00BE3137 /* MalachiteWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE7B2E4F28BF00BE3137 /* MalachiteWatchApp.swift */; };
 		787B1CAA2B8B095E000AFECC /* Malachite.docc in Sources */ = {isa = PBXBuildFile; fileRef = 787B1CA92B8B095E000AFECC /* Malachite.docc */; };
+		788262602E513080000085AC /* SettingsView+About.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882625F2E51307B000085AC /* SettingsView+About.swift */; };
+		788262612E513080000085AC /* SettingsView+About.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882625F2E51307B000085AC /* SettingsView+About.swift */; };
+		788262622E513080000085AC /* SettingsView+About.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882625F2E51307B000085AC /* SettingsView+About.swift */; };
+		788262642E51309C000085AC /* SettingsView+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262632E513094000085AC /* SettingsView+Preview.swift */; };
+		788262652E51309C000085AC /* SettingsView+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262632E513094000085AC /* SettingsView+Preview.swift */; };
+		788262662E51309C000085AC /* SettingsView+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262632E513094000085AC /* SettingsView+Preview.swift */; };
+		7882626C2E5130C1000085AC /* SettingsView+Resolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882626B2E5130BB000085AC /* SettingsView+Resolution.swift */; };
+		7882626D2E5130C1000085AC /* SettingsView+Resolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882626B2E5130BB000085AC /* SettingsView+Resolution.swift */; };
+		7882626E2E5130C1000085AC /* SettingsView+Resolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882626B2E5130BB000085AC /* SettingsView+Resolution.swift */; };
+		788262702E5130CA000085AC /* SettingsView+Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882626F2E5130C6000085AC /* SettingsView+Photo.swift */; };
+		788262712E5130CA000085AC /* SettingsView+Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882626F2E5130C6000085AC /* SettingsView+Photo.swift */; };
+		788262722E5130CA000085AC /* SettingsView+Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882626F2E5130C6000085AC /* SettingsView+Photo.swift */; };
+		788262742E5130D4000085AC /* SettingsView+Watermarking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262732E5130CF000085AC /* SettingsView+Watermarking.swift */; };
+		788262752E5130D4000085AC /* SettingsView+Watermarking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262732E5130CF000085AC /* SettingsView+Watermarking.swift */; };
+		788262762E5130D4000085AC /* SettingsView+Watermarking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262732E5130CF000085AC /* SettingsView+Watermarking.swift */; };
+		788262782E5130DB000085AC /* SettingsView+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262772E5130D8000085AC /* SettingsView+UI.swift */; };
+		788262792E5130DB000085AC /* SettingsView+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262772E5130D8000085AC /* SettingsView+UI.swift */; };
+		7882627A2E5130DB000085AC /* SettingsView+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262772E5130D8000085AC /* SettingsView+UI.swift */; };
+		7882627C2E514750000085AC /* DeveloperView+Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882627B2E514749000085AC /* DeveloperView+Internal.swift */; };
+		7882627D2E514750000085AC /* DeveloperView+Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882627B2E514749000085AC /* DeveloperView+Internal.swift */; };
+		7882627E2E514750000085AC /* DeveloperView+Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882627B2E514749000085AC /* DeveloperView+Internal.swift */; };
+		788262852E514F12000085AC /* QuickHelpView+About.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262842E514F0C000085AC /* QuickHelpView+About.swift */; };
+		788262862E514F12000085AC /* QuickHelpView+About.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262842E514F0C000085AC /* QuickHelpView+About.swift */; };
+		788262872E514F12000085AC /* QuickHelpView+About.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262842E514F0C000085AC /* QuickHelpView+About.swift */; };
+		788262892E514F18000085AC /* QuickHelpView+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262882E514F14000085AC /* QuickHelpView+Preview.swift */; };
+		7882628A2E514F18000085AC /* QuickHelpView+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262882E514F14000085AC /* QuickHelpView+Preview.swift */; };
+		7882628B2E514F18000085AC /* QuickHelpView+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262882E514F14000085AC /* QuickHelpView+Preview.swift */; };
+		7882628D2E514F25000085AC /* QuickHelpView+Resolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882628C2E514F1F000085AC /* QuickHelpView+Resolution.swift */; };
+		7882628E2E514F25000085AC /* QuickHelpView+Resolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882628C2E514F1F000085AC /* QuickHelpView+Resolution.swift */; };
+		7882628F2E514F25000085AC /* QuickHelpView+Resolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882628C2E514F1F000085AC /* QuickHelpView+Resolution.swift */; };
+		788262912E514F2D000085AC /* QuickHelpView+Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262902E514F28000085AC /* QuickHelpView+Photo.swift */; };
+		788262922E514F2D000085AC /* QuickHelpView+Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262902E514F28000085AC /* QuickHelpView+Photo.swift */; };
+		788262932E514F2D000085AC /* QuickHelpView+Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262902E514F28000085AC /* QuickHelpView+Photo.swift */; };
+		788262952E514F38000085AC /* QuickHelpView+Watermarking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262942E514F31000085AC /* QuickHelpView+Watermarking.swift */; };
+		788262962E514F38000085AC /* QuickHelpView+Watermarking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262942E514F31000085AC /* QuickHelpView+Watermarking.swift */; };
+		788262972E514F38000085AC /* QuickHelpView+Watermarking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262942E514F31000085AC /* QuickHelpView+Watermarking.swift */; };
+		788262992E514F3F000085AC /* QuickHelpView+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262982E514F3B000085AC /* QuickHelpView+UI.swift */; };
+		7882629A2E514F3F000085AC /* QuickHelpView+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262982E514F3B000085AC /* QuickHelpView+UI.swift */; };
+		7882629B2E514F3F000085AC /* QuickHelpView+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262982E514F3B000085AC /* QuickHelpView+UI.swift */; };
 		78917F5C2B99AE72005E10FA /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5B2B99AE72005E10FA /* WidgetKit.framework */; };
 		78917F5E2B99AE72005E10FA /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5D2B99AE72005E10FA /* SwiftUI.framework */; };
 		78917F692B99AE73005E10FA /* WidgetBundle.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 78917F592B99AE72005E10FA /* WidgetBundle.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -196,7 +235,7 @@
 		786DAE1C2E4F28A600BE3137 /* MalachiteAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteAboutView.swift; sourceTree = "<group>"; };
 		786DAE1D2E4F28A600BE3137 /* MalachiteCompatibilityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteCompatibilityView.swift; sourceTree = "<group>"; };
 		786DAE1E2E4F28A600BE3137 /* MalachitePhotoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePhotoPreview.swift; sourceTree = "<group>"; };
-		786DAE1F2E4F28A600BE3137 /* SettingsView+Help.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView+Help.swift"; sourceTree = "<group>"; };
+		786DAE1F2E4F28A600BE3137 /* QuickHelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickHelpView.swift; sourceTree = "<group>"; };
 		786DAE202E4F28A600BE3137 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		786DAE212E4F28A600BE3137 /* MalachiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteView.swift; sourceTree = "<group>"; };
 		786DAE412E4F28B100BE3137 /* MalachitePreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachitePreferences.swift; sourceTree = "<group>"; };
@@ -219,6 +258,19 @@
 		786DAE7B2E4F28BF00BE3137 /* MalachiteWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteWatchApp.swift; sourceTree = "<group>"; };
 		787B1CA92B8B095E000AFECC /* Malachite.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Malachite.docc; sourceTree = "<group>"; };
 		7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = Malachite/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
+		7882625F2E51307B000085AC /* SettingsView+About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView+About.swift"; sourceTree = "<group>"; };
+		788262632E513094000085AC /* SettingsView+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView+Preview.swift"; sourceTree = "<group>"; };
+		7882626B2E5130BB000085AC /* SettingsView+Resolution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView+Resolution.swift"; sourceTree = "<group>"; };
+		7882626F2E5130C6000085AC /* SettingsView+Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView+Photo.swift"; sourceTree = "<group>"; };
+		788262732E5130CF000085AC /* SettingsView+Watermarking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView+Watermarking.swift"; sourceTree = "<group>"; };
+		788262772E5130D8000085AC /* SettingsView+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView+UI.swift"; sourceTree = "<group>"; };
+		7882627B2E514749000085AC /* DeveloperView+Internal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeveloperView+Internal.swift"; sourceTree = "<group>"; };
+		788262842E514F0C000085AC /* QuickHelpView+About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "QuickHelpView+About.swift"; sourceTree = "<group>"; };
+		788262882E514F14000085AC /* QuickHelpView+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "QuickHelpView+Preview.swift"; sourceTree = "<group>"; };
+		7882628C2E514F1F000085AC /* QuickHelpView+Resolution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "QuickHelpView+Resolution.swift"; sourceTree = "<group>"; };
+		788262902E514F28000085AC /* QuickHelpView+Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "QuickHelpView+Photo.swift"; sourceTree = "<group>"; };
+		788262942E514F31000085AC /* QuickHelpView+Watermarking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "QuickHelpView+Watermarking.swift"; sourceTree = "<group>"; };
+		788262982E514F3B000085AC /* QuickHelpView+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "QuickHelpView+UI.swift"; sourceTree = "<group>"; };
 		788589912B8974680018E2DA /* Malachite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Malachite.entitlements; sourceTree = "<group>"; };
 		78917F592B99AE72005E10FA /* WidgetBundle.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetBundle.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		78917F5B2B99AE72005E10FA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -230,40 +282,43 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		786DADA02E4F283500BE3137 /* Exceptions for "Assets" folder in "Malachite" target */ = {
+		7882625A2E512B3A000085AC /* Exceptions for "Assets" folder in "Malachite" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				AppIcon.icon,
-				Assets.xcassets,
+				MalachiteIconMasked_Darwin24.png,
+				MalachiteIconMasked_Darwin25.png,
 			);
 			target = 785F08482B12D41100244EB4 /* Malachite */;
 		};
-		786DADA12E4F283500BE3137 /* Exceptions for "Assets" folder in "MalachiteWatch" target */ = {
+		7882625B2E512B3A000085AC /* Exceptions for "Assets" folder in "MalachiteWatch" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				AppIcon.icon,
-				Assets.xcassets,
+				MalachiteIconMasked_Darwin24.png,
+				MalachiteIconMasked_Darwin25.png,
 			);
 			target = 78B72BA62E33282E002E2D4E /* MalachiteWatch */;
 		};
-		786DADA22E4F283500BE3137 /* Exceptions for "Assets" folder in "WidgetBundle" target */ = {
+		7882625C2E512B3A000085AC /* Exceptions for "Assets" folder in "WidgetBundle" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Assets.xcassets,
+				MalachiteIconMasked_Darwin24.png,
+				MalachiteIconMasked_Darwin25.png,
 			);
 			target = 78917F582B99AE72005E10FA /* WidgetBundle */;
 		};
-		786DADA32E4F283500BE3137 /* Exceptions for "Assets" folder in "WidgetBundleWatch" target */ = {
+		7882625D2E512B3A000085AC /* Exceptions for "Assets" folder in "WidgetBundleWatch" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Assets.xcassets,
+				MalachiteIconMasked_Darwin24.png,
+				MalachiteIconMasked_Darwin25.png,
 			);
 			target = 7837C1042E34C45B009396B0 /* WidgetBundleWatch */;
 		};
-		786DADA42E4F283500BE3137 /* Exceptions for "Assets" folder in "CaptureBundle" target */ = {
+		7882625E2E512B3A000085AC /* Exceptions for "Assets" folder in "CaptureBundle" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Assets.xcassets,
+				MalachiteIconMasked_Darwin24.png,
+				MalachiteIconMasked_Darwin25.png,
 			);
 			target = 78A9DD602CD55551002C131D /* CaptureBundle */;
 		};
@@ -283,11 +338,11 @@
 		786DAD982E4F283500BE3137 /* Assets */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				786DADA02E4F283500BE3137 /* Exceptions for "Assets" folder in "Malachite" target */,
-				786DADA12E4F283500BE3137 /* Exceptions for "Assets" folder in "MalachiteWatch" target */,
-				786DADA22E4F283500BE3137 /* Exceptions for "Assets" folder in "WidgetBundle" target */,
-				786DADA32E4F283500BE3137 /* Exceptions for "Assets" folder in "WidgetBundleWatch" target */,
-				786DADA42E4F283500BE3137 /* Exceptions for "Assets" folder in "CaptureBundle" target */,
+				7882625A2E512B3A000085AC /* Exceptions for "Assets" folder in "Malachite" target */,
+				7882625B2E512B3A000085AC /* Exceptions for "Assets" folder in "MalachiteWatch" target */,
+				7882625C2E512B3A000085AC /* Exceptions for "Assets" folder in "WidgetBundle" target */,
+				7882625D2E512B3A000085AC /* Exceptions for "Assets" folder in "WidgetBundleWatch" target */,
+				7882625E2E512B3A000085AC /* Exceptions for "Assets" folder in "CaptureBundle" target */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -383,9 +438,10 @@
 			isa = PBXGroup;
 			children = (
 				786DAE172E4F28A600BE3137 /* DeveloperView.swift */,
+				786DAE1A2E4F28A600BE3137 /* DeveloperView+Settings.swift */,
+				7882627B2E514749000085AC /* DeveloperView+Internal.swift */,
 				786DAE182E4F28A600BE3137 /* DeveloperView+BuildInfo.swift */,
 				786DAE192E4F28A600BE3137 /* DeveloperView+DeviceInfo.swift */,
-				786DAE1A2E4F28A600BE3137 /* DeveloperView+Settings.swift */,
 			);
 			path = DeveloperView;
 			sourceTree = "<group>";
@@ -393,12 +449,13 @@
 		786DAE222E4F28A600BE3137 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				786DAE802E4F28D600BE3137 /* SettingsView */,
-				786DAE1B2E4F28A600BE3137 /* DeveloperView */,
+				7882627F2E514CA8000085AC /* QuickHelpView */,
 				786DAE1C2E4F28A600BE3137 /* MalachiteAboutView.swift */,
 				786DAE1D2E4F28A600BE3137 /* MalachiteCompatibilityView.swift */,
 				786DAE1E2E4F28A600BE3137 /* MalachitePhotoPreview.swift */,
 				786DAE212E4F28A600BE3137 /* MalachiteView.swift */,
+				786DAE802E4F28D600BE3137 /* SettingsView */,
+				786DAE1B2E4F28A600BE3137 /* DeveloperView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -461,9 +518,28 @@
 			isa = PBXGroup;
 			children = (
 				786DAE202E4F28A600BE3137 /* SettingsView.swift */,
-				786DAE1F2E4F28A600BE3137 /* SettingsView+Help.swift */,
+				7882625F2E51307B000085AC /* SettingsView+About.swift */,
+				788262632E513094000085AC /* SettingsView+Preview.swift */,
+				7882626B2E5130BB000085AC /* SettingsView+Resolution.swift */,
+				7882626F2E5130C6000085AC /* SettingsView+Photo.swift */,
+				788262732E5130CF000085AC /* SettingsView+Watermarking.swift */,
+				788262772E5130D8000085AC /* SettingsView+UI.swift */,
 			);
 			path = SettingsView;
+			sourceTree = "<group>";
+		};
+		7882627F2E514CA8000085AC /* QuickHelpView */ = {
+			isa = PBXGroup;
+			children = (
+				786DAE1F2E4F28A600BE3137 /* QuickHelpView.swift */,
+				788262842E514F0C000085AC /* QuickHelpView+About.swift */,
+				788262882E514F14000085AC /* QuickHelpView+Preview.swift */,
+				7882628C2E514F1F000085AC /* QuickHelpView+Resolution.swift */,
+				788262902E514F28000085AC /* QuickHelpView+Photo.swift */,
+				788262942E514F31000085AC /* QuickHelpView+Watermarking.swift */,
+				788262982E514F3B000085AC /* QuickHelpView+UI.swift */,
+			);
+			path = QuickHelpView;
 			sourceTree = "<group>";
 		};
 		78917F5A2B99AE72005E10FA /* Frameworks */ = {
@@ -491,6 +567,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				786DAD982E4F283500BE3137 /* Assets */,
+			);
 			name = WidgetBundleWatch;
 			productName = MalachiteWidgetBundle;
 			productReference = 7837C1152E34C45B009396B0 /* WidgetBundleWatch.appex */;
@@ -514,6 +593,9 @@
 				78A9DD692CD55551002C131D /* PBXTargetDependency */,
 				78B72BB02E332830002E2D4E /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				786DAD982E4F283500BE3137 /* Assets */,
+			);
 			name = Malachite;
 			productName = Malachite;
 			productReference = 785F08492B12D41100244EB4 /* Malachite.app */;
@@ -531,6 +613,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				786DAD982E4F283500BE3137 /* Assets */,
+			);
 			name = WidgetBundle;
 			productName = MalachiteWidgetBundle;
 			productReference = 78917F592B99AE72005E10FA /* WidgetBundle.appex */;
@@ -547,6 +632,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				786DAD982E4F283500BE3137 /* Assets */,
 			);
 			name = CaptureBundle;
 			packageProductDependencies = (
@@ -570,6 +658,9 @@
 			dependencies = (
 				7837C1022E34BD60009396B0 /* PBXTargetDependency */,
 				7837C1192E34C47D009396B0 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				786DAD982E4F283500BE3137 /* Assets */,
 			);
 			name = MalachiteWatch;
 			packageProductDependencies = (
@@ -728,25 +819,38 @@
 			files = (
 				786DAE552E4F28B100BE3137 /* MalachitePreferences.swift in Sources */,
 				786DAE562E4F28B100BE3137 /* MalachitePreferencesUtils.swift in Sources */,
+				7882628A2E514F18000085AC /* QuickHelpView+Preview.swift in Sources */,
 				786DAE572E4F28B100BE3137 /* MalachiteFunctionUtils.swift in Sources */,
+				788262932E514F2D000085AC /* QuickHelpView+Photo.swift in Sources */,
 				786DAE582E4F28B100BE3137 /* MalachiteGameUtils.swift in Sources */,
 				786DAE592E4F28B100BE3137 /* MalachiteHapticUtils.swift in Sources */,
 				786DAE5A2E4F28B100BE3137 /* MalachiteIntentUtils.swift in Sources */,
+				788262622E513080000085AC /* SettingsView+About.swift in Sources */,
 				786DAE5B2E4F28B100BE3137 /* MalachiteTooltipUtils.swift in Sources */,
 				786DAE5C2E4F28B100BE3137 /* MalachiteUtils.swift in Sources */,
 				786DAE5D2E4F28B100BE3137 /* MalachiteViewUtils.swift in Sources */,
+				788262722E5130CA000085AC /* SettingsView+Photo.swift in Sources */,
 				786DAE2D2E4F28A600BE3137 /* DeveloperView.swift in Sources */,
 				786DAE2E2E4F28A600BE3137 /* DeveloperView+BuildInfo.swift in Sources */,
+				7882627A2E5130DB000085AC /* SettingsView+UI.swift in Sources */,
 				786DAE2F2E4F28A600BE3137 /* DeveloperView+DeviceInfo.swift in Sources */,
 				786DAE302E4F28A600BE3137 /* DeveloperView+Settings.swift in Sources */,
 				786DAE312E4F28A600BE3137 /* MalachiteAboutView.swift in Sources */,
 				786DAE322E4F28A600BE3137 /* MalachiteCompatibilityView.swift in Sources */,
+				7882627E2E514750000085AC /* DeveloperView+Internal.swift in Sources */,
 				786DAE332E4F28A600BE3137 /* MalachitePhotoPreview.swift in Sources */,
-				786DAE342E4F28A600BE3137 /* SettingsView+Help.swift in Sources */,
+				786DAE342E4F28A600BE3137 /* QuickHelpView.swift in Sources */,
+				788262862E514F12000085AC /* QuickHelpView+About.swift in Sources */,
+				7882626E2E5130C1000085AC /* SettingsView+Resolution.swift in Sources */,
 				786DAE352E4F28A600BE3137 /* SettingsView.swift in Sources */,
+				7882628F2E514F25000085AC /* QuickHelpView+Resolution.swift in Sources */,
+				7882629A2E514F3F000085AC /* QuickHelpView+UI.swift in Sources */,
+				788262762E5130D4000085AC /* SettingsView+Watermarking.swift in Sources */,
 				786DAE362E4F28A600BE3137 /* MalachiteView.swift in Sources */,
 				785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */,
+				788262962E514F38000085AC /* QuickHelpView+Watermarking.swift in Sources */,
 				787B1CAA2B8B095E000AFECC /* Malachite.docc in Sources */,
+				788262662E51309C000085AC /* SettingsView+Preview.swift in Sources */,
 				785F084F2B12D41100244EB4 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -757,25 +861,38 @@
 			files = (
 				786DAE5E2E4F28B100BE3137 /* MalachitePreferences.swift in Sources */,
 				786DAE5F2E4F28B100BE3137 /* MalachitePreferencesUtils.swift in Sources */,
+				788262892E514F18000085AC /* QuickHelpView+Preview.swift in Sources */,
 				786DAE602E4F28B100BE3137 /* MalachiteFunctionUtils.swift in Sources */,
+				788262922E514F2D000085AC /* QuickHelpView+Photo.swift in Sources */,
 				786DAE612E4F28B100BE3137 /* MalachiteGameUtils.swift in Sources */,
 				786DAE622E4F28B100BE3137 /* MalachiteHapticUtils.swift in Sources */,
 				786DAE632E4F28B100BE3137 /* MalachiteIntentUtils.swift in Sources */,
+				788262612E513080000085AC /* SettingsView+About.swift in Sources */,
 				786DAE642E4F28B100BE3137 /* MalachiteTooltipUtils.swift in Sources */,
 				786DAE652E4F28B100BE3137 /* MalachiteUtils.swift in Sources */,
 				786DAE662E4F28B100BE3137 /* MalachiteViewUtils.swift in Sources */,
+				788262702E5130CA000085AC /* SettingsView+Photo.swift in Sources */,
 				786DAE372E4F28A600BE3137 /* DeveloperView.swift in Sources */,
 				786DAE382E4F28A600BE3137 /* DeveloperView+BuildInfo.swift in Sources */,
+				788262792E5130DB000085AC /* SettingsView+UI.swift in Sources */,
 				786DAE392E4F28A600BE3137 /* DeveloperView+DeviceInfo.swift in Sources */,
 				786DAE6D2E4F28B700BE3137 /* ControlCenterWidget.swift in Sources */,
 				786DAE6E2E4F28B700BE3137 /* LockScreenWidget.swift in Sources */,
 				786DAE6F2E4F28B700BE3137 /* MalachiteWidgetBundle.swift in Sources */,
+				7882627D2E514750000085AC /* DeveloperView+Internal.swift in Sources */,
 				786DAE3A2E4F28A600BE3137 /* DeveloperView+Settings.swift in Sources */,
 				786DAE3B2E4F28A600BE3137 /* MalachiteAboutView.swift in Sources */,
+				788262852E514F12000085AC /* QuickHelpView+About.swift in Sources */,
+				7882626D2E5130C1000085AC /* SettingsView+Resolution.swift in Sources */,
 				786DAE3C2E4F28A600BE3137 /* MalachiteCompatibilityView.swift in Sources */,
+				7882628E2E514F25000085AC /* QuickHelpView+Resolution.swift in Sources */,
+				788262992E514F3F000085AC /* QuickHelpView+UI.swift in Sources */,
+				788262742E5130D4000085AC /* SettingsView+Watermarking.swift in Sources */,
 				786DAE3D2E4F28A600BE3137 /* MalachitePhotoPreview.swift in Sources */,
-				786DAE3E2E4F28A600BE3137 /* SettingsView+Help.swift in Sources */,
+				786DAE3E2E4F28A600BE3137 /* QuickHelpView.swift in Sources */,
+				788262952E514F38000085AC /* QuickHelpView+Watermarking.swift in Sources */,
 				786DAE3F2E4F28A600BE3137 /* SettingsView.swift in Sources */,
+				788262652E51309C000085AC /* SettingsView+Preview.swift in Sources */,
 				786DAE402E4F28A600BE3137 /* MalachiteView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -785,23 +902,36 @@
 			buildActionMask = 2147483647;
 			files = (
 				786DAE232E4F28A600BE3137 /* DeveloperView.swift in Sources */,
+				788262782E5130DB000085AC /* SettingsView+UI.swift in Sources */,
 				786DAE242E4F28A600BE3137 /* DeveloperView+BuildInfo.swift in Sources */,
 				786DAE252E4F28A600BE3137 /* DeveloperView+DeviceInfo.swift in Sources */,
+				788262602E513080000085AC /* SettingsView+About.swift in Sources */,
 				786DAE4C2E4F28B100BE3137 /* MalachitePreferences.swift in Sources */,
+				788262972E514F38000085AC /* QuickHelpView+Watermarking.swift in Sources */,
+				788262752E5130D4000085AC /* SettingsView+Watermarking.swift in Sources */,
+				7882627C2E514750000085AC /* DeveloperView+Internal.swift in Sources */,
 				786DAE4D2E4F28B100BE3137 /* MalachitePreferencesUtils.swift in Sources */,
+				788262642E51309C000085AC /* SettingsView+Preview.swift in Sources */,
 				786DAE782E4F28B900BE3137 /* MalachiteCaptureBundle.swift in Sources */,
 				786DAE4E2E4F28B100BE3137 /* MalachiteFunctionUtils.swift in Sources */,
+				7882629B2E514F3F000085AC /* QuickHelpView+UI.swift in Sources */,
 				786DAE4F2E4F28B100BE3137 /* MalachiteGameUtils.swift in Sources */,
+				7882626C2E5130C1000085AC /* SettingsView+Resolution.swift in Sources */,
 				786DAE502E4F28B100BE3137 /* MalachiteHapticUtils.swift in Sources */,
 				786DAE512E4F28B100BE3137 /* MalachiteIntentUtils.swift in Sources */,
 				786DAE522E4F28B100BE3137 /* MalachiteTooltipUtils.swift in Sources */,
 				786DAE532E4F28B100BE3137 /* MalachiteUtils.swift in Sources */,
 				786DAE542E4F28B100BE3137 /* MalachiteViewUtils.swift in Sources */,
+				788262872E514F12000085AC /* QuickHelpView+About.swift in Sources */,
 				786DAE262E4F28A600BE3137 /* DeveloperView+Settings.swift in Sources */,
+				788262912E514F2D000085AC /* QuickHelpView+Photo.swift in Sources */,
 				786DAE272E4F28A600BE3137 /* MalachiteAboutView.swift in Sources */,
 				786DAE282E4F28A600BE3137 /* MalachiteCompatibilityView.swift in Sources */,
 				786DAE292E4F28A600BE3137 /* MalachitePhotoPreview.swift in Sources */,
-				786DAE2A2E4F28A600BE3137 /* SettingsView+Help.swift in Sources */,
+				788262712E5130CA000085AC /* SettingsView+Photo.swift in Sources */,
+				7882628D2E514F25000085AC /* QuickHelpView+Resolution.swift in Sources */,
+				786DAE2A2E4F28A600BE3137 /* QuickHelpView.swift in Sources */,
+				7882628B2E514F18000085AC /* QuickHelpView+Preview.swift in Sources */,
 				786DAE2B2E4F28A600BE3137 /* SettingsView.swift in Sources */,
 				786DAE2C2E4F28A600BE3137 /* MalachiteView.swift in Sources */,
 			);

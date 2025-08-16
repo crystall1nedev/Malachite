@@ -53,21 +53,7 @@ public struct MalachiteCompatibilityView: View {
             .navigationTitle("view.title.compatibility")
             .toolbar(content: {
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    if #available(iOS 26.0, *) {
-                        Button {
-                            self.dismissAction()
-                        } label: {
-                            Image(systemName: "checkmark")
-                                .tint(.primary)
-                        }
-                        .buttonStyle(.glassProminent)
-                    } else {
-                        Button {
-                            self.dismissAction()
-                        } label: {
-                            Image(systemName: "checkmark.circle")
-                        }
-                    }
+                    MalachiteToolbarUtils(action: self.dismissAction, image: "checkmark", primary: true)
                 }
             })
         }

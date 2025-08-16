@@ -701,6 +701,16 @@
         }
       }
     },
+    "developer.header.internal" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Internal settings"
+          }
+        }
+      }
+    },
     "developer.option.debug.breakapp" : {
       "localizations" : {
         "en" : {
@@ -1532,6 +1542,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Takes you to the About page for Malachite."
+          }
+        }
+      }
+    },
+    "view.detail.compatibility" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lists various features and capabilities of Malachite that your device can take advantage of, and ones it can't."
+          }
+        }
+      }
+    },
+    "view.detail.developer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extra settings and information, intended for people working on Malachite’s code."
           }
         }
       }

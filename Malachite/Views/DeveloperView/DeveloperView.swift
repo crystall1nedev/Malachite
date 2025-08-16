@@ -16,27 +16,14 @@ struct DeveloperView: View {
     var body: some View {
         Form {
             Settings(utilities: utilities)
+            if utilities.versionType == "INTERNAL" { InternalSettings(utilities: utilities)}
             BuildInfo(utilities: utilities)
             DeviceInfo(utilities: utilities)
         }
         .navigationTitle("view.title.developer")
         .toolbar(content: {
             ToolbarItemGroup(placement: .topBarTrailing) {
-                if #available(iOS 26.0, *) {
-                    Button {
-                        self.dismissAction()
-                    } label: {
-                        Image(systemName: "checkmark")
-                            .tint(.primary)
-                    }
-                    .buttonStyle(.glassProminent)
-                } else {
-                    Button {
-                        self.dismissAction()
-                    } label: {
-                        Image(systemName: "checkmark.circle")
-                    }
-                }
+                MalachiteToolbarUtils(action: self.dismissAction, image: "checkmark", primary: true)
             }
         })
     }

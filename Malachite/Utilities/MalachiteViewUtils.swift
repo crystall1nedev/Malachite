@@ -282,6 +282,7 @@ struct MalachiteCompatibilityViewUtils: View {
     }
 }
 
+// Really Eva? What the fuck is a "Nagivation"
 struct MalachiteNagivationViewUtils<Content : View>: View {
     let content: Content
     
@@ -303,9 +304,45 @@ struct MalachiteNagivationViewUtils<Content : View>: View {
     }
 }
 
+// temp, will be redone
+struct MalachiteToolbarUtils: View {
+    let action: () -> Void
+    let image: String
+    let primary: Bool
+    
+    init(
+        action: @escaping (() -> Void),
+        image: String,
+        primary: Bool
+    ) {
+        self.action = action
+        self.image = image
+        self.primary = primary
+    }
+    
+    @ViewBuilder
+    var body: some View {
+        if #available(iOS 26.0, *) {
+            Button {
+                self.action()
+            } label: {
+                Image(systemName: image).tint(primary ? .primary : nil)
+            }
+            .buttonStyle(.glassProminent)
+        } else {
+            Button {
+                self.action()
+            } label: {
+                Image(systemName: "\(image).circle").tint(primary ? .primary : nil)
+            }
+        }
+    }
+}
+
 /// Needed for the alerts to properly display their localized strings
 extension String {
     var localized: String {
         return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: "")
     }
 }
+
