@@ -9,6 +9,10 @@ import SwiftUI
 
 extension DeveloperView {
     struct Settings: View {
+        @State private var debugLoggingUserDefaults = false
+        /// A State variable used for determining whether or not to literally break the app.
+        @State private var breakApp = false
+        
         var utilities: MalachiteClassesObject
         
         init(
@@ -16,10 +20,6 @@ extension DeveloperView {
         ) {
             self.utilities = utilities
         }
-        
-        @State private var debugLoggingUserDefaults = false
-        /// A State variable used for determining whether or not to literally break the app.
-        @State private var breakApp = false
         
         var body: some View {
             Section {
