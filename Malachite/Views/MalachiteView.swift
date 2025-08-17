@@ -216,7 +216,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         utilities.debugNSLog("[Camera Input] Getting current camera system capabilities")
         
         var camerasToDiscover: [AVCaptureDevice.DeviceType] = []
-        if #available(iOS 17.0, *) { camerasToDiscover = [.builtInUltraWideCamera, .builtInWideAngleCamera, .builtInTelephotoCamera, .continuityCamera, .external] }
+        if #available(iOS 17.0, *) { camerasToDiscover = [.builtInUltraWideCamera, .builtInWideAngleCamera, .builtInTelephotoCamera ] }
         else { camerasToDiscover = [.builtInUltraWideCamera, .builtInWideAngleCamera, .builtInTelephotoCamera] }
         
         utilities.debugNSLog("[Camera Input] Discovering available cameras")
