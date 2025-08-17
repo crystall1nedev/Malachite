@@ -12,8 +12,8 @@ extension QuickHelpView {
         /// A variable to hold the watermark settings section.
         var body: some View {
             Section(header: Text("settings.header.watermark"), footer: Text("settings.footer.watermark")) {
-                Builder(title: Text("settings.option.watermark.enable"), subtitle: Text("settings.detail.watermark.enable")) {}
-                Builder(title: Text("settings.option.watermark.text"), subtitle: Text("settings.detail.watermark.text")) {}
+                createQuickHelpRow(title: Text("settings.option.watermark.enable"), subtitle: Text("settings.detail.watermark.enable")) 
+                createQuickHelpRow(title: Text("settings.option.watermark.text"), subtitle: Text("settings.detail.watermark.text"))
             }
         }
     }

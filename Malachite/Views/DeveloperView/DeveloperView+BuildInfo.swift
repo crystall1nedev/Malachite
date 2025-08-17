@@ -20,50 +20,14 @@ extension DeveloperView {
         var body: some View {
             Section(header: Text("developer.header.info")) {
                 if utilities.versionType == "DEBUG" || utilities.versionType == "INTERNAL" {
-                    HStack {
-                        Text("developer.option.version_type")
-                            .frame(alignment: .leading)
-                        Spacer()
-                        Text(utilities.versionType)
-                            .frame(alignment: .trailing)
-                    }
-                    HStack {
-                        Text("developer.option.version_branch")
-                            .frame(alignment: .leading)
-                        Spacer()
-                        Text(utilities.versionBranch)
-                            .frame(alignment: .trailing)
-                    }
-                    HStack {
-                        Text("developer.option.version_hash")
-                            .frame(alignment: .leading)
-                        Spacer()
-                        Text(utilities.versionHash)
-                            .frame(alignment: .trailing)
-                    }
-                    HStack {
-                        Text("developer.option.version_date")
-                            .frame(alignment: .leading)
-                        Spacer()
-                        Text(utilities.versionDate)
-                            .frame(alignment: .trailing)
-                    }
+                    createBuildInformation(label: "developer.option.version_type", value: utilities.versionType)
+                    createBuildInformation(label: "developer.option.version_branch", value: utilities.versionBranch)
+                    createBuildInformation(label: "developer.option.version_hash", value: utilities.versionHash)
+                    createBuildInformation(label: "developer.option.version_date", value: utilities.versionDate)
                 }
                 if utilities.versionType == "INTERNAL" {
-                    HStack {
-                        Text("developer.option.version_user")
-                            .frame(alignment: .leading)
-                        Spacer()
-                        Text(utilities.versionUser)
-                            .frame(alignment: .trailing)
-                    }
-                    HStack {
-                        Text("developer.option.version_host")
-                            .frame(alignment: .leading)
-                        Spacer()
-                        Text(utilities.versionHost)
-                            .frame(alignment: .trailing)
-                    }
+                    createBuildInformation(label: "developer.option.version_user", value: utilities.versionUser)
+                    createBuildInformation(label: "developer.option.version_host", value: utilities.versionHost)
                 }
             }
         }

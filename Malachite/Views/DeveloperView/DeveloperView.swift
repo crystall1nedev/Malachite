@@ -27,4 +27,18 @@ struct DeveloperView: View {
             }
         })
     }
+    
+    struct createBuildInformation: View {
+        var label: LocalizedStringKey
+        var value: String
+        var body: some View {
+            HStack {
+                Text(label)
+                    .frame(alignment: .leading)
+                Spacer()
+                Text(value)
+                    .frame(alignment: .trailing)
+            }
+        }
+    }
 }

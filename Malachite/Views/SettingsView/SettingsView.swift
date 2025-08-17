@@ -41,8 +41,7 @@ struct SettingsView: View {
             .onAppear { onAppear() }
             .onDisappear { onDisappear() }
             .navigationTitle("view.title.settings")
-            .toolbar(
-content: {
+            .toolbar(content: {
                 ToolbarItemGroup(placement: .topBarLeading) {
                     NavigationLink(destination: QuickHelpView(utilities: utilities, dismissAction: dismissAction)) {
                         if #available(iOS 26.0, *) {

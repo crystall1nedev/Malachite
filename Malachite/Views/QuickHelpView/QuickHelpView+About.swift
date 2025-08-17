@@ -16,10 +16,10 @@ extension QuickHelpView {
         /// A variable to hold the about section.
         var body: some View {
             Section {
-                Builder(title: Text("view.title.about"), subtitle: Text("view.detail.about")) {}
+                createQuickHelpRow(title: Text("view.title.about"), subtitle: Text("view.detail.about"))
                 if utilities.versionType == "INTERNAL" {
-                    Builder(title: Text("view.title.compatibility"), subtitle: Text("view.detail.compatibility")) {}
-                    Builder(title: Text("view.title.developer"), subtitle: Text("view.detail.developer")) {}
+                    createQuickHelpRow(title: Text("view.title.compatibility"), subtitle: Text("view.detail.compatibility"))
+                    createQuickHelpRow(title: Text("view.title.developer"), subtitle: Text("view.detail.developer")) 
                 }
             }
         }

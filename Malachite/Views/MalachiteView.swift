@@ -235,7 +235,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         if self.availableRearCameras.first != nil {
             photoOutput = AVCapturePhotoOutput()
-            if #available(iOS 16.0, *) {} else { photoOutput.isHighResolutionCaptureEnabled = true }
+            if #unavailable(iOS 16.0) { photoOutput.isHighResolutionCaptureEnabled = true }
             photoOutput.maxPhotoQualityPrioritization = .quality
             cameraSession?.sessionPreset = AVCaptureSession.Preset.photo
             cameraSession?.addOutput(photoOutput)
@@ -822,8 +822,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to toggle the flashlight's on state.
     @objc func runFlashlightToggle() {
-        // TODO: change to isFlashAvailable. hasFlash doesn't mean it can currently be used
-        guard let flashlight = selectedDevice?.hasFlash else { return }
+        guard let flashlight = selectedDevice?.isFlashAvailable else { return }
         if flashlight && !utilities.preferences.debug.breakApp {
             utilities.function.toggleFlash(captureDevice: &selectedDevice!,
                                            flashlightButton: flashlightButton,

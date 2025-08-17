@@ -400,6 +400,36 @@
         }
       }
     },
+    "compatibility.header.cameras" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera support"
+          }
+        }
+      }
+    },
+    "compatibility.header.format" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Format support"
+          }
+        }
+      }
+    },
+    "compatibility.header.resolution" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resolution support"
+          }
+        }
+      }
+    },
     "compatibility.note" : {
       "localizations" : {
         "en" : {
@@ -608,7 +638,18 @@
         }
       }
     },
-    "compatibility.title.no.telephoto.unsupported" : {
+    "compatibility.title.telephoto" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telephoto camera detected"
+          }
+        }
+      }
+    },
+    "compatibility.title.telephoto.unsupported" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -619,7 +660,18 @@
         }
       }
     },
-    "compatibility.title.no.ultrawide.unsupported" : {
+    "compatibility.title.ultrawide" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultra wide camera detected"
+          }
+        }
+      }
+    },
+    "compatibility.title.ultrawide.unsupported" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -630,7 +682,18 @@
         }
       }
     },
-    "compatibility.title.no.wide.unsupported" : {
+    "compatibility.title.wide" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wide angle camera detected"
+          }
+        }
+      }
+    },
+    "compatibility.title.wide.unsupported" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -681,12 +744,32 @@
         }
       }
     },
+    "developer.footer.device" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device information is shown for informational and debugging purposes only and does not leave your device unless you choose to export a log file from this screen."
+          }
+        }
+      }
+    },
     "developer.header.debug" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Debug settings"
+          }
+        }
+      }
+    },
+    "developer.header.device" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device information"
           }
         }
       }
@@ -747,6 +830,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Log preferences to console"
+          }
+        }
+      }
+    },
+    "developer.option.device_build" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OS build number"
+          }
+        }
+      }
+    },
+    "developer.option.device_model" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device model"
+          }
+        }
+      }
+    },
+    "developer.option.device_version" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OS version"
           }
         }
       }

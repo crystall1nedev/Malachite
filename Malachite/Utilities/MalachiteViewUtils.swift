@@ -333,7 +333,7 @@ struct MalachiteToolbarUtils: View {
             Button {
                 self.action()
             } label: {
-                Image(systemName: "\(image).circle").tint(primary ? .primary : nil)
+                Image(systemName: "\(image).circle").tint(!primary ? .primary : nil)
             }
         }
     }

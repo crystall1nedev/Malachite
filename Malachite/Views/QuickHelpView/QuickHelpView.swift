@@ -23,11 +23,10 @@ struct QuickHelpView: View {
     
     /// A variable used to hold the entire view.
     var body: some View {
-        
         Form {
             About(utilities: utilities)
             Preview()
-            Resolution()
+            Resolution(utilities: utilities)
             Photo()
             Watermarking()
             UserInterface()
@@ -46,26 +45,23 @@ struct QuickHelpView: View {
         /// A variable to hold the debug settings section. Only available with debug builds.
         var body: some View {
             Section(header: Text("developer.header.debug"), footer: Text("developer.footer.debug")) {
-                Builder(title: Text("developer.option.debug.logging.userdefaults"), subtitle: Text("developer.detail.debug.logging.userdefaults")) {}
-                Builder(title: Text("developer.option.debug.erase.userdefaults"), subtitle: Text("developer.detail.debug.erase.userdefaults")) {}
-                Builder(title: Text("developer.option.debug.erase.gamekit"), subtitle: Text("developer.detail.debug.erase.gamekit")) {}
+                createQuickHelpRow(title: Text("developer.option.debug.logging.userdefaults"), subtitle: Text("developer.detail.debug.logging.userdefaults"))
+                createQuickHelpRow(title: Text("developer.option.debug.erase.userdefaults"), subtitle: Text("developer.detail.debug.erase.userdefaults"))
+                createQuickHelpRow(title: Text("developer.option.debug.erase.gamekit"), subtitle: Text("developer.detail.debug.erase.gamekit"))
             }
         }
     }
     
-    struct Builder<Content : View>: View {
+    struct createQuickHelpRow: View {
         var title: Text
         var subtitle: Text
-        let content: Content?
         
         init(
             title: Text,
-            subtitle: Text,
-            @ViewBuilder content: () -> Content?
+            subtitle: Text
         ) {
             self.title = title
             self.subtitle = subtitle
-            self.content = content() ?? nil
         }
         
         var body: some View {

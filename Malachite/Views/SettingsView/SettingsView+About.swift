@@ -29,7 +29,7 @@ extension SettingsView {
                     disabled: nil,
                     dangerous: false)
                 {
-                    NavigationLink(destination: MalachiteAboutView(dismissAction: dismissAction)) {
+                    NavigationLink(destination: AboutView(dismissAction: dismissAction)) {
                         Text("view.title.about")
                     }
                 }
@@ -39,7 +39,7 @@ extension SettingsView {
                         disabled: nil,
                         dangerous: false)
                     {
-                        NavigationLink(destination: MalachiteCompatibilityView(dismissAction: dismissAction, utilities: utilities)) {
+                        NavigationLink(destination: CompatibilityView(dismissAction: dismissAction, utilities: utilities)) {
                             Text("view.title.compatibility")
                         }
                     }
