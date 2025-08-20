@@ -74,7 +74,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// A `Bool` that determines whether or not the app is still initializing. Uses for tasks that should only be run once at the start of Malachite.
     var initRun = true
     /// A `CGFloat` that temporarily holds the zoom factor.
-    var zoomFloater: CGFloat?
+    var zoomFloater = CGFloat()
     /// A `Float` that temporarily holds the focus factor.
     var focusFloater: Float?
     /// A `Float` that temporarily holds the level of flash brightness to use.
@@ -710,6 +710,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to switch cameras and attach new inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.
     @objc func runInputSwitch() {
+        #warning("fix this breaking after one camera switch")
         cameraSession?.beginConfiguration()
         if (self.availableRearCameras.count < 2 || utilities.preferences.debug.breakApp) && !self.initRun  {
             utilities.debugNSLog("[Camera Input] Only one AVCaptureDevice is available to use, showing error")
@@ -766,13 +767,14 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         let systemBiasSlider = AVCaptureSystemExposureBiasSlider(device: selectedDevice!)
         
+        #warning("malachitekit should properly sync this with the zoom slider")
         let zoomSlider = AVCaptureSlider("Zoom", symbolName: "plus.viewfinder", in: 1.0...Float(MalachiteClassesObject().preferences.capture.maximumZoom))
         zoomSlider.setActionQueue(utilities.sessionQueue) { position in
             self.zoomFloater = CGFloat(position)
             self.runZoomController()
-            self.zoomFloater = nil
         }
         
+        #warning("same as above")
         let focusSlider = AVCaptureSlider("Focus", symbolName: "scope", in: 0.0...1.0)
         focusSlider.setActionQueue(utilities.sessionQueue) { position in
             self.focusFloater = position
@@ -914,7 +916,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     /// Function to zoom in and out with ``zoomRecognizer``.
     @objc func runZoomController() {
         utilities.function.zoom(sender: zoomRecognizer,
-                                floater: zoomFloater ?? zoomRecognizer.scale,
+                                floater: &zoomFloater,
                                 captureDevice: &selectedDevice!,
                                 lastZoomFactor: &lastZoomFactor,
                                 hapticClass: utilities.haptics)

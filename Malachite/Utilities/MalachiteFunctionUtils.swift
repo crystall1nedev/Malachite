@@ -51,7 +51,7 @@ public class MalachiteFunctionUtils : NSObject {
     }
     
     /// Function that handles pinch to zoom.
-    public func zoom(sender pinch: UIPinchGestureRecognizer, floater float: CGFloat, captureDevice device: inout AVCaptureDevice, lastZoomFactor zoomFactor: inout CGFloat, hapticClass haptic: MalachiteHapticUtils) {
+    public func zoom(sender pinch: UIPinchGestureRecognizer, floater float: inout CGFloat, captureDevice device: inout AVCaptureDevice, lastZoomFactor zoomFactor: inout CGFloat, hapticClass haptic: MalachiteHapticUtils) {
         func minMaxZoom(_ factor: CGFloat) -> CGFloat {
             return min(min(max(factor, 1.0), CGFloat(MalachitePreferencesUtils.shared.preferences.capture.maximumZoom)), device.activeFormat.videoMaxZoomFactor)
         }
@@ -67,16 +67,19 @@ public class MalachiteFunctionUtils : NSObject {
             }
         }
         
-        update(scale: minMaxZoom(float * zoomFactor))
+        let newScaleFactor = minMaxZoom(float * zoomFactor)
+        update(scale: newScaleFactor)
         
         switch pinch.state {
         case .began:
             haptic.triggerMediumHaptic()
             fallthrough
         case .changed:
-            update(scale: minMaxZoom(float * zoomFactor))
+            update(scale: newScaleFactor)
         case .ended:
-            update(scale: minMaxZoom(float * zoomFactor))
+            zoomFactor = minMaxZoom(newScaleFactor)
+            float = minMaxZoom(newScaleFactor)
+            update(scale: zoomFactor)
             haptic.triggerMediumHaptic()
         default: break
         }
