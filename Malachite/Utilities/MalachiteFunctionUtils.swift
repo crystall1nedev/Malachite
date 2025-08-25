@@ -75,8 +75,11 @@ public class MalachiteFunctionUtils : NSObject {
             haptic.triggerMediumHaptic()
             fallthrough
         case .changed:
+            let newScaleFactor = minMaxZoom(pinch.scale * zoomFactor)
+            float = minMaxZoom(newScaleFactor)
             update(scale: newScaleFactor)
         case .ended:
+            let newScaleFactor = minMaxZoom(pinch.scale * zoomFactor)
             zoomFactor = minMaxZoom(newScaleFactor)
             float = minMaxZoom(newScaleFactor)
             update(scale: zoomFactor)
@@ -229,7 +232,6 @@ public class MalachiteFunctionUtils : NSObject {
     
     /// Function that handles connecting and disconnecting cameras, and changing format properties.
     public func switchInput(session: inout AVCaptureSession, cameras: [AVCaptureDevice], device: inout AVCaptureDevice?, output: inout AVCapturePhotoOutput, input: inout AVCaptureDeviceInput?, button: UIButton, firstRun: inout Bool){
-        DispatchQueue.main.async { button.isUserInteractionEnabled = false }
         MalachiteClassesObject().debugNSLog("[Camera Input] Getting ready to configure session")
         
         if !firstRun {
@@ -322,11 +324,6 @@ public class MalachiteFunctionUtils : NSObject {
         MalachiteClassesObject().debugNSLog("[Camera Input] Attached input, finishing configuration")
         if session.canAddInput(input!) { session.addInput(input!) }
         switchInputMegapixels(device: device!, photoOutput: output)
-        if !Thread.isMainThread {
-            DispatchQueue.main.async { button.isUserInteractionEnabled = true }
-        } else {
-            button.isUserInteractionEnabled = true
-        }
     }
     
     @available(iOS 18.0, *)

@@ -712,6 +712,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     @objc func runInputSwitch() {
         #warning("fix this breaking after one camera switch")
         cameraSession?.beginConfiguration()
+        cameraButton.isUserInteractionEnabled = false
         if (self.availableRearCameras.count < 2 || utilities.preferences.debug.breakApp) && !self.initRun  {
             utilities.debugNSLog("[Camera Input] Only one AVCaptureDevice is available to use, showing error")
             let alert = UIAlertController(title: "alert.title.camera_switch".localized, message: "alert.detail.camera_switch".localized, preferredStyle: .actionSheet)
@@ -723,6 +724,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
                 self.utilities.debugNSLog("[Camera Input] Dialog has been dismissed")
             }))
             self.present(alert, animated: true, completion: nil)
+            cameraButton.isUserInteractionEnabled = true
             return
         }
             
@@ -759,6 +761,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         DispatchQueue.main.async() { [self] in
             utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: view, camera: selectedDevice)
         }
+        
+        cameraButton.isUserInteractionEnabled = true
     }
     
     @available(iOS 18.0, *)
@@ -768,11 +772,12 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         let systemBiasSlider = AVCaptureSystemExposureBiasSlider(device: selectedDevice!)
         
         #warning("malachitekit should properly sync this with the zoom slider")
-        let zoomSlider = AVCaptureSlider("Zoom", symbolName: "plus.viewfinder", in: 1.0...Float(MalachiteClassesObject().preferences.capture.maximumZoom))
+        let zoomSlider = AVCaptureSlider("Zoom", symbolName: "plus.viewfinder", in: 0.5...Float(MalachiteClassesObject().preferences.capture.maximumZoom))
         zoomSlider.setActionQueue(utilities.sessionQueue) { position in
             self.zoomFloater = CGFloat(position)
             self.runZoomController()
         }
+        zoomSlider.isEnabled = false
         
         #warning("same as above")
         let focusSlider = AVCaptureSlider("Focus", symbolName: "scope", in: 0.0...1.0)
@@ -781,6 +786,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             self.runManualFocusController()
             self.focusFloater = nil
         }
+        focusSlider.isEnabled = false
         
         let cameraSwitcher = AVCaptureIndexPicker("Cameras", symbolName: "camera.fill", localizedIndexTitles: self.availableRearCameras.map { $0.localizedName } )
         cameraSwitcher.selectedIndex = self.availableRearCameras.firstIndex(of: self.selectedDevice!)!
