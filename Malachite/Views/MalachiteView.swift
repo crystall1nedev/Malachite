@@ -137,6 +137,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             return nil
         }
     }()
+    
     /// A `Bool` that determines whether or not the user interface is currently hidden to the user.
     var uiIsHidden = false
     
@@ -772,12 +773,12 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         let systemBiasSlider = AVCaptureSystemExposureBiasSlider(device: selectedDevice!)
         
         #warning("malachitekit should properly sync this with the zoom slider")
-        let zoomSlider = AVCaptureSlider("Zoom", symbolName: "plus.viewfinder", in: 0.5...Float(MalachiteClassesObject().preferences.capture.maximumZoom))
+        let zoomSlider = AVCaptureSlider("Zoom", symbolName: "plus.viewfinder", in: 1.0...Float(MalachiteClassesObject().preferences.capture.maximumZoom))
+        zoomSlider.prominentValues = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0 ]
         zoomSlider.setActionQueue(utilities.sessionQueue) { position in
             self.zoomFloater = CGFloat(position)
             self.runZoomController()
         }
-        zoomSlider.isEnabled = false
         
         #warning("same as above")
         let focusSlider = AVCaptureSlider("Focus", symbolName: "scope", in: 0.0...1.0)
@@ -786,7 +787,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             self.runManualFocusController()
             self.focusFloater = nil
         }
-        focusSlider.isEnabled = false
         
         let cameraSwitcher = AVCaptureIndexPicker("Cameras", symbolName: "camera.fill", localizedIndexTitles: self.availableRearCameras.map { $0.localizedName } )
         cameraSwitcher.selectedIndex = self.availableRearCameras.firstIndex(of: self.selectedDevice!)!

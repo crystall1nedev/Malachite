@@ -67,7 +67,9 @@ public class MalachiteFunctionUtils : NSObject {
             }
         }
         
-        let newScaleFactor = minMaxZoom(float * zoomFactor)
+        MalachiteClassesObject().debugNSLog("[Zoom] Pinch scale: \(pinch.scale), float: \(float), zoomFactor: \(zoomFactor)")
+        if pinch.scale != 1.0 { float = pinch.scale * zoomFactor }
+        let newScaleFactor = minMaxZoom(float)
         update(scale: newScaleFactor)
         
         switch pinch.state {
