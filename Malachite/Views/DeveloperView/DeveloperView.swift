@@ -22,6 +22,15 @@ struct DeveloperView: View {
         }
         .navigationTitle("view.title.developer")
         .toolbar(content: {
+            ToolbarItemGroup(placement: .topBarLeading) {
+                NavigationLink(destination: QuickHelpViewDeveloper(utilities: utilities, dismissAction: dismissAction)) {
+                    if #available(iOS 26.0, *) {
+                        Image(systemName: "questionmark.circle")
+                    } else {
+                        Image(systemName: "questionmark.circle").tint(.primary)
+                    }
+                }
+            }
             ToolbarItemGroup(placement: .topBarTrailing) {
                 MalachiteToolbarUtils(action: self.dismissAction, image: "checkmark", primary: true)
             }

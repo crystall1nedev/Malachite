@@ -147,6 +147,7 @@ class MalachitePreferencesUtils {
         if let debugPreferences = oldPreferences["debug"] as? [ String: AnyObject ] {
             currentPreferences.debug.logging.preferences = debugPreferences["logging"]?["preferences"] as? Bool ?? false
             currentPreferences.debug.breakApp = false
+            currentPreferences.debug.logging.unified = true
         }
         
         if let evaintrnlPreferences = oldPreferences["evaintrnl"] as? [ String: AnyObject ] {
@@ -215,7 +216,8 @@ class MalachitePreferencesUtils {
             ),
             debug: MalachitePreferences.debugPreferences(
                 logging: MalachitePreferences.debugPreferences.debug_loggingPreferences(
-                    preferences: false
+                    preferences: false,
+                    unified: true
                 ),
                 breakApp: false
             ),

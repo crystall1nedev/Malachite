@@ -704,32 +704,52 @@
         }
       }
     },
+    "developer.detail.debug.breakapp" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEBUG: UI testing. Disables the ability to do anything other than open Settings."
+          }
+        }
+      }
+    },
     "developer.detail.debug.erase.gamekit" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "DEBUG: This option destroys all GameKit related data for the current user. "
+            "value" : "DEBUG: Erases all local GameKit data for the current user."
           }
         }
       }
     },
-    "developer.detail.debug.erase.userdefaults" : {
+    "developer.detail.debug.erase.preferences" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "DEBUG: This option destroys all UserDefaults keys."
+            "value" : "DEBUG: Erases preferences.plist in Malachite’s home directory."
           }
         }
       }
     },
-    "developer.detail.debug.logging.userdefaults" : {
+    "developer.detail.debug.logging.preferences" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "DEBUG: This option dumps UserDefaults on launch."
+            "value" : "DEBUG: Print preferences.plist to unified logging system."
+          }
+        }
+      }
+    },
+    "developer.detail.debug.logging.unified" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEBUG: This option controls whether or not to enable the debugNSLog() function. INTERNAL builds cannot disable this."
           }
         }
       }
@@ -739,7 +759,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "DEBUG: These options are meant for debugging purposes. "
+            "value" : "DEBUG: Options meant for debugging purposes. "
           }
         }
       }
@@ -814,22 +834,32 @@
         }
       }
     },
-    "developer.option.debug.erase.userdefaults" : {
+    "developer.option.debug.erase.preferences" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erase preferences"
+            "value" : "Erase preferences.plist"
           }
         }
       }
     },
-    "developer.option.debug.logging.userdefaults" : {
+    "developer.option.debug.logging.preferences" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Log preferences to console"
+            "value" : "Log preferences.plist to ULS"
+          }
+        }
+      }
+    },
+    "developer.option.debug.logging.unified" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More verbose logging"
           }
         }
       }
@@ -925,7 +955,6 @@
       }
     },
     "flash.off" : {
-      "comment" : "Off",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -936,7 +965,6 @@
       }
     },
     "flash.on" : {
-      "comment" : "On",
       "localizations" : {
         "en" : {
           "stringUnit" : {

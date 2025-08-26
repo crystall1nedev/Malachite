@@ -68,7 +68,7 @@ public class MalachiteClassesObject : NSObject {
     
     /// A function to only log in DEBUG and INTERNAL builds
     public func debugNSLog(_ format: String, file: String = #file, line: Int = #line, function: String = #function) {
-        if self.versionType == "DEBUG" || self.versionType == "INTERNAL" {
+        if (self.versionType == "DEBUG" && self.preferences.debug.logging.unified) || self.versionType == "INTERNAL" {
             Foundation.NSLog("[\(NSString(string: file).lastPathComponent):\(line)] [\(function)] \(format)")
         }
     }

@@ -9,7 +9,8 @@ import SwiftUI
 
 extension DeveloperView {
     struct Settings: View {
-        @State private var debugLoggingUserDefaults = false
+        @State private var debugLoggingUnified = false
+        @State private var debugLoggingPreferences = false
         /// A State variable used for determining whether or not to literally break the app.
         @State private var breakApp = false
         
@@ -25,10 +26,17 @@ extension DeveloperView {
             Section {
                 MalachiteCellViewUtils(
                     icon: "text.redaction",
+                    disabled: utilities.versionType == "INTERNAL",
+                    dangerous: false)
+                {
+                    Toggle("developer.option.debug.logging.unified", isOn: $debugLoggingUnified)
+                }
+                MalachiteCellViewUtils(
+                    icon: "slider.horizontal.3",
                     disabled: nil,
                     dangerous: false)
                 {
-                    Toggle("developer.option.debug.logging.userdefaults", isOn: $debugLoggingUserDefaults)
+                    Toggle("developer.option.debug.logging.preferences", isOn: $debugLoggingPreferences)
                 }
                 MalachiteCellViewUtils(
                     icon: "iphone.slash",
@@ -47,10 +55,10 @@ extension DeveloperView {
                         utilities.preferences.ext.resetPreferences()
                     } label: {
                         if #available(iOS 17.0, *) {
-                            Text("developer.option.debug.erase.userdefaults")
+                            Text("developer.option.debug.erase.preferences")
                                 .foregroundStyle(.red)
                         } else {
-                            Text("developer.option.debug.erase.userdefaults")
+                            Text("developer.option.debug.erase.preferences")
                                 .foregroundColor(.red)
                         }
                     }
@@ -78,17 +86,23 @@ extension DeveloperView {
                 }
             }
             .onAppear {
-                debugLoggingUserDefaults = utilities.preferences.debug.logging.preferences
+                if utilities.versionType == "INTERNAL" { debugLoggingUnified = true }
+                else { debugLoggingUnified = utilities.preferences.debug.logging.unified }
+                debugLoggingPreferences = utilities.preferences.debug.logging.preferences
                 breakApp = utilities.preferences.debug.breakApp
             }
-            .onChange(of: debugLoggingUserDefaults) {_ in
-                utilities.preferences.debug.logging.preferences = debugLoggingUserDefaults
+            .onChange(of: debugLoggingPreferences) {_ in
+                utilities.preferences.debug.logging.preferences = debugLoggingPreferences
+            }
+            .onChange(of: debugLoggingUnified) {_ in
+                utilities.preferences.debug.logging.unified = debugLoggingUnified
             }
             .onChange(of: breakApp) {_ in
                 utilities.preferences.debug.breakApp = breakApp
             }
             .onDisappear {
-                utilities.preferences.debug.logging.preferences = debugLoggingUserDefaults
+                utilities.preferences.debug.logging.unified = debugLoggingUnified
+                utilities.preferences.debug.logging.preferences = debugLoggingPreferences
                 utilities.preferences.debug.breakApp = breakApp
             }
         }

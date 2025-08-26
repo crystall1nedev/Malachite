@@ -30,6 +30,7 @@ struct QuickHelpView: View {
             Photo()
             Watermarking()
             UserInterface()
+            #warning("Remove this once DeveloperView is out of INTERNAL ring")
             if utilities.versionType == "DEBUG" { Debugging() }
         }
         .navigationTitle("view.title.help")
@@ -40,13 +41,14 @@ struct QuickHelpView: View {
         })
     }
     
-    @available(*, deprecated, message: "Debugging section is being replaced with the Developer link in the future")
     struct Debugging: View {
-        /// A variable to hold the debug settings section. Only available with debug builds.
+        /// A variable to hold the debug settings section. Only available with debug and internal builds.
         var body: some View {
             Section(header: Text("developer.header.debug"), footer: Text("developer.footer.debug")) {
-                createQuickHelpRow(title: Text("developer.option.debug.logging.userdefaults"), subtitle: Text("developer.detail.debug.logging.userdefaults"))
-                createQuickHelpRow(title: Text("developer.option.debug.erase.userdefaults"), subtitle: Text("developer.detail.debug.erase.userdefaults"))
+                createQuickHelpRow(title: Text("developer.option.debug.logging.unified"), subtitle: Text("developer.detail.debug.logging.unified"))
+                createQuickHelpRow(title: Text("developer.option.debug.logging.preferences"), subtitle: Text("developer.detail.debug.logging.preferences"))
+                createQuickHelpRow(title: Text("developer.option.debug.breakapp"), subtitle: Text("developer.detail.debug.breakapp"))
+                createQuickHelpRow(title: Text("developer.option.debug.erase.preferences"), subtitle: Text("developer.detail.debug.erase.preferences"))
                 createQuickHelpRow(title: Text("developer.option.debug.erase.gamekit"), subtitle: Text("developer.detail.debug.erase.gamekit"))
             }
         }
@@ -79,5 +81,32 @@ struct QuickHelpView: View {
                 }
             }
         }
+    }
+}
+
+struct QuickHelpViewDeveloper: View {
+    /// A State variable used for determining whether or not this view is being presented as a modal.
+    var dismissAction: (() -> Void)
+    /// A variable to hold the existing instance of ``MalachiteClassesObject``.
+    var utilities = MalachiteClassesObject()
+    
+    init(
+        utilities: MalachiteClassesObject,
+        dismissAction: @escaping (() -> Void)
+    ) {
+        self.utilities = utilities
+        self.dismissAction = dismissAction
+    }
+    
+    var body: some View {
+        Form {
+            QuickHelpView.Debugging()
+        }
+        .navigationTitle("view.title.help")
+        .toolbar(content: {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                MalachiteToolbarUtils(action: self.dismissAction, image: "checkmark", primary: true)
+            }
+        })
     }
 }
