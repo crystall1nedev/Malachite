@@ -50,7 +50,7 @@ extension PhotoPreviewView {
                 
                 var labels: [ UILabel ] = []
                 for config in tooltipConfigs {
-                    labels.append(delegate.utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: delegate.view, textForFlow: NSLocalizedString(config.text, comment: ""), anchorConstant: config.anchor))
+                    labels.append(delegate.utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: delegate.view, textForFlow: NSLocalizedString(config.text.localized, comment: ""), anchorConstant: config.anchor))
                 }
                 
                 delegate.utilities.tooltips.fadeOutTooltipFlow(labelsToFade: labels)

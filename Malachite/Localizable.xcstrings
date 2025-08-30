@@ -1628,7 +1628,7 @@
       }
     },
     "uibutton.close.title" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1639,7 +1639,7 @@
       }
     },
     "uibutton.exposure.title" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1650,7 +1650,7 @@
       }
     },
     "uibutton.focus.title" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1661,7 +1661,7 @@
       }
     },
     "uibutton.save.title" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1672,7 +1672,7 @@
       }
     },
     "uibutton.share.title" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
