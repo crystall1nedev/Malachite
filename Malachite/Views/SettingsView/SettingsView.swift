@@ -28,34 +28,40 @@ struct SettingsView: View {
      - Toolbar item for dismissing the view.
      */
     var body: some View {
-        MalachiteNagivationViewUtils() {
-            Form {
-                About(utilities: utilities, dismissAction: dismissAction)
-                Preview(utilities: utilities, dismissAction: dismissAction)
-                Resolution(utilities: utilities, dismissAction: dismissAction)
-                Photo(utilities: utilities, dismissAction: dismissAction)
-                Watermarking(utilities: utilities, dismissAction: dismissAction)
-                UserInterface(utilities: utilities, dismissAction: dismissAction)
-                if utilities.versionType == "DEBUG" { DeveloperView.Settings(utilities: utilities) }
-            }
-            .onAppear { onAppear() }
-            .onDisappear { onDisappear() }
-            .navigationTitle("view.title.settings")
-            .toolbar(content: {
-                ToolbarItemGroup(placement: .topBarLeading) {
-                    NavigationLink(destination: QuickHelpView(utilities: utilities, dismissAction: dismissAction)) {
-                        if #available(iOS 26.0, *) {
-                            Image(systemName: "questionmark.circle")
-                        } else {
-                            Image(systemName: "questionmark.circle").tint(.primary)
-                        }
+        if #available(iOS 16.0, *) {
+            NavigationStack { guts }
+        } else {
+            NavigationView { guts }.navigationViewStyle(.stack)
+        }
+    }
+    
+    var guts: some View {
+        Form {
+            About(utilities: utilities, dismissAction: dismissAction)
+            Preview(utilities: utilities, dismissAction: dismissAction)
+            Resolution(utilities: utilities, dismissAction: dismissAction)
+            Photo(utilities: utilities, dismissAction: dismissAction)
+            Watermarking(utilities: utilities, dismissAction: dismissAction)
+            UserInterface(utilities: utilities, dismissAction: dismissAction)
+            if utilities.versionType == "DEBUG" { DeveloperView.Settings(utilities: utilities) }
+        }
+        .onAppear { onAppear() }
+        .onDisappear { onDisappear() }
+        .navigationTitle("view.title.settings")
+        .toolbar(content: {
+            ToolbarItemGroup(placement: .topBarLeading) {
+                NavigationLink(destination: QuickHelpView(utilities: utilities, dismissAction: dismissAction)) {
+                    if #available(iOS 26.0, *) {
+                        Image(systemName: "questionmark.circle")
+                    } else {
+                        Image(systemName: "questionmark.circle").tint(.primary)
                     }
                 }
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    MalachiteToolbarUtils(action: self.dismissAction, image: "checkmark", primary: true)
-                }
-            })
-        }
+            }
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                MalachiteToolbarUtils(action: self.dismissAction, image: "checkmark", primary: true)
+            }
+        })
     }
     
     func onAppear() {

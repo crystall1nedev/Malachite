@@ -62,20 +62,23 @@ public class MalachiteClassesObject : NSObject {
     /// A function to only log in INTERNAL builds
     public func internalNSLog(_ format: String, file: String = #file, line: Int = #line, function: String = #function) {
         if self.versionType == "INTERNAL" {
-            Foundation.NSLog("[\(file):\(line)] [\(function)] [INTERNAL] \(format)")
+            Foundation.NSLog("[\(file):\(line)] [\(function)] \(format)")
         }
     }
     
-    /// A function to only log in DEBUG and INTERNAL builds
+    /// A function that calls ``debugNSLog`` on DEBUG and ``internalNSLog`` on INTERNAL.
     public func debugNSLog(_ format: String, file: String = #file, line: Int = #line, function: String = #function) {
-        if (self.versionType == "DEBUG" && self.preferences.debug.logging.unified) || self.versionType == "INTERNAL" {
+        if self.versionType == "INTERNAL" { self.internalNSLog(format, file: file, line: line, function: function) }
+        else if (self.versionType == "DEBUG" && self.preferences.debug.logging.unified) {
             Foundation.NSLog("[\(NSString(string: file).lastPathComponent):\(line)] [\(function)] \(format)")
         }
     }
     
-    /// Literally just regular NSLog, here for consistency
-    public func NSLog(_ format: String) {
-        Foundation.NSLog(format)
+    /// A function that calls regular NSLog on RELEASE, ``debugNSLog`` on DEBUG, and ``internalNSLog`` on INTERNAL.
+    public func NSLog(_ format: String, file: String = #file, line: Int = #line, function: String = #function) {
+        if self.versionType == "INTERNAL" { self.internalNSLog(format, file: file, line: line, function: function) }
+        else if self.versionType == "DEBUG" { self.debugNSLog(format, file: file, line: line, function: function) }
+        else { Foundation.NSLog(format) }
     }
 }
 

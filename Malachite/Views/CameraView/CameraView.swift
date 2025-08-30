@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CameraView.swift
 //  Malachite
 //
 //  Created by Eva Isabella Luna on 11/25/23.
@@ -14,25 +14,7 @@ import LockedCameraCapture
 import Photos
 import GameKit
 
-struct MalachiteView_SwiftUIWrapped: UIViewControllerRepresentable {
-    let rootURL: URL?
-    typealias UIViewControllerType = MalachiteView
-    func makeUIViewController(context: Self.Context) -> MalachiteView {
-        return MalachiteView()
-    }
- 
-    func updateUIViewController(_ uiViewController: MalachiteView, context: Self.Context) {
-    }
-}
-
-@available(iOS 18.0, *)
-extension MalachiteView_SwiftUIWrapped {
-    init(_ session: LockedCameraCaptureSession) {
-        self.rootURL = session.sessionContentURL
-    }
-}
-
-class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCapturePhotoCaptureDelegate, AVCaptureSessionControlsDelegate {
+class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCapturePhotoCaptureDelegate, AVCaptureSessionControlsDelegate {
     func sessionControlsDidBecomeActive(_ session: AVCaptureSession) {
         if !uiIsHidden { runUIHider() }
     }
@@ -52,6 +34,8 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             self.cameraIndex = nil
         }
     }
+    
+    var controls: controls?
     
     /// The `AVCaptureSession` Malachite uses for everything.
     var cameraSession: AVCaptureSession?
@@ -140,7 +124,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// A `Bool` that determines whether or not the user interface is currently hidden to the user.
     var uiIsHidden = false
-    
     /// The title for the focus slider.
     var focusTitle = UILabel()
     /// The title for the exposure slider.
@@ -177,12 +160,14 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         super.viewDidLoad()
         self.view.backgroundColor = .clear
         
+        #warning("malachite init")
         utilities.debugNSLog("[Initialization] Starting up Malachite")
+        self.controls = CameraView.controls(delegate: self)
         
         if utilities.versionType == "INTERNAL" {
-            utilities.internalNSLog("[Initialization] Running an INTERNAL build, logging will be force enabled")
+            utilities.internalNSLog("[Initialization] Running an INTERNAL build")
         } else if utilities.versionType == "DEBUG" {
-            utilities.debugNSLog("[Initialization] Running a DEBUG build, logging will be force enabled")
+            utilities.debugNSLog("[Initialization] Running a DEBUG build")
         } else if utilities.versionType == "RELEASE" {
             utilities.NSLog("[Initialization] Running a RELEASE build")
         }
@@ -208,6 +193,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             utilities.preferences.capture.format.jpeg = true
         }
         
+        #warning("malachite camera init")
         cameraPreview?.frame.size = self.view.frame.size
         utilities.debugNSLog("[Initialization] Bringing up AVCaptureSession")
         cameraSession = AVCaptureSession()
@@ -272,6 +258,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             utilities.debugNSLog("[Initialization] No cameras detected, skipping to user interface bringup")
         }
         
+        #warning("malachite notif init")
         utilities.debugNSLog("[Initialization] Setting up notification observer for orientation changes")
         #if MAIN_APP
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
@@ -289,12 +276,14 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         
+        #warning("malachite init")
         if utilities.versionType == "INTERNAL" || utilities.versionType == "DEBUG" {
             if utilities.preferences.debug.logging.preferences {
                 MalachitePreferencesUtils().printPreferences()
             }
         }
         
+        #warning("malachite camera init")
         if #available (iOS 17.2, *) {
             let interaction = AVCaptureEventInteraction { event in
                 if event.phase == .ended {
@@ -306,6 +295,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         }
         
         
+        #warning("malachite photo init")
         let cameraAuthStatus = PHPhotoLibrary.authorizationStatus(for: .addOnly)
         
         if cameraAuthStatus == .notDetermined {
@@ -396,167 +386,12 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         setupLmaoView()
 #endif
         
-        cameraButton = utilities.views.returnProperButton(symbolName: "camera", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
+        #warning("can be made into a for loop")
+        self.controls!.bringUpControlLayer()
         
-        flashlightButton = utilities.views.returnProperButton(symbolName: "flashlight.off.fill", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
-        captureButton = utilities.views.returnProperButton(symbolName: "camera.aperture", cornerRadius: 45, viewForBounds: view, hapticClass: utilities.haptics)
-        focusButton = utilities.views.returnProperButton(symbolName: "scope", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
-        focusSliderButton = utilities.views.returnProperButton(symbolName: "", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
-        focusLockButton = utilities.views.returnProperButton(symbolName: "lock.open", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
-        exposureButton = utilities.views.returnProperButton(symbolName: "plusminus", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
-        exposureSliderButton = utilities.views.returnProperButton(symbolName: "", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
-        exposureLockButton = utilities.views.returnProperButton(symbolName: "lock.open", cornerRadius: 30, viewForBounds: view, hapticClass: utilities.haptics)
-        settingsButton = utilities.views.returnProperButton(symbolName: "gear", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
-        aeafFeedback = utilities.views.returnProperButton(symbolName: "", cornerRadius: 60, viewForBounds: self.view, hapticClass: utilities.haptics)
-        currentCamera = utilities.views.returnProperButton(symbolName: "", cornerRadius: 30, viewForBounds: self.view, hapticClass: nil)
-        focusSlider.translatesAutoresizingMaskIntoConstraints = false
-        exposureSlider.translatesAutoresizingMaskIntoConstraints = false
         focusLockButton.alpha = 0.0
         exposureLockButton.alpha = 0.0
         aeafFeedback.alpha = 0.0
-        
-        self.view.addSubview(cameraButton)
-        self.view.addSubview(flashlightButton)
-        self.view.addSubview(captureButton)
-        self.view.addSubview(focusButton)
-        self.view.addSubview(focusSliderButton)
-        self.view.addSubview(focusLockButton)
-        self.view.addSubview(exposureButton)
-        self.view.addSubview(exposureSliderButton)
-        self.view.addSubview(exposureLockButton)
-        self.view.addSubview(settingsButton)
-        self.view.addSubview(aeafFeedback)
-        self.view.addSubview(currentCamera)
-        focusSliderButton.addSubview(focusSlider)
-        exposureSliderButton.addSubview(exposureSlider)
-        
-        if self.availableRearCameras.count > 0 {
-            cameraButton.addTarget(self, action: #selector(self.runInputSwitch), for: .touchUpInside)
-            flashlightButton.addTarget(self, action: #selector(self.runFlashlightToggle), for: .touchUpInside)
-            captureButton.addTarget(self, action: #selector(self.runImageCapture), for: .touchUpInside)
-            focusSlider.addTarget(self, action: #selector(self.runManualFocusController), for: .valueChanged)
-            focusSlider.addTarget(utilities.haptics, action: #selector(utilities.haptics.buttonMediumHaptics(_:)), for: .touchUpInside)
-            focusLockButton.addTarget(self, action: #selector(runManualFocusLockController), for: .touchUpInside)
-            exposureSlider.addTarget(self, action: #selector(runManualExposureController), for: .valueChanged)
-            exposureSlider.addTarget(utilities.haptics, action: #selector(utilities.haptics.buttonMediumHaptics(_:)), for: .touchUpInside)
-            exposureLockButton.addTarget(self, action: #selector(self.runManualExposureLockController), for: .touchUpInside)
-        }
-        
-        focusButton.addTarget(self, action: #selector(self.runManualFocusUIHider), for: .touchUpInside)
-        exposureButton.addTarget(self, action: #selector(self.runManualExposureUIHider), for: .touchUpInside)
-        settingsButton.addTarget(self, action: #selector(self.presentSettingsView), for: .touchUpInside)
-        
-        zoomRecognizer = UIPinchGestureRecognizer(target: self, action:#selector(runZoomController))
-        aeafRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runaeafController))
-        uiHiderRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(runUIHider))
-        uiHiderRecognizer.numberOfTouchesRequired = 2
-        
-        
-        focusTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString("uibutton.focus.title", comment: ""), anchorConstant: 10)
-        exposureTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString("uibutton.exposure.title", comment: ""), anchorConstant: 80)
-        
-        self.view.addGestureRecognizer(zoomRecognizer)
-        let tapGestureElements = utilities.preferences.userInterface.tapAndHold
-        if !tapGestureElements.contains("off") { self.view.addGestureRecognizer(aeafRecognizer) }
-        self.view.addGestureRecognizer(uiHiderRecognizer)
-        
-        var lockButtonsX = -80.0
-        var lockButtonsY = 0.0
-        
-        if self.view.frame.size.width >= 370 {
-            utilities.debugNSLog("[Initialization] Device screen is capable of displaying lock button inline")
-            lockButtonsX = -300.0
-        } else {
-            // TODO: Make lock buttons not clip into other bars!
-            NSLog("[Initialization] Device screen is too small for inline lock button")
-            lockButtonsY = 70.0
-        }
-        
-        utilities.tooltips.fadeOutTooltipFlow(labelsToFade: [ focusTitle, exposureTitle])
-        utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: self.view, camera: selectedDevice)
-        
-        NSLayoutConstraint.activate([
-            cameraButton.widthAnchor.constraint(equalToConstant: 60),
-            cameraButton.heightAnchor.constraint(equalToConstant: 60),
-            cameraButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
-            cameraButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            
-            settingsButton.widthAnchor.constraint(equalToConstant: 60),
-            settingsButton.heightAnchor.constraint(equalToConstant: 60),
-            settingsButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
-            settingsButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            
-            flashlightButton.widthAnchor.constraint(equalToConstant: 60),
-            flashlightButton.heightAnchor.constraint(equalToConstant: 60),
-            flashlightButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
-            flashlightButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            
-            captureButton.widthAnchor.constraint(equalToConstant: 90),
-            captureButton.heightAnchor.constraint(equalToConstant: 90),
-            captureButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
-            captureButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: 0),
-            
-            focusButton.widthAnchor.constraint(equalToConstant: 60),
-            focusButton.heightAnchor.constraint(equalToConstant: 60),
-            focusButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            focusButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            
-            focusSliderButton.widthAnchor.constraint(equalToConstant: 210),
-            focusSliderButton.heightAnchor.constraint(equalToConstant: 60),
-            focusSliderButton.topAnchor.constraint(equalTo: focusButton.topAnchor),
-            focusSliderButton.leadingAnchor.constraint(equalTo: focusButton.trailingAnchor, constant: 10),
-            
-            focusSlider.widthAnchor.constraint(equalToConstant: 180),
-            focusSlider.heightAnchor.constraint(equalToConstant: 80),
-            focusSlider.centerYAnchor.constraint(equalTo: focusSliderButton.centerYAnchor),
-            focusSlider.centerXAnchor.constraint(equalTo: focusSliderButton.trailingAnchor, constant: -105),
-            
-            focusLockButton.widthAnchor.constraint(equalToConstant: 60),
-            focusLockButton.heightAnchor.constraint(equalToConstant: 60),
-            focusLockButton.topAnchor.constraint(equalTo: focusButton.topAnchor, constant: lockButtonsY),
-            focusLockButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: lockButtonsX),
-            
-            exposureButton.widthAnchor.constraint(equalToConstant: 60),
-            exposureButton.heightAnchor.constraint(equalToConstant: 60),
-            exposureButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
-            exposureButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            
-            exposureSliderButton.widthAnchor.constraint(equalToConstant: 210),
-            exposureSliderButton.heightAnchor.constraint(equalToConstant: 60),
-            exposureSliderButton.topAnchor.constraint(equalTo: exposureButton.topAnchor),
-            exposureSliderButton.leadingAnchor.constraint(equalTo: exposureButton.trailingAnchor, constant: 10),
-            
-            exposureSlider.widthAnchor.constraint(equalToConstant: 180),
-            exposureSlider.heightAnchor.constraint(equalToConstant: 80),
-            exposureSlider.centerYAnchor.constraint(equalTo: exposureSliderButton.centerYAnchor),
-            exposureSlider.centerXAnchor.constraint(equalTo: exposureSliderButton.trailingAnchor, constant: -105),
-            
-            exposureLockButton.widthAnchor.constraint(equalToConstant: 60),
-            exposureLockButton.heightAnchor.constraint(equalToConstant: 60),
-            exposureLockButton.topAnchor.constraint(equalTo: exposureButton.topAnchor, constant: lockButtonsY),
-            exposureLockButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: lockButtonsX),
-            
-            currentCamera.widthAnchor.constraint(equalToConstant: 60),
-            currentCamera.heightAnchor.constraint(equalToConstant: 60),
-            currentCamera.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            currentCamera.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-        ])
-        
-        if utilities.preferences.userInterface.appLaunch {
-            cameraButton.alpha = 0.0
-            flashlightButton.alpha = 0.0
-            captureButton.alpha = 0.0
-            focusButton.alpha = 0.0
-            focusSliderButton.alpha = 0.0
-            exposureButton.alpha = 0.0
-            exposureSliderButton.alpha = 0.0
-            settingsButton.alpha = 0.0
-            currentCamera.alpha = 0.0
-            focusTitle.alpha = 0.0
-            exposureTitle.alpha = 0.0
-            
-            uiIsHidden = true
-        }
         
         setupGameKitAlert()
         changeIdleTimerState()
@@ -584,6 +419,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     }
     
     func setupLmaoView() {
+        #warning("remove simulator support")
         let lmaoView = UIImageView(image: utilities.views.returnImageForSimulator())
         self.view.addSubview(lmaoView)
         
@@ -594,6 +430,9 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
             lmaoView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
     }
+    
+    /// Stub function. It literally does nothing.
+    @objc func stub() { }
     
     /// Function to enable or disable the idle timer.
     @objc func changeIdleTimerState() {
@@ -711,7 +550,6 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
     
     /// Function to switch cameras and attach new inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.
     @objc func runInputSwitch() {
-        #warning("fix this breaking after one camera switch")
         cameraSession?.beginConfiguration()
         cameraButton.isUserInteractionEnabled = false
         if (self.availableRearCameras.count < 2 || utilities.preferences.debug.breakApp) && !self.initRun  {
@@ -760,7 +598,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         cameraSession?.commitConfiguration()
         
         DispatchQueue.main.async() { [self] in
-            utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: view, camera: selectedDevice)
+            self.controls!.initTooltips(showLabels: false, showCamera: true)
         }
         
         cameraButton.isUserInteractionEnabled = true
@@ -882,7 +720,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         let getterForOrientation = UIImage(data: imageData)
         let previewImage = UIImage(ciImage: CIImage(data: imageData, options: [.applyOrientationProperty: true,
                                                                                .properties: [kCGImagePropertyOrientation: CGImagePropertyOrientation(getterForOrientation!.imageOrientation).rawValue]])!)
-        let photoPreview = MalachitePhotoPreview()
+        let photoPreview = PhotoPreviewView()
         photoPreview.photoImageData = imageData
         photoPreview.photoImageView.frame = view.frame
         photoPreview.photoImage = previewImage
@@ -1120,7 +958,7 @@ class MalachiteView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, A
         func showUI() {
             UIView.animate(withDuration: 0.25) { [self] in
                 for subview in self.view.subviews {
-                    if subview != cameraView {
+                    if subview != cameraView && subview != aeafFeedback {
                         if subview == focusLockButton {
                             if manualFocusSliderIsActive { subview.alpha = 1.0 }
                         } else if subview == exposureLockButton {

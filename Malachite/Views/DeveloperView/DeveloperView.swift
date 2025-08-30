@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct DeveloperView: View {
     /// A State variable used for determining whether or not this view is being presented as a modal.
@@ -22,19 +23,25 @@ struct DeveloperView: View {
         }
         .navigationTitle("view.title.developer")
         .toolbar(content: {
+            #warning("log export implementation eta")
             ToolbarItemGroup(placement: .topBarLeading) {
-                NavigationLink(destination: QuickHelpViewDeveloper(utilities: utilities, dismissAction: dismissAction)) {
-                    if #available(iOS 26.0, *) {
-                        Image(systemName: "questionmark.circle")
-                    } else {
-                        Image(systemName: "questionmark.circle").tint(.primary)
-                    }
-                }
+                if #available(iOS 26.0, *) { help }
             }
             ToolbarItemGroup(placement: .topBarTrailing) {
+                if #unavailable(iOS 26.0) { help; }
                 MalachiteToolbarUtils(action: self.dismissAction, image: "checkmark", primary: true)
             }
         })
+    }
+    
+    var help: some View {
+        NavigationLink(destination: QuickHelpViewDeveloper(utilities: utilities, dismissAction: dismissAction)) {
+            if #available(iOS 26.0, *) {
+                Image(systemName: "questionmark.circle")
+            } else {
+                Image(systemName: "questionmark.circle").tint(.primary)
+            }
+        }
     }
     
     struct createBuildInformation: View {

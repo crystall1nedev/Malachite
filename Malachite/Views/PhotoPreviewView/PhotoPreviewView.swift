@@ -10,12 +10,14 @@ import UIKit
 import Photos
 import LinkPresentation
 
-class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
+class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
     /// A variable to hold the existing instance of ``MalachiteClassesObject``.
     var utilities = MalachiteClassesObject()
     
     /// The scroll view that holds the image view for zooming and panning.
     var photoScrollView = UIScrollView()
+    
+    var controls: controls?
     
     /** 
      The image view that holds the captuerd image for user review.
@@ -75,6 +77,8 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
         // TODO: dev/malachitekit refactor this file
         self.finalizedImage = self.finalizeImageForExport(imageData: self.photoImageData)
         
+        self.controls = PhotoPreviewView.controls(delegate: self)
+        
         super.viewDidLoad()
         self.view.backgroundColor = .red
         
@@ -133,48 +137,11 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
         
         photoScrollView.contentInset = UIEdgeInsets(top: yOffset, left: xOffset, bottom: yOffset, right: xOffset)
         
-        dismissTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString("uibutton.close.title", comment: ""), anchorConstant: 10)
-        savePhotoTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString( "uibutton.save.title", comment: ""), anchorConstant: 80)
-        sharePhotoTitle = utilities.tooltips.returnLabelForTooltipFlows(viewForBounds: view, textForFlow: NSLocalizedString( "uibutton.share.title", comment: ""), anchorConstant: 150)
-        
         self.view.addSubview(blurredBackgroundView)
         photoScrollView.addSubview(photoImageView)
         self.view.addSubview(photoScrollView)
         
-        let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
-        doubleTapRecognizer.numberOfTapsRequired = 2
-        photoScrollView.addGestureRecognizer(doubleTapRecognizer)
-        
-        
-        dismissButton = utilities.views.returnProperButton(symbolName: "xmark", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
-        self.view.addSubview(dismissButton)
-        NSLayoutConstraint.activate([
-            dismissButton.widthAnchor.constraint(equalToConstant: 60),
-            dismissButton.heightAnchor.constraint(equalToConstant: 60),
-            dismissButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            dismissButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-        ])
-        dismissButton.addTarget(self, action: #selector(self.dismissView), for: .touchUpInside)
-        
-        savePhotoButton = utilities.views.returnProperButton(symbolName: "photo.on.rectangle", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
-        self.view.addSubview(savePhotoButton)
-        NSLayoutConstraint.activate([
-            savePhotoButton.widthAnchor.constraint(equalToConstant: 60),
-            savePhotoButton.heightAnchor.constraint(equalToConstant: 60),
-            savePhotoButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
-            savePhotoButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-        ])
-        savePhotoButton.addTarget(self, action: #selector(self.savePhotoWrapped), for: .touchUpInside)
-        
-        sharePhotoButton = utilities.views.returnProperButton(symbolName: "square.and.arrow.up", cornerRadius: 30, viewForBounds: self.view, hapticClass: utilities.haptics)
-        self.view.addSubview(sharePhotoButton)
-        NSLayoutConstraint.activate([
-            sharePhotoButton.widthAnchor.constraint(equalToConstant: 60),
-            sharePhotoButton.heightAnchor.constraint(equalToConstant: 60),
-            sharePhotoButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150),
-            sharePhotoButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-        ])
-        sharePhotoButton.addTarget(self, action: #selector(self.sharePhoto), for: .touchUpInside)
+        self.controls!.bringUpControlLayer()
         
         orientationChanged()
     }
@@ -183,7 +150,7 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
         return photoImageView
     }
     
-    @objc private func handleDoubleTap(_ sender: UITapGestureRecognizer) {
+    @objc func handleDoubleTap(_ sender: UITapGestureRecognizer) {
         if photoScrollView.zoomScale == 1 {
             photoScrollView.setZoomScale(2, animated: true)
         } else {
@@ -192,7 +159,7 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
     }
     
     /// Function to allow the user to close the model view.
-    @objc private func dismissView() {
+    @objc func dismissView() {
         DispatchQueue.main.async {
             self.navigationController?.dismiss(animated: true)
         }
@@ -224,8 +191,8 @@ class MalachitePhotoPreview : UIViewController, UIScrollViewDelegate {
     }
     
     /// Function to share the image to other apps or people without saving to the Photos library.
-    @objc private func sharePhoto() {
-        let shareableData = try! dataToShareable(data: finalizedImage, title: "sharable.title")
+    @objc func sharePhoto() {
+        let shareableData = try! dataToShareable(data: finalizedImage, title: "sharable.title".localized)
         let shareSheet = UIActivityViewController(activityItems: [shareableData], applicationActivities: nil)
         shareSheet.popoverPresentationController?.sourceView = sharePhotoButton
         if #available(iOS 26.0, *) {

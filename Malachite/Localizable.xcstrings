@@ -1628,6 +1628,7 @@
       }
     },
     "uibutton.close.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1638,6 +1639,7 @@
       }
     },
     "uibutton.exposure.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1648,6 +1650,7 @@
       }
     },
     "uibutton.focus.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1658,6 +1661,7 @@
       }
     },
     "uibutton.save.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1668,6 +1672,7 @@
       }
     },
     "uibutton.share.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

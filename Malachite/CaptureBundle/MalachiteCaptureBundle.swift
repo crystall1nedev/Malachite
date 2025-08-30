@@ -21,7 +21,7 @@ struct MalachiteCaptureBundle: LockedCameraCaptureExtension {
 }
 
 struct MalachiteCaptureBundleViewFinder: UIViewControllerRepresentable {
-    typealias UIViewControllerType = MalachiteView
+    typealias UIViewControllerType = CameraView
     
     // Apple's sample LockedCameraCapture code
     let session: LockedCameraCaptureSession
@@ -31,10 +31,10 @@ struct MalachiteCaptureBundleViewFinder: UIViewControllerRepresentable {
         self.session = session
     }
  
-    func makeUIViewController(context: Self.Context) -> MalachiteView {
-        return MalachiteView()
+    func makeUIViewController(context: Self.Context) -> CameraView {
+        return CameraView()
     }
  
-    func updateUIViewController(_ uiViewController: MalachiteView, context: Self.Context) {
+    func updateUIViewController(_ uiViewController: CameraView, context: Self.Context) {
     }
 }
