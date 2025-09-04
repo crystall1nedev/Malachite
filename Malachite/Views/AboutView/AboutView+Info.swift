@@ -12,6 +12,8 @@ extension AboutView {
         /// A variable to hold the existing instance of ``MalachiteClassesObject``.
         var utilities = MalachiteClassesObject()
         
+        @State private var clicks = 0
+        
         init(
             utilities: MalachiteClassesObject,
         ) {
@@ -38,7 +40,7 @@ extension AboutView {
                     Spacer()
                     Button {
                         if utilities.versionType == "INTERNAL" {
-                            utilities.preferences.ext.showGameKitOptionInAbout(in: &utilities.preferences)
+                            if clicks < 8 { utilities.preferences.ext.showGameKitOptionInAbout(in: &utilities.preferences, clicks: &clicks) }
                         }
                     } label: {
                         if #available(iOS 26.0, *) {

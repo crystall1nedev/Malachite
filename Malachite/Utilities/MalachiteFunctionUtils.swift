@@ -50,6 +50,13 @@ public class MalachiteFunctionUtils : NSObject {
         return false
     }
     
+    /// Function to enable or disable the idle timer.
+    @objc func changeIdleTimerState() {
+        #if MAIN_APP
+        UIApplication.shared.isIdleTimerDisabled = MalachitePreferencesUtils.shared.preferences.userInterface.idleTimerDisabled
+        #endif
+    }
+    
     /// Function that handles pinch to zoom.
     public func zoom(sender pinch: UIPinchGestureRecognizer, floater float: inout CGFloat, captureDevice device: inout AVCaptureDevice, lastZoomFactor zoomFactor: inout CGFloat, hapticClass haptic: MalachiteHapticUtils) {
         func minMaxZoom(_ factor: CGFloat) -> CGFloat {
@@ -240,8 +247,10 @@ public class MalachiteFunctionUtils : NSObject {
             MalachiteClassesObject().debugNSLog("[Camera Input] Removing currently active camera input")
             session.removeInput(input!)
         } else {
-            if !cameras.isEmpty { device = cameras.first }
+            if !cameras.isEmpty { device = cameras.first! }
         }
+        
+        guard let device = device else { return }
         
         if firstRun {
             for camera in cameras {
@@ -273,28 +282,28 @@ public class MalachiteFunctionUtils : NSObject {
         
         firstRun = false
         
-        deviceFormatSupportsHDR(device: device!)
+        deviceFormatSupportsHDR(device: device)
         
         do {
-            try device?.lockForConfiguration()
-            defer { device?.unlockForConfiguration() }
-            MalachiteClassesObject().debugNSLog("[Camera Input] Selected input: \(String(describing: device?.formats[(device?.formats.count)! - 1]))")
-            device?.activeFormat = (device?.formats[(device?.formats.count)! - 1])!
-            continuousAEAF(device: device!)
+            try device.lockForConfiguration()
+            defer { device.unlockForConfiguration() }
+            MalachiteClassesObject().debugNSLog("[Camera Input] Selected input: \(String(describing: device.formats[(device.formats.count) - 1]))")
+            device.activeFormat = (device.formats[(device.formats.count) - 1])
+            continuousAEAF(device: device)
             
-            guard let focus = device?.isLockingFocusWithCustomLensPositionSupported else { return }
+            let focus = device.isLockingFocusWithCustomLensPositionSupported
             if !focus { NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.unsupportedLensPositionNotification.name, object: nil) }
             
-            guard let exposure = device?.isExposureModeSupported(.custom) else { return }
+            let exposure = device.isExposureModeSupported(.custom)
             if !exposure { NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.unsupportedISOValueNotification.name, object: nil) }
             
-            device?.automaticallyAdjustsVideoHDREnabled = false
+            device.automaticallyAdjustsVideoHDREnabled = false
             
             if MalachiteClassesObject().preferences.capture.hdr {
                 if self.supportsHDR {
                     MalachiteClassesObject().debugNSLog("[Camera Input] Force enabled HDR on camera")
-                    if device?.activeFormat.isVideoHDRSupported == true {
-                        device?.isVideoHDREnabled = true
+                    if device.activeFormat.isVideoHDRSupported == true {
+                        device.isVideoHDREnabled = true
                     } else {
                         MalachiteClassesObject().debugNSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
                         MalachiteClassesObject().preferences.capture.hdr = false
@@ -305,11 +314,11 @@ public class MalachiteFunctionUtils : NSObject {
                 }
             } else {
                 MalachiteClassesObject().debugNSLog("[Camera Input] Force disabled HDR on camera")
-                if device?.activeFormat.isGlobalToneMappingSupported == true {
-                    device?.isGlobalToneMappingEnabled = false
+                if device.activeFormat.isGlobalToneMappingSupported == true {
+                    device.isGlobalToneMappingEnabled = false
                 }
-                if device?.activeFormat.isVideoHDRSupported == true {
-                    device?.isVideoHDREnabled = false
+                if device.activeFormat.isVideoHDRSupported == true {
+                    device.isVideoHDREnabled = false
                 }
             }
         } catch {
@@ -318,14 +327,14 @@ public class MalachiteFunctionUtils : NSObject {
         
         
         MalachiteClassesObject().debugNSLog("[Camera Input] Attempting to attach device input to session")
-        do { input = try AVCaptureDeviceInput(device: device!) }
+        do { input = try AVCaptureDeviceInput(device: device) }
         catch {
             print(error)
         }
         
         MalachiteClassesObject().debugNSLog("[Camera Input] Attached input, finishing configuration")
         if session.canAddInput(input!) { session.addInput(input!) }
-        switchInputMegapixels(device: device!, photoOutput: output)
+        switchInputMegapixels(device: device, photoOutput: output)
     }
     
     @available(iOS 18.0, *)
@@ -382,6 +391,7 @@ public class MalachiteFunctionUtils : NSObject {
     
     /// Function that handles taking images on `AVCapturePhotoOutput`.
     public func captureImage(output photoOutput: AVCapturePhotoOutput, viewForBounds view: UIView, captureDelegate delegate: AVCapturePhotoCaptureDelegate) -> AVCapturePhotoOutput {
+        if photoOutput.connections.count < 1 { return photoOutput }
         var format = [String: Any]()
         if MalachiteClassesObject().preferences.compatibility.heic && supportsHEIC() {
             format = [AVVideoCodecKey : AVVideoCodecType.hevc]

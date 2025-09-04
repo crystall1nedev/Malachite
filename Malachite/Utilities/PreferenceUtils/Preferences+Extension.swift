@@ -8,20 +8,26 @@
 import Foundation
 
 extension MalachitePreferences {
-    
     var ext: Utils { return Utils() }
     class Utils {
         var gameKitButton = 0
         /// Shows the GameKit enable switch in About settings.
-        public func showGameKitOptionInAbout(in preferences: inout MalachitePreferences) -> Void {
+        public func showGameKitOptionInAbout(in preferences: inout MalachitePreferences, clicks: inout Int) -> Void {
             MalachiteClassesObject().debugNSLog("04F807A163D50211A2456C3460EACFACCBC5BF436AFC268F0DBAA529")
-            if gameKitButton < 7 {
-                gameKitButton += 1
-            } else {
+            if clicks < 7 {
+                clicks += 1
+            } else if clicks == 7 {
                 preferences.general.gamekit.alerted = true
-                exit(11)
+                DispatchQueue.global(qos: .background).async {
+                    for i in (1...10).reversed() {
+                        MalachiteClassesObject().debugNSLog("Bomb planted, exploding in \(i) seconds...")
+                        sleep(1)
+                    }
+                    exit(SIGSEGV)
+                }
             }
         }
+        
         var dictionary: ELDictionary { return ELDictionary() }
         class ELDictionary {
             public func isValid(dictionary: Dictionary<String, Any>) -> Bool {
@@ -32,6 +38,7 @@ extension MalachitePreferences {
                 return dictionary.count
             }
         }
+        
         var deviceModel: DeviceModel { return DeviceModel() }
         class DeviceModel {
             public func get() -> String {
@@ -46,7 +53,7 @@ extension MalachitePreferences {
                 return identifier
             }
             
-            public func isSameDevice(in preferences: inout MalachitePreferences) -> Bool {
+            public func isSameDevice(in preferences: MalachitePreferences) -> Bool {
                 if get() == preferences.general.deviceModel { return true }
                 return false
             }
@@ -67,4 +74,3 @@ extension MalachitePreferences {
         }
     }
 }
-

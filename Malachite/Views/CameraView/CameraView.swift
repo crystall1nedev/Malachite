@@ -10,32 +10,13 @@ import UIKit
 import Foundation
 import AVFoundation
 import AVKit
-import LockedCameraCapture
 import Photos
 import GameKit
 
-class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCapturePhotoCaptureDelegate, AVCaptureSessionControlsDelegate {
-    func sessionControlsDidBecomeActive(_ session: AVCaptureSession) {
-        if !uiIsHidden { runUIHider() }
-    }
-    
-    func sessionControlsWillEnterFullscreenAppearance(_ session: AVCaptureSession) {
-        if !uiIsHidden { runUIHider() }
-    }
-    
-    func sessionControlsWillExitFullscreenAppearance(_ session: AVCaptureSession) {
-        if uiIsHidden { runUIHider() }
-    }
-    
-    func sessionControlsDidBecomeInactive(_ session: AVCaptureSession) {
-        if uiIsHidden { runUIHider() }
-        if cameraIndex != nil {
-            runInputSwitch()
-            self.cameraIndex = nil
-        }
-    }
-    
-    var controls: controls?
+class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCapturePhotoCaptureDelegate {
+    var controlLayer: ControlLayer?
+    var notifications: notifications?
+    var preview: Preview?
     
     /// The `AVCaptureSession` Malachite uses for everything.
     var cameraSession: AVCaptureSession?
@@ -52,7 +33,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     /// The `AVCapturePhotoOutput` used to capture photos with ``selectedDevice`` and ``cameraSession``.
     var photoOutput = AVCapturePhotoOutput()
     /// The `AVCaptureVideoPreviewLayer` used to allow users to see a preview of their camera before taking a shot with ``photoOutput``.
-    var cameraPreview: AVCaptureVideoPreviewLayer?
+    var cameraPreview = AVCaptureVideoPreviewLayer()
     /// A `Bool` that determines whether or not the wide angle lens is in use.
     var wideAngleInUse = true
     /// A `Bool` that determines whether or not the app is still initializing. Uses for tasks that should only be run once at the start of Malachite.
@@ -146,8 +127,6 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     /// An observer for the device's rotation.
     private var rotationObserver: NSObjectProtocol?
     
-    var cameraView = UIView()
-    
     /**
      viewDidLoad override for the main user interface.
      
@@ -158,50 +137,26 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .clear
+        self.view.backgroundColor = .black
         
-        #warning("malachite init")
-        utilities.debugNSLog("[Initialization] Starting up Malachite")
-        self.controls = CameraView.controls(delegate: self)
+        self.controlLayer = CameraView.ControlLayer(delegate: self)
+        self.notifications = CameraView.notifications(delegate: self)
+        self.preview = CameraView.Preview(delegate: self)
         
-        if utilities.versionType == "INTERNAL" {
-            utilities.internalNSLog("[Initialization] Running an INTERNAL build")
-        } else if utilities.versionType == "DEBUG" {
-            utilities.debugNSLog("[Initialization] Running a DEBUG build")
-        } else if utilities.versionType == "RELEASE" {
-            utilities.NSLog("[Initialization] Running a RELEASE build")
-        }
-        
-        #if APP_EXTENSION
-        utilities.debugNSLog("[Initialization] Running out of an app extension.")
-        #elseif MAIN_APP
-        utilities.debugNSLog("[Initialization] Running out of the main app.")
-        #endif
-        
-        if utilities.versionType == "INTERNAL" {
-            if !utilities.preferences.ext.deviceModel.isSameDevice(in: &utilities.preferences) {
-                utilities.internalNSLog("[Initialization] This is a new device, rechecking compatibility.")
-                utilities.preferences.general.deviceModel = utilities.preferences.ext.deviceModel.get()
-            } else {
-                utilities.internalNSLog("[Initialization] This is the same device, can skip compatibility checks.")
-            }
-        }
-        
-        if !utilities.function.supportsHEIC() {
-            utilities.debugNSLog("[Initialization] HEIF enabled on a device that doesn't support it, disabling")
-            utilities.preferences.capture.format.heic = false
-            utilities.preferences.capture.format.jpeg = true
-        }
+        #warning("this is temporary for testing")
+        let bringup = Camera.Bringup(utilities: utilities)
+        bringup.checkForHEICCompatibility()
         
         #warning("malachite camera init")
-        cameraPreview?.frame.size = self.view.frame.size
         utilities.debugNSLog("[Initialization] Bringing up AVCaptureSession")
-        cameraSession = AVCaptureSession()
+        cameraSession = bringup.createAVCaptureSession(session: cameraSession)
+        cameraPreview = preview!.createPreviewLayer(previewLayer: cameraPreview)
         
         utilities.debugNSLog("[Initialization] Bringing up AVCaptureDeviceInput")
         
         utilities.debugNSLog("[Camera Input] Getting current camera system capabilities")
         
+        #warning("malachite camera init")
         var camerasToDiscover: [AVCaptureDevice.DeviceType] = []
         if #available(iOS 17.0, *) { camerasToDiscover = [.builtInUltraWideCamera, .builtInWideAngleCamera, .builtInTelephotoCamera ] }
         else { camerasToDiscover = [.builtInUltraWideCamera, .builtInWideAngleCamera, .builtInTelephotoCamera] }
@@ -214,11 +169,8 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
             utilities.debugNSLog("[Camera Input] \(device.deviceType.rawValue) available")
         }
         
+        #warning("malachite camera init")
         runInputSwitch()
-        
-        if #available(iOS 18.0, *) {
-            cameraSession?.setControlsDelegate(self, queue: utilities.sessionQueue)
-        }
         
         if self.availableRearCameras.first != nil {
             photoOutput = AVCapturePhotoOutput()
@@ -236,19 +188,17 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
                 statusBarOrientation = windowScene.interfaceOrientation
             }
             #endif
-            cameraPreview?.frame = view.layer.bounds
+            cameraPreview.frame = view.layer.bounds
             let videoOrientation: AVCaptureVideoOrientation = (statusBarOrientation.videoOrientation)
-            cameraPreview?.connection?.videoOrientation = videoOrientation
+            cameraPreview.connection?.videoOrientation = videoOrientation
             
             if utilities.preferences.preview.aspect {
-                cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+                cameraPreview.videoGravity = AVLayerVideoGravity.resizeAspectFill
             } else {
-                cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspect
+                cameraPreview.videoGravity = AVLayerVideoGravity.resizeAspect
             }
             
-            cameraView = UIView(frame: self.view.bounds)
-            cameraView.layer.addSublayer(cameraPreview!)
-            self.view.insertSubview(cameraView, at: 0)
+            self.view.layer.addSublayer(cameraPreview)
             
             utilities.debugNSLog("[Initialization] Starting session stream")
             DispatchQueue.global(qos: .background).async {
@@ -258,30 +208,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
             utilities.debugNSLog("[Initialization] No cameras detected, skipping to user interface bringup")
         }
         
-        #warning("malachite notif init")
-        utilities.debugNSLog("[Initialization] Setting up notification observer for orientation changes")
-        #if MAIN_APP
-        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
-        #endif
-        NotificationCenter.default.addObserver(self, selector: #selector(changeAspectFill), name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(changeExposureLimit), name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(changeStabilizerMode), name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(changeGameCenterEnabled), name: MalachiteFunctionUtils.Notifications.gameCenterEnabledNotification.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(runManualExposureUIHiderWhenUnsupported), name: MalachiteFunctionUtils.Notifications.unsupportedISOValueNotification.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(runManualFocusUIHiderWhenUnsupported), name: MalachiteFunctionUtils.Notifications.unsupportedLensPositionNotification.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(changeContinuousAEAF), name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(changeAEAFRecognizer), name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(changeIdleTimerState), name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(runInputMegapixelSwitch), name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, object: nil)
-        
-        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        
         #warning("malachite init")
-        if utilities.versionType == "INTERNAL" || utilities.versionType == "DEBUG" {
-            if utilities.preferences.debug.logging.preferences {
-                MalachitePreferencesUtils().printPreferences()
-            }
-        }
         
         #warning("malachite camera init")
         if #available (iOS 17.2, *) {
@@ -320,12 +247,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         super.viewDidAppear(animated)
         
         utilities.debugNSLog("[Initialization] Presenting user interface")
-        setupView()
-        if utilities.versionType == "INTERNAL" {
-            setupView_INTERNAL()
-        }
-        
-        self.changeGameCenterEnabled()
+        (utilities.versionType == "INTERNAL") ? setupView_INTERNAL() : setupView()
     }
     
     /**
@@ -348,13 +270,18 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     }
     
     func setupView_INTERNAL() {
-        settingsRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(runSettingsGesture))
-        updateSettingsGestureFingerCount()
+        utilities.games.changeGameCenterEnabled()
+        if utilities.preferences.general.gamekit.alerted { self.present(utilities.games.setupGameKitAlert(), animated: true, completion: nil) }
+        
+        settingsRecognizer = UISwipeGestureRecognizer(target: self.controlLayer!, action: #selector(self.controlLayer!.runSettingsGesture))
+        self.controlLayer!.updateSettingsGestureFingerCount()
         settingsRecognizer.direction = .up
         
         self.view.addGestureRecognizer(settingsRecognizer)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateSettingsGestureFingerCount), name: MalachiteFunctionUtils.Notifications.settingsGestureNotification.name, object: nil)
+        NotificationCenter.default.addObserver(self.controlLayer!, selector: #selector(self.controlLayer!.updateSettingsGestureFingerCount), name: MalachiteFunctionUtils.Notifications.settingsGestureNotification.name, object: nil)
+        
+        setupView()
     }
     
     /**
@@ -380,74 +307,27 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
      - ``uiHiderRecognizer`` - Tap and hold with two fingers
      */
     func setupView(){
-        self.view.backgroundColor = .black
-        
+#warning("remove simulator support")
 #if targetEnvironment(simulator)
-        setupLmaoView()
+        utilities.views.setupLmaoView(view: self.view)
 #endif
         
-        #warning("can be made into a for loop")
-        self.controls!.bringUpControlLayer()
+        self.controlLayer!.bringUpControlLayer()
+        self.notifications!.bringUpNotifications()
         
-        focusLockButton.alpha = 0.0
-        exposureLockButton.alpha = 0.0
-        aeafFeedback.alpha = 0.0
-        
-        setupGameKitAlert()
-        changeIdleTimerState()
-    }
-    
-    func setupGameKitAlert() {
-        if utilities.preferences.general.gamekit.alerted {
-            let alert = UIAlertController(title: "alert.title.gamekit".localized, message: "alert.detail.gamekit".localized, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.reopen", comment: "Default action"), style: .default, handler: { _ in
-                exit(11)
-            }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.report", comment: "Default action"), style: .default, handler: { _ in
-                guard let url = URL(string: "https://www.youtube.com/watch?v=At8v_Yc044Y") else {
-                    return
-                }
-                #if MAIN_APP
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                #endif
-            }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ignore", comment: "Default action"), style: .default, handler: { _ in
-                self.utilities.preferences.general.gamekit.alerted = false
-            }))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
-    func setupLmaoView() {
-        #warning("remove simulator support")
-        let lmaoView = UIImageView(image: utilities.views.returnImageForSimulator())
-        self.view.addSubview(lmaoView)
-        
-        NSLayoutConstraint.activate([
-            lmaoView.widthAnchor.constraint(equalToConstant: 60),
-            lmaoView.heightAnchor.constraint(equalToConstant: 60),
-            lmaoView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
-            lmaoView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-        ])
+        utilities.function.changeIdleTimerState()
     }
     
     /// Stub function. It literally does nothing.
     @objc func stub() { }
     
-    /// Function to enable or disable the idle timer.
-    @objc func changeIdleTimerState() {
-        #if MAIN_APP
-        UIApplication.shared.isIdleTimerDisabled = utilities.preferences.userInterface.idleTimerDisabled
-        #endif
-    }
-    
     /// Function to dynamically update the aspect ratio for ``cameraPreview`` through ``MalachiteSettingsView``.
     @objc func changeAspectFill() {
         UIView.animate(withDuration: 20) { [self] in
             if utilities.preferences.preview.aspect {
-                cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+                cameraPreview.videoGravity = AVLayerVideoGravity.resizeAspectFill
             } else {
-                cameraPreview?.videoGravity = AVLayerVideoGravity.resizeAspect
+                cameraPreview.videoGravity = AVLayerVideoGravity.resizeAspect
             }
         }
     }
@@ -469,7 +349,8 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     }
     
     @objc func changeContinuousAEAF() {
-        utilities.function.continuousAEAF(device: selectedDevice!)
+        guard let selectedDevice = self.selectedDevice else { return }
+        utilities.function.continuousAEAF(device: selectedDevice)
     }
     
     @objc func changeAEAFRecognizer() {
@@ -495,26 +376,17 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
             if #available(iOS 17.0, *) {
                 if ((selectedDevice?.activeFormat.isVideoStabilizationModeSupported(.previewOptimized)) != nil) {
                     utilities.debugNSLog("[Preview Stabilization] Enabling enhanced stabilization mode")
-                    cameraPreview?.connection!.preferredVideoStabilizationMode = .previewOptimized
+                    cameraPreview.connection!.preferredVideoStabilizationMode = .previewOptimized
                     return
                 }
             }
             
             if ((selectedDevice?.activeFormat.isVideoStabilizationModeSupported(.standard)) != nil) {
                 utilities.debugNSLog("[Preview Stabilization] Enabling standard stabilization mode")
-                cameraPreview?.connection!.preferredVideoStabilizationMode = .standard
+                cameraPreview.connection!.preferredVideoStabilizationMode = .standard
             }
         } else {
-            cameraPreview?.connection!.preferredVideoStabilizationMode = .off
-        }
-    }
-    
-    /// Function to change the GameKit enabled state.
-    @objc func changeGameCenterEnabled() {
-        DispatchQueue.global(qos: .background).async { [self] in
-            if utilities.preferences.general.gamekit.enabled {
-                utilities.games.setupGameCenter()
-            }
+            cameraPreview.connection!.preferredVideoStabilizationMode = .off
         }
     }
     
@@ -522,14 +394,9 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     @objc func presentSettingsView() {
 #if APP_EXTENSION
         utilities.debugNSLog("[Settings] Attempt to access Settings UI from app extension")
-        let alert = UIAlertController(title: "alert.title.app_extensions.settings".localized, message: "alert.detail.app_extensions.settings".localized, preferredStyle: .actionSheet)
-        alert.popoverPresentationController?.sourceView = settingsButton
-        if #available(iOS 26.0, *) {
-            alert.preferredTransition = .zoom { [self] _ in settingsButton }
-        }
-        alert.addAction(UIAlertAction(title: "alert.button.ok".localized, style: .default, handler: { _ in
+        let alert = utilities.views.createAlertController(title: "alert.title.app_extensions.settings", message: "alert.detail.app_extensions.settings", button: settingsButton, defaultSet: true, action: { _ in
             self.utilities.debugNSLog("[Settings] Dialog has been dismissed")
-        }))
+        })
         self.present(alert, animated: true, completion: nil)
         return
 #elseif MAIN_APP
@@ -554,14 +421,9 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         cameraButton.isUserInteractionEnabled = false
         if (self.availableRearCameras.count < 2 || utilities.preferences.debug.breakApp) && !self.initRun  {
             utilities.debugNSLog("[Camera Input] Only one AVCaptureDevice is available to use, showing error")
-            let alert = UIAlertController(title: "alert.title.camera_switch".localized, message: "alert.detail.camera_switch".localized, preferredStyle: .actionSheet)
-            alert.popoverPresentationController?.sourceView = cameraButton
-            if #available(iOS 26.0, *) {
-                alert.preferredTransition = .zoom { [self] _ in cameraButton }
-            }
-            alert.addAction(UIAlertAction(title: "alert.button.ok".localized, style: .default, handler: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.camera_switch", message: "alert.detail.camera_switch", button: cameraButton, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Camera Input] Dialog has been dismissed")
-            }))
+            })
             self.present(alert, animated: true, completion: nil)
             cameraButton.isUserInteractionEnabled = true
             return
@@ -593,77 +455,24 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
                                        firstRun: &initRun)
         
         
-        if #available(iOS 18.0, *) { addControls() }
+        if #available(iOS 18.0, *) {
+            if utilities.versionType == "INTERNAL" && utilities.preferences.evaintrnl.cameraControlEnabled {
+                self.controlLayer!.initCameraControl()
+            }
+        }
         
         cameraSession?.commitConfiguration()
         
         DispatchQueue.main.async() { [self] in
-            self.controls!.initTooltips(showLabels: false, showCamera: true)
+            self.controlLayer!.initTooltips(showLabels: false, showCamera: true)
         }
         
         cameraButton.isUserInteractionEnabled = true
     }
     
-    @available(iOS 18.0, *)
-    func addControls() {
-        guard cameraSession!.supportsControls else { return }
-        
-        let systemBiasSlider = AVCaptureSystemExposureBiasSlider(device: selectedDevice!)
-        
-        #warning("malachitekit should properly sync this with the zoom slider")
-        let zoomSlider = AVCaptureSlider("Zoom", symbolName: "plus.viewfinder", in: 1.0...Float(MalachiteClassesObject().preferences.capture.maximumZoom))
-        zoomSlider.prominentValues = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0 ]
-        zoomSlider.setActionQueue(utilities.sessionQueue) { position in
-            self.zoomFloater = CGFloat(position)
-            self.runZoomController()
-        }
-        
-        #warning("same as above")
-        let focusSlider = AVCaptureSlider("Focus", symbolName: "scope", in: 0.0...1.0)
-        focusSlider.setActionQueue(utilities.sessionQueue) { position in
-            self.focusFloater = position
-            self.runManualFocusController()
-            self.focusFloater = nil
-        }
-        
-        let cameraSwitcher = AVCaptureIndexPicker("Cameras", symbolName: "camera.fill", localizedIndexTitles: self.availableRearCameras.map { $0.localizedName } )
-        cameraSwitcher.selectedIndex = self.availableRearCameras.firstIndex(of: self.selectedDevice!)!
-        cameraSwitcher.setActionQueue(utilities.sessionQueue) { index in
-            self.cameraIndex = index
-        }
-        
-        let flashSwitcher = AVCaptureIndexPicker("Flash", symbolName: "bolt.fill", numberOfIndexes: 2, localizedTitleTransform: { index in
-            switch index {
-            case 0: return NSLocalizedString("flash.off", comment: "")
-            case 1: return NSLocalizedString("flash.on", comment: "")
-            default: return ""
-            }
-        })
-        flashSwitcher.setActionQueue(utilities.sessionQueue) { index in
-            flashSwitcher.selectedIndex = self.flashStatus ? 1 : 0
-            self.runFlashlightToggle()
-            flashSwitcher.selectedIndex = self.flashStatus ? 1 : 0
-        }
-        
-        let flashSlider = AVCaptureSlider("Flash Level", symbolName: "lightbulb.fill", in: 0.0...1.0)
-        flashSlider.setActionQueue(utilities.sessionQueue) { position in
-            if (position == 0.0 && self.flashStatus) || (position != 0.0 && !self.flashStatus) {
-                self.flashFloater = position
-                self.runFlashlightToggle()
-                self.flashFloater = nil
-                flashSwitcher.selectedIndex = self.flashStatus ? 1 : 0
-            } else {
-                self.utilities.function.flashLevelTest(captureDevice: self.selectedDevice!, floater: position)
-            }
-        }
-        
-        if utilities.versionType == "INTERNAL" {
-            utilities.function.addControlsToSession(session: &cameraSession!, controls: [ zoomSlider, focusSlider, cameraSwitcher, flashSwitcher, flashSlider, systemBiasSlider])
-        }
-    }
-    
     @objc func runInputMegapixelSwitch() {
-        utilities.function.switchInputMegapixels(device: selectedDevice!, photoOutput: self.photoOutput)
+        guard let selectedDevice = self.selectedDevice else { return }
+        utilities.function.switchInputMegapixels(device: selectedDevice, photoOutput: self.photoOutput)
     }
     
     /// Function to toggle the flashlight's on state.
@@ -676,14 +485,9 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
                                            isFlashOn: &flashStatus)
         } else {
             utilities.debugNSLog("[Flashlight] No flashlight available")
-            let alert = UIAlertController(title: "alert.title.flashlight".localized, message: "alert.detail.flashlight".localized, preferredStyle: .actionSheet)
-            alert.popoverPresentationController?.sourceView = flashlightButton
-            if #available(iOS 26.0, *) {
-                alert.preferredTransition = .zoom { [self] _ in flashlightButton }
-            }
-            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.flashlight", message: "alert.detail.flashlight", button: flashlightButton, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Flashlight] Dialog has been dismissed")
-            }))
+            })
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -702,14 +506,9 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
             self.photoOutput = utilities.function.captureImage(output: self.photoOutput, viewForBounds: self.view, captureDelegate: self)
         } else {
             utilities.debugNSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
-            let alert = UIAlertController(title: "alert.title.phphotolibrary".localized, message: "alert.detail.phphotolibrary".localized, preferredStyle: .actionSheet)
-            alert.popoverPresentationController?.sourceView = captureButton
-            if #available(iOS 26.0, *) {
-                alert.preferredTransition = .zoom { [self] _ in captureButton }
-            }
-            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.phphotolibrary", message: "alert.detail.phphotolibrary", button: captureButton, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Capture Photo] Dialog has been dismissed")
-            }))
+            })
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -768,8 +567,9 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to autofocus + autoexposure with ``aeafRecognizer``.
     @objc func runaeafController() {
+        guard var selectedDevice = self.selectedDevice else { return }
         utilities.function.pointOfInterestAEAF(sender: aeafRecognizer,
-                                     captureDevice: &selectedDevice!,
+                                     captureDevice: &selectedDevice,
                                      button: aeafFeedback,
                                      viewForScale: self.view,
                                      hapticClass: utilities.haptics)
@@ -783,14 +583,9 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
                                               sender: exposureSlider)
         } else {
             utilities.debugNSLog("[Manual Exposure] Current camera is not capable of adjusting exposure")
-            let alert = UIAlertController(title: "alert.title.exposure".localized, message: "alert.detail.exposure".localized, preferredStyle: .actionSheet)
-            alert.popoverPresentationController?.sourceView = exposureButton
-            if #available(iOS 26.0, *) {
-                alert.preferredTransition = .zoom { [self] _ in exposureButton }
-            }
-            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.exposure", message: "alert.detail.exposure", button: exposureButton, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Manual Exposure] Dialog has been dismissed")
-            }))
+            })
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -805,14 +600,9 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
                                                                                 associatedSliderButton: exposureSliderButton)
         } else {
             utilities.debugNSLog("[Manual Focus] Current camera is not capable of adjusting exposure")
-            let alert = UIAlertController(title: "alert.title.exposure".localized, message: "alert.detail.exposure".localized, preferredStyle: .actionSheet)
-            alert.popoverPresentationController?.sourceView = exposureButton
-            if #available(iOS 26.0, *) {
-                alert.preferredTransition = .zoom { [self] _ in exposureButton }
-            }
-            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.exposure", message: "alert.detail.exposure", button: exposureButton, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Manual Exposure] Dialog has been dismissed")
-            }))
+            })
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -848,15 +638,11 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
                                            sender: focusSlider,
                                            floater: focusFloater ?? focusSlider.value)
         } else {
+            #warning("refactor to call unsupported codepath")
             utilities.debugNSLog("[Manual Focus] Current camera is not capable of adjusting focus")
-            let alert = UIAlertController(title: "alert.title.focus".localized, message: "alert.detail.focus".localized, preferredStyle: .actionSheet)
-            alert.popoverPresentationController?.sourceView = focusButton
-            if #available(iOS 26.0, *) {
-                alert.preferredTransition = .zoom { [self] _ in focusButton }
-            }
-            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.focus", message: "alert.detail.focus", button: focusButton, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Manual Focus] Dialog has been dismissed")
-            }))
+            })
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -871,14 +657,9 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
                                                                          associatedSliderButton: focusSliderButton)
         } else {
             utilities.debugNSLog("[Manual Focus] Current camera is not capable of adjusting focus")
-            let alert = UIAlertController(title: "alert.title.focus".localized, message: "alert.detail.focus".localized, preferredStyle: .actionSheet)
-            alert.popoverPresentationController?.sourceView = focusButton
-            if #available(iOS 26.0, *) {
-                alert.preferredTransition = .zoom { [self] _ in focusButton }
-            }
-            alert.addAction(UIAlertAction(title: NSLocalizedString("alert.button.ok", comment: "Default action"), style: .default, handler: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.focus", message: "alert.detail.focus", button: focusButton, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Manual Focus] Dialog has been dismissed")
-            }))
+            })
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -906,80 +687,8 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
                                                                     viewForRecognizers: self.view)
     }
     
-    @objc func updateSettingsGestureFingerCount() {
-        settingsRecognizer.numberOfTouchesRequired = utilities.preferences.evaintrnl.settingsGesture
-    }
-    
-    @objc func runSettingsGesture() {
-        if settingsRecognizer.state == UIGestureRecognizer.State.ended {
-            self.presentSettingsView()
-        }
-    }
-    
-    /// Function to show and hide the user interface that was drawn with ``setupView()``.
-    @objc func runUIHider() {
-        if uiHiderRecognizer.state == UITapGestureRecognizer.State.ended || uiHiderRecognizer.state == UITapGestureRecognizer.State.changed  { return }
-        
-        let gestureRecognizers = [ zoomRecognizer, aeafRecognizer ]
-        
-        DispatchQueue.main.async { [self] in
-            if !uiIsHidden {
-                hideUI()
-            } else {
-                showUI()
-                utilities.tooltips.zoomTooltipFlow(button: currentCamera, viewForBounds: self.view, camera: selectedDevice)
-            }
-
-            uiIsHidden = !uiIsHidden
-            utilities.haptics.triggerNotificationHaptic(type: .success)
-        }
-        
-        func hideUI() {
-            UIView.animate(withDuration: 0.25) { [self] in
-                for subview in self.view.subviews {
-                    if subview != cameraView {
-                        if subview == focusLockButton {
-                            if manualFocusSliderIsActive { subview.alpha = 0.0 }
-                        } else if subview == exposureLockButton {
-                            if manualExposureSliderIsActive { subview.alpha = 0.0 }
-                        } else {
-                            subview.alpha = 0.0
-                        }
-                    }
-                }
-            }
-            let hiddenRecognizers = utilities.preferences.userInterface.hiddenControls
-            for gestureRecognizer in gestureRecognizers {
-                if gestureRecognizer == zoomRecognizer && !hiddenRecognizers.contains("zoom") { self.view.removeGestureRecognizer(gestureRecognizer) }
-                if gestureRecognizer == aeafRecognizer && !hiddenRecognizers.contains("tah") { self.view.removeGestureRecognizer(gestureRecognizer) }
-            }
-        }
-        
-        func showUI() {
-            UIView.animate(withDuration: 0.25) { [self] in
-                for subview in self.view.subviews {
-                    if subview != cameraView && subview != aeafFeedback {
-                        if subview == focusLockButton {
-                            if manualFocusSliderIsActive { subview.alpha = 1.0 }
-                        } else if subview == exposureLockButton {
-                            if manualExposureSliderIsActive { subview.alpha = 1.0 }
-                        } else {
-                            subview.alpha = 1.0
-                        }
-                    }
-                }
-            }
-            
-            for gestureRecognizer in gestureRecognizers {
-                guard let currentRecognizers = self.view.gestureRecognizers else { return }
-                if !currentRecognizers.contains(gestureRecognizer) {
-                    self.view.addGestureRecognizer(gestureRecognizer)
-                }
-            }
-        }
-    }
-    
     /// Function to handle device rotation.
+    #warning("refactor to view utils")
     @objc func orientationChanged() {
         utilities.views.rotateButtonsWithOrientation(buttonsToRotate: [ cameraButton,
                                                                         flashlightButton,
@@ -989,47 +698,6 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
                                                                         focusLockButton,
                                                                         exposureButton,
                                                                         exposureLockButton ])
-    }
-    
-    /// Override function to force the status bar to never be shown.
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
-    /// Override function to force the app to be in portrait mode on iPhone.
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if utilities.idiom == .phone {
-            return .portrait
-        }
-        
-        return .all
-    }
-    
-    /// Override function to force the system to reject gestures from the bottom of the screen.
-    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
-        return [.bottom]
-    }
-    
-    /// Override function for layoutSubviews.
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        cameraView.center = CGPoint(x: cameraView.bounds.midX, y: cameraView.bounds.midY)
-        cameraView.frame = self.view.bounds
-    }
-    
-    /// Override function to trigger actions when the screen rotates.
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        
-        coordinator.animate(alongsideTransition: { [self] context in
-            #if MAIN_APP
-            if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0 is UIWindowScene }) as? UIWindowScene {
-                let orientation = windowScene.interfaceOrientation
-                self.cameraPreview?.connection!.videoOrientation = self.transformOrientation(orientation: orientation)
-            }
-            #endif
-            self.cameraPreview?.frame.size = self.view.frame.size
-        })
     }
 }
 

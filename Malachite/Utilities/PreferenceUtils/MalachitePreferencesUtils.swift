@@ -113,7 +113,7 @@ class MalachitePreferencesUtils {
         if let previewPreferences = oldPreferences["preview"] as? [ String: AnyObject ] {
             currentPreferences.preview.aspect = previewPreferences["aspect"] as? Bool ?? false
             currentPreferences.preview.stablize = previewPreferences["stabilize"] as? Bool ?? false
-            currentPreferences.preview.fastPath = true
+            currentPreferences.preview.fastPath = previewPreferences["fastPath"] as? Bool ?? true
         }
         
         if let capturePreferences = oldPreferences["capture"] as? [ String: AnyObject ] {
@@ -146,12 +146,15 @@ class MalachitePreferencesUtils {
         
         if let debugPreferences = oldPreferences["debug"] as? [ String: AnyObject ] {
             currentPreferences.debug.logging.preferences = debugPreferences["logging"]?["preferences"] as? Bool ?? false
-            currentPreferences.debug.breakApp = false
-            currentPreferences.debug.logging.unified = true
+            currentPreferences.debug.logging.unified = debugPreferences["logging"]?["unified"] as? Bool ?? true
+            currentPreferences.debug.breakApp = debugPreferences["breakApp"] as? Bool ?? false
         }
         
         if let evaintrnlPreferences = oldPreferences["evaintrnl"] as? [ String: AnyObject ] {
+            currentPreferences.evaintrnl.blockAccidentalGestures = evaintrnlPreferences["blockAccidentalGestures"] as? Bool ?? true
             currentPreferences.evaintrnl.settingsGesture = evaintrnlPreferences["settingsGesture"] as? Int ?? 2
+            currentPreferences.evaintrnl.cameraControlEnabled = evaintrnlPreferences["cameraControlEnabled"] as? Bool ?? true
+            currentPreferences.evaintrnl.cameraControlOptions = evaintrnlPreferences["cameraControlOptions"] as? [ String ] ?? [ "zoom", "focus", "cameras", "flash", "flashLevel", "exposureBias" ]
         }
         
         return currentPreferences
@@ -222,7 +225,10 @@ class MalachitePreferencesUtils {
                 breakApp: false
             ),
             evaintrnl: MalachitePreferences.evaintrnlPreferences(
-                settingsGesture: 2
+                blockAccidentalGestures: true,
+                settingsGesture: 2,
+                cameraControlEnabled: true,
+                cameraControlOptions: [ "zoom", "focus", "cameras", "flash", "flashLevel", "exposureBias" ]
             )
         )
     }

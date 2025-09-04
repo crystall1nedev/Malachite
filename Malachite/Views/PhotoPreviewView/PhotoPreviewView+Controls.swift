@@ -23,9 +23,9 @@ extension PhotoPreviewView {
             ]
             
             let buttonConfigs: [MalachiteViewUtils.buttonBuilder] = [
-                MalachiteViewUtils.buttonBuilder(symbolName: "xmark", action: #selector(delegate.dismissView), dimensions: [ 30.0, 60.0 ], constraints: buttonConstraints[0], assign: { [self] button in delegate.dismissButton = button }),
-                MalachiteViewUtils.buttonBuilder(symbolName: "photo.on.rectangle", action: #selector(delegate.savePhotoWrapped), dimensions: [ 30.0, 60.0 ], constraints: buttonConstraints[1], assign: { [self] button in delegate.savePhotoButton = button }),
-                MalachiteViewUtils.buttonBuilder(symbolName: "square.and.arrow.up", action: #selector(delegate.sharePhoto), dimensions: [ 30.0, 60.0 ], constraints: buttonConstraints[2], assign: { [self] button in delegate.sharePhotoButton = button }),
+                MalachiteViewUtils.buttonBuilder(symbolName: "xmark", action: #selector(delegate.dismissView), dimensions: [ 60.0 ], constraints: buttonConstraints[0], hidden: false, assign: { [self] button in delegate.dismissButton = button }),
+                MalachiteViewUtils.buttonBuilder(symbolName: "photo.on.rectangle", action: #selector(delegate.savePhotoWrapped), dimensions: [ 60.0 ], constraints: buttonConstraints[1], hidden: false, assign: { [self] button in delegate.savePhotoButton = button }),
+                MalachiteViewUtils.buttonBuilder(symbolName: "square.and.arrow.up", action: #selector(delegate.sharePhoto), dimensions: [ 60.0 ], constraints: buttonConstraints[2], hidden: false, assign: { [self] button in delegate.sharePhotoButton = button }),
             ]
             
             for config in buttonConfigs {

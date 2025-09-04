@@ -41,6 +41,15 @@ public class MalachiteGameUtils : NSObject, GKGameCenterControllerDelegate {
             leaderboards.loadLeaderboards()
         }
     }
+    
+    /// Function to change the GameKit enabled state.
+    @objc func changeGameCenterEnabled() {
+        DispatchQueue.global(qos: .background).async { [self] in
+            if MalachitePreferencesUtils.shared.preferences.general.gamekit.enabled {
+                setupGameCenter()
+            }
+        }
+    }
 }
 
 public class MalachiteGameAchievementUtils : NSObject {

@@ -110,6 +110,9 @@ struct MalachitePreferences: Codable {
     var evaintrnl:      evaintrnlPreferences
     
     struct evaintrnlPreferences: Codable {
+        var blockAccidentalGestures: Bool
         var settingsGesture: Int
+        var cameraControlEnabled: Bool
+        var cameraControlOptions: [ String ]
     }
 }

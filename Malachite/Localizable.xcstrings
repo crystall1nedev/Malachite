@@ -164,7 +164,7 @@
       }
     },
     "alert.button.ok" : {
-      "comment" : "Default action",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -186,7 +186,7 @@
       }
     },
     "alert.button.report" : {
-      "comment" : "Default action",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -974,6 +974,66 @@
         }
       }
     },
+    "internal.option.blockaccidentalgestures" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Block accidental gestures"
+          }
+        }
+      }
+    },
+    "internal.option.cameracontrol" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable Camera Control overlay"
+          }
+        }
+      }
+    },
+    "internal.option.settingsgesture" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe up for Settings"
+          }
+        }
+      }
+    },
+    "internal.option.settingsgesture.1" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 finger"
+          }
+        }
+      }
+    },
+    "internal.option.settingsgesture.2" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2 fingers"
+          }
+        }
+      }
+    },
+    "internal.option.settingsgesture.3" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3 fingers"
+          }
+        }
+      }
+    },
     "settings.detail.photo.continuous" : {
       "localizations" : {
         "en" : {
@@ -1543,46 +1603,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Disable auto lock"
-          }
-        }
-      }
-    },
-    "settings.option.ui.settingsgesture" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Swipe up for Settings"
-          }
-        }
-      }
-    },
-    "settings.option.ui.settingsgesture.1" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "1 finger"
-          }
-        }
-      }
-    },
-    "settings.option.ui.settingsgesture.2" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "2 fingers"
-          }
-        }
-      }
-    },
-    "settings.option.ui.settingsgesture.3" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "3 fingers"
           }
         }
       }

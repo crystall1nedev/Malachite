@@ -11,6 +11,10 @@ extension DeveloperView {
     struct InternalSettings: View {
         /// A State variable used for determining how many fingers are used for the settings gesture.
         @State private var settingsGestureFingers = Int()
+        /// A State variable used for determining whether or not to block accidental gestures.
+        @State private var blockAccidentalGestures = Bool()
+        /// A State variable used for determining whether or not to enable the Camera Control.
+        @State private var cameraControlEnabled = Bool()
         
         var utilities: MalachiteClassesObject
         
@@ -27,15 +31,32 @@ extension DeveloperView {
                     disabled: nil,
                     dangerous: false)
                 {
-                    Picker("settings.option.ui.settingsgesture", selection: $settingsGestureFingers) {
-                        Text("settings.option.ui.settingsgesture.1")
+                    Picker("internal.option.settingsgesture", selection: $settingsGestureFingers) {
+                        Text("internal.option.settingsgesture.1")
                             .tag(1)
-                        Text("settings.option.ui.settingsgesture.2")
+                        Text("internal.option.settingsgesture.2")
                             .tag(2)
-                        Text("settings.option.ui.settingsgesture.3")
+                        Text("internal.option.settingsgesture.3")
                             .tag(3)
                     }
                 }
+                MalachiteCellViewUtils(
+                    icon: "",
+                    disabled: nil,
+                    dangerous: false)
+                {
+                    Toggle("internal.option.blockaccidentalgestures", isOn: $blockAccidentalGestures)
+                }
+                if #available(iOS 18.0, *) {
+                    MalachiteCellViewUtils(
+                        icon: "",
+                        disabled: nil,
+                        dangerous: false)
+                    {
+                        Toggle("internal.option.cameracontrol", isOn: $cameraControlEnabled)
+                    }
+                }
+                #warning("do camera control options")
             }
             .onAppear(perform: onAppear)
             .onDisappear(perform: onDisappear)
@@ -44,16 +65,26 @@ extension DeveloperView {
                 
                 utilities.preferences.evaintrnl.settingsGesture = settingsGestureFingers
             }
+            .onChange(of: blockAccidentalGestures) {_ in
+                utilities.preferences.evaintrnl.blockAccidentalGestures = blockAccidentalGestures
+            }
+            .onChange(of: cameraControlEnabled) {_ in
+                utilities.preferences.evaintrnl.cameraControlEnabled = cameraControlEnabled
+            }
         }
         
         func onAppear() {
             settingsGestureFingers = utilities.preferences.evaintrnl.settingsGesture
+            blockAccidentalGestures = utilities.preferences.evaintrnl.blockAccidentalGestures
+            cameraControlEnabled = utilities.preferences.evaintrnl.cameraControlEnabled
         }
         
         func onDisappear() {
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.settingsGestureNotification.name, object: nil)
             
             utilities.preferences.evaintrnl.settingsGesture = settingsGestureFingers
+            utilities.preferences.evaintrnl.blockAccidentalGestures = blockAccidentalGestures
+            utilities.preferences.evaintrnl.cameraControlEnabled = cameraControlEnabled
         }
     }
 }

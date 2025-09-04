@@ -29,7 +29,7 @@ public class MalachiteClassesObject : NSObject {
     public let games     = MalachiteGameUtils()
     
     /// Private static storage for the session queue.
-    @available(iOS 17.0, *)
+    @available(iOS 18.0, *)
     private static var _sessionQueue: DispatchSerialQueue = DispatchSerialQueue(label: "dev.crystll1ne.Malachite.controlsSessionQueue")
     /// A session queue used to absorb Camera Control states.
     @available(iOS 18.0, *)
@@ -61,9 +61,7 @@ public class MalachiteClassesObject : NSObject {
     
     /// A function to only log in INTERNAL builds
     public func internalNSLog(_ format: String, file: String = #file, line: Int = #line, function: String = #function) {
-        if self.versionType == "INTERNAL" {
-            Foundation.NSLog("[\(file):\(line)] [\(function)] \(format)")
-        }
+        if self.versionType == "INTERNAL" { Foundation.NSLog("[\(file):\(line)] [\(function)] \(format)") }
     }
     
     /// A function that calls ``debugNSLog`` on DEBUG and ``internalNSLog`` on INTERNAL.

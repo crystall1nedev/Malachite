@@ -9,6 +9,7 @@ import Foundation
 import Photos
 import UIKit
 import SwiftUI
+import ObjectiveC.runtime
 
 public class MalachiteViewUtils : NSObject {
     /// Function that returns a buttons for the user interface.
@@ -18,7 +19,7 @@ public class MalachiteViewUtils : NSObject {
         button.setImage(buttonImage, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.masksToBounds = true
-        button.layer.cornerRadius = dimensions[0]
+        button.layer.cornerRadius = (dimensions.count > 2) ? dimensions[2] : (dimensions.count > 1) ? dimensions[1] / 2 : dimensions[0] / 2
         button.bringSubviewToFront(button.imageView!)
         button.imageView?.clipsToBounds = false
         button.imageView?.contentMode = .center
@@ -44,8 +45,8 @@ public class MalachiteViewUtils : NSObject {
         view.addSubview(button)
         
         var constraintsToAdd: [NSLayoutConstraint] = [
-            button.widthAnchor.constraint(equalToConstant: dimensions[1]),
-            button.heightAnchor.constraint(equalToConstant: (dimensions.count > 2) ? dimensions[2] : dimensions[1])
+            button.widthAnchor.constraint(equalToConstant: dimensions[0]),
+            button.heightAnchor.constraint(equalToConstant: (dimensions.count > 1) ? dimensions[1] : dimensions[0])
         ]
         
         if let LXA = constraints.LXA, let LXC = constraints.LXC, let LXP = constraints.LXP {
@@ -82,6 +83,16 @@ public class MalachiteViewUtils : NSObject {
         ])
         
         return slider
+    }
+    
+    /// Function that returns an alert view for the user interface, with only an option to dismiss.
+    public func createAlertController(title: String, message: String, button: UIButton, defaultSet: Bool, action: ((UIAlertAction) -> Void)?) -> UIAlertController {
+        let alert = UIAlertController(title: title.localized, message: message.localized, preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.sourceView = button
+        if #available(iOS 26.0, *) { alert.preferredTransition = .zoom { _ in button } }
+        if defaultSet { if let action = action { alert.addAction(UIAlertAction(title: "alert.button.ok".localized, style: .default, handler: action)) } }
+        
+        return alert
     }
     
     /// Function that returns blurs for the user interface.
@@ -191,11 +202,65 @@ public class MalachiteViewUtils : NSObject {
         return UIImage(data: data!)!
     }
     
+    func setupLmaoView(view: UIView) {
+        let lmaoView = UIImageView(image: returnImageForSimulator())
+        view.addSubview(lmaoView)
+        
+        NSLayoutConstraint.activate([
+            lmaoView.widthAnchor.constraint(equalToConstant: 60),
+            lmaoView.heightAnchor.constraint(equalToConstant: 60),
+            lmaoView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
+            lmaoView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+        ])
+    }
+    
+    func hideUI(view: UIView, blacklisted: [ AnyObject ], conditionals: [ UIView : Bool ], gestureRecognizers: [ UIGestureRecognizer ]) {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.25) {
+                for subview in view.subviews {
+                    if !blacklisted.contains(where: { $0 === subview }) {
+                        if let subviewConditional = conditionals[subview] { if subviewConditional { subview.alpha = 0.0 } }
+                        else { subview.alpha = 0.0 }
+                    }
+                }
+                
+                for recognizer in gestureRecognizers {
+                    if !blacklisted.contains(where: { $0 === recognizer }) {
+                        if !MalachitePreferencesUtils.shared.preferences.userInterface.hiddenControls.contains(recognizer.name) {
+                            //recognizer.isEnabled = false
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func showUI(view: UIView, blacklisted: [ AnyObject ], conditionals: [ UIView : Bool ], gestureRecognizers: [ UIGestureRecognizer ]) {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.25) {
+                for subview in view.subviews {
+                    if !blacklisted.contains(where: { $0 === subview }) {
+                        if let subviewConditional = conditionals[subview] { if subviewConditional { subview.alpha = 1.0 } }
+                        else { subview.alpha = 1.0 }
+                    }
+                }
+                
+                for recognizer in gestureRecognizers {
+                    if !blacklisted.contains(where: { $0 === recognizer }) {
+                        //recognizer.isEnabled = true
+                    }
+                }
+            }
+        }
+    }
+    
     public struct buttonBuilder {
         let symbolName: String
+        #warning("allow passing nil here, cba to fix at the moment")
         let action: Selector
         let dimensions: [ CGFloat ]
         let constraints: constraints
+        let hidden: Bool
         let assign: (UIButton) -> Void
         
         public struct constraints {
@@ -223,6 +288,18 @@ public class MalachiteViewUtils : NSObject {
         let text: String
         let anchor: CGFloat
         let assign: (UILabel) -> Void
+    }
+}
+
+private var UIGestureRecognizerNameKey: UInt8 = 0
+
+extension UIGestureRecognizer {
+    var name: String {
+        get {
+            if let value = objc_getAssociatedObject(self, &UIGestureRecognizerNameKey) as? String { return value }
+            return String(describing: type(of: self))
+        }
+        set { objc_setAssociatedObject(self, &UIGestureRecognizerNameKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC) }
     }
 }
 
