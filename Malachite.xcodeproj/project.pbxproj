@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -233,47 +233,39 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		7837C11A2E34C47D009396B0 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 13;
+			dstSubfolder = PlugIns;
 			files = (
 				7837C1172E34C47D009396B0 /* WidgetBundleWatch.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		78917F6A2B99AE73005E10FA /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 13;
+			dstSubfolder = PlugIns;
 			files = (
 				78917F692B99AE73005E10FA /* WidgetBundle.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		78A9DD702CD55551002C131D /* Embed ExtensionKit Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
 			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
-			dstSubfolderSpec = 16;
+			dstSubfolder = Product;
 			files = (
 				78A9DD6A2CD55551002C131D /* CaptureBundle.appex in Embed ExtensionKit Extensions */,
 			);
 			name = "Embed ExtensionKit Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		78B72BB62E332830002E2D4E /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
-			dstSubfolderSpec = 16;
+			dstSubfolder = Product;
 			files = (
 				78B72BB12E332830002E2D4E /* MalachiteWatch.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -382,36 +374,28 @@
 /* Begin PBXFrameworksBuildPhase section */
 		7837C10A2E34C45B009396B0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				7837C10B2E34C45B009396B0 /* SwiftUI.framework in Frameworks */,
 				7837C10C2E34C45B009396B0 /* WidgetKit.framework in Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		78917F562B99AE72005E10FA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				78917F5E2B99AE72005E10FA /* SwiftUI.framework in Frameworks */,
 				78917F5C2B99AE72005E10FA /* WidgetKit.framework in Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		78A9DD5E2CD55551002C131D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				78A9DE312CD581F1002C131D /* LockedCameraCapture.framework in Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		78B72BA42E33282E002E2D4E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -671,8 +655,6 @@
 			);
 			buildRules = (
 			);
-			dependencies = (
-			);
 			fileSystemSynchronizedGroups = (
 				786DAD982E4F283500BE3137 /* Assets */,
 			);
@@ -717,8 +699,6 @@
 			);
 			buildRules = (
 			);
-			dependencies = (
-			);
 			fileSystemSynchronizedGroups = (
 				786DAD982E4F283500BE3137 /* Assets */,
 			);
@@ -737,14 +717,10 @@
 			);
 			buildRules = (
 			);
-			dependencies = (
-			);
 			fileSystemSynchronizedGroups = (
 				786DAD982E4F283500BE3137 /* Assets */,
 			);
 			name = CaptureBundle;
-			packageProductDependencies = (
-			);
 			productName = MalachiteCaptureBundle;
 			productReference = 78A9DD612CD55551002C131D /* CaptureBundle.appex */;
 			productType = "com.apple.product-type.extensionkit-extension";
@@ -769,8 +745,6 @@
 				786DAD982E4F283500BE3137 /* Assets */,
 			);
 			name = MalachiteWatch;
-			packageProductDependencies = (
-			);
 			productName = "MalachiteWatch Watch App";
 			productReference = 78B72BA72E33282E002E2D4E /* MalachiteWatch.app */;
 			productType = "com.apple.product-type.application";
@@ -807,7 +781,7 @@
 				Base,
 			);
 			mainGroup = 785F08402B12D41100244EB4;
-			preferredProjectObjectVersion = 77;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = 785F084A2B12D41100244EB4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -824,43 +798,33 @@
 /* Begin PBXResourcesBuildPhase section */
 		7837C10D2E34C45B009396B0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				7837C10E2E34C45B009396B0 /* Localizable.xcstrings in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		785F08472B12D41100244EB4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				78EC5D5F2E4EC110005044E2 /* Localizable.xcstrings in Resources */,
 				785F08592B12D41300244EB4 /* LaunchScreen.storyboard in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		78917F572B99AE72005E10FA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				78CAC36A2CCD99B600A35AE8 /* Localizable.xcstrings in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		78A9DD5F2CD55551002C131D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				78A9DE752CD5AE5F002C131D /* Localizable.xcstrings in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		78B72BA52E33282E002E2D4E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
@@ -868,60 +832,201 @@
 		78329B0F2C22699A006D326F /* Embed build information  */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}",
 			);
 			name = "Embed build information ";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "eval \"${GCC_PREPROCESSOR_DEFINITIONS}\"\n\nPATH=/opt/homebrew/bin:/usr/local/bin:$PATH\nPLISTBUDDY=\"/usr/libexec/PlistBuddy\"\nINFOPLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n\n# If there is no git repo to pull this info from, this is set to undefined later.\nCFBUILDHASH=$(git --git-dir=\"${PROJECT_DIR}/.git\" --work-tree=\"${PROJECT_DIR}\" rev-parse --short HEAD)\nCFBUILDBRAN=$(git branch --show-current)\nCFBUILDDATE=$(date +'%Y-%m-%d-%H.%M.%S')\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then\n    # If the build is not INTERNAL, these are set to redacted later.\n    CFBUILDUSER=$(whoami)\n    CFBUILDHOST=$(hostname)\nelif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && !(-z $(system_profiler SPHardwareDataType | grep 'MacVM1,1')) ]]; then\n    # Xcode Cloud built this, but the hostname string is atrocious. Replace with these.\n    CFBUILDUSER=\"evaluna (App Store Connect)\"\n    CFBUILDHOST=\"Xcode Cloud\"\nfi\n\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(gpg --list-secret-keys | grep 4A5B8C2A065654E24DE50FF03716ACDC524F1879) ]]; then\n    echo \"Error: INTERNAL build type detected but Eva's GPG key was not found.\"\n    echo \"Error: See 'Embed build information' in Build Phases for a solution\"\n    # Be aware that I use the INTERNAL target to gate off any unstable/unready features. By removing this line, \n    # you are acknowledging that you will not receive support for any issues encountered with Malachite until you \n    # are running DEBUG or RELEASE. If you just want a DEBUG build, change the Build Configuration to Debug in \n    # Product > Scheme > Edit Scheme...\n    if [[ -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then\n        exit\n    else\n        # This line of code should keep internal TestFlight builds as INTERNAL, and external ones as DEBUG\n        if [[ $(git --git-dir=\"${PROJECT_DIR}/.git\" rev-parse --abbrev-ref HEAD) != *\"dev\"* ]]; then\n            CFBUILDTYPE=\"DEBUG\"\n        fi\n    fi\nfi\n\n\n\n# Print all of the variables in the build log. Useful for debugging\necho \"\"\necho \"CFBUILDHASH = ${CFBUILDHASH}\"\necho \"CFBUILDBRAN = ${CFBUILDBRAN}\"\necho \"CFBUILDDATE = ${CFBUILDDATE}\"\necho \"CFBUILDTYPE = ${CFBUILDTYPE}\"\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" ]]; then\n    echo \"CFBUILDUSER = ${CFBUILDUSER}\"\n    echo \"CFBUILDHOST = ${CFBUILDHOST}\"\nfi\necho \"INFOPLIST = ${INFOPLIST}\"\n\n# Make sure the key is present in the plist before trying to set it.\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHash' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHash string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildBran' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildBran string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildDate' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildDate string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildType' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildType string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildUser' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildUser string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHost' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHost string\" \"${INFOPLIST}\"; fi\n\n# Fallback values, either to fill in the gaps or prevent app crashes\nif [ -z \"$CFBUILDHASH\" ]; then CFBUILDHASH=undefined; fi\nif [ -z \"$CFBUILDBRAN\" ]; then CFBUILDBRAN=undefined; fi\nif [ -z \"$CFBUILDTYPE\" ]; then CFBUILDTYPE=debug; fi\nif [ -z \"$CFBUILDUSER\" ]; then CFBUILDUSER=redacted; fi\nif [ -z \"$CFBUILDHOST\" ]; then CFBUILDHOST=redacted; fi\n\n# Set the values in the Info.plist\n$PLISTBUDDY -c \"Set :CFBuildHash $CFBUILDHASH\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildBran $CFBUILDBRAN\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildDate $CFBUILDDATE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"\n";
+			shellScript = (
+				"eval \"${GCC_PREPROCESSOR_DEFINITIONS}\"",
+				"",
+				"PATH=/opt/homebrew/bin:/usr/local/bin:$PATH",
+				"PLISTBUDDY=\"/usr/libexec/PlistBuddy\"",
+				"INFOPLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"",
+				"",
+				"# If there is no git repo to pull this info from, this is set to undefined later.",
+				"CFBUILDHASH=$(git --git-dir=\"${PROJECT_DIR}/.git\" --work-tree=\"${PROJECT_DIR}\" rev-parse --short HEAD)",
+				"CFBUILDBRAN=$(git branch --show-current)",
+				"CFBUILDDATE=$(date +'%Y-%m-%d-%H.%M.%S')",
+				"if [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then",
+				"    # If the build is not INTERNAL, these are set to redacted later.",
+				"    CFBUILDUSER=$(whoami)",
+				"    CFBUILDHOST=$(hostname)",
+				"elif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && !(-z $(system_profiler SPHardwareDataType | grep 'MacVM1,1')) ]]; then",
+				"    # Xcode Cloud built this, but the hostname string is atrocious. Replace with these.",
+				"    CFBUILDUSER=\"evaluna (App Store Connect)\"",
+				"    CFBUILDHOST=\"Xcode Cloud\"",
+				"fi",
+				"",
+				"if [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(gpg --list-secret-keys | grep 4A5B8C2A065654E24DE50FF03716ACDC524F1879) ]]; then",
+				"    echo \"Error: INTERNAL build type detected but Eva's GPG key was not found.\"",
+				"    echo \"Error: See 'Embed build information' in Build Phases for a solution\"",
+				"    # Be aware that I use the INTERNAL target to gate off any unstable/unready features. By removing this line, ",
+				"    # you are acknowledging that you will not receive support for any issues encountered with Malachite until you ",
+				"    # are running DEBUG or RELEASE. If you just want a DEBUG build, change the Build Configuration to Debug in ",
+				"    # Product > Scheme > Edit Scheme...",
+				"    if [[ -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then",
+				"        exit",
+				"    else",
+				"        # This line of code should keep internal TestFlight builds as INTERNAL, and external ones as DEBUG",
+				"        if [[ $(git --git-dir=\"${PROJECT_DIR}/.git\" rev-parse --abbrev-ref HEAD) != *\"dev\"* ]]; then",
+				"            CFBUILDTYPE=\"DEBUG\"",
+				"        fi",
+				"    fi",
+				"fi",
+				"",
+				"",
+				"",
+				"# Print all of the variables in the build log. Useful for debugging",
+				"echo \"\"",
+				"echo \"CFBUILDHASH = ${CFBUILDHASH}\"",
+				"echo \"CFBUILDBRAN = ${CFBUILDBRAN}\"",
+				"echo \"CFBUILDDATE = ${CFBUILDDATE}\"",
+				"echo \"CFBUILDTYPE = ${CFBUILDTYPE}\"",
+				"if [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" ]]; then",
+				"    echo \"CFBUILDUSER = ${CFBUILDUSER}\"",
+				"    echo \"CFBUILDHOST = ${CFBUILDHOST}\"",
+				"fi",
+				"echo \"INFOPLIST = ${INFOPLIST}\"",
+				"",
+				"# Make sure the key is present in the plist before trying to set it.",
+				"TMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHash' \"${INFOPLIST}\" 2>/dev/null)",
+				"if [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHash string\" \"${INFOPLIST}\"; fi",
+				"TMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildBran' \"${INFOPLIST}\" 2>/dev/null)",
+				"if [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildBran string\" \"${INFOPLIST}\"; fi",
+				"TMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildDate' \"${INFOPLIST}\" 2>/dev/null)",
+				"if [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildDate string\" \"${INFOPLIST}\"; fi",
+				"TMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildType' \"${INFOPLIST}\" 2>/dev/null)",
+				"if [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildType string\" \"${INFOPLIST}\"; fi",
+				"TMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildUser' \"${INFOPLIST}\" 2>/dev/null)",
+				"if [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildUser string\" \"${INFOPLIST}\"; fi",
+				"TMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHost' \"${INFOPLIST}\" 2>/dev/null)",
+				"if [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHost string\" \"${INFOPLIST}\"; fi",
+				"",
+				"# Fallback values, either to fill in the gaps or prevent app crashes",
+				"if [ -z \"$CFBUILDHASH\" ]; then CFBUILDHASH=undefined; fi",
+				"if [ -z \"$CFBUILDBRAN\" ]; then CFBUILDBRAN=undefined; fi",
+				"if [ -z \"$CFBUILDDATE\" ]; then CFBUILDDATE=undefined; fi",
+				"if [ -z \"$CFBUILDTYPE\" ]; then CFBUILDTYPE=debug; fi",
+				"if [ -z \"$CFBUILDUSER\" ]; then CFBUILDUSER=redacted; fi",
+				"if [ -z \"$CFBUILDHOST\" ]; then CFBUILDHOST=redacted; fi",
+				"",
+				"# Set the values in the Info.plist",
+				"$PLISTBUDDY -c \"Set :CFBuildHash $CFBUILDHASH\" \"${INFOPLIST}\"",
+				"$PLISTBUDDY -c \"Set :CFBuildBran $CFBUILDBRAN\" \"${INFOPLIST}\"",
+				"$PLISTBUDDY -c \"Set :CFBuildDate $CFBUILDDATE\" \"${INFOPLIST}\"",
+				"$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"",
+				"$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"",
+				"$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"",
+				"",
+			);
 		};
 		78EC5D602E4EC1AD005044E2 /* Embed build information */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}",
 			);
 			name = "Embed build information";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "eval \"${GCC_PREPROCESSOR_DEFINITIONS}\"\n\nPATH=/opt/homebrew/bin:/usr/local/bin:$PATH\nPLISTBUDDY=\"/usr/libexec/PlistBuddy\"\nINFOPLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n\n# If there is no git repo to pull this info from, this is set to undefined later.\nCFBUILDHASH=$(git --git-dir=\"${PROJECT_DIR}/.git\" --work-tree=\"${PROJECT_DIR}\" rev-parse --short HEAD)\nCFBUILDBRAN=$(git branch --show-current)\nCFBUILDDATE=$(date +'%Y-%m-%d-%H.%M.%S')\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then\n    # If the build is not INTERNAL, these are set to redacted later.\n    CFBUILDUSER=$(whoami)\n    CFBUILDHOST=$(hostname)\nelif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && !(-z $(system_profiler SPHardwareDataType | grep 'MacVM1,1')) ]]; then\n    # Xcode Cloud built this, but the hostname string is atrocious. Replace with these.\n    CFBUILDUSER=\"evaluna (App Store Connect)\"\n    CFBUILDHOST=\"Xcode Cloud\"\nfi\n\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(gpg --list-secret-keys | grep 4A5B8C2A065654E24DE50FF03716ACDC524F1879) ]]; then\n    echo \"Error: INTERNAL build type detected but Eva's GPG key was not found.\"\n    echo \"Error: See 'Embed build information' in Build Phases for a solution\"\n    # Be aware that I use the INTERNAL target to gate off any unstable/unready features. By removing this line, \n    # you are acknowledging that you will not receive support for any issues encountered with Malachite until you \n    # are running DEBUG or RELEASE. If you just want a DEBUG build, change the Build Configuration to Debug in \n    # Product > Scheme > Edit Scheme...\n    if [[ -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then\n        exit\n    else\n        # This line of code should keep internal TestFlight builds as INTERNAL, and external ones as DEBUG\n        if [[ $(git --git-dir=\"${PROJECT_DIR}/.git\" rev-parse --abbrev-ref HEAD) != *\"dev\"* ]]; then\n            CFBUILDTYPE=\"DEBUG\"\n        fi\n    fi\nfi\n\n\n\n# Print all of the variables in the build log. Useful for debugging\necho \"\"\necho \"CFBUILDHASH = ${CFBUILDHASH}\"\necho \"CFBUILDBRAN = ${CFBUILDBRAN}\"\necho \"CFBUILDDATE = ${CFBUILDDATE}\"\necho \"CFBUILDTYPE = ${CFBUILDTYPE}\"\nif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" ]]; then\n    echo \"CFBUILDUSER = ${CFBUILDUSER}\"\n    echo \"CFBUILDHOST = ${CFBUILDHOST}\"\nfi\necho \"INFOPLIST = ${INFOPLIST}\"\n\n# Make sure the key is present in the plist before trying to set it.\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHash' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHash string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildBran' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildBran string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildDate' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildDate string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildType' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildType string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildUser' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildUser string\" \"${INFOPLIST}\"; fi\nTMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHost' \"${INFOPLIST}\" 2>/dev/null)\nif [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHost string\" \"${INFOPLIST}\"; fi\n\n# Fallback values, either to fill in the gaps or prevent app crashes\nif [ -z \"$CFBUILDHASH\" ]; then CFBUILDHASH=undefined; fi\nif [ -z \"$CFBUILDBRAN\" ]; then CFBUILDBRAN=undefined; fi\nif [ -z \"$CFBUILDTYPE\" ]; then CFBUILDTYPE=debug; fi\nif [ -z \"$CFBUILDUSER\" ]; then CFBUILDUSER=redacted; fi\nif [ -z \"$CFBUILDHOST\" ]; then CFBUILDHOST=redacted; fi\n\n# Set the values in the Info.plist\n$PLISTBUDDY -c \"Set :CFBuildHash $CFBUILDHASH\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildBran $CFBUILDBRAN\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildDate $CFBUILDDATE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"\n$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"\n";
+			shellScript = (
+				"eval \"${GCC_PREPROCESSOR_DEFINITIONS}\"",
+				"",
+				"PATH=/opt/homebrew/bin:/usr/local/bin:$PATH",
+				"PLISTBUDDY=\"/usr/libexec/PlistBuddy\"",
+				"INFOPLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"",
+				"",
+				"# If there is no git repo to pull this info from, this is set to undefined later.",
+				"CFBUILDHASH=$(git --git-dir=\"${PROJECT_DIR}/.git\" --work-tree=\"${PROJECT_DIR}\" rev-parse --short HEAD)",
+				"CFBUILDBRAN=$(git branch --show-current)",
+				"CFBUILDDATE=$(date +'%Y-%m-%d-%H.%M.%S')",
+				"if [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then",
+				"    # If the build is not INTERNAL, these are set to redacted later.",
+				"    CFBUILDUSER=$(whoami)",
+				"    CFBUILDHOST=$(hostname)",
+				"elif [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && !(-z $(system_profiler SPHardwareDataType | grep 'MacVM1,1')) ]]; then",
+				"    # Xcode Cloud built this, but the hostname string is atrocious. Replace with these.",
+				"    CFBUILDUSER=\"evaluna (App Store Connect)\"",
+				"    CFBUILDHOST=\"Xcode Cloud\"",
+				"fi",
+				"",
+				"if [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" && -z $(gpg --list-secret-keys | grep 4A5B8C2A065654E24DE50FF03716ACDC524F1879) ]]; then",
+				"    echo \"Error: INTERNAL build type detected but Eva's GPG key was not found.\"",
+				"    echo \"Error: See 'Embed build information' in Build Phases for a solution\"",
+				"    # Be aware that I use the INTERNAL target to gate off any unstable/unready features. By removing this line, ",
+				"    # you are acknowledging that you will not receive support for any issues encountered with Malachite until you ",
+				"    # are running DEBUG or RELEASE. If you just want a DEBUG build, change the Build Configuration to Debug in ",
+				"    # Product > Scheme > Edit Scheme...",
+				"    if [[ -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then",
+				"        exit",
+				"    else",
+				"        # This line of code should keep internal TestFlight builds as INTERNAL, and external ones as DEBUG",
+				"        if [[ $(git --git-dir=\"${PROJECT_DIR}/.git\" rev-parse --abbrev-ref HEAD) != *\"dev\"* ]]; then",
+				"            CFBUILDTYPE=\"DEBUG\"",
+				"        fi",
+				"    fi",
+				"fi",
+				"",
+				"",
+				"",
+				"# Print all of the variables in the build log. Useful for debugging",
+				"echo \"\"",
+				"echo \"CFBUILDHASH = ${CFBUILDHASH}\"",
+				"echo \"CFBUILDBRAN = ${CFBUILDBRAN}\"",
+				"echo \"CFBUILDDATE = ${CFBUILDDATE}\"",
+				"echo \"CFBUILDTYPE = ${CFBUILDTYPE}\"",
+				"if [[ \"${CFBUILDTYPE}\" == \"INTERNAL\" ]]; then",
+				"    echo \"CFBUILDUSER = ${CFBUILDUSER}\"",
+				"    echo \"CFBUILDHOST = ${CFBUILDHOST}\"",
+				"fi",
+				"echo \"INFOPLIST = ${INFOPLIST}\"",
+				"",
+				"# Make sure the key is present in the plist before trying to set it.",
+				"TMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHash' \"${INFOPLIST}\" 2>/dev/null)",
+				"if [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHash string\" \"${INFOPLIST}\"; fi",
+				"TMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildBran' \"${INFOPLIST}\" 2>/dev/null)",
+				"if [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildBran string\" \"${INFOPLIST}\"; fi",
+				"TMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildDate' \"${INFOPLIST}\" 2>/dev/null)",
+				"if [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildDate string\" \"${INFOPLIST}\"; fi",
+				"TMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildType' \"${INFOPLIST}\" 2>/dev/null)",
+				"if [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildType string\" \"${INFOPLIST}\"; fi",
+				"TMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildUser' \"${INFOPLIST}\" 2>/dev/null)",
+				"if [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildUser string\" \"${INFOPLIST}\"; fi",
+				"TMP=$(/usr/libexec/PlistBuddy -c 'print :CFBuildHost' \"${INFOPLIST}\" 2>/dev/null)",
+				"if [ -z \"$TMP\" ]; then $PLISTBUDDY -c \"Add :CFBuildHost string\" \"${INFOPLIST}\"; fi",
+				"",
+				"# Fallback values, either to fill in the gaps or prevent app crashes",
+				"if [ -z \"$CFBUILDHASH\" ]; then CFBUILDHASH=undefined; fi",
+				"if [ -z \"$CFBUILDBRAN\" ]; then CFBUILDBRAN=undefined; fi",
+				"if [ -z \"$CFBUILDDATE\" ]; then CFBUILDDATE=undefined; fi",
+				"if [ -z \"$CFBUILDTYPE\" ]; then CFBUILDTYPE=debug; fi",
+				"if [ -z \"$CFBUILDUSER\" ]; then CFBUILDUSER=redacted; fi",
+				"if [ -z \"$CFBUILDHOST\" ]; then CFBUILDHOST=redacted; fi",
+				"",
+				"# Set the values in the Info.plist",
+				"$PLISTBUDDY -c \"Set :CFBuildHash $CFBUILDHASH\" \"${INFOPLIST}\"",
+				"$PLISTBUDDY -c \"Set :CFBuildBran $CFBUILDBRAN\" \"${INFOPLIST}\"",
+				"$PLISTBUDDY -c \"Set :CFBuildDate $CFBUILDDATE\" \"${INFOPLIST}\"",
+				"$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"",
+				"$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"",
+				"$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"",
+				"",
+			);
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7837C1052E34C45B009396B0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				786DAE712E4F28B700BE3137 /* ControlCenterWidget.swift in Sources */,
 				786DAE722E4F28B700BE3137 /* LockScreenWidget.swift in Sources */,
 				786DAE732E4F28B700BE3137 /* MalachiteWidgetBundle.swift in Sources */,
 				786DAE672E4F28B100BE3137 /* MalachiteIntentUtils.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		785F08452B12D41100244EB4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				788262BB2E5170F4000085AC /* AboutView+Info.swift in Sources */,
 				78E1707D2E51CC63009BEF2F /* CompatibilityView+Resolutions.swift in Sources */,
@@ -979,11 +1084,9 @@
 				78E1707F2E51CE45009BEF2F /* CompatibilityView+Format.swift in Sources */,
 				785F084F2B12D41100244EB4 /* SceneDelegate.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		78917F552B99AE72005E10FA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				788262BC2E5170F4000085AC /* AboutView+Info.swift in Sources */,
 				78E1707B2E51CC63009BEF2F /* CompatibilityView+Resolutions.swift in Sources */,
@@ -1041,11 +1144,9 @@
 				78E170812E51CE45009BEF2F /* CompatibilityView+Format.swift in Sources */,
 				786DAE402E4F28A600BE3137 /* CameraView.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		78A9DD5D2CD55551002C131D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				786DAE232E4F28A600BE3137 /* DeveloperView.swift in Sources */,
 				788262782E5130DB000085AC /* SettingsView+UI.swift in Sources */,
@@ -1101,16 +1202,13 @@
 				786DAE2B2E4F28A600BE3137 /* SettingsView.swift in Sources */,
 				786DAE2C2E4F28A600BE3137 /* CameraView.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		78B72BA32E33282E002E2D4E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				786DAE7D2E4F28BF00BE3137 /* ContentView.swift in Sources */,
 				786DAE7E2E4F28BF00BE3137 /* MalachiteWatchApp.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -1154,7 +1252,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		7837C1122E34C45B009396B0 /* Debug */ = {
+		7837C1122E34C45B009396B0 /* Debug configuration for PBXNativeTarget "WidgetBundleWatch" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1198,7 +1296,7 @@
 			};
 			name = Debug;
 		};
-		7837C1132E34C45B009396B0 /* Internal */ = {
+		7837C1132E34C45B009396B0 /* Internal configuration for PBXNativeTarget "WidgetBundleWatch" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1242,7 +1340,7 @@
 			};
 			name = Internal;
 		};
-		7837C1142E34C45B009396B0 /* Release */ = {
+		7837C1142E34C45B009396B0 /* Release configuration for PBXNativeTarget "WidgetBundleWatch" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1286,7 +1384,7 @@
 			};
 			name = Release;
 		};
-		785F085B2B12D41300244EB4 /* Debug */ = {
+		785F085B2B12D41300244EB4 /* Debug configuration for PBXProject "Malachite" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1352,7 +1450,7 @@
 			};
 			name = Debug;
 		};
-		785F085C2B12D41300244EB4 /* Release */ = {
+		785F085C2B12D41300244EB4 /* Release configuration for PBXProject "Malachite" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1411,7 +1509,7 @@
 			};
 			name = Release;
 		};
-		785F085E2B12D41300244EB4 /* Debug */ = {
+		785F085E2B12D41300244EB4 /* Debug configuration for PBXNativeTarget "Malachite" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1471,7 +1569,7 @@
 			};
 			name = Debug;
 		};
-		785F085F2B12D41300244EB4 /* Release */ = {
+		785F085F2B12D41300244EB4 /* Release configuration for PBXNativeTarget "Malachite" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1528,7 +1626,7 @@
 			};
 			name = Release;
 		};
-		78917F6B2B99AE73005E10FA /* Debug */ = {
+		78917F6B2B99AE73005E10FA /* Debug configuration for PBXNativeTarget "WidgetBundle" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1570,7 +1668,7 @@
 			};
 			name = Debug;
 		};
-		78917F6C2B99AE73005E10FA /* Release */ = {
+		78917F6C2B99AE73005E10FA /* Release configuration for PBXNativeTarget "WidgetBundle" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1612,7 +1710,7 @@
 			};
 			name = Release;
 		};
-		78A9DD6D2CD55551002C131D /* Debug */ = {
+		78A9DD6D2CD55551002C131D /* Debug configuration for PBXNativeTarget "CaptureBundle" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1652,7 +1750,7 @@
 			};
 			name = Debug;
 		};
-		78A9DD6E2CD55551002C131D /* Internal */ = {
+		78A9DD6E2CD55551002C131D /* Internal configuration for PBXNativeTarget "CaptureBundle" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1692,7 +1790,7 @@
 			};
 			name = Internal;
 		};
-		78A9DD6F2CD55551002C131D /* Release */ = {
+		78A9DD6F2CD55551002C131D /* Release configuration for PBXNativeTarget "CaptureBundle" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1732,7 +1830,7 @@
 			};
 			name = Release;
 		};
-		78B72BB32E332830002E2D4E /* Debug */ = {
+		78B72BB32E332830002E2D4E /* Debug configuration for PBXNativeTarget "MalachiteWatch" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1773,7 +1871,7 @@
 			};
 			name = Debug;
 		};
-		78B72BB42E332830002E2D4E /* Internal */ = {
+		78B72BB42E332830002E2D4E /* Internal configuration for PBXNativeTarget "MalachiteWatch" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1814,7 +1912,7 @@
 			};
 			name = Internal;
 		};
-		78B72BB52E332830002E2D4E /* Release */ = {
+		78B72BB52E332830002E2D4E /* Release configuration for PBXNativeTarget "MalachiteWatch" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1855,7 +1953,7 @@
 			};
 			name = Release;
 		};
-		78F9DA642CBCDDB900A99638 /* Internal */ = {
+		78F9DA642CBCDDB900A99638 /* Internal configuration for PBXProject "Malachite" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1922,7 +2020,7 @@
 			};
 			name = Internal;
 		};
-		78F9DA652CBCDDB900A99638 /* Internal */ = {
+		78F9DA652CBCDDB900A99638 /* Internal configuration for PBXNativeTarget "Malachite" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1982,7 +2080,7 @@
 			};
 			name = Internal;
 		};
-		78F9DA662CBCDDB900A99638 /* Internal */ = {
+		78F9DA662CBCDDB900A99638 /* Internal configuration for PBXNativeTarget "WidgetBundle" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -2030,61 +2128,55 @@
 		7837C1112E34C45B009396B0 /* Build configuration list for PBXNativeTarget "WidgetBundleWatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7837C1122E34C45B009396B0 /* Debug */,
-				7837C1132E34C45B009396B0 /* Internal */,
-				7837C1142E34C45B009396B0 /* Release */,
+				7837C1122E34C45B009396B0 /* Debug configuration for PBXNativeTarget "WidgetBundleWatch" */,
+				7837C1132E34C45B009396B0 /* Internal configuration for PBXNativeTarget "WidgetBundleWatch" */,
+				7837C1142E34C45B009396B0 /* Release configuration for PBXNativeTarget "WidgetBundleWatch" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Internal;
 		};
 		785F08442B12D41100244EB4 /* Build configuration list for PBXProject "Malachite" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				785F085B2B12D41300244EB4 /* Debug */,
-				78F9DA642CBCDDB900A99638 /* Internal */,
-				785F085C2B12D41300244EB4 /* Release */,
+				785F085B2B12D41300244EB4 /* Debug configuration for PBXProject "Malachite" */,
+				78F9DA642CBCDDB900A99638 /* Internal configuration for PBXProject "Malachite" */,
+				785F085C2B12D41300244EB4 /* Release configuration for PBXProject "Malachite" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Internal;
 		};
 		785F085D2B12D41300244EB4 /* Build configuration list for PBXNativeTarget "Malachite" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				785F085E2B12D41300244EB4 /* Debug */,
-				78F9DA652CBCDDB900A99638 /* Internal */,
-				785F085F2B12D41300244EB4 /* Release */,
+				785F085E2B12D41300244EB4 /* Debug configuration for PBXNativeTarget "Malachite" */,
+				78F9DA652CBCDDB900A99638 /* Internal configuration for PBXNativeTarget "Malachite" */,
+				785F085F2B12D41300244EB4 /* Release configuration for PBXNativeTarget "Malachite" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Internal;
 		};
 		78917F6D2B99AE73005E10FA /* Build configuration list for PBXNativeTarget "WidgetBundle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				78917F6B2B99AE73005E10FA /* Debug */,
-				78F9DA662CBCDDB900A99638 /* Internal */,
-				78917F6C2B99AE73005E10FA /* Release */,
+				78917F6B2B99AE73005E10FA /* Debug configuration for PBXNativeTarget "WidgetBundle" */,
+				78F9DA662CBCDDB900A99638 /* Internal configuration for PBXNativeTarget "WidgetBundle" */,
+				78917F6C2B99AE73005E10FA /* Release configuration for PBXNativeTarget "WidgetBundle" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Internal;
 		};
 		78A9DD6C2CD55551002C131D /* Build configuration list for PBXNativeTarget "CaptureBundle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				78A9DD6D2CD55551002C131D /* Debug */,
-				78A9DD6E2CD55551002C131D /* Internal */,
-				78A9DD6F2CD55551002C131D /* Release */,
+				78A9DD6D2CD55551002C131D /* Debug configuration for PBXNativeTarget "CaptureBundle" */,
+				78A9DD6E2CD55551002C131D /* Internal configuration for PBXNativeTarget "CaptureBundle" */,
+				78A9DD6F2CD55551002C131D /* Release configuration for PBXNativeTarget "CaptureBundle" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Internal;
 		};
 		78B72BB22E332830002E2D4E /* Build configuration list for PBXNativeTarget "MalachiteWatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				78B72BB32E332830002E2D4E /* Debug */,
-				78B72BB42E332830002E2D4E /* Internal */,
-				78B72BB52E332830002E2D4E /* Release */,
+				78B72BB32E332830002E2D4E /* Debug configuration for PBXNativeTarget "MalachiteWatch" */,
+				78B72BB42E332830002E2D4E /* Internal configuration for PBXNativeTarget "MalachiteWatch" */,
+				78B72BB52E332830002E2D4E /* Release configuration for PBXNativeTarget "MalachiteWatch" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Internal;
 		};
 /* End XCConfigurationList section */
