@@ -7,19 +7,31 @@
 
 import Foundation
 import AVFoundation
+import AVKit
 import UIKit
 
 // MARK: ControlLayer - Main
 extension CameraView {
     class ControlLayer: NSObject, AVCaptureSessionControlsDelegate {
-        /// The existing instance of ``CameraView`` to act on.
+        /**
+         The existing instance of ``CameraView`` to act on.
+         */
         var delegate = CameraView()
         
         init(delegate: CameraView) { self.delegate = delegate }
         
-        /// An array of the recognizers initalized by this control layer.
+        /**
+         An array of ``UIGestureRecognizer`` objects that are managed by this control layer.
+         */
         var recognizers = [ UIGestureRecognizer ]()
+        /**
+         The ``AVCaptureEventInteraction`` that catches volume button and Camera Control events for taking photos.
+         */
+        var eventInteraction: Any? = { if #available(iOS 17.2, *) { return AVCaptureEventInteraction?.self } else { return nil } }()
         
+        /**
+         Creates, adds, and constrains the ``UIButton`` objects that are managed by this control layer.
+         */
         func initButtons() {
             var lockButtonsX = -80.0
             var lockButtonsY = 0.0
@@ -71,6 +83,9 @@ extension CameraView {
             }
         }
         
+        /**
+         Creates, adds, and constrains the ``UISlider`` objects that are managed by this control layer.
+         */
         func initSliders() {
             let sliderConfigs: [MalachiteViewUtils.sliderBuilder] = [
                 MalachiteViewUtils.sliderBuilder(action: #selector(delegate.runManualFocusController), dimensions: [ 180.0, 80.0 ], view: delegate.focusSliderButton, assign: { [self] slider in delegate.focusSlider = slider } ),
@@ -82,6 +97,9 @@ extension CameraView {
             }
         }
         
+        /**
+         Creates and adds the ``UIGestureRecognizer`` objects that are managed by this control layer.
+         */
         func initRecognizers() {
             delegate.zoomRecognizer = UIPinchGestureRecognizer(target: delegate, action:#selector(runZoomController))
             delegate.zoomRecognizer.name = "zoom"
@@ -103,6 +121,9 @@ extension CameraView {
             }
         }
         
+        /**
+         Creates, adds, and fades the tooltip flows that are managed by this control layer.
+         */
         func initTooltips(showLabels: Bool, showCamera: Bool) {
             if showLabels {
                 let tooltipConfigs: [ MalachiteViewUtils.tooltipBuilder ] = [
@@ -118,14 +139,20 @@ extension CameraView {
                 delegate.utilities.tooltips.fadeOutTooltipFlow(labelsToFade: labels)
             }
             
-            if showCamera { delegate.utilities.tooltips.zoomTooltipFlow(button: delegate.currentCamera, viewForBounds: delegate.view, camera: delegate.selectedDevice) }
+            if delegate.camera.currentDevice != nil {
+                if showCamera { delegate.utilities.tooltips.zoomTooltipFlow(button: delegate.currentCamera, viewForBounds: delegate.view, camera: delegate.camera.currentDevice) }
+            }
         }
         
+        /**
+         Runs all other initialization functions defined in this control layer's class.
+         */
         func bringUpControlLayer() {
             initButtons()
             initSliders()
             initRecognizers()
-            if !delegate.utilities.preferences.userInterface.appLaunch { initTooltips(showLabels: true, showCamera: true) }
+            //if !delegate.utilities.preferences.userInterface.appLaunch { initTooltips(showLabels: true, showCamera: true) }
+            if #available(iOS 17.2, *) { initEventInteraction() }
             if #available(iOS 18.0, *) {
                 if delegate.utilities.versionType == "INTERNAL" && delegate.utilities.preferences.evaintrnl.cameraControlEnabled {
                     initCameraControl()
@@ -152,14 +179,15 @@ extension CameraView.ControlLayer {
     
     func sessionControlsDidBecomeInactive(_ session: AVCaptureSession) {
         if delegate.uiIsHidden { runUIHider() }
-        if delegate.cameraIndex != nil {
+        if delegate.camera.currentIndex != nil {
             delegate.runInputSwitch()
-            delegate.cameraIndex = nil
+            delegate.camera.currentIndex = nil
         }
     }
     
     func initCameraControl() {
-        guard delegate.cameraSession!.supportsControls else { return }
+        guard delegate.camera.session != nil else { return }
+        guard delegate.camera.session.supportsControls else { return }
         var controls: [ AVCaptureControl ] = []
         
 #warning("malachitekit should properly sync this with the zoom slider")
@@ -185,10 +213,12 @@ extension CameraView.ControlLayer {
         }
         
         if delegate.utilities.preferences.evaintrnl.cameraControlOptions.contains("cameras") {
-            let cameraSwitcher = AVCaptureIndexPicker("Cameras", symbolName: "camera.fill", localizedIndexTitles: delegate.availableRearCameras.map { $0.localizedName } )
-            cameraSwitcher.selectedIndex = delegate.availableRearCameras.firstIndex(of: delegate.selectedDevice!)!
+            let cameraSwitcher = AVCaptureIndexPicker("Cameras", symbolName: "camera.fill", localizedIndexTitles: delegate.camera.cameras.map { $0.localizedName } )
+            if let device = delegate.camera.currentDevice {
+                cameraSwitcher.selectedIndex = delegate.camera.cameras.firstIndex(of: device)!
+            }
             cameraSwitcher.setActionQueue(delegate.utilities.sessionQueue) { [self] index in
-                delegate.cameraIndex = index
+                delegate.camera.currentIndex = index
             }
             controls.append(cameraSwitcher)
         }
@@ -219,20 +249,22 @@ extension CameraView.ControlLayer {
                     delegate.flashFloater = nil
                     if let flashSwitcher = flashSwitcher { flashSwitcher.selectedIndex = delegate.flashStatus ? 1 : 0 }
                 } else {
-                    delegate.utilities.function.flashLevelTest(captureDevice: delegate.selectedDevice!, floater: position)
+                    delegate.utilities.function.flashLevelTest(captureDevice: delegate.camera.currentDevice!, floater: position)
                 }
             }
             controls.append(flashSlider)
         }
         
         if delegate.utilities.preferences.evaintrnl.cameraControlOptions.contains("exposureBias") {
-            let systemBiasSlider = AVCaptureSystemExposureBiasSlider(device: delegate.selectedDevice!)
+            if let device = delegate.camera.currentDevice {
+                let systemBiasSlider = AVCaptureSystemExposureBiasSlider(device: device)
             controls.append(systemBiasSlider)
+            }
         }
         
         if delegate.utilities.versionType == "INTERNAL" {
-            delegate.cameraSession?.setControlsDelegate(self, queue: delegate.utilities.sessionQueue)
-            delegate.utilities.function.addControlsToSession(session: &delegate.cameraSession!, controls: controls)
+            delegate.camera.session.setControlsDelegate(self, queue: delegate.utilities.sessionQueue)
+            delegate.utilities.function.addControlsToSession(session: &delegate.camera.session, controls: controls)
         }
     }
 }
@@ -259,12 +291,21 @@ extension CameraView.ControlLayer {
                 delegate.utilities.views.hideUI(view: delegate.view, blacklisted: [ delegate.aeafFeedback, delegate.uiHiderRecognizer ], conditionals: [ delegate.focusLockButton : delegate.manualFocusSliderIsActive, delegate.exposureLockButton : delegate.manualExposureSliderIsActive], gestureRecognizers: self.recognizers)
             } else {
                 delegate.utilities.views.showUI(view: delegate.view, blacklisted: [ delegate.aeafFeedback, delegate.uiHiderRecognizer ], conditionals: [ delegate.focusLockButton : delegate.manualFocusSliderIsActive, delegate.exposureLockButton : delegate.manualExposureSliderIsActive], gestureRecognizers: self.recognizers)
-                delegate.utilities.tooltips.zoomTooltipFlow(button: delegate.currentCamera, viewForBounds: delegate.view, camera: delegate.selectedDevice)
+                delegate.utilities.tooltips.zoomTooltipFlow(button: delegate.currentCamera, viewForBounds: delegate.view, camera: delegate.camera.currentDevice)
             }
 
             delegate.uiIsHidden = !delegate.uiIsHidden
             delegate.utilities.haptics.triggerNotificationHaptic(type: .success)
         }
+    }
+    
+    @available(iOS 17.2, *)
+    func initEventInteraction() {
+        let interaction = AVCaptureEventInteraction { event in
+            if event.phase == .ended { self.delegate.runImageCapture() }
+        }
+        delegate.view.addInteraction(interaction)
+        eventInteraction = interaction
     }
 }
 

@@ -9,10 +9,6 @@ import SwiftUI
 
 extension SettingsView {
     struct Photo: View {
-        /// A State variable used for determining whether or not the device supports HDR capture in its current mode.
-        @State private var supportsHDR = Bool()
-        /// A State variable used for determining whether or not the device supports HEIC capture.
-        @State private var supportsHEIC = Bool()
         /// A State variable used for presenting the user with a footer based on capabilities.
         @State private var formatFooterText: String?
         /// A State variable used for determining the active photo format.
@@ -38,7 +34,7 @@ extension SettingsView {
             Section(header: Text("settings.header.photo"), footer: (formatFooterText != nil) ? Text(formatFooterText!) : nil) {
                 MalachiteCellViewUtils(
                     icon: "square.and.arrow.down",
-                    disabled: !supportsHEIC,
+                    disabled: !utilities.preferences.compatibility.heic,
                     dangerous: false)
                 {
                     Picker("settings.option.photo.fileformat", selection: $photoFormat) {
@@ -51,7 +47,7 @@ extension SettingsView {
                 
                 MalachiteCellViewUtils(
                     icon: "camera.filters",
-                    disabled: !supportsHDR,
+                    disabled: !utilities.preferences.compatibility.hdr,
                     dangerous: false)
                 {
                     Toggle("settings.option.photo.hdr", isOn: $hdrSwitch)
@@ -99,14 +95,9 @@ extension SettingsView {
         }
         
         func onAppear() {
-            supportsHDR = utilities.function.supportsHDR
-            supportsHEIC = utilities.function.supportsHEIC()
+            if !utilities.preferences.compatibility.heic { formatFooterText = "settings.footer.photo.heif".localized }
             
-            if !supportsHEIC {
-                formatFooterText = "settings.footer.photo.heif".localized
-            }
-            
-            if !supportsHDR {
+            if !utilities.preferences.compatibility.hdr {
                 formatFooterText = (formatFooterText != nil) ? formatFooterText! + "settings.footer.photo.hdr".localized : "settings.footer.photo.hdr".localized
             }
             

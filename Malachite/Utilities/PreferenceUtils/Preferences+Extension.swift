@@ -39,25 +39,18 @@ extension MalachitePreferences {
             }
         }
         
-        var deviceModel: DeviceModel { return DeviceModel() }
-        class DeviceModel {
-            public func get() -> String {
-                var systemInfo = utsname()
-                uname(&systemInfo)
-                let machineMirror = Mirror(reflecting: systemInfo.machine)
-                let identifier = machineMirror.children.reduce("") { identifier, element in
-                    guard let value = element.value as? Int8, value != 0 else { return identifier }
-                    return identifier + String(UnicodeScalar(UInt8(value)))
-                }
-                
-                return identifier
+        public func deviceModel() -> String {
+            var systemInfo = utsname()
+            uname(&systemInfo)
+            let machineMirror = Mirror(reflecting: systemInfo.machine)
+            let identifier = machineMirror.children.reduce("") { identifier, element in
+                guard let value = element.value as? Int8, value != 0 else { return identifier }
+                return identifier + String(UnicodeScalar(UInt8(value)))
             }
             
-            public func isSameDevice(in preferences: MalachitePreferences) -> Bool {
-                if get() == preferences.general.deviceModel { return true }
-                return false
-            }
+            return identifier
         }
+            
         
         public func runPhotoCounter() {
             let value = MalachiteClassesObject().preferences.general.photoCount

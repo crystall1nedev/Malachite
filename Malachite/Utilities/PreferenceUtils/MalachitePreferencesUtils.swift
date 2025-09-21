@@ -104,6 +104,7 @@ class MalachitePreferencesUtils {
         if let generalPreferences = oldPreferences["general"] as? [ String: AnyObject ] {
             currentPreferences.general.firstLaunch = generalPreferences["firstLaunch"] as? Bool ?? false
             currentPreferences.general.deviceModel = generalPreferences["deviceModel"] as? String ?? "Eva1,1"
+            currentPreferences.general.deviceModelHasChanged = generalPreferences["deviceModelHasChanged"] as? Bool ?? false
             currentPreferences.general.photoCount = generalPreferences["photoCount"] as? Int ?? 0
             currentPreferences.general.gamekit.alerted = generalPreferences["gamekit"]?["alerted"] as? Bool ?? false
             currentPreferences.general.gamekit.found = generalPreferences["gamekit"]?["found"] as? Bool ?? false
@@ -177,6 +178,7 @@ class MalachitePreferencesUtils {
                 prefsVersion: 6,
                 firstLaunch: false,
                 deviceModel: "Eva1,1",
+                deviceModelHasChanged: false,
                 photoCount: 0,
                 gamekit: MalachitePreferences.generalPreferences.gamekitPreferences(
                     alerted: false,

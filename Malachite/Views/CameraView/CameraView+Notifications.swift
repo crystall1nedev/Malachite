@@ -9,14 +9,14 @@ import Foundation
 import UIKit
 
 extension CameraView {
-    class notifications: NSObject {
+    class Notifications: NSObject {
         /// The existing instance of ``CameraView`` to act on.
         var delegate = CameraView()
         
         init(delegate: CameraView) { self.delegate = delegate }
         
         func initNotifications() {
-            let notificationConfigs: [temputils.notificationBuilder] = [
+            var notificationConfigs: [temputils.notificationBuilder] = [
                 temputils.notificationBuilder(delegate: delegate, name: UIDevice.orientationDidChangeNotification, action: #selector(orientationChanged)),
                 temputils.notificationBuilder(delegate: delegate, name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, action: #selector(changeAspectFill)),
                 temputils.notificationBuilder(delegate: delegate, name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, action: #selector(changeExposureLimit)),
@@ -27,8 +27,13 @@ extension CameraView {
                 temputils.notificationBuilder(delegate: delegate, name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, action: #selector(changeContinuousAEAF)),
                 temputils.notificationBuilder(delegate: delegate, name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, action: #selector(changeAEAFRecognizer)),
                 temputils.notificationBuilder(delegate: delegate.utilities.function, name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, action: #selector(delegate.utilities.function.changeIdleTimerState)),
-                temputils.notificationBuilder(delegate: delegate, name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, action: #selector(runInputMegapixelSwitch)),
             ]
+            
+            if #available(iOS 16.0, *) {
+                notificationConfigs.append(contentsOf: [
+                    temputils.notificationBuilder(delegate: delegate, name: MalachiteFunctionUtils.Notifications.megaPixelSwitchNotification.name, action: #selector(runInputMegapixelSwitch)),
+                ])
+            }
             
             for config in notificationConfigs {
                 delegate.utilities.debugNSLog("[Initialization] Setting up notification observer for \(config.name.rawValue) changes")

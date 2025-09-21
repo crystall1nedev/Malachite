@@ -32,12 +32,13 @@ struct MalachitePreferences: Codable {
     var general:        generalPreferences
     
     struct generalPreferences: Codable {
-        var version:        String
-        var prefsVersion:   Int
-        var firstLaunch:    Bool
-        var deviceModel:    String
-        var photoCount:     Int
-        var gamekit:        gamekitPreferences
+        var version:               String
+        var prefsVersion:          Int
+        var firstLaunch:           Bool
+        var deviceModel:           String
+        var deviceModelHasChanged: Bool
+        var photoCount:            Int
+        var gamekit:               gamekitPreferences
         
         struct gamekitPreferences: Codable {
             var alerted:        Bool

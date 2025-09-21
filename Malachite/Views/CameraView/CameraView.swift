@@ -14,30 +14,21 @@ import Photos
 import GameKit
 
 class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCapturePhotoCaptureDelegate {
-    var controlLayer: ControlLayer?
-    var notifications: notifications?
-    var preview: Preview?
+    /// An instance of ``MalachiteClassesObject`` for reuse across the app.
+    public var utilities = MalachiteClassesObject()
     
-    /// The `AVCaptureSession` Malachite uses for everything.
-    var cameraSession: AVCaptureSession?
-    /// The currently selected `AVCaptureDevice` for input to ``cameraSession``.
-    var selectedDevice: AVCaptureDevice?
-    /// An array respresenting the device's available rear cameras. This variable will be `nil` if no cameras are present (as is the case of the iOS simulator)
-    var availableRearCameras = [AVCaptureDevice]()
+    var camera: Camera!
+    
+    var controlLayer: CameraView.ControlLayer!
+    var notifications: CameraView.Notifications!
+    var preview: CameraView.Preview!
+    
     /// The device's currently available rear ultra-wide angle `AVCaptureDevice`, if available. This variable is `nil` if no ultra-wide angle camera is present (i.e. single-camera, Simulator).
     var ultraWideDevice: AVCaptureDevice?
     /// The device's currently available wide angle `AVCaptureDevice`, if available. This variable is `nil` if no wide angle camera is present (currently only in the Simulator).
     var wideAngleDevice: AVCaptureDevice?
-    /// The currently selected `AVCaptureDeviceInput` for input to ``cameraSession``.
+    /// The currently selected `AVCaptureDeviceInput` for camera.input to ``cameraSession``.
     var selectedInput: AVCaptureDeviceInput?
-    /// The `AVCapturePhotoOutput` used to capture photos with ``selectedDevice`` and ``cameraSession``.
-    var photoOutput = AVCapturePhotoOutput()
-    /// The `AVCaptureVideoPreviewLayer` used to allow users to see a preview of their camera before taking a shot with ``photoOutput``.
-    var cameraPreview = AVCaptureVideoPreviewLayer()
-    /// A `Bool` that determines whether or not the wide angle lens is in use.
-    var wideAngleInUse = true
-    /// A `Bool` that determines whether or not the app is still initializing. Uses for tasks that should only be run once at the start of Malachite.
-    var initRun = true
     /// A `CGFloat` that temporarily holds the zoom factor.
     var zoomFloater = CGFloat()
     /// A `Float` that temporarily holds the focus factor.
@@ -46,8 +37,6 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     var flashFloater: Float?
     /// A `Bool` that temporarily holds the current status of the flashlight.
     var flashStatus = Bool()
-    /// An `Int` that temporarily holds the index of the camera to switch to.
-    var cameraIndex: Int?
     
     /// A `UIButton` that enables the user to switch between the ultra-wide and wide angle cameras.
     var cameraButton = UIButton()
@@ -94,14 +83,6 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     var settingsRecognizer = UISwipeGestureRecognizer()
     /// A `UILongPressGestureRecognizer` that handles hiding all elements of the user interface, and disabling the ``zoomRecognizer`` and ``aeafRecognizer`` gestures.
     var uiHiderRecognizer = UILongPressGestureRecognizer()
-    ///
-    var eventInteraction: Any? = {
-        if #available(iOS 17.2, *) {
-            return AVCaptureEventInteraction?.self
-        } else {
-            return nil
-        }
-    }()
     
     /// A `Bool` that determines whether or not the user interface is currently hidden to the user.
     var uiIsHidden = false
@@ -122,8 +103,6 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     /// A `UIActivityIndicatorView` used to let the user know that Malachite is processing the image.
     var progressIndicator = UIActivityIndicatorView()
     
-    /// An instance of ``MalachiteClassesObject`` for reuse across the app.
-    public var utilities = MalachiteClassesObject()
     /// An observer for the device's rotation.
     private var rotationObserver: NSObjectProtocol?
     
@@ -138,98 +117,28 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black
+        self.camera = Camera(utilities: utilities)
         
         self.controlLayer = CameraView.ControlLayer(delegate: self)
-        self.notifications = CameraView.notifications(delegate: self)
+        self.notifications = CameraView.Notifications(delegate: self)
         self.preview = CameraView.Preview(delegate: self)
         
-        #warning("this is temporary for testing")
-        let bringup = Camera.Bringup(utilities: utilities)
-        bringup.checkForHEICCompatibility()
-        
-        #warning("malachite camera init")
-        utilities.debugNSLog("[Initialization] Bringing up AVCaptureSession")
-        cameraSession = bringup.createAVCaptureSession(session: cameraSession)
-        cameraPreview = preview!.createPreviewLayer(previewLayer: cameraPreview)
-        
-        utilities.debugNSLog("[Initialization] Bringing up AVCaptureDeviceInput")
-        
-        utilities.debugNSLog("[Camera Input] Getting current camera system capabilities")
-        
-        #warning("malachite camera init")
-        var camerasToDiscover: [AVCaptureDevice.DeviceType] = []
-        if #available(iOS 17.0, *) { camerasToDiscover = [.builtInUltraWideCamera, .builtInWideAngleCamera, .builtInTelephotoCamera ] }
-        else { camerasToDiscover = [.builtInUltraWideCamera, .builtInWideAngleCamera, .builtInTelephotoCamera] }
-        
-        utilities.debugNSLog("[Camera Input] Discovering available cameras")
-        let currentProcess = ProcessInfo()
-        AVCaptureDevice.DiscoverySession.init(deviceTypes: camerasToDiscover, mediaType: .video, position: (currentProcess.isiOSAppOnMac || currentProcess.isMacCatalystApp) ? .unspecified : .back).devices.forEach { device in
-            self.availableRearCameras.append(device)
-            utilities.debugNSLog("[Camera Input] \(device.localizedName)")
-            utilities.debugNSLog("[Camera Input] \(device.deviceType.rawValue) available")
-        }
-        
-        #warning("malachite camera init")
-        runInputSwitch()
-        
-        if self.availableRearCameras.first != nil {
-            photoOutput = AVCapturePhotoOutput()
-            if #unavailable(iOS 16.0) { photoOutput.isHighResolutionCaptureEnabled = true }
-            photoOutput.maxPhotoQualityPrioritization = .quality
-            cameraSession?.sessionPreset = AVCaptureSession.Preset.photo
-            cameraSession?.addOutput(photoOutput)
-            
+        if camera.cameras.first != nil {
             utilities.debugNSLog("[Initialization] Bringing up AVCaptureVideoPreviewLayer")
-            cameraPreview = AVCaptureVideoPreviewLayer(session: cameraSession!)
-            
-            var statusBarOrientation = UIInterfaceOrientation.portrait
-            #if MAIN_APP
-            if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0 is UIWindowScene }) as? UIWindowScene {
-                statusBarOrientation = windowScene.interfaceOrientation
-            }
-            #endif
-            cameraPreview.frame = view.layer.bounds
-            let videoOrientation: AVCaptureVideoOrientation = (statusBarOrientation.videoOrientation)
-            cameraPreview.connection?.videoOrientation = videoOrientation
-            
-            if utilities.preferences.preview.aspect {
-                cameraPreview.videoGravity = AVLayerVideoGravity.resizeAspectFill
-            } else {
-                cameraPreview.videoGravity = AVLayerVideoGravity.resizeAspect
-            }
-            
-            self.view.layer.addSublayer(cameraPreview)
+            preview.initPreviewLayer()
+            runInputSwitch()
             
             utilities.debugNSLog("[Initialization] Starting session stream")
             DispatchQueue.global(qos: .background).async {
-                self.cameraSession?.startRunning()
+                self.camera.session.startRunning()
             }
         } else {
             utilities.debugNSLog("[Initialization] No cameras detected, skipping to user interface bringup")
         }
         
-        #warning("malachite init")
-        
-        #warning("malachite camera init")
-        if #available (iOS 17.2, *) {
-            let interaction = AVCaptureEventInteraction { event in
-                if event.phase == .ended {
-                    self.runImageCapture()
-                }
-            }
-            self.view.addInteraction(interaction)
-            eventInteraction = interaction
-        }
+#warning("malachite camera init")
         
         
-        #warning("malachite photo init")
-        let cameraAuthStatus = PHPhotoLibrary.authorizationStatus(for: .addOnly)
-        
-        if cameraAuthStatus == .notDetermined {
-            PHPhotoLibrary.requestAuthorization(for: .addOnly) { [self] status in
-                utilities.debugNSLog("[Permissions] Camera authorization status: \(status)")
-            }
-        }
     }
     
     /**
@@ -273,13 +182,13 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         utilities.games.changeGameCenterEnabled()
         if utilities.preferences.general.gamekit.alerted { self.present(utilities.games.setupGameKitAlert(), animated: true, completion: nil) }
         
-        settingsRecognizer = UISwipeGestureRecognizer(target: self.controlLayer!, action: #selector(self.controlLayer!.runSettingsGesture))
-        self.controlLayer!.updateSettingsGestureFingerCount()
+        settingsRecognizer = UISwipeGestureRecognizer(target: self.controlLayer, action: #selector(self.controlLayer.runSettingsGesture))
+        self.controlLayer.updateSettingsGestureFingerCount()
         settingsRecognizer.direction = .up
         
         self.view.addGestureRecognizer(settingsRecognizer)
         
-        NotificationCenter.default.addObserver(self.controlLayer!, selector: #selector(self.controlLayer!.updateSettingsGestureFingerCount), name: MalachiteFunctionUtils.Notifications.settingsGestureNotification.name, object: nil)
+        NotificationCenter.default.addObserver(self.controlLayer, selector: #selector(self.controlLayer.updateSettingsGestureFingerCount), name: MalachiteFunctionUtils.Notifications.settingsGestureNotification.name, object: nil)
         
         setupView()
     }
@@ -307,13 +216,12 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
      - ``uiHiderRecognizer`` - Tap and hold with two fingers
      */
     func setupView(){
-#warning("remove simulator support")
 #if targetEnvironment(simulator)
         utilities.views.setupLmaoView(view: self.view)
 #endif
         
-        self.controlLayer!.bringUpControlLayer()
-        self.notifications!.bringUpNotifications()
+        self.controlLayer.bringUpControlLayer()
+        self.notifications.bringUpNotifications()
         
         utilities.function.changeIdleTimerState()
     }
@@ -325,20 +233,20 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     @objc func changeAspectFill() {
         UIView.animate(withDuration: 20) { [self] in
             if utilities.preferences.preview.aspect {
-                cameraPreview.videoGravity = AVLayerVideoGravity.resizeAspectFill
+                self.preview.previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
             } else {
-                cameraPreview.videoGravity = AVLayerVideoGravity.resizeAspect
+                self.preview.previewLayer.videoGravity = AVLayerVideoGravity.resizeAspect
             }
         }
     }
     
     /// Function to dynamically change the auto exposure and ``exposureSlider`` values when toggling in ``MalachiteSettingsView``.
     @objc func changeExposureLimit() {
-        guard let exposure = selectedDevice?.isExposureModeSupported(.continuousAutoExposure) else { return }
+        guard let exposure = camera.currentDevice?.isExposureModeSupported(.continuousAutoExposure) else { return }
         do {
-            try selectedDevice?.lockForConfiguration()
-            defer { selectedDevice?.unlockForConfiguration() }
-            if exposure { selectedDevice?.exposureMode = .continuousAutoExposure }
+            try camera.currentDevice?.lockForConfiguration()
+            defer { camera.currentDevice?.unlockForConfiguration() }
+            if exposure { camera.currentDevice?.exposureMode = .continuousAutoExposure }
         } catch {
             utilities.debugNSLog("[Change Exposure Limit] Couldn't lock device for configuration")
         }
@@ -349,7 +257,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     }
     
     @objc func changeContinuousAEAF() {
-        guard let selectedDevice = self.selectedDevice else { return }
+        guard let selectedDevice = camera.currentDevice else { return }
         utilities.function.continuousAEAF(device: selectedDevice)
     }
     
@@ -372,21 +280,22 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to change the video stabilization mode for the ``cameraPreview``.
     @objc func changeStabilizerMode() {
+        guard let connection = self.preview.previewLayer.connection else { print("bruh"); return }
         if utilities.preferences.preview.stablize {
             if #available(iOS 17.0, *) {
-                if ((selectedDevice?.activeFormat.isVideoStabilizationModeSupported(.previewOptimized)) != nil) {
+                if ((camera.currentDevice?.activeFormat.isVideoStabilizationModeSupported(.previewOptimized)) != nil) {
                     utilities.debugNSLog("[Preview Stabilization] Enabling enhanced stabilization mode")
-                    cameraPreview.connection!.preferredVideoStabilizationMode = .previewOptimized
+                    connection.preferredVideoStabilizationMode = .previewOptimized
                     return
                 }
             }
             
-            if ((selectedDevice?.activeFormat.isVideoStabilizationModeSupported(.standard)) != nil) {
+            if ((camera.currentDevice?.activeFormat.isVideoStabilizationModeSupported(.standard)) != nil) {
                 utilities.debugNSLog("[Preview Stabilization] Enabling standard stabilization mode")
-                cameraPreview.connection!.preferredVideoStabilizationMode = .standard
+                connection.preferredVideoStabilizationMode = .standard
             }
         } else {
-            cameraPreview.connection!.preferredVideoStabilizationMode = .off
+            connection.preferredVideoStabilizationMode = .off
         }
     }
     
@@ -415,11 +324,10 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
 #endif
     }
     
-    /// Function to switch cameras and attach new inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.
+    /// Function to switch cameras and attach new camera.inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.
     @objc func runInputSwitch() {
-        cameraSession?.beginConfiguration()
-        cameraButton.isUserInteractionEnabled = false
-        if (self.availableRearCameras.count < 2 || utilities.preferences.debug.breakApp) && !self.initRun  {
+        DispatchQueue.main.async { self.cameraButton.isUserInteractionEnabled = false }
+        if (self.camera.cameras.count < 2 || utilities.preferences.debug.breakApp) && !self.camera.session.inputs.isEmpty  {
             utilities.debugNSLog("[Camera Input] Only one AVCaptureDevice is available to use, showing error")
             let alert = utilities.views.createAlertController(title: "alert.title.camera_switch", message: "alert.detail.camera_switch", button: cameraButton, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Camera Input] Dialog has been dismissed")
@@ -429,57 +337,40 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
             return
         }
             
-        UIView.animate(withDuration: 0.5) {
-            self.focusSlider.value = 0.0
-            self.exposureSlider.value = 0.0
-        }
-        
-        if cameraIndex != nil { selectedDevice = availableRearCameras[cameraIndex!] } else {
-            if availableRearCameras.count > 1 && !initRun {
-                if let devicePosition = availableRearCameras.firstIndex(of: selectedDevice!) {
-                    if devicePosition == (availableRearCameras.count - 1) {
-                        selectedDevice = availableRearCameras[0]
-                    } else {
-                        selectedDevice = availableRearCameras[devicePosition + 1]
-                    }
-                }
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.5) {
+                self.focusSlider.value = 0.0
+                self.exposureSlider.value = 0.0
             }
         }
         
-        utilities.function.switchInput(session: &cameraSession!,
-                                       cameras: availableRearCameras,
-                                       device: &selectedDevice,
-                                       output: &photoOutput,
-                                       input: &selectedInput,
-                                       button: cameraButton,
-                                       firstRun: &initRun)
+        camera.input.runInputSwitch()
         
         
         if #available(iOS 18.0, *) {
             if utilities.versionType == "INTERNAL" && utilities.preferences.evaintrnl.cameraControlEnabled {
-                self.controlLayer!.initCameraControl()
+                DispatchQueue.main.async { self.controlLayer.initCameraControl() }
             }
         }
         
-        cameraSession?.commitConfiguration()
-        
         DispatchQueue.main.async() { [self] in
-            self.controlLayer!.initTooltips(showLabels: false, showCamera: true)
+            DispatchQueue.main.async { self.controlLayer.initTooltips(showLabels: false, showCamera: true) }
         }
         
-        cameraButton.isUserInteractionEnabled = true
+        DispatchQueue.main.async { self.cameraButton.isUserInteractionEnabled = true }
     }
     
+    @available(iOS 16.0, *)
     @objc func runInputMegapixelSwitch() {
-        guard let selectedDevice = self.selectedDevice else { return }
-        utilities.function.switchInputMegapixels(device: selectedDevice, photoOutput: self.photoOutput)
+        guard let selectedDevice = camera.currentDevice else { return }
+        utilities.function.switchInputMegapixels(device: selectedDevice, photoOutput: self.camera.output)
     }
     
     /// Function to toggle the flashlight's on state.
     @objc func runFlashlightToggle() {
-        guard let flashlight = selectedDevice?.isFlashAvailable else { return }
-        if flashlight && !utilities.preferences.debug.breakApp {
-            utilities.function.toggleFlash(captureDevice: &selectedDevice!,
+        guard var selectedDevice = camera.currentDevice else { return }
+        if selectedDevice.isFlashAvailable && !utilities.preferences.debug.breakApp {
+            utilities.function.toggleFlash(captureDevice: &selectedDevice,
                                            flashlightButton: flashlightButton,
                                            floater: flashFloater,
                                            isFlashOn: &flashStatus)
@@ -503,7 +394,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
         
         if (status == .authorized || status == .limited) && !utilities.preferences.debug.breakApp {
-            self.photoOutput = utilities.function.captureImage(output: self.photoOutput, viewForBounds: self.view, captureDelegate: self)
+            self.camera.output = utilities.function.captureImage(output: self.camera.output, viewForBounds: self.view, captureDelegate: self)
         } else {
             utilities.debugNSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
             let alert = utilities.views.createAlertController(title: "alert.title.phphotolibrary", message: "alert.detail.phphotolibrary", button: captureButton, defaultSet: true, action: { _ in
@@ -523,7 +414,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         photoPreview.photoImageData = imageData
         photoPreview.photoImageView.frame = view.frame
         photoPreview.photoImage = previewImage
-        if utilities.versionType == "INTERNAL" && utilities.preferences.preview.fastPath {
+        if utilities.preferences.preview.fastPath {
             photoPreview.savePhoto(finalImage: photoPreview.finalizeImageForExport(imageData: imageData))
         } else {
             let navigationController = UINavigationController(rootViewController: photoPreview)
@@ -558,16 +449,17 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to zoom in and out with ``zoomRecognizer``.
     @objc func runZoomController() {
+        guard var selectedDevice = camera.currentDevice else { return }
         utilities.function.zoom(sender: zoomRecognizer,
                                 floater: &zoomFloater,
-                                captureDevice: &selectedDevice!,
+                                captureDevice: &selectedDevice,
                                 lastZoomFactor: &lastZoomFactor,
                                 hapticClass: utilities.haptics)
     }
     
     /// Function to autofocus + autoexposure with ``aeafRecognizer``.
     @objc func runaeafController() {
-        guard var selectedDevice = self.selectedDevice else { return }
+        guard var selectedDevice = camera.currentDevice else { return }
         utilities.function.pointOfInterestAEAF(sender: aeafRecognizer,
                                      captureDevice: &selectedDevice,
                                      button: aeafFeedback,
@@ -577,9 +469,9 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to handle ``exposureSlider`` interaction.
     @objc func runManualExposureController() {
-        guard let exposure = selectedDevice?.isExposureModeSupported(.custom) else { return }
-        if exposure && !utilities.preferences.debug.breakApp {
-            utilities.function.manualExposure(captureDevice: &selectedDevice!,
+        guard var selectedDevice = camera.currentDevice else { return }
+        if selectedDevice.isExposureModeSupported(.custom) && !utilities.preferences.debug.breakApp {
+            utilities.function.manualExposure(captureDevice: &selectedDevice,
                                               sender: exposureSlider)
         } else {
             utilities.debugNSLog("[Manual Exposure] Current camera is not capable of adjusting exposure")
@@ -592,7 +484,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to show and hide the ``exposureSliderButton`` and ``exposureLockButton``.
     @objc func runManualExposureUIHider() {
-        guard let exposure = selectedDevice?.isExposureModeSupported(.custom) else { return }
+        guard let exposure = camera.currentDevice?.isExposureModeSupported(.custom) else { return }
         if exposure && !utilities.preferences.debug.breakApp {
             manualExposureSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualExposureSliderIsActive,
                                                                                 optionButton: exposureButton,
@@ -632,9 +524,9 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to handle ``focusSlider`` interaction.
     @objc func runManualFocusController() {
-        guard let focus = selectedDevice?.isLockingFocusWithCustomLensPositionSupported else { return }
-        if focus && !utilities.preferences.debug.breakApp {
-            utilities.function.manualFocus(captureDevice: &selectedDevice!,
+        guard var selectedDevice = camera.currentDevice else { return }
+        if selectedDevice.isLockingFocusWithCustomLensPositionSupported && !utilities.preferences.debug.breakApp {
+            utilities.function.manualFocus(captureDevice: &selectedDevice,
                                            sender: focusSlider,
                                            floater: focusFloater ?? focusSlider.value)
         } else {
@@ -649,8 +541,8 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to handle ``focusSlider`` interaction.
     @objc func runManualFocusUIHider() {
-        guard let focus = selectedDevice?.isLockingFocusWithCustomLensPositionSupported else { return }
-        if focus && !utilities.preferences.debug.breakApp {
+        guard var selectedDevice = camera.currentDevice else { return }
+        if selectedDevice.isLockingFocusWithCustomLensPositionSupported && !utilities.preferences.debug.breakApp {
         manualFocusSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualFocusSliderIsActive,
                                                                          optionButton: focusButton,
                                                                          lockButton: focusLockButton,

@@ -13,8 +13,6 @@ import UIKit
 public class MalachiteFunctionUtils : NSObject {
     /// An array that returns the available image capture types supported by the camera.
     private let supportedImageCaptureTypes = CGImageDestinationCopyTypeIdentifiers() as NSArray
-    /// A `Bool` that determines whether or not the device supports HDR.
-    public var supportsHDR = false
     
     /// An `enum` that contains Notification names.
     public enum Notifications: String, NotificationName {
@@ -29,25 +27,6 @@ public class MalachiteFunctionUtils : NSObject {
         case aeafTapGestureNotification
         case idleTimerNotification
         case settingsGestureNotification
-    }
-    
-    /// Function that determines if the device supports HDR.
-    public func deviceFormatSupportsHDR(device hdrDevice: AVCaptureDevice) {
-        if hdrDevice.activeFormat.isVideoHDRSupported == true {
-            MalachitePreferencesUtils.shared.preferences.compatibility.hdr = true
-            self.supportsHDR = true
-        }
-    }
-    
-    /// Function that determines if the device supports HEIC.
-    public func supportsHEIC() -> Bool {
-        MalachitePreferencesUtils.shared.preferences.compatibility.jpeg = true
-        if supportedImageCaptureTypes.contains("public.heic") {
-            MalachitePreferencesUtils.shared.preferences.compatibility.heic = true
-            return true
-        }
-        
-        return false
     }
     
     /// Function to enable or disable the idle timer.
@@ -239,104 +218,6 @@ public class MalachiteFunctionUtils : NSObject {
         }
     }
     
-    /// Function that handles connecting and disconnecting cameras, and changing format properties.
-    public func switchInput(session: inout AVCaptureSession, cameras: [AVCaptureDevice], device: inout AVCaptureDevice?, output: inout AVCapturePhotoOutput, input: inout AVCaptureDeviceInput?, button: UIButton, firstRun: inout Bool){
-        MalachiteClassesObject().debugNSLog("[Camera Input] Getting ready to configure session")
-        
-        if !firstRun {
-            MalachiteClassesObject().debugNSLog("[Camera Input] Removing currently active camera input")
-            session.removeInput(input!)
-        } else {
-            if !cameras.isEmpty { device = cameras.first! }
-        }
-        
-        guard let device = device else { return }
-        
-        if firstRun {
-            for camera in cameras {
-                var tmpDictionary = Dictionary<String, Bool>()
-                for format in camera.formats {
-                    var maxDimensions: CMVideoDimensions
-                    if #available (iOS 16.0, *) {
-                        maxDimensions = format.supportedMaxPhotoDimensions[format.supportedMaxPhotoDimensions.count - 1]
-                    } else {
-                        maxDimensions = format.highResolutionStillImageDimensions
-                    }
-                    if format == camera.formats[0] { MalachiteClassesObject().debugNSLog("[Camera Input] Querying supported modes of \(camera.deviceType.rawValue)") }
-                    if maxDimensions.width == 3264 && maxDimensions.height == 2448 { tmpDictionary["8"] = true }
-                    if maxDimensions.width == 4032 && maxDimensions.height == 3024 { tmpDictionary["12"] = true }
-                    if maxDimensions.width == 8064 && maxDimensions.height == 6048 { tmpDictionary["48"] = true }
-                    switch camera.deviceType {
-                    case .builtInUltraWideCamera:
-                        MalachitePreferencesUtils.shared.preferences.compatibility.ultrawide = tmpDictionary
-                    case .builtInWideAngleCamera:
-                        MalachitePreferencesUtils.shared.preferences.compatibility.wideangle = tmpDictionary
-                    case .builtInTelephotoCamera:
-                        MalachitePreferencesUtils.shared.preferences.compatibility.telephoto = tmpDictionary
-                    default:
-                        break
-                    }
-                }
-            }
-        }
-        
-        firstRun = false
-        
-        deviceFormatSupportsHDR(device: device)
-        
-        do {
-            try device.lockForConfiguration()
-            defer { device.unlockForConfiguration() }
-            MalachiteClassesObject().debugNSLog("[Camera Input] Selected input: \(String(describing: device.formats[(device.formats.count) - 1]))")
-            device.activeFormat = (device.formats[(device.formats.count) - 1])
-            continuousAEAF(device: device)
-            
-            let focus = device.isLockingFocusWithCustomLensPositionSupported
-            if !focus { NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.unsupportedLensPositionNotification.name, object: nil) }
-            
-            let exposure = device.isExposureModeSupported(.custom)
-            if !exposure { NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.unsupportedISOValueNotification.name, object: nil) }
-            
-            device.automaticallyAdjustsVideoHDREnabled = false
-            
-            if MalachiteClassesObject().preferences.capture.hdr {
-                if self.supportsHDR {
-                    MalachiteClassesObject().debugNSLog("[Camera Input] Force enabled HDR on camera")
-                    if device.activeFormat.isVideoHDRSupported == true {
-                        device.isVideoHDREnabled = true
-                    } else {
-                        MalachiteClassesObject().debugNSLog("[Camera Input] Current capture mode doesn't support HDR, it needs to be disabled")
-                        MalachiteClassesObject().preferences.capture.hdr = false
-                    }
-                } else {
-                    MalachiteClassesObject().debugNSLog("[Camera Input] HDR enabled on a device that doesn't support it")
-                    MalachiteClassesObject().preferences.capture.hdr = false
-                }
-            } else {
-                MalachiteClassesObject().debugNSLog("[Camera Input] Force disabled HDR on camera")
-                if device.activeFormat.isGlobalToneMappingSupported == true {
-                    device.isGlobalToneMappingEnabled = false
-                }
-                if device.activeFormat.isVideoHDRSupported == true {
-                    device.isVideoHDREnabled = false
-                }
-            }
-        } catch {
-            MalachiteClassesObject().debugNSLog("[Camera Input] Error adjusting device properties: \(error.localizedDescription)")
-        }
-        
-        
-        MalachiteClassesObject().debugNSLog("[Camera Input] Attempting to attach device input to session")
-        do { input = try AVCaptureDeviceInput(device: device) }
-        catch {
-            print(error)
-        }
-        
-        MalachiteClassesObject().debugNSLog("[Camera Input] Attached input, finishing configuration")
-        if session.canAddInput(input!) { session.addInput(input!) }
-        switchInputMegapixels(device: device, photoOutput: output)
-    }
-    
     @available(iOS 18.0, *)
     public func addControlsToSession(session: inout AVCaptureSession, controls: [AVCaptureControl]) {
         guard session.supportsControls else { return }
@@ -357,43 +238,41 @@ public class MalachiteFunctionUtils : NSObject {
         session.commitConfiguration()
     }
     
+    @available(iOS 16.0, *)
     @objc public func switchInputMegapixels(device: AVCaptureDevice, photoOutput: AVCapturePhotoOutput) {
-        if #available(iOS 16.0, *) {
-            let maxDimensions = device.activeFormat.supportedMaxPhotoDimensions[device.activeFormat.supportedMaxPhotoDimensions.count - 1]
-            
-            var mpSetting = Int()
-            
-            switch device.deviceType {
-            case .builtInUltraWideCamera:
-                mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.ultrawide
-            case .builtInWideAngleCamera:
-                mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.wideangle
-            case .builtInTelephotoCamera:
-                mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.telephoto
-            default:
-                mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.wideangle
-            }
-            
-            switch mpSetting {
-            case 48:
-                MalachiteClassesObject().debugNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 48MP mode")
-                if maxDimensions.width == 8064 && maxDimensions.height == 6048 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 8064, height: 6048) }
-            case 12:
-                MalachiteClassesObject().debugNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 12MP mode")
-                if maxDimensions.width == 4032 && maxDimensions.height == 3024 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 4032, height: 3024) }
-            default:
-                MalachiteClassesObject().debugNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 8MP mode")
-                if maxDimensions.width == 3264 && maxDimensions.height == 2448 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 3264, height: 2448) }
-            }
+        let maxDimensions = device.activeFormat.supportedMaxPhotoDimensions[device.activeFormat.supportedMaxPhotoDimensions.count - 1]
+        
+        var mpSetting = Int()
+        
+        switch device.deviceType {
+        case .builtInUltraWideCamera:
+            mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.ultrawide
+        case .builtInWideAngleCamera:
+            mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.wideangle
+        case .builtInTelephotoCamera:
+            mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.telephoto
+        default:
+            mpSetting = MalachitePreferencesUtils.shared.preferences.capture.mp.wideangle
         }
         
+        switch mpSetting {
+        case 48:
+            MalachiteClassesObject().debugNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 48MP mode")
+            if maxDimensions.width == 8064 && maxDimensions.height == 6048 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 8064, height: 6048) }
+        case 12:
+            MalachiteClassesObject().debugNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 12MP mode")
+            if maxDimensions.width == 4032 && maxDimensions.height == 3024 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 4032, height: 3024) }
+        default:
+            MalachiteClassesObject().debugNSLog("[INTERNAL] Switching \(device.deviceType.rawValue) to 8MP mode")
+            if maxDimensions.width == 3264 && maxDimensions.height == 2448 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 3264, height: 2448) }
+        }
     }
     
     /// Function that handles taking images on `AVCapturePhotoOutput`.
     public func captureImage(output photoOutput: AVCapturePhotoOutput, viewForBounds view: UIView, captureDelegate delegate: AVCapturePhotoCaptureDelegate) -> AVCapturePhotoOutput {
         if photoOutput.connections.count < 1 { return photoOutput }
         var format = [String: Any]()
-        if MalachiteClassesObject().preferences.compatibility.heic && supportsHEIC() {
+        if MalachiteClassesObject().preferences.compatibility.heic {
             format = [AVVideoCodecKey : AVVideoCodecType.hevc]
         } else {
             format = [AVVideoCodecKey : AVVideoCodecType.jpeg]

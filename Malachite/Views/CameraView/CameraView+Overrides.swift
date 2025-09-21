@@ -37,10 +37,10 @@ extension CameraView {
             #if MAIN_APP
             if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0 is UIWindowScene }) as? UIWindowScene {
                 let orientation = windowScene.interfaceOrientation
-                self.cameraPreview.connection!.videoOrientation = self.transformOrientation(orientation: orientation)
+                self.preview.previewLayer.connection!.videoOrientation = self.transformOrientation(orientation: orientation)
             }
             #endif
-            self.cameraPreview.frame.size = self.view.frame.size
+            self.preview.previewLayer.frame.size = self.view.frame.size
         })
     }
 }

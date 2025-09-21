@@ -5,14 +5,19 @@
 //  Created by Eva Isabella Luna on 8/31/25.
 //
 
+import AVFoundation
 import Foundation
 
 class Init {
     private var utilities: MalachiteClassesObject
-    private var debug: Debug
-    private var intrnl: Internal
+    private var debug: Init.Debug
+    private var intrnl: Init.Internal
     
-    init( utilities: MalachiteClassesObject ) { self.utilities = utilities; self.debug = Debug(utilities: self.utilities); self.intrnl = Internal(utilities: self.utilities) }
+    init( utilities: MalachiteClassesObject ) {
+        self.utilities = utilities
+        self.debug = Debug(utilities: utilities)
+        self.intrnl = Internal(utilities: utilities)
+    }
     
     /// Prints a message about Malachite starting.
     public func startupLog() { utilities.debugNSLog("[Initialization] Starting up Malachite") }
