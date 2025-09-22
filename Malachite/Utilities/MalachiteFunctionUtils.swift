@@ -16,6 +16,7 @@ public class MalachiteFunctionUtils : NSObject {
     
     /// An `enum` that contains Notification names.
     public enum Notifications: String, NotificationName {
+        case cameraClassNotification
         case aspectFillNotification
         case exposureLimitNotification
         case stabilizerNotification

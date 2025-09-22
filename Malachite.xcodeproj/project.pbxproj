@@ -19,6 +19,9 @@
 		7824CAF12E62E4970072870F /* Camera+Bringup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7824CAF02E62E4920072870F /* Camera+Bringup.swift */; };
 		7824CAF22E62E4970072870F /* Camera+Bringup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7824CAF02E62E4920072870F /* Camera+Bringup.swift */; };
 		7824CAF32E62E4970072870F /* Camera+Bringup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7824CAF02E62E4920072870F /* Camera+Bringup.swift */; };
+		782850012E80C05100826FA7 /* Camera+Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782850002E80C04D00826FA7 /* Camera+Permissions.swift */; };
+		782850022E80C05100826FA7 /* Camera+Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782850002E80C04D00826FA7 /* Camera+Permissions.swift */; };
+		782850032E80C05100826FA7 /* Camera+Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782850002E80C04D00826FA7 /* Camera+Permissions.swift */; };
 		7837C10B2E34C45B009396B0 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5D2B99AE72005E10FA /* SwiftUI.framework */; };
 		7837C10C2E34C45B009396B0 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5B2B99AE72005E10FA /* WidgetKit.framework */; };
 		7837C10E2E34C45B009396B0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
@@ -281,6 +284,7 @@
 		7818E23B2E8097180046F621 /* Compatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compatibility.swift; sourceTree = "<group>"; };
 		7824CAEC2E62CDD90072870F /* CameraView+Overrides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraView+Overrides.swift"; sourceTree = "<group>"; };
 		7824CAF02E62E4920072870F /* Camera+Bringup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Camera+Bringup.swift"; sourceTree = "<group>"; };
+		782850002E80C04D00826FA7 /* Camera+Permissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Camera+Permissions.swift"; sourceTree = "<group>"; };
 		782FC7752B2DAFAB007709C1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		7837C1152E34C45B009396B0 /* WidgetBundleWatch.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetBundleWatch.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		78474D2B2D7AC879006FBB96 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -468,6 +472,7 @@
 			isa = PBXGroup;
 			children = (
 				7866F5CD2E6299A0009AC9BF /* Camera.swift */,
+				782850002E80C04D00826FA7 /* Camera+Permissions.swift */,
 				7824CAF02E62E4920072870F /* Camera+Bringup.swift */,
 				78729C552E7368F0001027E9 /* Camera+Input.swift */,
 			);
@@ -941,6 +946,7 @@
 				"",
 				"",
 				"",
+				"",
 			);
 		};
 		78EC5D602E4EC1AD005044E2 /* Embed build information */ = {
@@ -1037,6 +1043,7 @@
 				"",
 				"",
 				"",
+				"",
 			);
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1099,6 +1106,7 @@
 				7882626E2E5130C1000085AC /* SettingsView+Resolution.swift in Sources */,
 				786DAE352E4F28A600BE3137 /* SettingsView.swift in Sources */,
 				7882628F2E514F25000085AC /* QuickHelpView+Resolution.swift in Sources */,
+				782850012E80C05100826FA7 /* Camera+Permissions.swift in Sources */,
 				7882629A2E514F3F000085AC /* QuickHelpView+UI.swift in Sources */,
 				788262762E5130D4000085AC /* SettingsView+Watermarking.swift in Sources */,
 				786DAE362E4F28A600BE3137 /* CameraView.swift in Sources */,
@@ -1161,6 +1169,7 @@
 				7882626D2E5130C1000085AC /* SettingsView+Resolution.swift in Sources */,
 				786DAE3C2E4F28A600BE3137 /* CompatibilityView.swift in Sources */,
 				7882628E2E514F25000085AC /* QuickHelpView+Resolution.swift in Sources */,
+				782850022E80C05100826FA7 /* Camera+Permissions.swift in Sources */,
 				788262992E514F3F000085AC /* QuickHelpView+UI.swift in Sources */,
 				788262742E5130D4000085AC /* SettingsView+Watermarking.swift in Sources */,
 				786DAE3D2E4F28A600BE3137 /* PhotoPreviewView.swift in Sources */,
@@ -1197,6 +1206,7 @@
 				788262DC2E5171F0000085AC /* AboutView+Story.swift in Sources */,
 				78AF686D2E5D97EC00BB9D5C /* CameraView+Controls.swift in Sources */,
 				788262642E51309C000085AC /* SettingsView+Preview.swift in Sources */,
+				782850032E80C05100826FA7 /* Camera+Permissions.swift in Sources */,
 				786DAE782E4F28B900BE3137 /* MalachiteCaptureBundle.swift in Sources */,
 				786DAE4E2E4F28B100BE3137 /* MalachiteFunctionUtils.swift in Sources */,
 				7824CAF12E62E4970072870F /* Camera+Bringup.swift in Sources */,

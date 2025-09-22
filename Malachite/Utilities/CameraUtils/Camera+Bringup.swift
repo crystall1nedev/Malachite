@@ -19,6 +19,7 @@ extension Camera {
          Returns an array of ``AVCaptureDevice`` objects to use when attaching cameras to Malachite's ``AVCaptureSession``.
          */
         func createCameraArray() -> [AVCaptureDevice] {
+            if !parent.permissions.cameraGranted { return [] }
             parent.utilities.debugNSLog("[Camera Initialization] Discovering available cameras")
             var camerasToDiscover: [AVCaptureDevice.DeviceType] = []
             var camerasFound: [AVCaptureDevice] = []
@@ -51,6 +52,7 @@ extension Camera {
          Returns an ``AVCapturePhotoOutput`` object to use when taking a photo with Malachite's ``AVCaptureSession``.
          */
         func createAndAddPhotoOutput(photoOutput: AVCapturePhotoOutput?, session: AVCaptureSession) -> AVCapturePhotoOutput {
+            if !parent.permissions.photosGranted { return AVCapturePhotoOutput() }
             if photoOutput != nil { parent.utilities.debugNSLog("[Camera Initialization] Reusing existing AVCapturePhotoOutput")
             } else { parent.utilities.debugNSLog("[Camera Initialization] Creating new AVCapturePhotoOutput") }
             let output = photoOutput ?? AVCapturePhotoOutput()
@@ -66,29 +68,6 @@ extension Camera {
             
             return output
         }
-        
-        func createRequestToUseCamera() async -> Bool {
-            let status = AVCaptureDevice.authorizationStatus(for: .video)
-            
-            if status == .notDetermined {
-                return await AVCaptureDevice.requestAccess(for: .video)
-            }
-            
-            return false
-        }
-        
-        /**
-         Requests the ability to add photos to the user's library.
-         */
-        func createRequestToAddPhotos() async -> Bool {
-            let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
-            
-            if status == .notDetermined {
-                let newStatus = await PHPhotoLibrary.requestAuthorization(for: .addOnly)
-                return newStatus == .authorized
-            }
-            
-            return false
-        }
     }
 }
+

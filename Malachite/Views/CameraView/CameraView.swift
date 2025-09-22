@@ -122,7 +122,9 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         self.controlLayer = CameraView.ControlLayer(delegate: self)
         self.notifications = CameraView.Notifications(delegate: self)
         self.preview = CameraView.Preview(delegate: self)
-        
+    }
+    
+    @objc func cameraClassDidLoad() {
         if camera.cameras.first != nil {
             utilities.debugNSLog("[Initialization] Bringing up AVCaptureVideoPreviewLayer")
             preview.initPreviewLayer()
@@ -135,10 +137,6 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         } else {
             utilities.debugNSLog("[Initialization] No cameras detected, skipping to user interface bringup")
         }
-        
-#warning("malachite camera init")
-        
-        
     }
     
     /**

@@ -18,6 +18,7 @@ extension CameraView {
         func initNotifications() {
             var notificationConfigs: [temputils.notificationBuilder] = [
                 temputils.notificationBuilder(delegate: delegate, name: UIDevice.orientationDidChangeNotification, action: #selector(orientationChanged)),
+                temputils.notificationBuilder(delegate: delegate, name: MalachiteFunctionUtils.Notifications.cameraClassNotification.name, action: #selector(cameraClassDidLoad)),
                 temputils.notificationBuilder(delegate: delegate, name: MalachiteFunctionUtils.Notifications.aspectFillNotification.name, action: #selector(changeAspectFill)),
                 temputils.notificationBuilder(delegate: delegate, name: MalachiteFunctionUtils.Notifications.exposureLimitNotification.name, action: #selector(changeExposureLimit)),
                 temputils.notificationBuilder(delegate: delegate, name: MalachiteFunctionUtils.Notifications.stabilizerNotification.name, action: #selector(changeStabilizerMode)),

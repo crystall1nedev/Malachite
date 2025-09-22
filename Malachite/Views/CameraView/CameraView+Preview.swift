@@ -42,7 +42,7 @@ extension CameraView {
         }
         
         func addPreviewLayer() {
-            delegate.view.layer.addSublayer(previewLayer)
+            delegate.view.layer.insertSublayer(previewLayer, at: 0)
         }
         
         func initPreviewLayer() {
