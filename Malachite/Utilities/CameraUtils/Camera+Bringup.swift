@@ -37,36 +37,19 @@ extension Camera {
         }
         
         /**
-         Creates and returns a blank ``AVCaptureSession`` for use in Malachite.
-         */
-        func createAVCaptureSession(session: AVCaptureSession?) -> AVCaptureSession {
-            if let session = session {
-                parent.utilities.debugNSLog("[Camera Initialization] Reusing existing AVCaptureSession")
-                return session
-            }
-            parent.utilities.debugNSLog("[Camera Initialization] Creating new AVCaptureSession")
-            return AVCaptureSession()
-        }
-        
-        /**
          Returns an ``AVCapturePhotoOutput`` object to use when taking a photo with Malachite's ``AVCaptureSession``.
          */
-        func createAndAddPhotoOutput(photoOutput: AVCapturePhotoOutput?, session: AVCaptureSession) -> AVCapturePhotoOutput {
-            if !parent.permissions.photosGranted { return AVCapturePhotoOutput() }
-            if photoOutput != nil { parent.utilities.debugNSLog("[Camera Initialization] Reusing existing AVCapturePhotoOutput")
-            } else { parent.utilities.debugNSLog("[Camera Initialization] Creating new AVCapturePhotoOutput") }
-            let output = photoOutput ?? AVCapturePhotoOutput()
-            if !session.outputs.contains(output) {
+        func addPhotoOutput(session: AVCaptureSession) {
+            if !parent.permissions.photosGranted { return }
+            if !session.outputs.contains(parent.output) {
                 parent.utilities.debugNSLog("[Camera Initialization] Running AVCapturePhotoOutput initialization steps")
-                if #unavailable(iOS 16.0) { output.isHighResolutionCaptureEnabled = true }
-                output.maxPhotoQualityPrioritization = .quality
+                if #unavailable(iOS 16.0) { parent.output.isHighResolutionCaptureEnabled = true }
+                parent.output.maxPhotoQualityPrioritization = .quality
                 session.sessionPreset = AVCaptureSession.Preset.photo
-                session.addOutput(output)
+                session.addOutput(parent.output)
             } else {
                 parent.utilities.debugNSLog("[Camera Initialization] AVCapturePhotoOutput already initialized, continuing")
             }
-            
-            return output
         }
     }
 }

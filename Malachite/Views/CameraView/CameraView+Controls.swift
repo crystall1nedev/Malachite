@@ -151,13 +151,8 @@ extension CameraView {
             initButtons()
             initSliders()
             initRecognizers()
-            //if !delegate.utilities.preferences.userInterface.appLaunch { initTooltips(showLabels: true, showCamera: true) }
+            if !delegate.utilities.preferences.userInterface.appLaunch { initTooltips(showLabels: true, showCamera: true) }
             if #available(iOS 17.2, *) { initEventInteraction() }
-            if #available(iOS 18.0, *) {
-                if delegate.utilities.versionType == "INTERNAL" && delegate.utilities.preferences.evaintrnl.cameraControlEnabled {
-                    initCameraControl()
-                }
-            }
         }
     }
 }
@@ -186,7 +181,6 @@ extension CameraView.ControlLayer {
     }
     
     func initCameraControl() {
-        guard delegate.camera.session != nil else { return }
         guard delegate.camera.session.supportsControls else { return }
         var controls: [ AVCaptureControl ] = []
         

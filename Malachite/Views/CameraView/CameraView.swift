@@ -117,18 +117,20 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black
+        self.notifications = CameraView.Notifications(delegate: self)
+        self.notifications.bringUpNotifications()
+        
         self.camera = Camera(utilities: utilities)
         
-        self.controlLayer = CameraView.ControlLayer(delegate: self)
-        self.notifications = CameraView.Notifications(delegate: self)
         self.preview = CameraView.Preview(delegate: self)
+        self.controlLayer = CameraView.ControlLayer(delegate: self)
     }
     
     @objc func cameraClassDidLoad() {
         if camera.cameras.first != nil {
             utilities.debugNSLog("[Initialization] Bringing up AVCaptureVideoPreviewLayer")
+            self.runInputSwitch()
             preview.initPreviewLayer()
-            runInputSwitch()
             
             utilities.debugNSLog("[Initialization] Starting session stream")
             DispatchQueue.global(qos: .background).async {
@@ -219,7 +221,6 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
 #endif
         
         self.controlLayer.bringUpControlLayer()
-        self.notifications.bringUpNotifications()
         
         utilities.function.changeIdleTimerState()
     }

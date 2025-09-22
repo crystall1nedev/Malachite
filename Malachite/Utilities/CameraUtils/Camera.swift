@@ -17,8 +17,8 @@ class Camera: NSObject {
     var permissions: Camera.Permissions!
     var compatibility: Compatibility!
     
-    var session: AVCaptureSession!
-    var output: AVCapturePhotoOutput!
+    var session = AVCaptureSession()
+    var output = AVCapturePhotoOutput()
     var cameras: [ AVCaptureDevice ]!
     
     var currentDevice: AVCaptureDevice?
@@ -35,9 +35,7 @@ class Camera: NSObject {
         Task {
             @MainActor in await self.permissions.requestPermissions()
             if self.permissions.cameraGranted {
-                setupChildClasses()
-                setupSession()
-                NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.cameraClassNotification.name, object: nil)
+                setupChildren()
             } else {
                 utilities.debugNSLog("[Permissions] Setup skipped due to no camera access.")
             }
@@ -49,17 +47,14 @@ class Camera: NSObject {
         }
     }
     
-    public func setupChildClasses() {
+    public func setupChildren() {
         self.bringup       = Bringup(parent: self)
         self.setupCameraArray()
         self.input         = Input(parent: self)
+        NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.cameraClassNotification.name, object: nil)
     }
     
     public func setupCameraArray() { self.cameras = self.bringup.createCameraArray() }
     
-    public func setupSession() { self.session = self.bringup.createAVCaptureSession(session: self.session) }
-    
-    public func setupPhotoOutput() {
-        self.output = self.bringup.createAndAddPhotoOutput(photoOutput: output, session: self.session)
-    }
+    public func setupPhotoOutput() { self.bringup.addPhotoOutput(session: self.session) }
 }
