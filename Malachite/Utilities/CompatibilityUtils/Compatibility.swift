@@ -31,7 +31,7 @@ class Compatibility {
      HEIF is supported on Apple devices with the A10 Fusion chip or later.
      */
     func checkDeviceForHEICCompatibility() {
-        if !utilities.preferences.general.deviceModelHasChanged { return }
+        if !utilities.preferences.compatibility.device.changed { return }
         
         let supportedTypeIdentifiers = CGImageDestinationCopyTypeIdentifiers() as NSArray
         if utilities.preferences.compatibility.jpeg != supportedTypeIdentifiers.contains("public.jpeg") {

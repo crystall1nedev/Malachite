@@ -12,11 +12,13 @@ class Init {
     private var utilities: MalachiteClassesObject
     private var debug: Init.Debug
     private var intrnl: Init.Internal
+    private var compatibility: Compatibility
     
     init( utilities: MalachiteClassesObject ) {
         self.utilities = utilities
         self.debug = Debug(utilities: utilities)
         self.intrnl = Internal(utilities: utilities)
+        self.compatibility = Compatibility(utilities: utilities)
     }
     
     /// Prints a message about Malachite starting.
@@ -47,6 +49,7 @@ class Init {
         startupLog()
         versionTypeCheck()
         appExtensionCheck()
+        self.compatibility.checkDeviceForHEICCompatibility()
         
         if utilities.versionType == "DEBUG" || utilities.versionType == "INTERNAL" { debug.initMalachite() }
         if utilities.versionType == "INTERNAL" { intrnl.initMalachite() }

@@ -28,7 +28,7 @@ extension Camera {
             
             let currentProcess = ProcessInfo()
             AVCaptureDevice.DiscoverySession.init(deviceTypes: camerasToDiscover, mediaType: .video, position: (currentProcess.isiOSAppOnMac || currentProcess.isMacCatalystApp) ? .unspecified : .back).devices.forEach { device in
-                if parent.utilities.preferences.general.deviceModelHasChanged { parent.compatibility.checkCameraCapabilities(device: device) }
+                if parent.utilities.preferences.compatibility.device.changed { parent.compatibility.checkCameraCapabilities(device: device) }
                 camerasFound.append(device)
                 parent.utilities.debugNSLog("[Camera Initialization] \(device.deviceType.rawValue) available")
             }

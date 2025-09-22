@@ -19,6 +19,7 @@ struct MalachitePreferences: Codable {
     var compatibility:  compatibilityPreferences
     
     struct compatibilityPreferences: Codable {
+        var device:     devicePreferences
         var ultrawide:      [ String : Bool ]
         var wideangle:      [ String : Bool ]
         var telephoto:      [ String : Bool ]
@@ -27,16 +28,18 @@ struct MalachitePreferences: Codable {
         var raw:            Bool
         var proraw:         Bool
         var hdr:            Bool
+        
+        struct devicePreferences: Codable {
+            var model:         String
+            var changed:       Bool
+        }
     }
     
     var general:        generalPreferences
     
     struct generalPreferences: Codable {
         var version:               String
-        var prefsVersion:          Int
         var firstLaunch:           Bool
-        var deviceModel:           String
-        var deviceModelHasChanged: Bool
         var photoCount:            Int
         var gamekit:               gamekitPreferences
         

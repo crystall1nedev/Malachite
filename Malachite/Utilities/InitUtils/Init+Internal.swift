@@ -19,15 +19,15 @@ extension Init {
         
         /// Checks whether or not the current device is the same device as previously recorded in preferences.
         public func isSameDevice() {
-            if utilities.preferences.general.deviceModelHasChanged { utilities.preferences.general.deviceModelHasChanged = false }
-            if utilities.preferences.general.deviceModel == utilities.preferences.ext.deviceModel() {
+            if utilities.preferences.compatibility.device.changed { utilities.preferences.compatibility.device.changed = false }
+            if utilities.preferences.compatibility.device.model == utilities.preferences.ext.deviceModel() {
                 utilities.internalNSLog("[Initialization] This is the same device, can skip compatibility checks.")
                 return
             }
             
             utilities.internalNSLog("[Initialization] This is a new device, rechecking compatibility.")
-            utilities.preferences.general.deviceModel = utilities.preferences.ext.deviceModel()
-            utilities.preferences.general.deviceModelHasChanged = true
+            utilities.preferences.compatibility.device.model = utilities.preferences.ext.deviceModel()
+            utilities.preferences.compatibility.device.changed = true
         }
         
         /// Runs all of the initialization functions defined in this class.

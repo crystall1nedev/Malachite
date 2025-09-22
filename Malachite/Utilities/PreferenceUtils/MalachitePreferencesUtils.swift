@@ -91,6 +91,8 @@ class MalachitePreferencesUtils {
         var currentPreferences = initPreferences()
         
         if let compatibilityPreferences = oldPreferences["compatibility"] as? [ String: AnyObject ] {
+            currentPreferences.compatibility.device.model = compatibilityPreferences["device"]?["model"] as? String ?? "Eva1,1"
+            currentPreferences.compatibility.device.changed = compatibilityPreferences["device"]?["changed"] as? Bool ?? false
             currentPreferences.compatibility.ultrawide = compatibilityPreferences["ultrawide"] as? [ String: Bool ] ?? [ "invalid" : false]
             currentPreferences.compatibility.wideangle = compatibilityPreferences["wideangle"] as? [ String: Bool ] ?? [ "invalid" : false]
             currentPreferences.compatibility.telephoto = compatibilityPreferences["telephoto"] as? [ String: Bool ] ?? [ "invalid" : false]
@@ -103,8 +105,6 @@ class MalachitePreferencesUtils {
         
         if let generalPreferences = oldPreferences["general"] as? [ String: AnyObject ] {
             currentPreferences.general.firstLaunch = generalPreferences["firstLaunch"] as? Bool ?? false
-            currentPreferences.general.deviceModel = generalPreferences["deviceModel"] as? String ?? "Eva1,1"
-            currentPreferences.general.deviceModelHasChanged = generalPreferences["deviceModelHasChanged"] as? Bool ?? false
             currentPreferences.general.photoCount = generalPreferences["photoCount"] as? Int ?? 0
             currentPreferences.general.gamekit.alerted = generalPreferences["gamekit"]?["alerted"] as? Bool ?? false
             currentPreferences.general.gamekit.found = generalPreferences["gamekit"]?["found"] as? Bool ?? false
@@ -164,6 +164,9 @@ class MalachitePreferencesUtils {
     func initPreferences() -> MalachitePreferences {
         return MalachitePreferences(
             compatibility: MalachitePreferences.compatibilityPreferences(
+                device: MalachitePreferences.compatibilityPreferences.devicePreferences(
+                    model: "Eva1,1",
+                    changed: false),
                 ultrawide: [ "invalid" : false ],
                 wideangle: [ "invalid" : false ],
                 telephoto: [ "invalid" : false ],
@@ -175,10 +178,7 @@ class MalachitePreferencesUtils {
             ),
             general: MalachitePreferences.generalPreferences(
                 version: Bundle.main.infoDictionary?["CFBundleVersion"] as! String,
-                prefsVersion: 6,
                 firstLaunch: false,
-                deviceModel: "Eva1,1",
-                deviceModelHasChanged: false,
                 photoCount: 0,
                 gamekit: MalachitePreferences.generalPreferences.gamekitPreferences(
                     alerted: false,

@@ -20,7 +20,7 @@ extension DeveloperView {
         
         var body: some View {
             Section(header: Text("developer.header.device"), footer: Text("developer.footer.device")) {
-                createBuildInformation(label: "developer.option.device_model", value: utilities.preferences.general.deviceModel)
+                createBuildInformation(label: "developer.option.device_model", value: utilities.preferences.compatibility.device.model)
                 createBuildInformation(label: "developer.option.device_version", value: getCurrentOSVersion())
                 createBuildInformation(label: "developer.option.device_build", value: getCurrentOSBuild())
             }
