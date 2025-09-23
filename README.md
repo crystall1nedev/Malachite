@@ -1,21 +1,22 @@
 # Malachite
 *noun*
 1. a crystal with the properties of revealing hidden parts of yourself
-2. the name of my app to take control of the macro lens on iPhone
+2. the name of my app to take back control of your iPhone or iPad's camera lenses.
 ---
 ## What is it?
-Malachite is a **work-in-progress** app that gives you more control over the macro lens of (or connected to) your iPhone.
+Malachite is a **work-in-progress** camera app, designed to put pro controls into the hands of even more users.
 
 ## What do I need?[^1]
+Malachite will run on any iPhone or iPad with **iOS 15.0** or later.
+
 I recommend one of the following configurations...
-- An iPhone or iPad with one of the following:
+- An iPhone or iPad with one of the following...
   - A built-in ultra-wide camera that supports Apple's macro mode:
     - iPhone 13 Pro or iPhone 13 Pro Max
     - iPhone 14 Pro or iPhone 14 Pro Max
     - iPhone 15 Pro or iPhone 15 Pro Max
     - iPhone 16 or later (excluding iPhone 16e)
-  - A third-party lens attachment
-...and **iOS 15.0** or later.
+- ...and/or a third-party lens attachment
 
 ## What can I do with this?  
 - [x] Enjoy a fully-native, no-external library Swift app
@@ -46,7 +47,13 @@ Malachite is on TestFlight, but only for **[my Patrons](https://patreon.com/crys
 4. Build!
 
 ## What started this one, Eva?
-So, I live with my love: @ThatStella7922. She and I are both big nerds, and I caught her using her macro lens on an Xbox 360 motherboard to let her work with traces and pads while she was RGH'ing it. The idea for a magnifier app came from how much time it took for her to get into the right camera setting, turn the flashlight on, and still not have much control beyond autofocus and zooming. With Malachite, I strove to solve this problem - and then I ended up making it even greater for the people who love macro photography on their own iPhones.
+So, I live with my love: @ThatStella7922. She and I are both big nerds, and I caught her using her macro lens on an Xbox 360 motherboard to let her work with traces and pads while she was RGH'ing it. The idea for a magnifier app came from how much time it took for her to get into the right camera setting, turn the flashlight on, and still not have much control beyond autofocus and zooming. With Malachite, I strove to solve this problem - and thus, we had Malachite with its original purpose: a macro magnifier.
+
+As I was working on it, I'd drop builds into my Discord server. A few users came in and asked for various features - including image capture. I was originally opposed to it, since it *was* just for magnification... and yet, a few hours later, I'd hooked everything up to add image capture support - saving HEICs to the user's library or directly out of the share sheet. Malachite ended up morphing into a macro photography app that people used and enjoyed - and requested more out of.
+
+At this point, I've added plenty of extras. Camera switching, manual exposure, hardware button controls - those are just a few and I plan to implement so much more in the future. It took me a while to accept it, but this little side-project of mine was becoming something different, and the goal solidified itself as this: creating a powerful pro camera app that truly harnesses iPhone and iPad hardware, while staying simplistic in its design and accessible to anyone who wants to get into photography.
+
+To the people who helped get me here (and you know who you are), I thank you for helping me figure it out.
 
 [^1]: Malachite is validated against iPhone SE (1st generation) with no lens attachment, iPhone 8 Plus with no working main camera, iPhone 11, iPhone 16 Pro Max, and iPad Pro (11-inch). Not all features are available across all devices, due to hardware and software limitations. iOS version support may change depending on the difficulty of targeting older iOS versions and/or other factors.
 [^2]: Pinch-to-zoom will feature haptic feedback when reaching the minimum and maximum zoom levels in a future commit.
