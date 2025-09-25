@@ -594,24 +594,24 @@
         }
       }
     },
-    "compatibility.title.heif" : {
+    "compatibility.title.heic" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Device supports encoding in HEIF"
+            "value" : "Device supports encoding in HEIC"
           }
         }
       }
     },
-    "compatibility.title.heif.unsupported" : {
+    "compatibility.title.heic.unsupported" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Device does not support HEIF encoding"
+            "value" : "Device does not support HEIC encoding"
           }
         }
       }
@@ -1216,13 +1216,13 @@
         }
       }
     },
-    "settings.footer.photo.heif" : {
+    "settings.footer.photo.heic" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The HEIF file format requires a device with the Apple A10 Fusion chip or later.\\n"
+            "value" : "The HEIC file format requires a device with the Apple A10 Fusion chip or later."
           }
         }
       }
@@ -1337,12 +1337,12 @@
         }
       }
     },
-    "settings.option.photo.fileformat.heif" : {
+    "settings.option.photo.fileformat.heic" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "HEIF"
+            "value" : "HEIC"
           }
         }
       }

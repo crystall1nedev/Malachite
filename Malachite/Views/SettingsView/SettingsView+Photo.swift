@@ -40,7 +40,7 @@ extension SettingsView {
                     Picker("settings.option.photo.fileformat", selection: $photoFormat) {
                         Text("settings.option.photo.fileformat.jpeg")
                             .tag(0)
-                        Text("settings.option.photo.fileformat.heif")
+                        Text("settings.option.photo.fileformat.heic")
                             .tag(1)
                     }
                 }
@@ -95,7 +95,7 @@ extension SettingsView {
         }
         
         func onAppear() {
-            if !utilities.preferences.compatibility.heic { formatFooterText = "settings.footer.photo.heif".localized }
+            if !utilities.preferences.compatibility.heic { formatFooterText = "settings.footer.photo.heic".localized }
             
             if !utilities.preferences.compatibility.hdr {
                 formatFooterText = (formatFooterText != nil) ? formatFooterText! + "settings.footer.photo.hdr".localized : "settings.footer.photo.hdr".localized

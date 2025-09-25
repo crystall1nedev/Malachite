@@ -21,7 +21,7 @@ extension CompatibilityView {
         var body: some View {
             Section(header: Text("compatibility.header.format")) {
                 MalachiteCompatibilityViewUtils(title: "compatibility.title.jpeg", available: utilities.preferences.compatibility.jpeg)
-                MalachiteCompatibilityViewUtils(title: "compatibility.title.heif", available: utilities.preferences.compatibility.heic)
+                MalachiteCompatibilityViewUtils(title: "compatibility.title.heic", available: utilities.preferences.compatibility.heic)
             }
         }
     }

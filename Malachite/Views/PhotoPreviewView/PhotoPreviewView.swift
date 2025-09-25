@@ -61,8 +61,8 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
     
     /// A variable to store whether or not HDR is enabled.
     let enableHDR = MalachitePreferencesUtils.shared.preferences.capture.hdr
-    /// A variable to store whether or not the HEIF file format is enabled.
-    let enableHEIF = MalachitePreferencesUtils.shared.preferences.capture.format.heic
+    /// A variable to store whether or not the HEIC file format is enabled.
+    let enableHEIC = MalachitePreferencesUtils.shared.preferences.capture.format.heic
     
     /**
      viewDidLoad override for the main user interface.
@@ -208,7 +208,7 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
      - Creates an image from the ``photoImageData`` that was passed on creation of the view controller.
      - If ``enableHDR`` is enabled, creates a gain map image with HDR data inside.
      - If the user has enabled watermarking, creates an image with the watermark and the original image's dimensions.
-     - If ``enableHEIF`` is enabled, create a HEIC representation of all above images combined. Otherwise, JPEG is used.
+     - If ``enableHEIC`` is enabled, create a HEIC representation of all above images combined. Otherwise, JPEG is used.
      */
     public func finalizeImageForExport(imageData: Data) -> Data {
         var data = Data()
@@ -238,7 +238,7 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
         
         let outputImageWithProps = outputImage.settingProperties(imageProperties)
         
-        if enableHEIF {
+        if enableHEIC {
             data = returnHEIC(imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage, imageColorspace: rawImage.colorSpace?.name)
         } else {
             data = returnJPEG(imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage, imageColorspace: rawImage.colorSpace?.name)
@@ -287,12 +287,12 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
         let types = CGImageDestinationCopyTypeIdentifiers() as NSArray
         if types.contains("public.heic") {
             if enableHDR && (hdrImage != nil){
-                return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!, options:  [ .hdrGainMapImage : hdrImage! ])!
+                return CIContext().heicRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!, options:  [ .hdrGainMapImage : hdrImage! ])!
             } else {
-                return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!)!
+                return CIContext().heicRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!)!
             }
         } else {
-            utilities.debugNSLog("[Capture Photo] Device does not support encoding HEIF, falling back to JPEG")
+            utilities.debugNSLog("[Capture Photo] Device does not support encoding HEIC, falling back to JPEG")
             utilities.preferences.capture.format.heic = false
             return returnJPEG(imageForRepresentation: image, imageForGainMap: hdrImage, imageColorspace: colorSpace)
         }
@@ -300,7 +300,7 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
     
     /// Function to return a JPEG representation of the passed image  with its colorspace and an optional gain map image.
     func returnJPEG(imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage?, imageColorspace colorSpace: CFString?) -> Data {
-        utilities.debugNSLog("[Capture Photo] HEIF is disabled, saving JPEG representation")
+        utilities.debugNSLog("[Capture Photo] HEIC is disabled, saving JPEG representation")
         if enableHDR && (hdrImage != nil) {
             return CIContext().jpegRepresentation(of: image, colorSpace: CGColorSpace(name: colorSpace!)!, options: [ .hdrGainMapImage : hdrImage! ])!
         } else {

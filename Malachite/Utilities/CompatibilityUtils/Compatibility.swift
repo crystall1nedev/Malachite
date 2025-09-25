@@ -26,9 +26,9 @@ class Compatibility {
     /**
      Checks whether or not the current device is capable of encoding High Efficiency Image Format.
      
-     If the device doesn't support HEIF, the option is disabled in preferences to prevent crashes.
+     If the device doesn't support HEIC, the option is disabled in preferences to prevent crashes.
      
-     HEIF is supported on Apple devices with the A10 Fusion chip or later.
+     HEIC is supported on Apple devices with the A10 Fusion chip or later.
      */
     func checkDeviceForHEICCompatibility() {
         if !utilities.preferences.compatibility.device.changed { return }
