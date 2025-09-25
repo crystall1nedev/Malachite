@@ -287,9 +287,9 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
         let types = CGImageDestinationCopyTypeIdentifiers() as NSArray
         if types.contains("public.heic") {
             if enableHDR && (hdrImage != nil){
-                return CIContext().heicRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!, options:  [ .hdrGainMapImage : hdrImage! ])!
+                return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!, options:  [ .hdrGainMapImage : hdrImage! ])!
             } else {
-                return CIContext().heicRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!)!
+                return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!)!
             }
         } else {
             utilities.debugNSLog("[Capture Photo] Device does not support encoding HEIC, falling back to JPEG")
