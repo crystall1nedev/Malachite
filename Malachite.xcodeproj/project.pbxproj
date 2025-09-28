@@ -942,11 +942,6 @@
 				"$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"",
 				"$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"",
 				"",
-				"",
-				"",
-				"",
-				"",
-				"",
 			);
 		};
 		78EC5D602E4EC1AD005044E2 /* Embed build information */ = {
@@ -1038,11 +1033,6 @@
 				"$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"",
 				"$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"",
 				"$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"",
-				"",
-				"",
-				"",
-				"",
-				"",
 				"",
 			);
 		};

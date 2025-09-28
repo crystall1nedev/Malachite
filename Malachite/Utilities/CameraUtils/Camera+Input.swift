@@ -89,7 +89,8 @@ extension Camera {
             parent.utilities.debugNSLog("[Camera Input] Checking if we should enable HDR: supportedByDevice: \(parent.utilities.preferences.compatibility.hdr), enabledInPreferences: \(parent.utilities.preferences.capture.hdr)")
             
             device.automaticallyAdjustsVideoHDREnabled = false
-            device.isVideoHDREnabled = (parent.utilities.preferences.compatibility.hdr && parent.utilities.preferences.capture.hdr)
+            
+            if parent.utilities.preferences.compatibility.hdr { device.isVideoHDREnabled = parent.utilities.preferences.capture.hdr }
             
             parent.utilities.debugNSLog("[Camera Input]" + (device.isVideoHDREnabled ? "Disabling HDR" : " Enabling HDR"))
             
