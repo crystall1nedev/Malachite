@@ -10,14 +10,25 @@ import Foundation
 
 extension Camera {
     class Input {
+        /// An existing instance of the ``Camera`` class.
         var parent: Camera
         
+        /// Initailizer function for the ``Camera/Input`` class.
         init( parent: Camera ) { self.parent = parent }
         
-        /// Function to switch cameras and attach new inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.
+        /**
+         Changes the current device providing input to ``Camera/session``.
+         
+         A quick rundown of this function:
+         - Checks whether or not there is a camera available for switching using ``selectDeviceForSwitch()``
+         - Checks whether or not there is a camera already providing an input to ``Camera.session``, and removing it
+         - Configures the currently active format on the new camera to the highest quality and resolution possible
+         - Sends notifications about unsupported features such as focus or exposure with ``handleUnsupportedFeaturesOnSwitch(supported:notification:)``
+         - Creates and attaches an input with the ``Camera/device`` object to ``Camera/session``
+         */
         @objc func runInputSwitch() {
-            parent.currentDevice = selectDeviceForSwitch()
-            guard let device = parent.currentDevice else { return }
+            parent.device = selectDeviceForSwitch()
+            guard let device = parent.device else { return }
             
             parent.session.beginConfiguration()
             let sessionIsEmpty = parent.session.inputs.isEmpty
@@ -68,13 +79,22 @@ extension Camera {
             if !supported { NotificationCenter.default.post(name: notification, object: nil) }
         }
         
+        /**
+         Returns a new `AVCaptureDevice` object to be used for camera switching.
+         
+         > Warning: Don't call this function manually if using ``runInputSwitch()`` - it's already called there.
+         
+         > Info: The camera that's chosen depends on how the user initiated this call. If they used the Camera Control on iPhone
+         16 and later, this function switches to the specific camera they chose in the overlay. Otherwise, this function simply chooses
+         the next available camera in ``Camera/cameras``, or the first if the existing camera is at the end of the array.
+         */
         public func selectDeviceForSwitch() -> AVCaptureDevice? {
             if parent.cameras.count > 0 {
-                if parent.currentIndex != nil { return parent.cameras[parent.currentIndex!] } else {
+                if parent.index != nil { return parent.cameras[parent.index!] } else {
                     if parent.session.inputs.isEmpty {
                         return parent.cameras.first
                     } else {
-                        if let devicePosition = parent.cameras.firstIndex(of: parent.currentDevice!) {
+                        if let devicePosition = parent.cameras.firstIndex(of: parent.device!) {
                             return parent.cameras[(devicePosition == (parent.cameras.count - 1)) ? 0 : devicePosition + 1]
                         }
                     }
@@ -83,6 +103,14 @@ extension Camera {
             return nil
         }
         
+        /**
+         Enables or disables HDR on the passed `AVCaptureDevice`
+         
+         MalachiteKit's HDR implementation is built on Apple's APIs from iOS 14.1 on iPhone 12 and later. The user
+         is also provided with the facility to disable HDR should they need or want to.
+         
+         > Info: Supporting HDR on older iPhone models is being researched and will be available in a future release.
+         */
         public func setHDREnabledOnDevice(device: AVCaptureDevice) {
             parent.compatibility.checkDeviceForHDRCompatibility(device: device)
             
@@ -97,6 +125,12 @@ extension Camera {
             if device.activeFormat.isGlobalToneMappingSupported { device.isGlobalToneMappingEnabled = false }
         }
         
+        /**
+         Changes the maxPhotoDimensions property on the passed `AVCapturePhotoOutput`.
+         
+         MalachiteKit supports 8MP, 12MP, and 48MP cameras. See Apple's Tech Specs page for information on the capabilities
+         of specific devices.
+         */
         @available(iOS 16.0, *)
         @objc public func switchInputMegapixels(device: AVCaptureDevice, photoOutput: AVCapturePhotoOutput) {
             let maxDimensions = device.activeFormat.supportedMaxPhotoDimensions[device.activeFormat.supportedMaxPhotoDimensions.count - 1]

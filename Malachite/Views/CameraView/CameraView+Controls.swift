@@ -139,8 +139,8 @@ extension CameraView {
                 delegate.utilities.tooltips.fadeOutTooltipFlow(labelsToFade: labels)
             }
             
-            if delegate.camera.currentDevice != nil {
-                if showCamera { delegate.utilities.tooltips.zoomTooltipFlow(button: delegate.currentCamera, viewForBounds: delegate.view, camera: delegate.camera.currentDevice) }
+            if delegate.camera.device != nil {
+                if showCamera { delegate.utilities.tooltips.zoomTooltipFlow(button: delegate.currentCamera, viewForBounds: delegate.view, camera: delegate.camera.device) }
             }
         }
         
@@ -174,9 +174,9 @@ extension CameraView.ControlLayer {
     
     func sessionControlsDidBecomeInactive(_ session: AVCaptureSession) {
         if delegate.uiIsHidden { runUIHider() }
-        if delegate.camera.currentIndex != nil {
+        if delegate.camera.index != nil {
             delegate.runInputSwitch()
-            delegate.camera.currentIndex = nil
+            delegate.camera.index = nil
         }
     }
     
@@ -208,11 +208,11 @@ extension CameraView.ControlLayer {
         
         if delegate.utilities.preferences.evaintrnl.cameraControlOptions.contains("cameras") {
             let cameraSwitcher = AVCaptureIndexPicker("Cameras", symbolName: "camera.fill", localizedIndexTitles: delegate.camera.cameras.map { $0.localizedName } )
-            if let device = delegate.camera.currentDevice {
+            if let device = delegate.camera.device {
                 cameraSwitcher.selectedIndex = delegate.camera.cameras.firstIndex(of: device)!
             }
             cameraSwitcher.setActionQueue(delegate.utilities.sessionQueue) { [self] index in
-                delegate.camera.currentIndex = index
+                delegate.camera.index = index
             }
             controls.append(cameraSwitcher)
         }
@@ -243,14 +243,14 @@ extension CameraView.ControlLayer {
                     delegate.flashFloater = nil
                     if let flashSwitcher = flashSwitcher { flashSwitcher.selectedIndex = delegate.flashStatus ? 1 : 0 }
                 } else {
-                    delegate.utilities.function.flashLevelTest(captureDevice: delegate.camera.currentDevice!, floater: position)
+                    delegate.utilities.function.flashLevelTest(captureDevice: delegate.camera.device!, floater: position)
                 }
             }
             controls.append(flashSlider)
         }
         
         if delegate.utilities.preferences.evaintrnl.cameraControlOptions.contains("exposureBias") {
-            if let device = delegate.camera.currentDevice {
+            if let device = delegate.camera.device {
                 let systemBiasSlider = AVCaptureSystemExposureBiasSlider(device: device)
             controls.append(systemBiasSlider)
             }
@@ -285,7 +285,7 @@ extension CameraView.ControlLayer {
                 delegate.utilities.views.hideUI(view: delegate.view, blacklisted: [ delegate.aeafFeedback, delegate.uiHiderRecognizer ], conditionals: [ delegate.focusLockButton : delegate.manualFocusSliderIsActive, delegate.exposureLockButton : delegate.manualExposureSliderIsActive], gestureRecognizers: self.recognizers)
             } else {
                 delegate.utilities.views.showUI(view: delegate.view, blacklisted: [ delegate.aeafFeedback, delegate.uiHiderRecognizer ], conditionals: [ delegate.focusLockButton : delegate.manualFocusSliderIsActive, delegate.exposureLockButton : delegate.manualExposureSliderIsActive], gestureRecognizers: self.recognizers)
-                delegate.utilities.tooltips.zoomTooltipFlow(button: delegate.currentCamera, viewForBounds: delegate.view, camera: delegate.camera.currentDevice)
+                delegate.utilities.tooltips.zoomTooltipFlow(button: delegate.currentCamera, viewForBounds: delegate.view, camera: delegate.camera.device)
             }
 
             delegate.uiIsHidden = !delegate.uiIsHidden

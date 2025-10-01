@@ -11,11 +11,15 @@ import Photos
 
 extension Camera {
     class Permissions {
+        /// An instance of ``MalachiteClassesObject`` for reuse across the app.
         private var utilities: MalachiteClassesObject
         
+        /// Initailizer function for the ``Camera/Permissions`` class.
         init( utilities: MalachiteClassesObject ) { self.utilities = utilities }
         
+        /// Whether or not the user has granted permission to use the camera system.
         var cameraGranted = false
+        /// Whether or not the user has granted permission to add to their photo library.
         var photosGranted = false
         
         /// Requests camera and photo library permissions and updates ``cameraGranted`` and ``photosGranted``
@@ -30,9 +34,7 @@ extension Camera {
             utilities.debugNSLog("[Camera Permissions] Results — camera=\(cameraOK), photos(add-only)=\(photosOK)")
         }
         
-        /**
-         Requests the ability to use the camera.
-         */
+        /// Requests the ability to use the camera.
         func createRequestToUseCamera() async -> Bool {
             let status = AVCaptureDevice.authorizationStatus(for: .video)
             switch status {
@@ -52,9 +54,7 @@ extension Camera {
             }
         }
         
-        /**
-         Requests the ability to add photos to the user's library.
-         */
+        /// Requests the ability to add photos to the user's library.
         func createRequestToAddPhotos() async -> Bool {
             let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
             switch status {

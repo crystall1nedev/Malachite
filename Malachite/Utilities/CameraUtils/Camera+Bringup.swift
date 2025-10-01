@@ -11,12 +11,17 @@ import Photos
 
 extension Camera {
     class Bringup {
-        private var parent: Camera
+        /// An existing instance of the ``Camera`` class.
+        var parent: Camera
         
+        /// Initailizer function for the ``Camera/Bringup`` class.
         init( parent: Camera ) { self.parent = parent }
         
         /**
-         Returns an array of ``AVCaptureDevice`` objects to use when attaching cameras to Malachite's ``AVCaptureSession``.
+         Returns an array of `AVCaptureDevice` objects to use when attaching cameras to Malachite's `AVCaptureSession`.
+         
+         If camera permissions aren't granted, or the current device doesn't have any cameras to add to this array,
+         this function returns `[]`.
          */
         func createCameraArray() -> [AVCaptureDevice] {
             if !parent.permissions.cameraGranted { return [] }
@@ -37,7 +42,10 @@ extension Camera {
         }
         
         /**
-         Returns an ``AVCapturePhotoOutput`` object to use when taking a photo with Malachite's ``AVCaptureSession``.
+         Returns an `AVCapturePhotoOutput` object to use when taking a photo with Malachite's `AVCaptureSession`.
+         
+         If photo library permissions aren't granted, this function returns before any `AVCapturePhotoOutput`
+         initialization occurs.
          */
         func addPhotoOutput(session: AVCaptureSession) {
             if !parent.permissions.photosGranted { return }

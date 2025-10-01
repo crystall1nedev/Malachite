@@ -133,9 +133,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
             preview.initPreviewLayer()
             
             utilities.debugNSLog("[Initialization] Starting session stream")
-            DispatchQueue.global(qos: .background).async {
-                self.camera.session.startRunning()
-            }
+            self.camera.queue.async { self.camera.session.startRunning() }
         } else {
             utilities.debugNSLog("[Initialization] No cameras detected, skipping to user interface bringup")
         }
@@ -241,11 +239,11 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to dynamically change the auto exposure and ``exposureSlider`` values when toggling in ``MalachiteSettingsView``.
     @objc func changeExposureLimit() {
-        guard let exposure = camera.currentDevice?.isExposureModeSupported(.continuousAutoExposure) else { return }
+        guard let exposure = camera.device?.isExposureModeSupported(.continuousAutoExposure) else { return }
         do {
-            try camera.currentDevice?.lockForConfiguration()
-            defer { camera.currentDevice?.unlockForConfiguration() }
-            if exposure { camera.currentDevice?.exposureMode = .continuousAutoExposure }
+            try camera.device?.lockForConfiguration()
+            defer { camera.device?.unlockForConfiguration() }
+            if exposure { camera.device?.exposureMode = .continuousAutoExposure }
         } catch {
             utilities.debugNSLog("[Change Exposure Limit] Couldn't lock device for configuration")
         }
@@ -256,7 +254,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     }
     
     @objc func changeContinuousAEAF() {
-        guard let selectedDevice = camera.currentDevice else { return }
+        guard let selectedDevice = camera.device else { return }
         utilities.function.continuousAEAF(device: selectedDevice)
     }
     
@@ -282,14 +280,14 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         guard let connection = self.preview.previewLayer.connection else { print("bruh"); return }
         if utilities.preferences.preview.stablize {
             if #available(iOS 17.0, *) {
-                if ((camera.currentDevice?.activeFormat.isVideoStabilizationModeSupported(.previewOptimized)) != nil) {
+                if ((camera.device?.activeFormat.isVideoStabilizationModeSupported(.previewOptimized)) != nil) {
                     utilities.debugNSLog("[Preview Stabilization] Enabling enhanced stabilization mode")
                     connection.preferredVideoStabilizationMode = .previewOptimized
                     return
                 }
             }
             
-            if ((camera.currentDevice?.activeFormat.isVideoStabilizationModeSupported(.standard)) != nil) {
+            if ((camera.device?.activeFormat.isVideoStabilizationModeSupported(.standard)) != nil) {
                 utilities.debugNSLog("[Preview Stabilization] Enabling standard stabilization mode")
                 connection.preferredVideoStabilizationMode = .standard
             }
@@ -361,13 +359,13 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     @available(iOS 16.0, *)
     @objc func runInputMegapixelSwitch() {
-        guard let selectedDevice = camera.currentDevice else { return }
+        guard let selectedDevice = camera.device else { return }
         utilities.function.switchInputMegapixels(device: selectedDevice, photoOutput: self.camera.output)
     }
     
     /// Function to toggle the flashlight's on state.
     @objc func runFlashlightToggle() {
-        guard var selectedDevice = camera.currentDevice else { return }
+        guard var selectedDevice = camera.device else { return }
         if selectedDevice.isFlashAvailable && !utilities.preferences.debug.breakApp {
             utilities.function.toggleFlash(captureDevice: &selectedDevice,
                                            flashlightButton: flashlightButton,
@@ -448,7 +446,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to zoom in and out with ``zoomRecognizer``.
     @objc func runZoomController() {
-        guard var selectedDevice = camera.currentDevice else { return }
+        guard var selectedDevice = camera.device else { return }
         utilities.function.zoom(sender: zoomRecognizer,
                                 floater: &zoomFloater,
                                 captureDevice: &selectedDevice,
@@ -458,7 +456,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to autofocus + autoexposure with ``aeafRecognizer``.
     @objc func runaeafController() {
-        guard var selectedDevice = camera.currentDevice else { return }
+        guard var selectedDevice = camera.device else { return }
         utilities.function.pointOfInterestAEAF(sender: aeafRecognizer,
                                      captureDevice: &selectedDevice,
                                      button: aeafFeedback,
@@ -468,7 +466,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to handle ``exposureSlider`` interaction.
     @objc func runManualExposureController() {
-        guard var selectedDevice = camera.currentDevice else { return }
+        guard var selectedDevice = camera.device else { return }
         if selectedDevice.isExposureModeSupported(.custom) && !utilities.preferences.debug.breakApp {
             utilities.function.manualExposure(captureDevice: &selectedDevice,
                                               sender: exposureSlider)
@@ -483,7 +481,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to show and hide the ``exposureSliderButton`` and ``exposureLockButton``.
     @objc func runManualExposureUIHider() {
-        guard let exposure = camera.currentDevice?.isExposureModeSupported(.custom) else { return }
+        guard let exposure = camera.device?.isExposureModeSupported(.custom) else { return }
         if exposure && !utilities.preferences.debug.breakApp {
             manualExposureSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualExposureSliderIsActive,
                                                                                 optionButton: exposureButton,
@@ -523,7 +521,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to handle ``focusSlider`` interaction.
     @objc func runManualFocusController() {
-        guard var selectedDevice = camera.currentDevice else { return }
+        guard var selectedDevice = camera.device else { return }
         if selectedDevice.isLockingFocusWithCustomLensPositionSupported && !utilities.preferences.debug.breakApp {
             utilities.function.manualFocus(captureDevice: &selectedDevice,
                                            sender: focusSlider,
@@ -540,7 +538,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to handle ``focusSlider`` interaction.
     @objc func runManualFocusUIHider() {
-        guard var selectedDevice = camera.currentDevice else { return }
+        guard var selectedDevice = camera.device else { return }
         if selectedDevice.isLockingFocusWithCustomLensPositionSupported && !utilities.preferences.debug.breakApp {
         manualFocusSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualFocusSliderIsActive,
                                                                          optionButton: focusButton,
