@@ -11,44 +11,32 @@ import UIKit
 extension MalachiteViewUtils {
     public class Sliders {
         /// Function that shows and hides slider controllers in the user interface.
-        func runControllers(sliderIsShown shown: Bool, optionButton option: UIButton, lockButton button: UIButton, associatedSliderButton sliderButton: UIButton) -> Bool {
-            var factor = CGFloat()
-            if shown {
-                factor = 0
-            } else {
-                factor = -220
-            }
+        func runControllers(group: sliderGroup) -> Bool {
+            let factor = CGFloat(group.sliderShown ? 0 : -220)
             
             UIView.animate(withDuration: 1) {
-                option.transform = CGAffineTransform(translationX: factor, y: 0)
-                sliderButton.transform = CGAffineTransform(translationX: factor, y: 0)
+                group.activator.transform = CGAffineTransform(translationX: factor, y: 0)
+                group.container.transform = CGAffineTransform(translationX: factor, y: 0)
             } completion: { _ in
                 UIView.animate(withDuration: 0.25) {
-                    if !shown {
-                        button.isEnabled = true
-                        button.alpha = 1.0
-                    } else {
-                        button.isEnabled = false
-                        button.alpha = 0.0
-                    }
+                    group.lock.isEnabled = group.sliderShown ? false : true
+                    group.lock.alpha = group.sliderShown ? 0.0 : 1.0 
                 }
             }
-            return !shown
+            
+            return !group.sliderShown
         }
         
         /// Function that sets the lock and unlock state of the bassed slider lock buttons.
-        func runLocks(lockIsActive locked: Bool, lockButton button: inout UIButton, associatedSlider slider: UISlider, associatedGestureRecognizer gestureRecognizer: UIGestureRecognizer?, viewForRecognizers view: UIView) -> Bool {
-            if locked {
-                button.setImage(UIImage(systemName: "lock.open")?.withRenderingMode(.alwaysTemplate), for: .normal)
-                slider.isEnabled = true
-                if let validRecognizer = gestureRecognizer { view.addGestureRecognizer(validRecognizer) }
-            } else {
-                button.setImage(UIImage(systemName: "lock")?.withRenderingMode(.alwaysTemplate), for: .normal)
-                slider.isEnabled = false
-                if let validRecognizer = gestureRecognizer { view.removeGestureRecognizer(validRecognizer) }
+        func runLocks(group: sliderGroup, associatedGestureRecognizer gestureRecognizer: UIGestureRecognizer?, viewForRecognizers view: UIView) -> Bool {
+            group.lock.setImage(UIImage(systemName: (group.lockEnabled ? "lock.open" : "lock"))?.withRenderingMode(.alwaysTemplate), for: .normal)
+            group.slider.isEnabled = group.lockEnabled ? true : false
+            if let validRecognizer = gestureRecognizer {
+                if group.lockEnabled { view.addGestureRecognizer(validRecognizer) }
+                else { view.removeGestureRecognizer(validRecognizer) }
             }
             
-            return !locked
+            return !group.lockEnabled
         }
         
         public struct sliderBuilder {

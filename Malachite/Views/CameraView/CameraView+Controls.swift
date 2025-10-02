@@ -127,10 +127,10 @@ extension CameraView {
          Creates, adds, and constrains the ``UISlider`` objects that are managed by this control layer.
          */
         func initSliders() {
-            let sliderConfigs: [MalachiteViewUtils.sliderBuilder] = [
-                MalachiteViewUtils.sliderBuilder(action: #selector(delegate.runManualFocusController), dimensions: [ 180.0, 80.0 ], view: self.buttons.focus.container, assign: { [self] slider in self.buttons.focus.slider = slider } ),
-                MalachiteViewUtils.sliderBuilder(action: #selector(delegate.runManualExposureController), dimensions: [ 180.0, 80.0 ], view: self.buttons.exposure.container, assign: { [self] slider in self.buttons.exposure.slider = slider } ),
-                MalachiteViewUtils.sliderBuilder(action: #selector(delegate.runManualFlashController), dimensions: [ 180.0, 80.0 ], view: self.buttons.flash.container, assign: { [self] slider in self.buttons.flash.slider = slider } ),
+            let sliderConfigs: [MalachiteViewUtils.Sliders.sliderBuilder] = [
+                MalachiteViewUtils.Sliders.sliderBuilder(action: #selector(delegate.runManualFocusController), dimensions: [ 180.0, 80.0 ], view: self.buttons.focus.container, assign: { [self] slider in self.buttons.focus.slider = slider } ),
+                MalachiteViewUtils.Sliders.sliderBuilder(action: #selector(delegate.runManualExposureController), dimensions: [ 180.0, 80.0 ], view: self.buttons.exposure.container, assign: { [self] slider in self.buttons.exposure.slider = slider } ),
+                MalachiteViewUtils.Sliders.sliderBuilder(action: #selector(delegate.runManualFlashController), dimensions: [ 180.0, 80.0 ], view: self.buttons.flash.container, assign: { [self] slider in self.buttons.flash.slider = slider } ),
             ]
             
             for config in sliderConfigs {
