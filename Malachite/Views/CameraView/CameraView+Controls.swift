@@ -30,24 +30,15 @@ extension CameraView {
             /// A `UIButton` that enables the user to change settings within the app.
             var settings = UIButton()
             /// A ``sliderGroup`` that enables the user to control manual focus adjustment.
-            var focus = sliderGroup()
+            var focus = MalachiteViewUtils.Sliders.sliderGroup()
             /// A ``sliderGroup`` that enables the user to control manual exposure adjustment.
-            var exposure = sliderGroup()
+            var exposure = MalachiteViewUtils.Sliders.sliderGroup()
             /// A ``sliderGroup`` that enables the user to control the flashlight brightness level.
-            var flash = sliderGroup()
+            var flash = MalachiteViewUtils.Sliders.sliderGroup()
             /// A `UIButton` that contains the blur for the on-screen feedback produced by the auto focus gesture.
             var continuousFeedback = UIButton()
             /// The button used to display what camera is in use.
             var currentCamera = UIButton()
-            
-            struct sliderGroup {
-                var activator       = UIButton()
-                var sliderShown     = Bool()
-                var lockEnabled     = Bool()
-                var lock            = UIButton()
-                var slider          = UISlider()
-                var container       = UIButton()
-            }
         }
         
         struct recognizerGroup {

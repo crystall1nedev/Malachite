@@ -296,7 +296,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to toggle the flashlight's on state.
     @objc func runFlashlightToggle() {
-        guard var selectedDevice = camera.device else { return }
+        guard let selectedDevice = camera.device else { return }
         if selectedDevice.isFlashAvailable && !utilities.preferences.debug.breakApp {
             utilities.function.toggleFlash(captureDevice: selectedDevice,
                                            flashlightButton: self.controlLayer.buttons.flashlight,
@@ -377,7 +377,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to zoom in and out with ``zoomRecognizer``.
     @objc func runZoomController() {
-        guard var selectedDevice = camera.device else { return }
+        guard let selectedDevice = camera.device else { return }
         utilities.function.zoom(sender: self.controlLayer.recognizers.zoom,
                                 floater: &zoomFloater,
                                 captureDevice: selectedDevice,
@@ -387,7 +387,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to autofocus + autoexposure with ``aeafRecognizer``.
     @objc func runaeafController() {
-        guard var selectedDevice = camera.device else { return }
+        guard let selectedDevice = camera.device else { return }
         utilities.function.pointOfInterestAEAF(sender: self.controlLayer.recognizers.continuous,
                                      captureDevice: selectedDevice,
                                                button: self.controlLayer.buttons.continuousFeedback,
@@ -397,7 +397,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to handle ``exposureSlider`` interaction.
     @objc func runManualExposureController() {
-        guard var selectedDevice = camera.device else { return }
+        guard let selectedDevice = camera.device else { return }
         if selectedDevice.isExposureModeSupported(.custom) && !utilities.preferences.debug.breakApp {
             utilities.function.manualExposure(captureDevice: selectedDevice,
                                               sender: self.controlLayer.buttons.exposure.slider)
@@ -415,7 +415,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         guard let exposure = camera.device?.isExposureModeSupported(.custom) else { return }
         if exposure && !utilities.preferences.debug.breakApp {
             self.controlLayer.hideOtherSliders(name: "exposure")
-            self.controlLayer.buttons.exposure.sliderShown = utilities.views.runSliderControllers(sliderIsShown: self.controlLayer.buttons.exposure.sliderShown,
+            self.controlLayer.buttons.exposure.sliderShown = utilities.views.sliders.runControllers(sliderIsShown: self.controlLayer.buttons.exposure.sliderShown,
                                                                                 optionButton: self.controlLayer.buttons.exposure.activator,
                                                                                 lockButton: self.controlLayer.buttons.exposure.lock,
                                                                                 associatedSliderButton: self.controlLayer.buttons.exposure.container)
@@ -430,12 +430,12 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     @objc func runManualExposureUIHiderWhenUnsupported() {
         if self.controlLayer.buttons.exposure.sliderShown {
-            self.controlLayer.buttons.exposure.sliderShown = utilities.views.runSliderControllers(sliderIsShown: self.controlLayer.buttons.exposure.sliderShown,
+            self.controlLayer.buttons.exposure.sliderShown = utilities.views.sliders.runControllers(sliderIsShown: self.controlLayer.buttons.exposure.sliderShown,
                                                                                 optionButton: self.controlLayer.buttons.exposure.activator,
                                                                                 lockButton: self.controlLayer.buttons.exposure.lock,
                                                                                 associatedSliderButton: self.controlLayer.buttons.exposure.container)
         } else {
-            self.controlLayer.buttons.exposure.sliderShown = utilities.views.runSliderControllers(sliderIsShown: true,
+            self.controlLayer.buttons.exposure.sliderShown = utilities.views.sliders.runControllers(sliderIsShown: true,
                                                                                 optionButton: self.controlLayer.buttons.exposure.activator,
                                                                                 lockButton: self.controlLayer.buttons.exposure.lock,
                                                                                 associatedSliderButton: self.controlLayer.buttons.exposure.container)
@@ -444,7 +444,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to lock and unlock the ``exposureSlider``.
     @objc func runManualExposureLockController() {
-        self.controlLayer.buttons.exposure.lockEnabled = utilities.views.runLockControllers(lockIsActive: self.controlLayer.buttons.exposure.lockEnabled,
+        self.controlLayer.buttons.exposure.lockEnabled = utilities.views.sliders.runLocks(lockIsActive: self.controlLayer.buttons.exposure.lockEnabled,
                                                                         lockButton: &self.controlLayer.buttons.exposure.lock,
                                                                         associatedSlider: self.controlLayer.buttons.exposure.slider,
                                                                         associatedGestureRecognizer: nil,
@@ -453,7 +453,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to handle ``focusSlider`` interaction.
     @objc func runManualFocusController() {
-        guard var selectedDevice = camera.device else { return }
+        guard let selectedDevice = camera.device else { return }
         if selectedDevice.isLockingFocusWithCustomLensPositionSupported && !utilities.preferences.debug.breakApp {
             utilities.function.manualFocus(captureDevice: selectedDevice,
                                            sender: self.controlLayer.buttons.focus.slider,
@@ -473,7 +473,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         guard let selectedDevice = camera.device else { return }
         if selectedDevice.isLockingFocusWithCustomLensPositionSupported && !utilities.preferences.debug.breakApp {
             self.controlLayer.hideOtherSliders(name: "focus")
-            self.controlLayer.buttons.focus.sliderShown = utilities.views.runSliderControllers(sliderIsShown: self.controlLayer.buttons.focus.sliderShown,
+            self.controlLayer.buttons.focus.sliderShown = utilities.views.sliders.runControllers(sliderIsShown: self.controlLayer.buttons.focus.sliderShown,
                                                                          optionButton: self.controlLayer.buttons.focus.activator,
                                                                          lockButton: self.controlLayer.buttons.focus.lock,
                                                                          associatedSliderButton: self.controlLayer.buttons.focus.container)
@@ -488,12 +488,12 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     @objc func runManualFocusUIHiderWhenUnsupported() {
         if self.controlLayer.buttons.focus.sliderShown {
-            self.controlLayer.buttons.focus.sliderShown = utilities.views.runSliderControllers(sliderIsShown: self.controlLayer.buttons.focus.sliderShown,
+            self.controlLayer.buttons.focus.sliderShown = utilities.views.sliders.runControllers(sliderIsShown: self.controlLayer.buttons.focus.sliderShown,
                                                                              optionButton: self.controlLayer.buttons.focus.activator,
                                                                              lockButton: self.controlLayer.buttons.focus.lock,
                                                                              associatedSliderButton: self.controlLayer.buttons.focus.container)
         } else {
-            self.controlLayer.buttons.focus.sliderShown = utilities.views.runSliderControllers(sliderIsShown: true,
+            self.controlLayer.buttons.focus.sliderShown = utilities.views.sliders.runControllers(sliderIsShown: true,
                                                                              optionButton: self.controlLayer.buttons.focus.activator,
                                                                              lockButton: self.controlLayer.buttons.focus.lock,
                                                                              associatedSliderButton: self.controlLayer.buttons.focus.container)
@@ -502,7 +502,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to show and hide the ``focusSliderButton`` and ``focusLockButton``.
     @objc func runManualFocusLockController() {
-        self.controlLayer.buttons.focus.lockEnabled = utilities.views.runLockControllers(lockIsActive: self.controlLayer.buttons.focus.lockEnabled,
+        self.controlLayer.buttons.focus.lockEnabled = utilities.views.sliders.runLocks(lockIsActive: self.controlLayer.buttons.focus.lockEnabled,
                                                                      lockButton: &self.controlLayer.buttons.focus.lock,
                                                                      associatedSlider: self.controlLayer.buttons.focus.slider,
                                                                      associatedGestureRecognizer: self.controlLayer.recognizers.continuous,
@@ -511,7 +511,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to handle ``focusSlider`` interaction.
     @objc func runManualFlashController() {
-        guard var selectedDevice = camera.device else { return }
+        guard let selectedDevice = camera.device else { return }
         if selectedDevice.hasTorch && !utilities.preferences.debug.breakApp {
             if (self.controlLayer.buttons.flash.slider.value == 0.0 && flashStatus) || (self.controlLayer.buttons.flash.slider.value != 0.0 && !flashStatus) {
                 flashFloater = self.controlLayer.buttons.flash.slider.value
@@ -537,7 +537,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         guard let selectedDevice = camera.device else { return }
         if selectedDevice.hasTorch && !utilities.preferences.debug.breakApp {
             self.controlLayer.hideOtherSliders(name: "flash")
-            self.controlLayer.buttons.flash.sliderShown = utilities.views.runSliderControllers(sliderIsShown: self.controlLayer.buttons.flash.sliderShown,
+            self.controlLayer.buttons.flash.sliderShown = utilities.views.sliders.runControllers(sliderIsShown: self.controlLayer.buttons.flash.sliderShown,
                                                                          optionButton: self.controlLayer.buttons.flash.activator,
                                                                          lockButton: self.controlLayer.buttons.flash.lock,
                                                                          associatedSliderButton: self.controlLayer.buttons.flash.container)
@@ -552,12 +552,12 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     @objc func runManualFlashUIHiderWhenUnsupported() {
         if self.controlLayer.buttons.flash.sliderShown {
-            self.controlLayer.buttons.flash.sliderShown = utilities.views.runSliderControllers(sliderIsShown: self.controlLayer.buttons.flash.sliderShown,
+            self.controlLayer.buttons.flash.sliderShown = utilities.views.sliders.runControllers(sliderIsShown: self.controlLayer.buttons.flash.sliderShown,
                                                                              optionButton: self.controlLayer.buttons.flash.activator,
                                                                              lockButton: self.controlLayer.buttons.flash.lock,
                                                                              associatedSliderButton: self.controlLayer.buttons.flash.container)
         } else {
-            self.controlLayer.buttons.flash.sliderShown = utilities.views.runSliderControllers(sliderIsShown: true,
+            self.controlLayer.buttons.flash.sliderShown = utilities.views.sliders.runControllers(sliderIsShown: true,
                                                                              optionButton: self.controlLayer.buttons.flash.activator,
                                                                              lockButton: self.controlLayer.buttons.flash.lock,
                                                                              associatedSliderButton: self.controlLayer.buttons.flash.container)
@@ -566,7 +566,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to show and hide the ``focusSliderButton`` and ``focusLockButton``.
     @objc func runManualFlashLockController() {
-        self.controlLayer.buttons.flash.lockEnabled = utilities.views.runLockControllers(lockIsActive: self.controlLayer.buttons.flash.lockEnabled,
+        self.controlLayer.buttons.flash.lockEnabled = utilities.views.sliders.runLocks(lockIsActive: self.controlLayer.buttons.flash.lockEnabled,
                                                                      lockButton: &self.controlLayer.buttons.flash.lock,
                                                                      associatedSlider: self.controlLayer.buttons.flash.slider,
                                                                      associatedGestureRecognizer: self.controlLayer.recognizers.continuous,

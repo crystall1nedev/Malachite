@@ -26,6 +26,9 @@
 		7837C10C2E34C45B009396B0 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5B2B99AE72005E10FA /* WidgetKit.framework */; };
 		7837C10E2E34C45B009396B0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
 		7837C1172E34C47D009396B0 /* WidgetBundleWatch.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7837C1152E34C45B009396B0 /* WidgetBundleWatch.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7847D5032E8F26EC006759A6 /* View+Sliders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7847D5022E8F26E9006759A6 /* View+Sliders.swift */; };
+		7847D5042E8F26EC006759A6 /* View+Sliders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7847D5022E8F26E9006759A6 /* View+Sliders.swift */; };
+		7847D5052E8F26EC006759A6 /* View+Sliders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7847D5022E8F26E9006759A6 /* View+Sliders.swift */; };
 		784EDDD42E5EE52600DFF370 /* PhotoPreviewView+Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784EDDD32E5EE52100DFF370 /* PhotoPreviewView+Controls.swift */; };
 		784EDDD52E5EE52600DFF370 /* PhotoPreviewView+Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784EDDD32E5EE52100DFF370 /* PhotoPreviewView+Controls.swift */; };
 		784EDDD62E5EE52600DFF370 /* PhotoPreviewView+Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784EDDD32E5EE52100DFF370 /* PhotoPreviewView+Controls.swift */; };
@@ -288,6 +291,7 @@
 		782FC7752B2DAFAB007709C1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		7837C1152E34C45B009396B0 /* WidgetBundleWatch.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetBundleWatch.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		78474D2B2D7AC879006FBB96 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		7847D5022E8F26E9006759A6 /* View+Sliders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Sliders.swift"; sourceTree = "<group>"; };
 		784EDDD32E5EE52100DFF370 /* PhotoPreviewView+Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoPreviewView+Controls.swift"; sourceTree = "<group>"; };
 		78562BC22B450A7600920160 /* PRIVACY_POLICY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_POLICY.md; sourceTree = SOURCE_ROOT; };
 		785F08492B12D41100244EB4 /* Malachite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Malachite.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -420,6 +424,15 @@
 			path = CompatibilityUtils;
 			sourceTree = "<group>";
 		};
+		7847D5012E8F26D1006759A6 /* ViewUtils */ = {
+			isa = PBXGroup;
+			children = (
+				7847D5022E8F26E9006759A6 /* View+Sliders.swift */,
+				786DAE4A2E4F28B100BE3137 /* MalachiteViewUtils.swift */,
+			);
+			path = ViewUtils;
+			sourceTree = "<group>";
+		};
 		785F08402B12D41100244EB4 = {
 			isa = PBXGroup;
 			children = (
@@ -532,12 +545,12 @@
 				7866F5D52E62A5F7009AC9BF /* temputils.swift */,
 				7866F5CC2E62999B009AC9BF /* CameraUtils */,
 				786DAE432E4F28B100BE3137 /* PreferenceUtils */,
+				7847D5012E8F26D1006759A6 /* ViewUtils */,
 				786DAE442E4F28B100BE3137 /* MalachiteFunctionUtils.swift */,
 				786DAE462E4F28B100BE3137 /* MalachiteHapticUtils.swift */,
 				786DAE472E4F28B100BE3137 /* MalachiteIntentUtils.swift */,
 				786DAE482E4F28B100BE3137 /* MalachiteTooltipUtils.swift */,
 				786DAE492E4F28B100BE3137 /* MalachiteUtils.swift */,
-				786DAE4A2E4F28B100BE3137 /* MalachiteViewUtils.swift */,
 				7866F5D92E62ADA0009AC9BF /* GameUtils */,
 			);
 			path = Utilities;
@@ -942,6 +955,7 @@
 				"$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"",
 				"$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"",
 				"",
+				"",
 			);
 		};
 		78EC5D602E4EC1AD005044E2 /* Embed build information */ = {
@@ -1034,6 +1048,7 @@
 				"$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"",
 				"$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"",
 				"",
+				"",
 			);
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1107,6 +1122,7 @@
 				788262662E51309C000085AC /* SettingsView+Preview.swift in Sources */,
 				788262E02E517252000085AC /* AboutView+Eggs.swift in Sources */,
 				7866F5CE2E6299A4009AC9BF /* Camera.swift in Sources */,
+				7847D5052E8F26EC006759A6 /* View+Sliders.swift in Sources */,
 				78E1707F2E51CE45009BEF2F /* CompatibilityView+Format.swift in Sources */,
 				785F084F2B12D41100244EB4 /* SceneDelegate.swift in Sources */,
 			);
@@ -1170,6 +1186,7 @@
 				788262652E51309C000085AC /* SettingsView+Preview.swift in Sources */,
 				788262DE2E517252000085AC /* AboutView+Eggs.swift in Sources */,
 				7866F5CF2E6299A4009AC9BF /* Camera.swift in Sources */,
+				7847D5032E8F26EC006759A6 /* View+Sliders.swift in Sources */,
 				78E170812E51CE45009BEF2F /* CompatibilityView+Format.swift in Sources */,
 				786DAE402E4F28A600BE3137 /* CameraView.swift in Sources */,
 			);
@@ -1185,6 +1202,7 @@
 				78E170782E51C97B009BEF2F /* CompatibilityView+Camera.swift in Sources */,
 				788262602E513080000085AC /* SettingsView+About.swift in Sources */,
 				786DAE4C2E4F28B100BE3137 /* MalachitePreferences.swift in Sources */,
+				7847D5042E8F26EC006759A6 /* View+Sliders.swift in Sources */,
 				78C2EFC42E6972D600C6DD79 /* Init+Internal.swift in Sources */,
 				788262DF2E517252000085AC /* AboutView+Eggs.swift in Sources */,
 				788262972E514F38000085AC /* QuickHelpView+Watermarking.swift in Sources */,
