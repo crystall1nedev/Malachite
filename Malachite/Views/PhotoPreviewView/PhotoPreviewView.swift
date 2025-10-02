@@ -214,21 +214,18 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
         var data = Data()
         var rawImage = CIImage()
         var gainMapImage = CIImage()
+        var imageProperties = rawImage.properties
         
         if enableHDR {
             rawImage = CIImage(data: imageData)!
+            gainMapImage = returnGainMap(properties: &imageProperties, imageData: imageData)
         } else {
             rawImage = CIImage(data: imageData,
                                options: [.toneMapHDRtoSDR : true])!
         }
         
-        var imageProperties = rawImage.properties
         let watermarkImage = CIImage(image: self.watermark())
         let outputImage = watermarkImage!.composited(over: rawImage)
-        
-        if enableHDR {
-            gainMapImage = returnGainMap(properties: &imageProperties, imageData: imageData)
-        }
         
         if utilities.preferences.debug.logging.imageProps {
             for prop in imageProperties {
@@ -238,13 +235,7 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
         
         let outputImageWithProps = outputImage.settingProperties(imageProperties)
         
-        if enableHEIC {
-            data = returnHEIC(imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage, imageColorspace: rawImage.colorSpace?.name)
-        } else {
-            data = returnJPEG(imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage, imageColorspace: rawImage.colorSpace?.name)
-        }
-        
-        return data
+        return returnImageFile(imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage, imageColorspace: rawImage.colorSpace?.name)
     }
     
     /**
@@ -283,28 +274,21 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
     }
     
     /// Function to return a HEIC representation of the passed image  with its colorspace and an optional gain map image.
-    func returnHEIC(imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage?, imageColorspace colorSpace: CFString?) -> Data {
+    func returnImageFile(imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage?, imageColorspace colorSpace: CFString?) -> Data {
         let types = CGImageDestinationCopyTypeIdentifiers() as NSArray
-        if types.contains("public.heic") {
+        utilities.debugNSLog("[Capture Photo] Saving JPEG representation")
+        if types.contains("public.heic") && enableHEIC {
             if enableHDR && (hdrImage != nil){
                 return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!, options:  [ .hdrGainMapImage : hdrImage! ])!
             } else {
                 return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!)!
             }
         } else {
-            utilities.debugNSLog("[Capture Photo] Device does not support encoding HEIC, falling back to JPEG")
-            utilities.preferences.capture.format.heic = false
-            return returnJPEG(imageForRepresentation: image, imageForGainMap: hdrImage, imageColorspace: colorSpace)
-        }
-    }
-    
-    /// Function to return a JPEG representation of the passed image  with its colorspace and an optional gain map image.
-    func returnJPEG(imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage?, imageColorspace colorSpace: CFString?) -> Data {
-        utilities.debugNSLog("[Capture Photo] HEIC is disabled, saving JPEG representation")
-        if enableHDR && (hdrImage != nil) {
-            return CIContext().jpegRepresentation(of: image, colorSpace: CGColorSpace(name: colorSpace!)!, options: [ .hdrGainMapImage : hdrImage! ])!
-        } else {
-            return CIContext().jpegRepresentation(of: image, colorSpace: CGColorSpace(name: colorSpace!)!)!
+            if enableHDR && (hdrImage != nil) {
+                return CIContext().jpegRepresentation(of: image, colorSpace: CGColorSpace(name: colorSpace!)!, options: [ .hdrGainMapImage : hdrImage! ])!
+            } else {
+                return CIContext().jpegRepresentation(of: image, colorSpace: CGColorSpace(name: colorSpace!)!)!
+            }
         }
     }
     
