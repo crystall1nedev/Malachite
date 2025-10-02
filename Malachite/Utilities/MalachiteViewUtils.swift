@@ -14,7 +14,7 @@ import ObjectiveC.runtime
 public class MalachiteViewUtils : NSObject {
     /// Function that returns a buttons for the user interface.
     public func createAndAddButtonToView(symbolName: String, delegate: UIViewController, view: UIView, utilities: MalachiteClassesObject, action: Selector, dimensions: [ CGFloat ], constraints: MalachiteViewUtils.buttonBuilder.constraints) -> UIButton {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         let buttonImage = UIImage(systemName: symbolName)?.withRenderingMode(.alwaysTemplate)
         button.setImage(buttonImage, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -181,7 +181,7 @@ public class MalachiteViewUtils : NSObject {
     }
     
     /// Function that sets the lock and unlock state of the bassed slider lock buttons.
-    func runLockControllers(lockIsActive locked: Bool, lockButton button: inout UIButton, associatedSlider slider: inout UISlider, associatedGestureRecognizer gestureRecognizer: UIGestureRecognizer?, viewForRecognizers view: UIView) -> Bool {
+    func runLockControllers(lockIsActive locked: Bool, lockButton button: inout UIButton, associatedSlider slider: UISlider, associatedGestureRecognizer gestureRecognizer: UIGestureRecognizer?, viewForRecognizers view: UIView) -> Bool {
         if locked {
             button.setImage(UIImage(systemName: "lock.open")?.withRenderingMode(.alwaysTemplate), for: .normal)
             slider.isEnabled = true

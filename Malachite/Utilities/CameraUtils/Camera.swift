@@ -61,7 +61,7 @@ class Camera: NSObject {
     /**
      An integer variable used to store the location of ``device`` in ``cameras``.
      
-     This variable helps to keep the Camera Control in sync with ``CameraView/cameraButton``
+     This variable helps to keep the Camera Control in sync with ``CameraView/ControlLayer/camera``
      > Warning: Don't modify this variable directly, as switching cameras with the Camera Control will overwrite its value.
      */
     var index:  Int?

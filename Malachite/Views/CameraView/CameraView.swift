@@ -17,18 +17,16 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     /// An instance of ``MalachiteClassesObject`` for reuse across the app.
     public var utilities = MalachiteClassesObject()
     
+    /// An instance of MalachiteKit's ``Camera`` class.
     var camera: Camera!
     
+    /// An instance of ``CameraView/ControlLayer`` for this view.
     var controlLayer: CameraView.ControlLayer!
+    /// An instance of ``CameraView/Notifications`` for this view.
     var notifications: CameraView.Notifications!
+    /// An instance of ``CameraView/Preview`` for this view.
     var preview: CameraView.Preview!
     
-    /// The device's currently available rear ultra-wide angle `AVCaptureDevice`, if available. This variable is `nil` if no ultra-wide angle camera is present (i.e. single-camera, Simulator).
-    var ultraWideDevice: AVCaptureDevice?
-    /// The device's currently available wide angle `AVCaptureDevice`, if available. This variable is `nil` if no wide angle camera is present (currently only in the Simulator).
-    var wideAngleDevice: AVCaptureDevice?
-    /// The currently selected `AVCaptureDeviceInput` for camera.input to ``cameraSession``.
-    var selectedInput: AVCaptureDeviceInput?
     /// A `CGFloat` that temporarily holds the zoom factor.
     var zoomFloater = CGFloat()
     /// A `Float` that temporarily holds the focus factor.
@@ -37,61 +35,6 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     var flashFloater: Float?
     /// A `Bool` that temporarily holds the current status of the flashlight.
     var flashStatus = Bool()
-    
-    /// A `UIButton` that enables the user to switch between the ultra-wide and wide angle cameras.
-    var cameraButton = UIButton()
-    /// A `UIButton` that enables the user to toggle the flashlight's on state.
-    var flashlightButton = UIButton()
-    /// A `UIButton` that enables the user to take photos.
-    var captureButton = UIButton()
-    /// A `UIButton` that enables the user to change settings within the app.
-    var settingsButton = UIButton()
-    
-    /// A `UIButton` that enables the user to reveal the ``focusSlider`` for manual focus adjustment.
-    var focusButton = UIButton()
-    /// A `UIButton` that holds the ``focusSlider`` for improved blur compatibility and shaping.
-    var focusSliderButton = UIButton()
-    /// A `UISlider` that enables the user to manually adjust the lens position.
-    var focusSlider = UISlider()
-    /// A `UIButton` that enables the user to toggle the lock states for the ``focusSlider`` and the ``aeafRecognizer``.
-    var focusLockButton = UIButton()
-    /// A `Bool` that determines whether or not the ``focusSlider`` is currently displayed on the user's screen.
-    var manualFocusSliderIsActive = false
-    /// A `Bool` that determines whether or not the ``focusLockButton`` is currently set to Locked.
-    var manualFocusLockIsActive = false
-    
-    /// A `UIButton` that enables the user to reveal the ``exposureSlider`` for manual exposure adjustment.
-    var exposureButton = UIButton()
-    /// A `UIButton` that holds the ``exposureSlider`` for improved blur compatibility and shaping.
-    var exposureSliderButton = UIButton()
-    /// A `UISlider` that enables the user to manually adjust the exposure level.
-    var exposureSlider = UISlider()
-    /// A `UIButton` that enables the user to toggle the lock state for the ``exposureSlider``. Auto exposure toggling will come at a later date.
-    var exposureLockButton = UIButton()
-    /// A `Bool` that determines whether or not the ``exposureSlider`` is currently displayed on the user's screen.
-    var manualExposureSliderIsActive = false
-    /// A `Bool` that determines whether or not the ``exposureLockButton`` is currently set to Locked.
-    var manualExposureLockIsActive = false
-    
-    /// A `UIPinchGestureRecognizer` that handles zooming in and out of the ``cameraSession``.
-    var zoomRecognizer = UIPinchGestureRecognizer()
-    /// A `UILongPressGestureRecognizer` that handles enabling the AE+AF system at a specific point on the display for the ``cameraSession``.
-    var aeafRecognizer = UILongPressGestureRecognizer()
-    /// A `UIButton` that contains the blur for the on-screen feedback produced by the auto focus gesture.
-    var aeafFeedback = UIButton()
-    /// A `UIPanGestureRecognizer` that handles opening settings with a gesture.
-    var settingsRecognizer = UISwipeGestureRecognizer()
-    /// A `UILongPressGestureRecognizer` that handles hiding all elements of the user interface, and disabling the ``zoomRecognizer`` and ``aeafRecognizer`` gestures.
-    var uiHiderRecognizer = UILongPressGestureRecognizer()
-    
-    /// A `Bool` that determines whether or not the user interface is currently hidden to the user.
-    var uiIsHidden = false
-    /// The title for the focus slider.
-    var focusTitle = UILabel()
-    /// The title for the exposure slider.
-    var exposureTitle = UILabel()
-    /// The button used to display what camera is in use.
-    var currentCamera = UIButton()
     
     /// The minimum zoom value that the ``zoomRecognizer`` is allowed to reach.
     let minimumZoom: CGFloat = 1.0
@@ -102,9 +45,6 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// A `UIActivityIndicatorView` used to let the user know that Malachite is processing the image.
     var progressIndicator = UIActivityIndicatorView()
-    
-    /// An observer for the device's rotation.
-    private var rotationObserver: NSObjectProtocol?
     
     /**
      viewDidLoad override for the main user interface.
@@ -179,15 +119,6 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     func setupView_INTERNAL() {
         utilities.games.changeGameCenterEnabled()
         if utilities.preferences.general.gamekit.alerted { self.present(utilities.games.setupGameKitAlert(), animated: true, completion: nil) }
-        
-        settingsRecognizer = UISwipeGestureRecognizer(target: self.controlLayer, action: #selector(self.controlLayer.runSettingsGesture))
-        self.controlLayer.updateSettingsGestureFingerCount()
-        settingsRecognizer.direction = .up
-        
-        self.view.addGestureRecognizer(settingsRecognizer)
-        
-        NotificationCenter.default.addObserver(self.controlLayer, selector: #selector(self.controlLayer.updateSettingsGestureFingerCount), name: MalachiteFunctionUtils.Notifications.settingsGestureNotification.name, object: nil)
-        
         setupView()
     }
     
@@ -249,7 +180,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         }
         
         UIView.animate(withDuration: 0.5) {
-            self.exposureSlider.value = 0.0
+            self.controlLayer.buttons.exposure.slider.value = 0.0
         }
     }
     
@@ -263,14 +194,14 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         guard let currentGestureRecognizers = self.view.gestureRecognizers else { return }
         
         if tapGestureElements.contains("off") {
-            if currentGestureRecognizers.contains(aeafRecognizer) {
+            if currentGestureRecognizers.contains(self.controlLayer.recognizers.continuous) {
                 utilities.debugNSLog("[AE+AF] Disabling tap and hold gesture")
-                self.view.removeGestureRecognizer(aeafRecognizer)
+                self.view.removeGestureRecognizer(self.controlLayer.recognizers.continuous)
             }
         } else {
-            if !currentGestureRecognizers.contains(aeafRecognizer) {
+            if !currentGestureRecognizers.contains(self.controlLayer.recognizers.continuous) {
                 utilities.debugNSLog("[AE+AF] Enabling tap and hold gesture")
-                self.view.addGestureRecognizer(aeafRecognizer)
+                self.view.addGestureRecognizer(self.controlLayer.recognizers.continuous)
             }
         }
     }
@@ -300,7 +231,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     @objc func presentSettingsView() {
 #if APP_EXTENSION
         utilities.debugNSLog("[Settings] Attempt to access Settings UI from app extension")
-        let alert = utilities.views.createAlertController(title: "alert.title.app_extensions.settings", message: "alert.detail.app_extensions.settings", button: settingsButton, defaultSet: true, action: { _ in
+        let alert = utilities.views.createAlertController(title: "alert.title.app_extensions.settings", message: "alert.detail.app_extensions.settings", button: self.controlLayer.buttons.settings, defaultSet: true, action: { _ in
             self.utilities.debugNSLog("[Settings] Dialog has been dismissed")
         })
         self.present(alert, animated: true, completion: nil)
@@ -310,11 +241,11 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         aboutView.utilities = self.utilities
         let hostingController = UIHostingController(rootView: aboutView)
         hostingController.modalPresentationStyle = UIModalPresentationStyle.popover
-        hostingController.popoverPresentationController?.sourceView = settingsButton
+        hostingController.popoverPresentationController?.sourceView = self.controlLayer.buttons.settings
         hostingController.isModalInPresentation = true
         if #available(iOS 26.0, *) {
             hostingController.preferredTransition = .zoom { [self] _ in
-                settingsButton
+                self.controlLayer.buttons.settings
             }
         }
         self.present(hostingController, animated: true, completion: nil)
@@ -323,21 +254,21 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to switch cameras and attach new camera.inputs to ``cameraSession``, and set settings based on the `activeFormat` of ``selectedDevice``.
     @objc func runInputSwitch() {
-        DispatchQueue.main.async { self.cameraButton.isUserInteractionEnabled = false }
+        DispatchQueue.main.async { self.controlLayer.buttons.camera.isUserInteractionEnabled = false }
         if (self.camera.cameras.count < 2 || utilities.preferences.debug.breakApp) && !self.camera.session.inputs.isEmpty  {
             utilities.debugNSLog("[Camera Input] Only one AVCaptureDevice is available to use, showing error")
-            let alert = utilities.views.createAlertController(title: "alert.title.camera_switch", message: "alert.detail.camera_switch", button: cameraButton, defaultSet: true, action: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.camera_switch", message: "alert.detail.camera_switch", button: self.controlLayer.buttons.camera, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Camera Input] Dialog has been dismissed")
             })
             self.present(alert, animated: true, completion: nil)
-            cameraButton.isUserInteractionEnabled = true
+            self.controlLayer.buttons.camera.isUserInteractionEnabled = true
             return
         }
             
         DispatchQueue.main.async {
             UIView.animate(withDuration: 0.5) {
-                self.focusSlider.value = 0.0
-                self.exposureSlider.value = 0.0
+                self.controlLayer.buttons.focus.slider.value = 0.0
+                self.controlLayer.buttons.exposure.slider.value = 0.0
             }
         }
         
@@ -354,7 +285,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
             DispatchQueue.main.async { self.controlLayer.initTooltips(showLabels: false, showCamera: true) }
         }
         
-        DispatchQueue.main.async { self.cameraButton.isUserInteractionEnabled = true }
+        DispatchQueue.main.async { self.controlLayer.buttons.camera.isUserInteractionEnabled = true }
     }
     
     @available(iOS 16.0, *)
@@ -368,12 +299,12 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         guard var selectedDevice = camera.device else { return }
         if selectedDevice.isFlashAvailable && !utilities.preferences.debug.breakApp {
             utilities.function.toggleFlash(captureDevice: &selectedDevice,
-                                           flashlightButton: flashlightButton,
+                                           flashlightButton: self.controlLayer.buttons.flashlight,
                                            floater: flashFloater,
                                            isFlashOn: &flashStatus)
         } else {
             utilities.debugNSLog("[Flashlight] No flashlight available")
-            let alert = utilities.views.createAlertController(title: "alert.title.flashlight", message: "alert.detail.flashlight", button: flashlightButton, defaultSet: true, action: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.flashlight", message: "alert.detail.flashlight", button: self.controlLayer.buttons.flashlight, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Flashlight] Dialog has been dismissed")
             })
             self.present(alert, animated: true, completion: nil)
@@ -382,10 +313,10 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to take an image.
     @objc func runImageCapture() {
-        self.captureButton.isEnabled = false
-        progressIndicator = UIActivityIndicatorView(frame: self.captureButton.frame)
+        self.controlLayer.buttons.capture.isEnabled = false
+        progressIndicator = UIActivityIndicatorView(frame: self.controlLayer.buttons.capture.frame)
         self.view.addSubview(progressIndicator)
-        self.captureButton.setImage(nil, for: .normal)
+        self.controlLayer.buttons.capture.setImage(nil, for: .normal)
         progressIndicator.startAnimating()
         
         let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
@@ -394,7 +325,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
             self.camera.output = utilities.function.captureImage(output: self.camera.output, viewForBounds: self.view, captureDelegate: self)
         } else {
             utilities.debugNSLog("[Capture Photo] PHPhotoLibrary not authorized, showing error")
-            let alert = utilities.views.createAlertController(title: "alert.title.phphotolibrary", message: "alert.detail.phphotolibrary", button: captureButton, defaultSet: true, action: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.phphotolibrary", message: "alert.detail.phphotolibrary", button: self.controlLayer.buttons.capture, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Capture Photo] Dialog has been dismissed")
             })
             self.present(alert, animated: true, completion: nil)
@@ -418,16 +349,16 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
             navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
             navigationController.isModalInPresentation = true
             navigationController.isNavigationBarHidden = true
-            navigationController.popoverPresentationController?.sourceView = captureButton
+            navigationController.popoverPresentationController?.sourceView = self.controlLayer.buttons.capture
             if #available(iOS 26.0, *) {
-                navigationController.preferredTransition = .zoom { [self] _ in captureButton }
+                navigationController.preferredTransition = .zoom { [self] _ in self.controlLayer.buttons.capture }
             }
             self.present(navigationController, animated: true, completion: nil)
             NotificationCenter.default.addObserver(photoPreview, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
         }
         
-        self.captureButton.isEnabled = true
-        self.captureButton.setImage(UIImage(systemName: "camera.aperture"), for: .normal)
+        self.controlLayer.buttons.capture.isEnabled = true
+        self.controlLayer.buttons.capture.setImage(UIImage(systemName: "camera.aperture"), for: .normal)
         progressIndicator.stopAnimating()
         
         DispatchQueue.global(qos: .background).async { [self] in
@@ -447,7 +378,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     /// Function to zoom in and out with ``zoomRecognizer``.
     @objc func runZoomController() {
         guard var selectedDevice = camera.device else { return }
-        utilities.function.zoom(sender: zoomRecognizer,
+        utilities.function.zoom(sender: self.controlLayer.recognizers.zoom,
                                 floater: &zoomFloater,
                                 captureDevice: &selectedDevice,
                                 lastZoomFactor: &lastZoomFactor,
@@ -457,9 +388,9 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     /// Function to autofocus + autoexposure with ``aeafRecognizer``.
     @objc func runaeafController() {
         guard var selectedDevice = camera.device else { return }
-        utilities.function.pointOfInterestAEAF(sender: aeafRecognizer,
+        utilities.function.pointOfInterestAEAF(sender: self.controlLayer.recognizers.continuous,
                                      captureDevice: &selectedDevice,
-                                     button: aeafFeedback,
+                                               button: self.controlLayer.buttons.continuousFeedback,
                                      viewForScale: self.view,
                                      hapticClass: utilities.haptics)
     }
@@ -469,10 +400,10 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         guard var selectedDevice = camera.device else { return }
         if selectedDevice.isExposureModeSupported(.custom) && !utilities.preferences.debug.breakApp {
             utilities.function.manualExposure(captureDevice: &selectedDevice,
-                                              sender: exposureSlider)
+                                              sender: self.controlLayer.buttons.exposure.slider)
         } else {
             utilities.debugNSLog("[Manual Exposure] Current camera is not capable of adjusting exposure")
-            let alert = utilities.views.createAlertController(title: "alert.title.exposure", message: "alert.detail.exposure", button: exposureButton, defaultSet: true, action: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.exposure", message: "alert.detail.exposure", button: self.controlLayer.buttons.exposure.activator, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Manual Exposure] Dialog has been dismissed")
             })
             self.present(alert, animated: true, completion: nil)
@@ -483,13 +414,14 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     @objc func runManualExposureUIHider() {
         guard let exposure = camera.device?.isExposureModeSupported(.custom) else { return }
         if exposure && !utilities.preferences.debug.breakApp {
-            manualExposureSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualExposureSliderIsActive,
-                                                                                optionButton: exposureButton,
-                                                                                lockButton: exposureLockButton,
-                                                                                associatedSliderButton: exposureSliderButton)
+            self.controlLayer.hideOtherSliders(name: "exposure")
+            self.controlLayer.buttons.exposure.sliderShown = utilities.views.runSliderControllers(sliderIsShown: self.controlLayer.buttons.exposure.sliderShown,
+                                                                                optionButton: self.controlLayer.buttons.exposure.activator,
+                                                                                lockButton: self.controlLayer.buttons.exposure.lock,
+                                                                                associatedSliderButton: self.controlLayer.buttons.exposure.container)
         } else {
             utilities.debugNSLog("[Manual Focus] Current camera is not capable of adjusting exposure")
-            let alert = utilities.views.createAlertController(title: "alert.title.exposure", message: "alert.detail.exposure", button: exposureButton, defaultSet: true, action: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.exposure", message: "alert.detail.exposure", button: self.controlLayer.buttons.exposure.activator, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Manual Exposure] Dialog has been dismissed")
             })
             self.present(alert, animated: true, completion: nil)
@@ -497,24 +429,24 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     }
     
     @objc func runManualExposureUIHiderWhenUnsupported() {
-        if manualExposureSliderIsActive {
-            manualExposureSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualExposureSliderIsActive,
-                                                                                optionButton: exposureButton,
-                                                                                lockButton: exposureLockButton,
-                                                                                associatedSliderButton: exposureSliderButton)
+        if self.controlLayer.buttons.exposure.sliderShown {
+            self.controlLayer.buttons.exposure.sliderShown = utilities.views.runSliderControllers(sliderIsShown: self.controlLayer.buttons.exposure.sliderShown,
+                                                                                optionButton: self.controlLayer.buttons.exposure.activator,
+                                                                                lockButton: self.controlLayer.buttons.exposure.lock,
+                                                                                associatedSliderButton: self.controlLayer.buttons.exposure.container)
         } else {
-            manualExposureSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: true,
-                                                                                optionButton: exposureButton,
-                                                                                lockButton: exposureLockButton,
-                                                                                associatedSliderButton: exposureSliderButton)
+            self.controlLayer.buttons.exposure.sliderShown = utilities.views.runSliderControllers(sliderIsShown: true,
+                                                                                optionButton: self.controlLayer.buttons.exposure.activator,
+                                                                                lockButton: self.controlLayer.buttons.exposure.lock,
+                                                                                associatedSliderButton: self.controlLayer.buttons.exposure.container)
         }
     }
     
     /// Function to lock and unlock the ``exposureSlider``.
     @objc func runManualExposureLockController() {
-        manualExposureLockIsActive = utilities.views.runLockControllers(lockIsActive: manualExposureLockIsActive,
-                                                                        lockButton: &exposureLockButton,
-                                                                        associatedSlider: &exposureSlider,
+        self.controlLayer.buttons.exposure.lockEnabled = utilities.views.runLockControllers(lockIsActive: self.controlLayer.buttons.exposure.lockEnabled,
+                                                                        lockButton: &self.controlLayer.buttons.exposure.lock,
+                                                                        associatedSlider: self.controlLayer.buttons.exposure.slider,
                                                                         associatedGestureRecognizer: nil,
                                                                         viewForRecognizers: self.view)
     }
@@ -524,12 +456,12 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         guard var selectedDevice = camera.device else { return }
         if selectedDevice.isLockingFocusWithCustomLensPositionSupported && !utilities.preferences.debug.breakApp {
             utilities.function.manualFocus(captureDevice: &selectedDevice,
-                                           sender: focusSlider,
-                                           floater: focusFloater ?? focusSlider.value)
+                                           sender: self.controlLayer.buttons.focus.slider,
+                                           floater: focusFloater ?? self.controlLayer.buttons.focus.slider.value)
         } else {
             #warning("refactor to call unsupported codepath")
             utilities.debugNSLog("[Manual Focus] Current camera is not capable of adjusting focus")
-            let alert = utilities.views.createAlertController(title: "alert.title.focus", message: "alert.detail.focus", button: focusButton, defaultSet: true, action: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.focus", message: "alert.detail.focus", button: self.controlLayer.buttons.focus.activator, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Manual Focus] Dialog has been dismissed")
             })
             self.present(alert, animated: true, completion: nil)
@@ -538,15 +470,16 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to handle ``focusSlider`` interaction.
     @objc func runManualFocusUIHider() {
-        guard var selectedDevice = camera.device else { return }
+        guard let selectedDevice = camera.device else { return }
         if selectedDevice.isLockingFocusWithCustomLensPositionSupported && !utilities.preferences.debug.breakApp {
-        manualFocusSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualFocusSliderIsActive,
-                                                                         optionButton: focusButton,
-                                                                         lockButton: focusLockButton,
-                                                                         associatedSliderButton: focusSliderButton)
+            self.controlLayer.hideOtherSliders(name: "focus")
+            self.controlLayer.buttons.focus.sliderShown = utilities.views.runSliderControllers(sliderIsShown: self.controlLayer.buttons.focus.sliderShown,
+                                                                         optionButton: self.controlLayer.buttons.focus.activator,
+                                                                         lockButton: self.controlLayer.buttons.focus.lock,
+                                                                         associatedSliderButton: self.controlLayer.buttons.focus.container)
         } else {
             utilities.debugNSLog("[Manual Focus] Current camera is not capable of adjusting focus")
-            let alert = utilities.views.createAlertController(title: "alert.title.focus", message: "alert.detail.focus", button: focusButton, defaultSet: true, action: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.focus", message: "alert.detail.focus", button: self.controlLayer.buttons.focus.activator, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Manual Focus] Dialog has been dismissed")
             })
             self.present(alert, animated: true, completion: nil)
@@ -554,39 +487,103 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     }
     
     @objc func runManualFocusUIHiderWhenUnsupported() {
-        if manualFocusSliderIsActive {
-            manualFocusSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: manualFocusSliderIsActive,
-                                                                             optionButton: focusButton,
-                                                                             lockButton: focusLockButton,
-                                                                             associatedSliderButton: focusSliderButton)
+        if self.controlLayer.buttons.focus.sliderShown {
+            self.controlLayer.buttons.focus.sliderShown = utilities.views.runSliderControllers(sliderIsShown: self.controlLayer.buttons.focus.sliderShown,
+                                                                             optionButton: self.controlLayer.buttons.focus.activator,
+                                                                             lockButton: self.controlLayer.buttons.focus.lock,
+                                                                             associatedSliderButton: self.controlLayer.buttons.focus.container)
         } else {
-            manualFocusSliderIsActive = utilities.views.runSliderControllers(sliderIsShown: true,
-                                                                             optionButton: focusButton,
-                                                                             lockButton: focusLockButton,
-                                                                             associatedSliderButton: focusSliderButton)
+            self.controlLayer.buttons.focus.sliderShown = utilities.views.runSliderControllers(sliderIsShown: true,
+                                                                             optionButton: self.controlLayer.buttons.focus.activator,
+                                                                             lockButton: self.controlLayer.buttons.focus.lock,
+                                                                             associatedSliderButton: self.controlLayer.buttons.focus.container)
         }
     }
     
     /// Function to show and hide the ``focusSliderButton`` and ``focusLockButton``.
     @objc func runManualFocusLockController() {
-        manualFocusLockIsActive = utilities.views.runLockControllers(lockIsActive: manualFocusLockIsActive,
-                                                                     lockButton: &focusLockButton,
-                                                                     associatedSlider: &focusSlider,
-                                                                     associatedGestureRecognizer: aeafRecognizer,
+        self.controlLayer.buttons.focus.lockEnabled = utilities.views.runLockControllers(lockIsActive: self.controlLayer.buttons.focus.lockEnabled,
+                                                                     lockButton: &self.controlLayer.buttons.focus.lock,
+                                                                     associatedSlider: self.controlLayer.buttons.focus.slider,
+                                                                     associatedGestureRecognizer: self.controlLayer.recognizers.continuous,
+                                                                    viewForRecognizers: self.view)
+    }
+    
+    /// Function to handle ``focusSlider`` interaction.
+    @objc func runManualFlashController() {
+        guard var selectedDevice = camera.device else { return }
+        if selectedDevice.hasTorch && !utilities.preferences.debug.breakApp {
+            if (self.controlLayer.buttons.flash.slider.value == 0.0 && flashStatus) || (self.controlLayer.buttons.flash.slider.value != 0.0 && !flashStatus) {
+                flashFloater = self.controlLayer.buttons.flash.slider.value
+                runFlashlightToggle()
+                flashFloater = nil
+            } else {
+                utilities.function.flashLevelTest(captureDevice: selectedDevice,
+                                               floater: flashFloater ?? self.controlLayer.buttons.flash.slider.value)
+            }
+            
+        } else {
+            #warning("refactor to call unsupported codepath")
+            utilities.debugNSLog("[Flashlight Level] Device does not have a flashlight")
+            let alert = utilities.views.createAlertController(title: "alert.title.flash", message: "alert.detail.flash", button: self.controlLayer.buttons.flash.activator, defaultSet: true, action: { _ in
+                self.utilities.debugNSLog("[Flashlight Level] Dialog has been dismissed")
+            })
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    /// Function to handle ``focusSlider`` interaction.
+    @objc func runManualFlashUIHider() {
+        guard let selectedDevice = camera.device else { return }
+        if selectedDevice.hasTorch && !utilities.preferences.debug.breakApp {
+            self.controlLayer.hideOtherSliders(name: "flash")
+            self.controlLayer.buttons.flash.sliderShown = utilities.views.runSliderControllers(sliderIsShown: self.controlLayer.buttons.flash.sliderShown,
+                                                                         optionButton: self.controlLayer.buttons.flash.activator,
+                                                                         lockButton: self.controlLayer.buttons.flash.lock,
+                                                                         associatedSliderButton: self.controlLayer.buttons.flash.container)
+        } else {
+            utilities.debugNSLog("[Flashlight Level] Device does not have a flashlight")
+            let alert = utilities.views.createAlertController(title: "alert.title.flash", message: "alert.detail.flash", button: self.controlLayer.buttons.flash.activator, defaultSet: true, action: { _ in
+                self.utilities.debugNSLog("[Flashlight Level] Dialog has been dismissed")
+            })
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func runManualFlashUIHiderWhenUnsupported() {
+        if self.controlLayer.buttons.flash.sliderShown {
+            self.controlLayer.buttons.flash.sliderShown = utilities.views.runSliderControllers(sliderIsShown: self.controlLayer.buttons.flash.sliderShown,
+                                                                             optionButton: self.controlLayer.buttons.flash.activator,
+                                                                             lockButton: self.controlLayer.buttons.flash.lock,
+                                                                             associatedSliderButton: self.controlLayer.buttons.flash.container)
+        } else {
+            self.controlLayer.buttons.flash.sliderShown = utilities.views.runSliderControllers(sliderIsShown: true,
+                                                                             optionButton: self.controlLayer.buttons.flash.activator,
+                                                                             lockButton: self.controlLayer.buttons.flash.lock,
+                                                                             associatedSliderButton: self.controlLayer.buttons.flash.container)
+        }
+    }
+    
+    /// Function to show and hide the ``focusSliderButton`` and ``focusLockButton``.
+    @objc func runManualFlashLockController() {
+        self.controlLayer.buttons.flash.lockEnabled = utilities.views.runLockControllers(lockIsActive: self.controlLayer.buttons.flash.lockEnabled,
+                                                                     lockButton: &self.controlLayer.buttons.flash.lock,
+                                                                     associatedSlider: self.controlLayer.buttons.flash.slider,
+                                                                     associatedGestureRecognizer: self.controlLayer.recognizers.continuous,
                                                                     viewForRecognizers: self.view)
     }
     
     /// Function to handle device rotation.
     #warning("refactor to view utils")
     @objc func orientationChanged() {
-        utilities.views.rotateButtonsWithOrientation(buttonsToRotate: [ cameraButton,
-                                                                        flashlightButton,
-                                                                        captureButton,
-                                                                        settingsButton,
-                                                                        focusButton,
-                                                                        focusLockButton,
-                                                                        exposureButton,
-                                                                        exposureLockButton ])
+        utilities.views.rotateButtonsWithOrientation(buttonsToRotate: [ self.controlLayer.buttons.camera,
+                                                                        self.controlLayer.buttons.flashlight,
+                                                                        self.controlLayer.buttons.capture,
+                                                                        self.controlLayer.buttons.settings,
+                                                                        self.controlLayer.buttons.focus.activator,
+                                                                        self.controlLayer.buttons.focus.lock,
+                                                                        self.controlLayer.buttons.exposure.activator,
+                                                                        self.controlLayer.buttons.exposure.lock ])
     }
 }
 
