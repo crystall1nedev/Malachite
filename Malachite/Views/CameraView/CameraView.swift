@@ -298,7 +298,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     @objc func runFlashlightToggle() {
         guard var selectedDevice = camera.device else { return }
         if selectedDevice.isFlashAvailable && !utilities.preferences.debug.breakApp {
-            utilities.function.toggleFlash(captureDevice: &selectedDevice,
+            utilities.function.toggleFlash(captureDevice: selectedDevice,
                                            flashlightButton: self.controlLayer.buttons.flashlight,
                                            floater: flashFloater,
                                            isFlashOn: &flashStatus)
@@ -380,7 +380,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         guard var selectedDevice = camera.device else { return }
         utilities.function.zoom(sender: self.controlLayer.recognizers.zoom,
                                 floater: &zoomFloater,
-                                captureDevice: &selectedDevice,
+                                captureDevice: selectedDevice,
                                 lastZoomFactor: &lastZoomFactor,
                                 hapticClass: utilities.haptics)
     }
@@ -389,7 +389,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     @objc func runaeafController() {
         guard var selectedDevice = camera.device else { return }
         utilities.function.pointOfInterestAEAF(sender: self.controlLayer.recognizers.continuous,
-                                     captureDevice: &selectedDevice,
+                                     captureDevice: selectedDevice,
                                                button: self.controlLayer.buttons.continuousFeedback,
                                      viewForScale: self.view,
                                      hapticClass: utilities.haptics)
@@ -399,7 +399,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     @objc func runManualExposureController() {
         guard var selectedDevice = camera.device else { return }
         if selectedDevice.isExposureModeSupported(.custom) && !utilities.preferences.debug.breakApp {
-            utilities.function.manualExposure(captureDevice: &selectedDevice,
+            utilities.function.manualExposure(captureDevice: selectedDevice,
                                               sender: self.controlLayer.buttons.exposure.slider)
         } else {
             utilities.debugNSLog("[Manual Exposure] Current camera is not capable of adjusting exposure")
@@ -455,7 +455,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     @objc func runManualFocusController() {
         guard var selectedDevice = camera.device else { return }
         if selectedDevice.isLockingFocusWithCustomLensPositionSupported && !utilities.preferences.debug.breakApp {
-            utilities.function.manualFocus(captureDevice: &selectedDevice,
+            utilities.function.manualFocus(captureDevice: selectedDevice,
                                            sender: self.controlLayer.buttons.focus.slider,
                                            floater: focusFloater ?? self.controlLayer.buttons.focus.slider.value)
         } else {

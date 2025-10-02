@@ -326,7 +326,7 @@ extension CameraView.ControlLayer {
         
         if delegate.utilities.versionType == "INTERNAL" {
             delegate.camera.session.setControlsDelegate(self, queue: delegate.utilities.sessionQueue)
-            delegate.utilities.function.addControlsToSession(session: &delegate.camera.session, controls: controls)
+            delegate.utilities.function.addControlsToSession(session: delegate.camera.session, controls: controls)
         }
     }
 }

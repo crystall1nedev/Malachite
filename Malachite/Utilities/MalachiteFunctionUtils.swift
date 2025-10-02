@@ -38,7 +38,7 @@ public class MalachiteFunctionUtils : NSObject {
     }
     
     /// Function that handles pinch to zoom.
-    public func zoom(sender pinch: UIPinchGestureRecognizer, floater float: inout CGFloat, captureDevice device: inout AVCaptureDevice, lastZoomFactor zoomFactor: inout CGFloat, hapticClass haptic: MalachiteHapticUtils) {
+    public func zoom(sender pinch: UIPinchGestureRecognizer, floater float: inout CGFloat, captureDevice device: AVCaptureDevice, lastZoomFactor zoomFactor: inout CGFloat, hapticClass haptic: MalachiteHapticUtils) {
         func minMaxZoom(_ factor: CGFloat) -> CGFloat {
             return min(min(max(factor, 1.0), CGFloat(MalachitePreferencesUtils.shared.preferences.capture.maximumZoom)), device.activeFormat.videoMaxZoomFactor)
         }
@@ -78,7 +78,7 @@ public class MalachiteFunctionUtils : NSObject {
     }
     
     /// Function that handles autofocus and autoexposure
-    public func pointOfInterestAEAF(sender: UILongPressGestureRecognizer, captureDevice device: inout AVCaptureDevice, button: UIButton, viewForScale view: UIView, hapticClass haptic: MalachiteHapticUtils) {
+    public func pointOfInterestAEAF(sender: UILongPressGestureRecognizer, captureDevice device: AVCaptureDevice, button: UIButton, viewForScale view: UIView, hapticClass haptic: MalachiteHapticUtils) {
         let point = sender.location(in: view)
         if sender.state == UIGestureRecognizer.State.began {
             haptic.triggerNotificationHaptic(type: .success)
@@ -169,7 +169,7 @@ public class MalachiteFunctionUtils : NSObject {
     }
     
     /// Function that handles toggling the flashlight's on state.
-    public func toggleFlash(captureDevice device: inout AVCaptureDevice, flashlightButton button: UIButton, floater float: Float?, isFlashOn: inout Bool) {
+    public func toggleFlash(captureDevice device: AVCaptureDevice, flashlightButton button: UIButton, floater float: Float?, isFlashOn: inout Bool) {
         if device.hasTorch {
             var buttonImage = UIImage()
             do {
@@ -220,7 +220,7 @@ public class MalachiteFunctionUtils : NSObject {
     }
     
     @available(iOS 18.0, *)
-    public func addControlsToSession(session: inout AVCaptureSession, controls: [AVCaptureControl]) {
+    public func addControlsToSession(session: AVCaptureSession, controls: [AVCaptureControl]) {
         guard session.supportsControls else { return }
         
         session.beginConfiguration()
@@ -299,7 +299,7 @@ public class MalachiteFunctionUtils : NSObject {
     }
     
     /// Function that handles manual focus.
-    public func manualFocus(captureDevice device: inout AVCaptureDevice, sender: UISlider, floater float: Float) {
+    public func manualFocus(captureDevice device: AVCaptureDevice, sender: UISlider, floater float: Float) {
         do {
             try device.lockForConfiguration()
         } catch {
@@ -313,7 +313,7 @@ public class MalachiteFunctionUtils : NSObject {
     }
     
     /// Function that handles manual ISO.
-    public func manualExposure(captureDevice device: inout AVCaptureDevice, sender: UISlider) {
+    public func manualExposure(captureDevice device: AVCaptureDevice, sender: UISlider) {
         let minISO = device.activeFormat.minISO
         let maxISO = device.activeFormat.maxISO
         
