@@ -148,6 +148,7 @@ class MalachitePreferencesUtils {
         if let debugPreferences = oldPreferences["debug"] as? [ String: AnyObject ] {
             currentPreferences.debug.logging.preferences = debugPreferences["logging"]?["preferences"] as? Bool ?? false
             currentPreferences.debug.logging.unified = debugPreferences["logging"]?["unified"] as? Bool ?? true
+            currentPreferences.debug.logging.imageProps = debugPreferences["logging"]?["imageProps"] as? Bool ?? false
             currentPreferences.debug.breakApp = debugPreferences["breakApp"] as? Bool ?? false
         }
         
@@ -222,7 +223,8 @@ class MalachitePreferencesUtils {
             debug: MalachitePreferences.debugPreferences(
                 logging: MalachitePreferences.debugPreferences.debug_loggingPreferences(
                     preferences: false,
-                    unified: true
+                    unified: true,
+                    imageProps: false,
                 ),
                 breakApp: false
             ),

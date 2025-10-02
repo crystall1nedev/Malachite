@@ -11,6 +11,7 @@ extension DeveloperView {
     struct Settings: View {
         @State private var debugLoggingUnified = false
         @State private var debugLoggingPreferences = false
+        @State private var debugLoggingImageProps = false
         /// A State variable used for determining whether or not to literally break the app.
         @State private var breakApp = false
         
@@ -37,6 +38,13 @@ extension DeveloperView {
                     dangerous: false)
                 {
                     Toggle("developer.option.debug.logging.preferences", isOn: $debugLoggingPreferences)
+                }
+                MalachiteCellViewUtils(
+                    icon: "camera.badge.ellipsis",
+                    disabled: nil,
+                    dangerous: false)
+                {
+                    Toggle("developer.option.debug.logging.imageprops", isOn: $debugLoggingImageProps)
                 }
                 MalachiteCellViewUtils(
                     icon: "iphone.slash",
@@ -89,13 +97,17 @@ extension DeveloperView {
                 if utilities.versionType == "INTERNAL" { debugLoggingUnified = true }
                 else { debugLoggingUnified = utilities.preferences.debug.logging.unified }
                 debugLoggingPreferences = utilities.preferences.debug.logging.preferences
+                debugLoggingImageProps = utilities.preferences.debug.logging.imageProps
                 breakApp = utilities.preferences.debug.breakApp
+            }
+            .onChange(of: debugLoggingUnified) {_ in
+                utilities.preferences.debug.logging.unified = debugLoggingUnified
             }
             .onChange(of: debugLoggingPreferences) {_ in
                 utilities.preferences.debug.logging.preferences = debugLoggingPreferences
             }
-            .onChange(of: debugLoggingUnified) {_ in
-                utilities.preferences.debug.logging.unified = debugLoggingUnified
+            .onChange(of: debugLoggingImageProps) {_ in
+                utilities.preferences.debug.logging.imageProps = debugLoggingImageProps
             }
             .onChange(of: breakApp) {_ in
                 utilities.preferences.debug.breakApp = breakApp
@@ -103,6 +115,7 @@ extension DeveloperView {
             .onDisappear {
                 utilities.preferences.debug.logging.unified = debugLoggingUnified
                 utilities.preferences.debug.logging.preferences = debugLoggingPreferences
+                utilities.preferences.debug.logging.imageProps = debugLoggingImageProps
                 utilities.preferences.debug.breakApp = breakApp
             }
         }

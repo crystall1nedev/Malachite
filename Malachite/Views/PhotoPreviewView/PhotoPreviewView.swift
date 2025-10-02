@@ -230,7 +230,7 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
             gainMapImage = returnGainMap(properties: &imageProperties, imageData: imageData)
         }
         
-        if MalachiteClassesObject().versionType == "INTERNAL" {
+        if utilities.preferences.debug.logging.imageProps {
             for prop in imageProperties {
                 MalachiteClassesObject().internalNSLog("[Capture Photo] \(prop)")
             }

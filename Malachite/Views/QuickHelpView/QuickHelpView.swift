@@ -30,7 +30,6 @@ struct QuickHelpView: View {
             Photo()
             Watermarking()
             UserInterface()
-            #warning("Remove this once DeveloperView is out of INTERNAL ring")
             if utilities.versionType == "DEBUG" { Debugging() }
         }
         .navigationTitle("view.title.help")
@@ -41,12 +40,14 @@ struct QuickHelpView: View {
         })
     }
     
+    @available(*, deprecated, message: "This struct is set to be replaced by DeveloperView in the near future.")
     struct Debugging: View {
         /// A variable to hold the debug settings section. Only available with debug and internal builds.
         var body: some View {
             Section(header: Text("developer.header.debug"), footer: Text("developer.footer.debug")) {
                 createQuickHelpRow(title: Text("developer.option.debug.logging.unified"), subtitle: Text("developer.detail.debug.logging.unified"))
                 createQuickHelpRow(title: Text("developer.option.debug.logging.preferences"), subtitle: Text("developer.detail.debug.logging.preferences"))
+                createQuickHelpRow(title: Text("developer.option.debug.logging.imageprops"), subtitle: Text("developer.detail.debug.logging.imageprops"))
                 createQuickHelpRow(title: Text("developer.option.debug.breakapp"), subtitle: Text("developer.detail.debug.breakapp"))
                 createQuickHelpRow(title: Text("developer.option.debug.erase.preferences"), subtitle: Text("developer.detail.debug.erase.preferences"))
                 createQuickHelpRow(title: Text("developer.option.debug.erase.gamekit"), subtitle: Text("developer.detail.debug.erase.gamekit"))

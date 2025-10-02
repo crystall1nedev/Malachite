@@ -734,6 +734,16 @@
         }
       }
     },
+    "developer.detail.debug.logging.imageprops" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEBUG: Prints all metadata and properties taken with the image."
+          }
+        }
+      }
+    },
     "developer.detail.debug.logging.preferences" : {
       "localizations" : {
         "en" : {
@@ -840,6 +850,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erase preferences.plist"
+          }
+        }
+      }
+    },
+    "developer.option.debug.logging.imageprops" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log image properties"
           }
         }
       }

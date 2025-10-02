@@ -108,6 +108,7 @@ struct MalachitePreferences: Codable {
         struct debug_loggingPreferences: Codable {
             var preferences:    Bool
             var unified:        Bool
+            var imageProps:     Bool
         }
     }
     
