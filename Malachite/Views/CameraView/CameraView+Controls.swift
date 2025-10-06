@@ -57,6 +57,8 @@ extension CameraView {
             var focus = UILabel()
             /// The title for the exposure slider.
             var exposure = UILabel()
+            /// The title for the flash slider.
+            var flash = UILabel()
         }
         
         var buttons = buttonGroup()
@@ -128,9 +130,9 @@ extension CameraView {
          */
         func initSliders() {
             let sliderConfigs: [MalachiteViewUtils.Sliders.sliderBuilder] = [
-                MalachiteViewUtils.Sliders.sliderBuilder(action: #selector(delegate.runManualFocusController), dimensions: [ 180.0, 80.0 ], view: self.buttons.focus.container, assign: { [self] slider in self.buttons.focus.slider = slider } ),
-                MalachiteViewUtils.Sliders.sliderBuilder(action: #selector(delegate.runManualExposureController), dimensions: [ 180.0, 80.0 ], view: self.buttons.exposure.container, assign: { [self] slider in self.buttons.exposure.slider = slider } ),
-                MalachiteViewUtils.Sliders.sliderBuilder(action: #selector(delegate.runManualFlashController), dimensions: [ 180.0, 80.0 ], view: self.buttons.flash.container, assign: { [self] slider in self.buttons.flash.slider = slider } ),
+                MalachiteViewUtils.Sliders.sliderBuilder(action: #selector(self.runManualFocusController), dimensions: [ 180.0, 80.0 ], view: self.buttons.focus.container, assign: { [self] slider in self.buttons.focus.slider = slider; self.buttons.focus.name = "focus" } ),
+                MalachiteViewUtils.Sliders.sliderBuilder(action: #selector(delegate.runManualExposureController), dimensions: [ 180.0, 80.0 ], view: self.buttons.exposure.container, assign: { [self] slider in self.buttons.exposure.slider = slider; self.buttons.exposure.name = "exposure" } ),
+                MalachiteViewUtils.Sliders.sliderBuilder(action: #selector(delegate.runManualFlashController), dimensions: [ 180.0, 80.0 ], view: self.buttons.flash.container, assign: { [self] slider in self.buttons.flash.slider = slider; self.buttons.flash.name = "flash" } ),
             ]
             
             for config in sliderConfigs {
@@ -179,6 +181,7 @@ extension CameraView {
                 let tooltipConfigs: [ MalachiteViewUtils.tooltipBuilder ] = [
                     MalachiteViewUtils.tooltipBuilder(text: "uibutton.focus.title", anchor: 10, assign: { [self] label in self.titles.focus = label } ),
                     MalachiteViewUtils.tooltipBuilder(text: "uibutton.exposure.title", anchor: 80, assign: { [self] label in self.titles.exposure = label } ),
+                    MalachiteViewUtils.tooltipBuilder(text: "uibutton.flash.title", anchor: 80, assign: { [self] label in self.titles.flash = label } ),
                 ]
                 
                 var labels: [ UILabel ] = []
@@ -209,10 +212,26 @@ extension CameraView {
 
 // MARK: ControlLayer - Slider Controls
 extension CameraView.ControlLayer {
-    func hideOtherSliders(name: String) {
-        if name != "focus" && self.buttons.focus.sliderShown { delegate.runManualFocusUIHider() }
-        if name != "exposure" && self.buttons.exposure.sliderShown { delegate.runManualExposureUIHider() }
-        if name != "flash" && self.buttons.flash.sliderShown { delegate.runManualFlashUIHider() }
+    func hideOtherSliders(group: MalachiteViewUtils.Sliders.sliderGroup) {
+        if group.name != "focus" && self.buttons.focus.sliderShown { delegate.runManualFocusUIHider() }
+        if group.name != "exposure" && self.buttons.exposure.sliderShown { delegate.runManualExposureUIHider() }
+        if group.name != "flash" && self.buttons.flash.sliderShown { delegate.runManualFlashUIHider() }
+    }
+    
+    /// Function to handle ``focusSlider`` interaction.
+    @objc func runManualFocusController() {
+        guard let selectedDevice = delegate.camera.device else { return }
+        guard selectedDevice.isLockingFocusWithCustomLensPositionSupported else {
+            self.buttons.focus.sliderShown = delegate.utilities.views.sliders.runHiders(group: self.buttons.focus)
+            return
+        }
+        if let alert = delegate.utilities.views.sliders.runControllers(group: self.buttons.focus, condition: selectedDevice.isLockingFocusWithCustomLensPositionSupported, action: { [self] in
+            delegate.utilities.function.manualFocus(captureDevice: selectedDevice,
+                                                    sender: self.buttons.focus.slider,
+                                                    floater: delegate.focusFloater ?? self.buttons.focus.slider.value)
+        }) {
+            //delegate.present(alert, animated: true, completion: nil)
+        }
     }
 }
 
@@ -259,7 +278,7 @@ extension CameraView.ControlLayer {
             let focusSlider = AVCaptureSlider("Focus", symbolName: "scope", in: 0.0...1.0)
             focusSlider.setActionQueue(delegate.utilities.sessionQueue) { [self] position in
                 delegate.focusFloater = position
-                delegate.runManualFocusController()
+                self.runManualFocusController()
                 delegate.focusFloater = nil
             }
             controls.append(focusSlider)

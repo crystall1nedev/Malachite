@@ -34,7 +34,6 @@
 		784EDDD62E5EE52600DFF370 /* PhotoPreviewView+Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784EDDD32E5EE52100DFF370 /* PhotoPreviewView+Controls.swift */; };
 		785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F084C2B12D41100244EB4 /* AppDelegate.swift */; };
 		785F084F2B12D41100244EB4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F084E2B12D41100244EB4 /* SceneDelegate.swift */; };
-		785F08592B12D41300244EB4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 785F08572B12D41300244EB4 /* LaunchScreen.storyboard */; };
 		7866F5CE2E6299A4009AC9BF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7866F5CD2E6299A0009AC9BF /* Camera.swift */; };
 		7866F5CF2E6299A4009AC9BF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7866F5CD2E6299A0009AC9BF /* Camera.swift */; };
 		7866F5D02E6299A4009AC9BF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7866F5CD2E6299A0009AC9BF /* Camera.swift */; };
@@ -297,7 +296,6 @@
 		785F08492B12D41100244EB4 /* Malachite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Malachite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		785F084C2B12D41100244EB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		785F084E2B12D41100244EB4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		785F08582B12D41300244EB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		785F085A2B12D41300244EB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7866F5CD2E6299A0009AC9BF /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		7866F5D12E62A591009AC9BF /* CameraView+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraView+Notifications.swift"; sourceTree = "<group>"; };
@@ -473,7 +471,6 @@
 				786DAE4B2E4F28B100BE3137 /* Utilities */,
 				786DAE772E4F28B900BE3137 /* CaptureBundle */,
 				786DAE6C2E4F28B700BE3137 /* WidgetBundle */,
-				785F08572B12D41300244EB4 /* LaunchScreen.storyboard */,
 				7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */,
 				785F084C2B12D41100244EB4 /* AppDelegate.swift */,
 				785F084E2B12D41100244EB4 /* SceneDelegate.swift */,
@@ -842,7 +839,6 @@
 			isa = PBXResourcesBuildPhase;
 			files = (
 				78EC5D5F2E4EC110005044E2 /* Localizable.xcstrings in Resources */,
-				785F08592B12D41300244EB4 /* LaunchScreen.storyboard in Resources */,
 			);
 		};
 		78917F572B99AE72005E10FA /* Resources */ = {
@@ -956,6 +952,9 @@
 				"$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"",
 				"",
 				"",
+				"",
+				"",
+				"",
 			);
 		};
 		78EC5D602E4EC1AD005044E2 /* Embed build information */ = {
@@ -1047,6 +1046,9 @@
 				"$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"",
 				"$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"",
 				"$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"",
+				"",
+				"",
+				"",
 				"",
 				"",
 			);
@@ -1289,17 +1291,6 @@
 			targetProxy = 78B72BAF2E332830002E2D4E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		785F08572B12D41300244EB4 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				785F08582B12D41300244EB4 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		7837C1122E34C45B009396B0 /* Debug configuration for PBXNativeTarget "WidgetBundleWatch" */ = {
@@ -1592,7 +1583,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
@@ -1649,7 +1640,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
@@ -2103,7 +2094,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;

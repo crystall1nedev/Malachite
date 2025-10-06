@@ -10,8 +10,8 @@ import UIKit
 
 extension MalachiteViewUtils {
     public class Sliders {
-        /// Function that shows and hides slider controllers in the user interface.
-        func runControllers(group: sliderGroup) -> Bool {
+        /// Shows and hides slider controllers in the user interface.
+        func runHiders(group: sliderGroup) -> Bool {
             let factor = CGFloat(group.sliderShown ? 0 : -220)
             
             UIView.animate(withDuration: 1) {
@@ -27,7 +27,7 @@ extension MalachiteViewUtils {
             return !group.sliderShown
         }
         
-        /// Function that sets the lock and unlock state of the bassed slider lock buttons.
+        /// Sets the lock and unlock state of the passed slider lock buttons.
         func runLocks(group: sliderGroup, associatedGestureRecognizer gestureRecognizer: UIGestureRecognizer?, viewForRecognizers view: UIView) -> Bool {
             group.lock.setImage(UIImage(systemName: (group.lockEnabled ? "lock.open" : "lock"))?.withRenderingMode(.alwaysTemplate), for: .normal)
             group.slider.isEnabled = group.lockEnabled ? true : false
@@ -39,6 +39,18 @@ extension MalachiteViewUtils {
             return !group.lockEnabled
         }
         
+        /// Runs functions or returns an alert controller for the passed ``sliderGroup``.
+        func runControllers(group: sliderGroup, condition: Bool, action: @escaping () -> Void) -> UIAlertController? {
+            if condition && !MalachitePreferencesUtils.shared.preferences.debug.breakApp { action()
+            } else {
+                return MalachiteViewUtils().createAlertController(title: "alert.title.\(group.name)", message: "alert.detail.\(group.name)", button: group.activator, defaultSet: true, action: { _ in
+                    MalachiteClassesObject().debugNSLog("[Alerts] \(group.name) dialog has been dismissed")
+                })
+            }
+            
+            return nil
+        }
+        
         public struct sliderBuilder {
             let action: Selector
             let dimensions: [ CGFloat ]
@@ -47,6 +59,7 @@ extension MalachiteViewUtils {
         }
         
         public struct sliderGroup {
+            var name            = String()
             var activator       = UIButton()
             var sliderShown     = Bool()
             var lockEnabled     = Bool()

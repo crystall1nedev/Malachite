@@ -28,7 +28,8 @@ public class MalachiteViewUtils : NSObject {
             button.configuration = .glass()
         } else {
             button.insertSubview(returnProperEffectView(viewForBounds: view, effect: UIBlurEffect(style: .systemThinMaterial)), at: 0)
-            button.tintColor = UIColor(.primary)
+			if #available(iOS 18.0, *) { button.tintColor = UIColor(.primary) }
+			else { button.tintColor = UIColor(.white) }
         }
         
         button.isPointerInteractionEnabled = true

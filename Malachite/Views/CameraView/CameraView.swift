@@ -56,6 +56,8 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
      */
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		if #unavailable(iOS 18.0) { overrideUserInterfaceStyle = .dark }
         self.view.backgroundColor = .black
         self.notifications = CameraView.Notifications(delegate: self)
         self.notifications.bringUpNotifications()
@@ -414,8 +416,8 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     @objc func runManualExposureUIHider() {
         guard let exposure = camera.device?.isExposureModeSupported(.custom) else { return }
         if exposure && !utilities.preferences.debug.breakApp {
-            self.controlLayer.hideOtherSliders(name: "exposure")
-            self.controlLayer.buttons.exposure.sliderShown = utilities.views.sliders.runControllers(group: self.controlLayer.buttons.exposure)
+            self.controlLayer.hideOtherSliders(group: self.controlLayer.buttons.exposure)
+            self.controlLayer.buttons.exposure.sliderShown = utilities.views.sliders.runHiders(group: self.controlLayer.buttons.exposure)
         } else {
             utilities.debugNSLog("[Manual Focus] Current camera is not capable of adjusting exposure")
             let alert = utilities.views.createAlertController(title: "alert.title.exposure", message: "alert.detail.exposure", button: self.controlLayer.buttons.exposure.activator, defaultSet: true, action: { _ in
@@ -426,7 +428,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     }
     
     @objc func runManualExposureUIHiderWhenUnsupported() {
-        self.controlLayer.buttons.exposure.sliderShown = utilities.views.sliders.runControllers(group: self.controlLayer.buttons.exposure)
+        self.controlLayer.buttons.exposure.sliderShown = utilities.views.sliders.runHiders(group: self.controlLayer.buttons.exposure)
     }
     
     /// Function to lock and unlock the ``exposureSlider``.
@@ -457,8 +459,8 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     @objc func runManualFocusUIHider() {
         guard let selectedDevice = camera.device else { return }
         if selectedDevice.isLockingFocusWithCustomLensPositionSupported && !utilities.preferences.debug.breakApp {
-            self.controlLayer.hideOtherSliders(name: "focus")
-            self.controlLayer.buttons.focus.sliderShown = utilities.views.sliders.runControllers(group: self.controlLayer.buttons.focus)
+            self.controlLayer.hideOtherSliders(group: self.controlLayer.buttons.focus)
+            self.controlLayer.buttons.focus.sliderShown = utilities.views.sliders.runHiders(group: self.controlLayer.buttons.focus)
         } else {
             utilities.debugNSLog("[Manual Focus] Current camera is not capable of adjusting focus")
             let alert = utilities.views.createAlertController(title: "alert.title.focus", message: "alert.detail.focus", button: self.controlLayer.buttons.focus.activator, defaultSet: true, action: { _ in
@@ -469,7 +471,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     }
     
     @objc func runManualFocusUIHiderWhenUnsupported() {
-        self.controlLayer.buttons.focus.sliderShown = utilities.views.sliders.runControllers(group: self.controlLayer.buttons.focus)
+        self.controlLayer.buttons.focus.sliderShown = utilities.views.sliders.runHiders(group: self.controlLayer.buttons.focus)
     }
     
     /// Function to show and hide the ``focusSliderButton`` and ``focusLockButton``.
@@ -506,8 +508,8 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     @objc func runManualFlashUIHider() {
         guard let selectedDevice = camera.device else { return }
         if selectedDevice.hasTorch && !utilities.preferences.debug.breakApp {
-            self.controlLayer.hideOtherSliders(name: "flash")
-            self.controlLayer.buttons.flash.sliderShown = utilities.views.sliders.runControllers(group: self.controlLayer.buttons.flash)
+            self.controlLayer.hideOtherSliders(group: self.controlLayer.buttons.flash)
+            self.controlLayer.buttons.flash.sliderShown = utilities.views.sliders.runHiders(group: self.controlLayer.buttons.flash)
         } else {
             utilities.debugNSLog("[Flashlight Level] Device does not have a flashlight")
             let alert = utilities.views.createAlertController(title: "alert.title.flash", message: "alert.detail.flash", button: self.controlLayer.buttons.flash.activator, defaultSet: true, action: { _ in
@@ -518,7 +520,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     }
     
     @objc func runManualFlashUIHiderWhenUnsupported() {
-        self.controlLayer.buttons.flash.sliderShown = utilities.views.sliders.runControllers(group: self.controlLayer.buttons.flash)
+        self.controlLayer.buttons.flash.sliderShown = utilities.views.sliders.runHiders(group: self.controlLayer.buttons.flash)
     }
     
     /// Function to show and hide the ``focusSliderButton`` and ``focusLockButton``.
@@ -535,10 +537,10 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
                                                                         self.controlLayer.buttons.flashlight,
                                                                         self.controlLayer.buttons.capture,
                                                                         self.controlLayer.buttons.settings,
-                                                                        self.controlLayer.buttons.exposure.activator,
-                                                                        self.controlLayer.buttons.exposure.lock,
                                                                         self.controlLayer.buttons.focus.activator,
                                                                         self.controlLayer.buttons.focus.lock,
+                                                                        self.controlLayer.buttons.exposure.activator,
+                                                                        self.controlLayer.buttons.exposure.lock,
                                                                         self.controlLayer.buttons.flash.activator,
                                                                         self.controlLayer.buttons.flash.lock  ])
     }

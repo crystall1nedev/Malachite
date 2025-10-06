@@ -80,6 +80,8 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
         self.controls = PhotoPreviewView.controls(delegate: self)
         
         super.viewDidLoad()
+		
+		if #unavailable(iOS 18.0) { overrideUserInterfaceStyle = .dark }
         self.view.backgroundColor = .red
         
         var rotation = -1.0
