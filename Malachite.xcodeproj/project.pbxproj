@@ -955,6 +955,7 @@
 				"",
 				"",
 				"",
+				"",
 			);
 		};
 		78EC5D602E4EC1AD005044E2 /* Embed build information */ = {
@@ -1046,6 +1047,7 @@
 				"$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"",
 				"$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"",
 				"$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"",
+				"",
 				"",
 				"",
 				"",
@@ -1579,7 +1581,6 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Malachite uses write access to your library in order to save photos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
@@ -1636,7 +1637,6 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Malachite uses write access to your library in order to save photos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
@@ -2090,7 +2090,6 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Malachite uses write access to your library in order to save photos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
