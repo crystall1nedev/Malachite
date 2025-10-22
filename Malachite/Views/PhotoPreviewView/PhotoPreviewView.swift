@@ -214,11 +214,7 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
      */
     public func finalizeImageForExport(imageData: Data) -> Data {
 		guard let rawImage = CIImage(data: imageData, options: [.toneMapHDRtoSDR : (enableHDR ? true : false)]) else { return Data() }
-		
-        var gainMapImage = CIImage()
         var imageProperties = rawImage.properties
-        
-		if enableHDR { gainMapImage = returnGainMap(properties: &imageProperties, imageData: imageData) }
         
         let watermarkImage = CIImage(image: self.watermark())
         let outputImage = watermarkImage!.composited(over: rawImage)
@@ -231,7 +227,7 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
         
         let outputImageWithProps = outputImage.settingProperties(imageProperties)
         
-        return returnImageFile(imageForRepresentation: outputImageWithProps, imageForGainMap: gainMapImage, imageColorspace: rawImage.colorSpace?.name)
+        return returnImageFile(imageForRepresentation: outputImageWithProps, imageForGainMap: returnGainMap(properties: &imageProperties, imageData: imageData), imageColorspace: rawImage.colorSpace?.name)
     }
     
     /**
@@ -274,7 +270,7 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
         let types = CGImageDestinationCopyTypeIdentifiers() as NSArray
         utilities.debugNSLog("[Capture Photo] Saving JPEG representation")
         if types.contains("public.heic") && enableHEIC {
-            if enableHDR && (hdrImage != nil){
+            if enableHDR && (hdrImage != nil) {
                 return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!, options:  [ .hdrGainMapImage : hdrImage! ])!
             } else {
                 return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!)!
@@ -289,7 +285,8 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
     }
     
     /// Function to extract gain map data from the image.
-    func returnGainMap(properties props: inout [String: Any], imageData: Data) -> CIImage {
+    func returnGainMap(properties props: inout [String: Any], imageData: Data) -> CIImage? {
+		if !enableHDR { return nil }
         var gainMapImage = CIImage()
         if let gainMapDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(CGImageSourceCreateWithData(NSData(data: imageData), nil)!, 0, kCGImageAuxiliaryDataTypeHDRGainMap) as? Dictionary<CFString, Any> {
             utilities.debugNSLog("[Capture Photo] Saving gain map properties from image")
