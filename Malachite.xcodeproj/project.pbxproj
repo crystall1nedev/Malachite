@@ -956,6 +956,7 @@
 				"",
 				"",
 				"",
+				"",
 			);
 		};
 		78EC5D602E4EC1AD005044E2 /* Embed build information */ = {
@@ -1047,6 +1048,7 @@
 				"$PLISTBUDDY -c \"Set :CFBuildType $CFBUILDTYPE\" \"${INFOPLIST}\"",
 				"$PLISTBUDDY -c \"Set :CFBuildUser $CFBUILDUSER\" \"${INFOPLIST}\"",
 				"$PLISTBUDDY -c \"Set :CFBuildHost $CFBUILDHOST\" \"${INFOPLIST}\"",
+				"",
 				"",
 				"",
 				"",
@@ -1873,6 +1875,7 @@
 		};
 		78B72BB32E332830002E2D4E /* Debug configuration for PBXNativeTarget "MalachiteWatch" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1914,6 +1917,7 @@
 		};
 		78B72BB42E332830002E2D4E /* Internal configuration for PBXNativeTarget "MalachiteWatch" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1955,6 +1959,7 @@
 		};
 		78B72BB52E332830002E2D4E /* Release configuration for PBXNativeTarget "MalachiteWatch" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

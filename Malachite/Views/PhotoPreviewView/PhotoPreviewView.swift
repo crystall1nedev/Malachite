@@ -213,18 +213,12 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
      - If ``enableHEIC`` is enabled, create a HEIC representation of all above images combined. Otherwise, JPEG is used.
      */
     public func finalizeImageForExport(imageData: Data) -> Data {
-        var data = Data()
-        var rawImage = CIImage()
+		guard let rawImage = CIImage(data: imageData, options: [.toneMapHDRtoSDR : (enableHDR ? true : false)]) else { return Data() }
+		
         var gainMapImage = CIImage()
         var imageProperties = rawImage.properties
         
-        if enableHDR {
-            rawImage = CIImage(data: imageData)!
-            gainMapImage = returnGainMap(properties: &imageProperties, imageData: imageData)
-        } else {
-            rawImage = CIImage(data: imageData,
-                               options: [.toneMapHDRtoSDR : true])!
-        }
+		if enableHDR { gainMapImage = returnGainMap(properties: &imageProperties, imageData: imageData) }
         
         let watermarkImage = CIImage(image: self.watermark())
         let outputImage = watermarkImage!.composited(over: rawImage)
