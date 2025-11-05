@@ -49,9 +49,11 @@ class Init {
         startupLog()
         versionTypeCheck()
         appExtensionCheck()
-        self.compatibility.checkDeviceForHEICCompatibility()
         
         if utilities.versionType == "DEBUG" || utilities.versionType == "INTERNAL" { debug.initMalachite() }
         if utilities.versionType == "INTERNAL" { intrnl.initMalachite() }
+		
+		self.compatibility.isSameDevice()
+		self.compatibility.checkDeviceForHEICCompatibility()
     }
 }

@@ -22,6 +22,19 @@ class Compatibility {
             utilities.preferences.compatibility.hdr = device.activeFormat.isVideoHDRSupported
         }
     }
+	
+	/// Checks whether or not the current device is the same device as previously recorded in preferences.
+	public func isSameDevice() {
+		if utilities.preferences.compatibility.device.changed { utilities.preferences.compatibility.device.changed = false }
+		if utilities.preferences.compatibility.device.model == utilities.preferences.ext.deviceModel() {
+			utilities.internalNSLog("[Initialization] This is the same device, can skip compatibility checks.")
+			return
+		}
+		
+		utilities.internalNSLog("[Initialization] This is a new device, rechecking compatibility.")
+		utilities.preferences.compatibility.device.model = utilities.preferences.ext.deviceModel()
+		utilities.preferences.compatibility.device.changed = true
+	}
     
     /**
      Checks whether or not the current device is capable of encoding High Efficiency Image Format.
