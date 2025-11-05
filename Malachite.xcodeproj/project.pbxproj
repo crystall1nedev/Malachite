@@ -1893,7 +1893,7 @@
 				INFOPLIST_FILE = MalachiteWatch/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Malachite Remote";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.crystll1ne.Malachite;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "$(APP_PREFIX).Malachite";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1935,7 +1935,7 @@
 				INFOPLIST_FILE = MalachiteWatch/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Malachite Remote";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.crystll1ne.Malachite;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "$(APP_PREFIX).Malachite";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1977,7 +1977,7 @@
 				INFOPLIST_FILE = MalachiteWatch/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Malachite Remote";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.crystll1ne.Malachite;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "$(APP_PREFIX).Malachite";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
