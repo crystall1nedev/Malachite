@@ -25,7 +25,7 @@
 		7837C10B2E34C45B009396B0 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5D2B99AE72005E10FA /* SwiftUI.framework */; };
 		7837C10C2E34C45B009396B0 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5B2B99AE72005E10FA /* WidgetKit.framework */; };
 		7837C10E2E34C45B009396B0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
-		7837C1172E34C47D009396B0 /* WidgetBundleWatch.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7837C1152E34C45B009396B0 /* WidgetBundleWatch.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7837C1172E34C47D009396B0 /* mlchtWidgetBundleWatch.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7837C1152E34C45B009396B0 /* mlchtWidgetBundleWatch.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7847D5032E8F26EC006759A6 /* View+Sliders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7847D5022E8F26E9006759A6 /* View+Sliders.swift */; };
 		7847D5042E8F26EC006759A6 /* View+Sliders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7847D5022E8F26E9006759A6 /* View+Sliders.swift */; };
 		7847D5052E8F26EC006759A6 /* View+Sliders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7847D5022E8F26E9006759A6 /* View+Sliders.swift */; };
@@ -116,7 +116,7 @@
 		78729C562E7368F3001027E9 /* Camera+Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78729C552E7368F0001027E9 /* Camera+Input.swift */; };
 		78729C572E7368F3001027E9 /* Camera+Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78729C552E7368F0001027E9 /* Camera+Input.swift */; };
 		78729C582E7368F3001027E9 /* Camera+Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78729C552E7368F0001027E9 /* Camera+Input.swift */; };
-		787B1CAA2B8B095E000AFECC /* Malachite.docc in Sources */ = {isa = PBXBuildFile; fileRef = 787B1CA92B8B095E000AFECC /* Malachite.docc */; };
+		787B1CAA2B8B095E000AFECC /* mlchtCamera.docc in Sources */ = {isa = PBXBuildFile; fileRef = 787B1CA92B8B095E000AFECC /* mlchtCamera.docc */; };
 		788262602E513080000085AC /* SettingsView+About.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882625F2E51307B000085AC /* SettingsView+About.swift */; };
 		788262612E513080000085AC /* SettingsView+About.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882625F2E51307B000085AC /* SettingsView+About.swift */; };
 		788262622E513080000085AC /* SettingsView+About.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882625F2E51307B000085AC /* SettingsView+About.swift */; };
@@ -170,8 +170,8 @@
 		788262E42E5172E8000085AC /* AboutView+Credits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788262E12E5172E3000085AC /* AboutView+Credits.swift */; };
 		78917F5C2B99AE72005E10FA /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5B2B99AE72005E10FA /* WidgetKit.framework */; };
 		78917F5E2B99AE72005E10FA /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5D2B99AE72005E10FA /* SwiftUI.framework */; };
-		78917F692B99AE73005E10FA /* WidgetBundle.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 78917F592B99AE72005E10FA /* WidgetBundle.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		78A9DD6A2CD55551002C131D /* CaptureBundle.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = 78A9DD612CD55551002C131D /* CaptureBundle.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		78917F692B99AE73005E10FA /* mlchtWidgetBundle.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 78917F592B99AE72005E10FA /* mlchtWidgetBundle.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		78A9DD6A2CD55551002C131D /* mlchtCaptureBundle.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = 78A9DD612CD55551002C131D /* mlchtCaptureBundle.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		78A9DE312CD581F1002C131D /* LockedCameraCapture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78A9DE302CD581F1002C131D /* LockedCameraCapture.framework */; };
 		78A9DE752CD5AE5F002C131D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
 		78AF68682E5D97E500BB9D5C /* CameraView+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AF68672E5D97E000BB9D5C /* CameraView+Preview.swift */; };
@@ -183,7 +183,7 @@
 		78AF687D2E5D99EF00BB9D5C /* Preferences+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AF687C2E5D99E300BB9D5C /* Preferences+Extension.swift */; };
 		78AF687E2E5D99EF00BB9D5C /* Preferences+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AF687C2E5D99E300BB9D5C /* Preferences+Extension.swift */; };
 		78AF687F2E5D99EF00BB9D5C /* Preferences+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AF687C2E5D99E300BB9D5C /* Preferences+Extension.swift */; };
-		78B72BB12E332830002E2D4E /* MalachiteWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 78B72BA72E33282E002E2D4E /* MalachiteWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		78B72BB12E332830002E2D4E /* mlchtRemote.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 78B72BA72E33282E002E2D4E /* mlchtRemote.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		78C2EFC02E6971E600C6DD79 /* Init+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C2EFBF2E6971DE00C6DD79 /* Init+Debug.swift */; };
 		78C2EFC12E6971E600C6DD79 /* Init+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C2EFBF2E6971DE00C6DD79 /* Init+Debug.swift */; };
 		78C2EFC22E6971E600C6DD79 /* Init+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C2EFBF2E6971DE00C6DD79 /* Init+Debug.swift */; };
@@ -247,7 +247,7 @@
 			dstPath = "";
 			dstSubfolder = PlugIns;
 			files = (
-				7837C1172E34C47D009396B0 /* WidgetBundleWatch.appex in Embed Foundation Extensions */,
+				7837C1172E34C47D009396B0 /* mlchtWidgetBundleWatch.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 		};
@@ -256,7 +256,7 @@
 			dstPath = "";
 			dstSubfolder = PlugIns;
 			files = (
-				78917F692B99AE73005E10FA /* WidgetBundle.appex in Embed Foundation Extensions */,
+				78917F692B99AE73005E10FA /* mlchtWidgetBundle.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 		};
@@ -265,7 +265,7 @@
 			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
 			dstSubfolder = Product;
 			files = (
-				78A9DD6A2CD55551002C131D /* CaptureBundle.appex in Embed ExtensionKit Extensions */,
+				78A9DD6A2CD55551002C131D /* mlchtCaptureBundle.appex in Embed ExtensionKit Extensions */,
 			);
 			name = "Embed ExtensionKit Extensions";
 		};
@@ -274,7 +274,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolder = Product;
 			files = (
-				78B72BB12E332830002E2D4E /* MalachiteWatch.app in Embed Watch Content */,
+				78B72BB12E332830002E2D4E /* mlchtRemote.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 		};
@@ -288,12 +288,12 @@
 		7824CAF02E62E4920072870F /* Camera+Bringup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Camera+Bringup.swift"; sourceTree = "<group>"; };
 		782850002E80C04D00826FA7 /* Camera+Permissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Camera+Permissions.swift"; sourceTree = "<group>"; };
 		782FC7752B2DAFAB007709C1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
-		7837C1152E34C45B009396B0 /* WidgetBundleWatch.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetBundleWatch.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		7837C1152E34C45B009396B0 /* mlchtWidgetBundleWatch.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = mlchtWidgetBundleWatch.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		78474D2B2D7AC879006FBB96 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		7847D5022E8F26E9006759A6 /* View+Sliders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Sliders.swift"; sourceTree = "<group>"; };
 		784EDDD32E5EE52100DFF370 /* PhotoPreviewView+Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoPreviewView+Controls.swift"; sourceTree = "<group>"; };
 		78562BC22B450A7600920160 /* PRIVACY_POLICY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_POLICY.md; sourceTree = SOURCE_ROOT; };
-		785F08492B12D41100244EB4 /* Malachite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Malachite.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		785F08492B12D41100244EB4 /* mlchtCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mlchtCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		785F084C2B12D41100244EB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		785F084E2B12D41100244EB4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		785F085A2B12D41300244EB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -330,8 +330,8 @@
 		786DAE7A2E4F28BF00BE3137 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		786DAE7B2E4F28BF00BE3137 /* MalachiteWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteWatchApp.swift; sourceTree = "<group>"; };
 		78729C552E7368F0001027E9 /* Camera+Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Camera+Input.swift"; sourceTree = "<group>"; };
-		787B1CA92B8B095E000AFECC /* Malachite.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Malachite.docc; sourceTree = "<group>"; };
-		7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = Malachite/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
+		787B1CA92B8B095E000AFECC /* mlchtCamera.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = mlchtCamera.docc; sourceTree = "<group>"; };
+		7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = mlchtCamera/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
 		7882625F2E51307B000085AC /* SettingsView+About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView+About.swift"; sourceTree = "<group>"; };
 		788262632E513094000085AC /* SettingsView+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView+Preview.swift"; sourceTree = "<group>"; };
 		7882626B2E5130BB000085AC /* SettingsView+Resolution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView+Resolution.swift"; sourceTree = "<group>"; };
@@ -349,16 +349,16 @@
 		788262D92E5171EC000085AC /* AboutView+Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AboutView+Story.swift"; sourceTree = "<group>"; };
 		788262DD2E51724C000085AC /* AboutView+Eggs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AboutView+Eggs.swift"; sourceTree = "<group>"; };
 		788262E12E5172E3000085AC /* AboutView+Credits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AboutView+Credits.swift"; sourceTree = "<group>"; };
-		788589912B8974680018E2DA /* Malachite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Malachite.entitlements; sourceTree = "<group>"; };
-		78917F592B99AE72005E10FA /* WidgetBundle.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetBundle.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		788589912B8974680018E2DA /* mlchtCamera.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = mlchtCamera.entitlements; sourceTree = "<group>"; };
+		78917F592B99AE72005E10FA /* mlchtWidgetBundle.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = mlchtWidgetBundle.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		78917F5B2B99AE72005E10FA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		78917F5D2B99AE72005E10FA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		78A9DD612CD55551002C131D /* CaptureBundle.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = CaptureBundle.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		78A9DD612CD55551002C131D /* mlchtCaptureBundle.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = mlchtCaptureBundle.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		78A9DE302CD581F1002C131D /* LockedCameraCapture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LockedCameraCapture.framework; path = System/Library/Frameworks/LockedCameraCapture.framework; sourceTree = SDKROOT; };
 		78AF68672E5D97E000BB9D5C /* CameraView+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraView+Preview.swift"; sourceTree = "<group>"; };
 		78AF686B2E5D97E800BB9D5C /* CameraView+Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraView+Controls.swift"; sourceTree = "<group>"; };
 		78AF687C2E5D99E300BB9D5C /* Preferences+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Preferences+Extension.swift"; sourceTree = "<group>"; };
-		78B72BA72E33282E002E2D4E /* MalachiteWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MalachiteWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		78B72BA72E33282E002E2D4E /* mlchtRemote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mlchtRemote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C2EFBF2E6971DE00C6DD79 /* Init+Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Init+Debug.swift"; sourceTree = "<group>"; };
 		78C2EFC32E6972D300C6DD79 /* Init+Internal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Init+Internal.swift"; sourceTree = "<group>"; };
 		78E142C92DD426260016B3DB /* Codesigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Codesigning.xcconfig; sourceTree = "<group>"; };
@@ -440,8 +440,8 @@
 				78562BC22B450A7600920160 /* PRIVACY_POLICY.md */,
 				786DAD902E4F282E00BE3137 /* .github */,
 				786DAD932E4F283000BE3137 /* ci_scripts */,
-				785F084B2B12D41100244EB4 /* Malachite */,
-				786DAE7C2E4F28BF00BE3137 /* MalachiteWatch */,
+				785F084B2B12D41100244EB4 /* mlchtCamera */,
+				786DAE7C2E4F28BF00BE3137 /* mlchtRemote */,
 				78917F5A2B99AE72005E10FA /* Frameworks */,
 				785F084A2B12D41100244EB4 /* Products */,
 			);
@@ -450,22 +450,22 @@
 		785F084A2B12D41100244EB4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				785F08492B12D41100244EB4 /* Malachite.app */,
-				78917F592B99AE72005E10FA /* WidgetBundle.appex */,
-				78A9DD612CD55551002C131D /* CaptureBundle.appex */,
-				78B72BA72E33282E002E2D4E /* MalachiteWatch.app */,
-				7837C1152E34C45B009396B0 /* WidgetBundleWatch.appex */,
+				785F08492B12D41100244EB4 /* mlchtCamera.app */,
+				78917F592B99AE72005E10FA /* mlchtWidgetBundle.appex */,
+				78A9DD612CD55551002C131D /* mlchtCaptureBundle.appex */,
+				78B72BA72E33282E002E2D4E /* mlchtRemote.app */,
+				7837C1152E34C45B009396B0 /* mlchtWidgetBundleWatch.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		785F084B2B12D41100244EB4 /* Malachite */ = {
+		785F084B2B12D41100244EB4 /* mlchtCamera */ = {
 			isa = PBXGroup;
 			children = (
 				786DAD982E4F283500BE3137 /* Assets */,
 				78E142C92DD426260016B3DB /* Codesigning.xcconfig */,
-				787B1CA92B8B095E000AFECC /* Malachite.docc */,
-				788589912B8974680018E2DA /* Malachite.entitlements */,
+				787B1CA92B8B095E000AFECC /* mlchtCamera.docc */,
+				788589912B8974680018E2DA /* mlchtCamera.entitlements */,
 				785F085A2B12D41300244EB4 /* Info.plist */,
 				786DAE222E4F28A600BE3137 /* Views */,
 				786DAE4B2E4F28B100BE3137 /* Utilities */,
@@ -475,7 +475,7 @@
 				785F084C2B12D41100244EB4 /* AppDelegate.swift */,
 				785F084E2B12D41100244EB4 /* SceneDelegate.swift */,
 			);
-			path = Malachite;
+			path = mlchtCamera;
 			sourceTree = "<group>";
 		};
 		7866F5CC2E62999B009AC9BF /* CameraUtils */ = {
@@ -573,14 +573,14 @@
 			path = CaptureBundle;
 			sourceTree = "<group>";
 		};
-		786DAE7C2E4F28BF00BE3137 /* MalachiteWatch */ = {
+		786DAE7C2E4F28BF00BE3137 /* mlchtRemote */ = {
 			isa = PBXGroup;
 			children = (
 				786DAE792E4F28BF00BE3137 /* ContentView.swift */,
 				786DAE7A2E4F28BF00BE3137 /* Info.plist */,
 				786DAE7B2E4F28BF00BE3137 /* MalachiteWatchApp.swift */,
 			);
-			path = MalachiteWatch;
+			path = mlchtRemote;
 			sourceTree = "<group>";
 		};
 		786DAE802E4F28D600BE3137 /* SettingsView */ = {
@@ -678,9 +678,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7837C1042E34C45B009396B0 /* WidgetBundleWatch */ = {
+		7837C1042E34C45B009396B0 /* mlchtWidgetBundleWatch */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7837C1112E34C45B009396B0 /* Build configuration list for PBXNativeTarget "WidgetBundleWatch" */;
+			buildConfigurationList = 7837C1112E34C45B009396B0 /* Build configuration list for PBXNativeTarget "mlchtWidgetBundleWatch" */;
 			buildPhases = (
 				7837C1052E34C45B009396B0 /* Sources */,
 				7837C10A2E34C45B009396B0 /* Frameworks */,
@@ -691,14 +691,14 @@
 			fileSystemSynchronizedGroups = (
 				786DAD982E4F283500BE3137 /* Assets */,
 			);
-			name = WidgetBundleWatch;
+			name = mlchtWidgetBundleWatch;
 			productName = MalachiteWidgetBundle;
-			productReference = 7837C1152E34C45B009396B0 /* WidgetBundleWatch.appex */;
+			productReference = 7837C1152E34C45B009396B0 /* mlchtWidgetBundleWatch.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		785F08482B12D41100244EB4 /* Malachite */ = {
+		785F08482B12D41100244EB4 /* mlchtCamera */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 785F085D2B12D41300244EB4 /* Build configuration list for PBXNativeTarget "Malachite" */;
+			buildConfigurationList = 785F085D2B12D41300244EB4 /* Build configuration list for PBXNativeTarget "mlchtCamera" */;
 			buildPhases = (
 				785F08452B12D41100244EB4 /* Sources */,
 				785F08472B12D41100244EB4 /* Resources */,
@@ -717,14 +717,14 @@
 			fileSystemSynchronizedGroups = (
 				786DAD982E4F283500BE3137 /* Assets */,
 			);
-			name = Malachite;
+			name = mlchtCamera;
 			productName = Malachite;
-			productReference = 785F08492B12D41100244EB4 /* Malachite.app */;
+			productReference = 785F08492B12D41100244EB4 /* mlchtCamera.app */;
 			productType = "com.apple.product-type.application";
 		};
-		78917F582B99AE72005E10FA /* WidgetBundle */ = {
+		78917F582B99AE72005E10FA /* mlchtWidgetBundle */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 78917F6D2B99AE73005E10FA /* Build configuration list for PBXNativeTarget "WidgetBundle" */;
+			buildConfigurationList = 78917F6D2B99AE73005E10FA /* Build configuration list for PBXNativeTarget "mlchtWidgetBundle" */;
 			buildPhases = (
 				78917F552B99AE72005E10FA /* Sources */,
 				78917F562B99AE72005E10FA /* Frameworks */,
@@ -735,14 +735,14 @@
 			fileSystemSynchronizedGroups = (
 				786DAD982E4F283500BE3137 /* Assets */,
 			);
-			name = WidgetBundle;
+			name = mlchtWidgetBundle;
 			productName = MalachiteWidgetBundle;
-			productReference = 78917F592B99AE72005E10FA /* WidgetBundle.appex */;
+			productReference = 78917F592B99AE72005E10FA /* mlchtWidgetBundle.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		78A9DD602CD55551002C131D /* CaptureBundle */ = {
+		78A9DD602CD55551002C131D /* mlchtCaptureBundle */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 78A9DD6C2CD55551002C131D /* Build configuration list for PBXNativeTarget "CaptureBundle" */;
+			buildConfigurationList = 78A9DD6C2CD55551002C131D /* Build configuration list for PBXNativeTarget "mlchtCaptureBundle" */;
 			buildPhases = (
 				78A9DD5D2CD55551002C131D /* Sources */,
 				78A9DD5E2CD55551002C131D /* Frameworks */,
@@ -753,14 +753,14 @@
 			fileSystemSynchronizedGroups = (
 				786DAD982E4F283500BE3137 /* Assets */,
 			);
-			name = CaptureBundle;
+			name = mlchtCaptureBundle;
 			productName = MalachiteCaptureBundle;
-			productReference = 78A9DD612CD55551002C131D /* CaptureBundle.appex */;
+			productReference = 78A9DD612CD55551002C131D /* mlchtCaptureBundle.appex */;
 			productType = "com.apple.product-type.extensionkit-extension";
 		};
-		78B72BA62E33282E002E2D4E /* MalachiteWatch */ = {
+		78B72BA62E33282E002E2D4E /* mlchtRemote */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 78B72BB22E332830002E2D4E /* Build configuration list for PBXNativeTarget "MalachiteWatch" */;
+			buildConfigurationList = 78B72BB22E332830002E2D4E /* Build configuration list for PBXNativeTarget "mlchtRemote" */;
 			buildPhases = (
 				78B72BA32E33282E002E2D4E /* Sources */,
 				78B72BA42E33282E002E2D4E /* Frameworks */,
@@ -777,9 +777,9 @@
 			fileSystemSynchronizedGroups = (
 				786DAD982E4F283500BE3137 /* Assets */,
 			);
-			name = MalachiteWatch;
+			name = mlchtRemote;
 			productName = "MalachiteWatch Watch App";
-			productReference = 78B72BA72E33282E002E2D4E /* MalachiteWatch.app */;
+			productReference = 78B72BA72E33282E002E2D4E /* mlchtRemote.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -806,7 +806,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 785F08442B12D41100244EB4 /* Build configuration list for PBXProject "Malachite" */;
+			buildConfigurationList = 785F08442B12D41100244EB4 /* Build configuration list for PBXProject "mlchtCamera" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -819,11 +819,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				785F08482B12D41100244EB4 /* Malachite */,
-				78B72BA62E33282E002E2D4E /* MalachiteWatch */,
-				78917F582B99AE72005E10FA /* WidgetBundle */,
-				7837C1042E34C45B009396B0 /* WidgetBundleWatch */,
-				78A9DD602CD55551002C131D /* CaptureBundle */,
+				785F08482B12D41100244EB4 /* mlchtCamera */,
+				78B72BA62E33282E002E2D4E /* mlchtRemote */,
+				78917F582B99AE72005E10FA /* mlchtWidgetBundle */,
+				7837C1042E34C45B009396B0 /* mlchtWidgetBundleWatch */,
+				78A9DD602CD55551002C131D /* mlchtCaptureBundle */,
 			);
 		};
 /* End PBXProject section */
@@ -894,7 +894,7 @@
 				"    echo \"Error: INTERNAL build type detected but Eva's GPG key was not found.\"",
 				"    echo \"Error: See 'Embed build information' in Build Phases for a solution\"",
 				"    # Be aware that I use the INTERNAL target to gate off any unstable/unready features. By removing this line, ",
-				"    # you are acknowledging that you will not receive support for any issues encountered with Malachite until you ",
+				"    # you are acknowledging that you will not receive support for any issues encountered with mlchtCamera until you ",
 				"    # are running DEBUG or RELEASE. If you just want a DEBUG build, change the Build Configuration to Debug in ",
 				"    # Product > Scheme > Edit Scheme...",
 				"    if [[ -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then",
@@ -992,7 +992,7 @@
 				"    echo \"Error: INTERNAL build type detected but Eva's GPG key was not found.\"",
 				"    echo \"Error: See 'Embed build information' in Build Phases for a solution\"",
 				"    # Be aware that I use the INTERNAL target to gate off any unstable/unready features. By removing this line, ",
-				"    # you are acknowledging that you will not receive support for any issues encountered with Malachite until you ",
+				"    # you are acknowledging that you will not receive support for any issues encountered with mlchtCamera until you ",
 				"    # are running DEBUG or RELEASE. If you just want a DEBUG build, change the Build Configuration to Debug in ",
 				"    # Product > Scheme > Edit Scheme...",
 				"    if [[ -z $(system_profiler SPHardwareDataType | grep 'MacVM1,1') ]]; then",
@@ -1123,7 +1123,7 @@
 				786DAE362E4F28A600BE3137 /* CameraView.swift in Sources */,
 				785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */,
 				788262962E514F38000085AC /* QuickHelpView+Watermarking.swift in Sources */,
-				787B1CAA2B8B095E000AFECC /* Malachite.docc in Sources */,
+				787B1CAA2B8B095E000AFECC /* mlchtCamera.docc in Sources */,
 				7824CAF22E62E4970072870F /* Camera+Bringup.swift in Sources */,
 				788262662E51309C000085AC /* SettingsView+Preview.swift in Sources */,
 				788262E02E517252000085AC /* AboutView+Eggs.swift in Sources */,
@@ -1271,33 +1271,33 @@
 /* Begin PBXTargetDependency section */
 		7837C1022E34BD60009396B0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 78917F582B99AE72005E10FA /* WidgetBundle */;
+			target = 78917F582B99AE72005E10FA /* mlchtWidgetBundle */;
 			targetProxy = 7837C1012E34BD60009396B0 /* PBXContainerItemProxy */;
 		};
 		7837C1192E34C47D009396B0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7837C1042E34C45B009396B0 /* WidgetBundleWatch */;
+			target = 7837C1042E34C45B009396B0 /* mlchtWidgetBundleWatch */;
 			targetProxy = 7837C1182E34C47D009396B0 /* PBXContainerItemProxy */;
 		};
 		78917F682B99AE73005E10FA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 78917F582B99AE72005E10FA /* WidgetBundle */;
+			target = 78917F582B99AE72005E10FA /* mlchtWidgetBundle */;
 			targetProxy = 78917F672B99AE73005E10FA /* PBXContainerItemProxy */;
 		};
 		78A9DD692CD55551002C131D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 78A9DD602CD55551002C131D /* CaptureBundle */;
+			target = 78A9DD602CD55551002C131D /* mlchtCaptureBundle */;
 			targetProxy = 78A9DD682CD55551002C131D /* PBXContainerItemProxy */;
 		};
 		78B72BB02E332830002E2D4E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 78B72BA62E33282E002E2D4E /* MalachiteWatch */;
+			target = 78B72BA62E33282E002E2D4E /* mlchtRemote */;
 			targetProxy = 78B72BAF2E332830002E2D4E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		7837C1122E34C45B009396B0 /* Debug configuration for PBXNativeTarget "WidgetBundleWatch" */ = {
+		7837C1122E34C45B009396B0 /* Debug configuration for PBXNativeTarget "mlchtWidgetBundleWatch" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1313,8 +1313,8 @@
 				EXCLUDED_ARCHS = arm64e;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Malachite/WidgetBundle/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MalachiteWidgetBundle;
+				INFOPLIST_FILE = mlchtCamera/WidgetBundle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = mlchtWidgetBundle;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1324,7 +1324,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_SWIFT_FLAGS = "-DAPP_EXTENSION";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).Malachite.WatchRemote.WidgetBundle";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).watchremote.widgetbundle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1341,7 +1341,7 @@
 			};
 			name = Debug;
 		};
-		7837C1132E34C45B009396B0 /* Internal configuration for PBXNativeTarget "WidgetBundleWatch" */ = {
+		7837C1132E34C45B009396B0 /* Internal configuration for PBXNativeTarget "mlchtWidgetBundleWatch" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1357,8 +1357,8 @@
 				EXCLUDED_ARCHS = arm64e;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Malachite/WidgetBundle/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MalachiteWidgetBundle;
+				INFOPLIST_FILE = mlchtCamera/WidgetBundle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = mlchtWidgetBundle;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1368,7 +1368,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_SWIFT_FLAGS = "-DAPP_EXTENSION";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).Malachite.WatchRemote.WidgetBundle";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).watchremote.widgetbundle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1385,7 +1385,7 @@
 			};
 			name = Internal;
 		};
-		7837C1142E34C45B009396B0 /* Release configuration for PBXNativeTarget "WidgetBundleWatch" */ = {
+		7837C1142E34C45B009396B0 /* Release configuration for PBXNativeTarget "mlchtWidgetBundleWatch" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1401,8 +1401,8 @@
 				EXCLUDED_ARCHS = arm64e;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Malachite/WidgetBundle/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MalachiteWidgetBundle;
+				INFOPLIST_FILE = mlchtCamera/WidgetBundle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = mlchtWidgetBundle;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1412,7 +1412,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_SWIFT_FLAGS = "-DAPP_EXTENSION";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).Malachite.WatchRemote.WidgetBundle";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).watchremote.widgetbundle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1429,7 +1429,7 @@
 			};
 			name = Release;
 		};
-		785F085B2B12D41300244EB4 /* Debug configuration for PBXProject "Malachite" */ = {
+		785F085B2B12D41300244EB4 /* Debug configuration for PBXProject "mlchtCamera" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1495,7 +1495,7 @@
 			};
 			name = Debug;
 		};
-		785F085C2B12D41300244EB4 /* Release configuration for PBXProject "Malachite" */ = {
+		785F085C2B12D41300244EB4 /* Release configuration for PBXProject "mlchtCamera" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1554,7 +1554,7 @@
 			};
 			name = Release;
 		};
-		785F085E2B12D41300244EB4 /* Debug configuration for PBXNativeTarget "Malachite" */ = {
+		785F085E2B12D41300244EB4 /* Debug configuration for PBXNativeTarget "mlchtCamera" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1563,7 +1563,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
-				CODE_SIGN_ENTITLEMENTS = Malachite/Malachite.entitlements;
+				CODE_SIGN_ENTITLEMENTS = mlchtCamera/mlchtCamera.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
@@ -1575,13 +1575,13 @@
 					"$(inherited)",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Malachite/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Malachite;
+				INFOPLIST_FILE = mlchtCamera/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = mlchtCamera;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Malachite uses write access to your library in order to save photos.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the rear camera system on iPhone to present your magnified view.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save photos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
@@ -1597,7 +1597,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).Malachite";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1606,14 +1606,14 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "MAIN_APP $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Malachite-Swift.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "mlchtCamera-Swift.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
-		785F085F2B12D41300244EB4 /* Release configuration for PBXNativeTarget "Malachite" */ = {
+		785F085F2B12D41300244EB4 /* Release configuration for PBXNativeTarget "mlchtCamera" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1622,7 +1622,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
-				CODE_SIGN_ENTITLEMENTS = Malachite/Malachite.entitlements;
+				CODE_SIGN_ENTITLEMENTS = mlchtCamera/mlchtCamera.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
@@ -1631,13 +1631,13 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = "CFBUILDTYPE=RELEASE";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Malachite/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Malachite;
+				INFOPLIST_FILE = mlchtCamera/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = mlchtCamera;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Malachite uses write access to your library in order to save photos.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the rear camera system on iPhone to present your magnified view.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save photos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
@@ -1653,7 +1653,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).Malachite";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1662,14 +1662,14 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = MAIN_APP;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Malachite-Swift.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "mlchtCamera-Swift.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
-		78917F6B2B99AE73005E10FA /* Debug configuration for PBXNativeTarget "WidgetBundle" */ = {
+		78917F6B2B99AE73005E10FA /* Debug configuration for PBXNativeTarget "mlchtWidgetBundle" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1684,8 +1684,8 @@
 				ENABLE_C_BOUNDS_SAFETY = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Malachite/WidgetBundle/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MalachiteWidgetBundle;
+				INFOPLIST_FILE = mlchtCamera/WidgetBundle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = mlchtWidgetBundle;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1695,7 +1695,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).Malachite.WidgetBundle";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).widgetbundle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1711,7 +1711,7 @@
 			};
 			name = Debug;
 		};
-		78917F6C2B99AE73005E10FA /* Release configuration for PBXNativeTarget "WidgetBundle" */ = {
+		78917F6C2B99AE73005E10FA /* Release configuration for PBXNativeTarget "mlchtWidgetBundle" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1726,8 +1726,8 @@
 				ENABLE_C_BOUNDS_SAFETY = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Malachite/WidgetBundle/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MalachiteWidgetBundle;
+				INFOPLIST_FILE = mlchtCamera/WidgetBundle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = mlchtWidgetBundle;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1737,7 +1737,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).Malachite.WidgetBundle";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).widgetbundle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1753,7 +1753,7 @@
 			};
 			name = Release;
 		};
-		78A9DD6D2CD55551002C131D /* Debug configuration for PBXNativeTarget "CaptureBundle" */ = {
+		78A9DD6D2CD55551002C131D /* Debug configuration for PBXNativeTarget "mlchtCaptureBundle" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1765,11 +1765,11 @@
 				ENABLE_CPLUSPLUS_BOUNDS_SAFE_BUFFERS = YES;
 				ENABLE_C_BOUNDS_SAFETY = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Malachite/CaptureBundle/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MalachiteCaptureBundle;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
+				INFOPLIST_FILE = mlchtCamera/CaptureBundle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = mlchtCaptureBundle;
+				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the rear camera system on iPhone to present your magnified view.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Malachite uses write access to your library in order to save photos.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save photos.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
@@ -1779,7 +1779,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).Malachite.CaptureBundle";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).capturebundle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1793,7 +1793,7 @@
 			};
 			name = Debug;
 		};
-		78A9DD6E2CD55551002C131D /* Internal configuration for PBXNativeTarget "CaptureBundle" */ = {
+		78A9DD6E2CD55551002C131D /* Internal configuration for PBXNativeTarget "mlchtCaptureBundle" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1805,11 +1805,11 @@
 				ENABLE_CPLUSPLUS_BOUNDS_SAFE_BUFFERS = YES;
 				ENABLE_C_BOUNDS_SAFETY = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Malachite/CaptureBundle/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MalachiteCaptureBundle;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
+				INFOPLIST_FILE = mlchtCamera/CaptureBundle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = mlchtCaptureBundle;
+				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the rear camera system on iPhone to present your magnified view.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Malachite uses write access to your library in order to save photos.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save photos.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
@@ -1819,7 +1819,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).Malachite.CaptureBundle";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).capturebundle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1833,7 +1833,7 @@
 			};
 			name = Internal;
 		};
-		78A9DD6F2CD55551002C131D /* Release configuration for PBXNativeTarget "CaptureBundle" */ = {
+		78A9DD6F2CD55551002C131D /* Release configuration for PBXNativeTarget "mlchtCaptureBundle" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1845,11 +1845,11 @@
 				ENABLE_CPLUSPLUS_BOUNDS_SAFE_BUFFERS = YES;
 				ENABLE_C_BOUNDS_SAFETY = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Malachite/CaptureBundle/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MalachiteCaptureBundle;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
+				INFOPLIST_FILE = mlchtCamera/CaptureBundle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = mlchtCaptureBundle;
+				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the rear camera system on iPhone to present your magnified view.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Malachite uses write access to your library in order to save photos.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save photos.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
@@ -1859,7 +1859,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).Malachite.CaptureBundle";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).capturebundle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1873,7 +1873,7 @@
 			};
 			name = Release;
 		};
-		78B72BB32E332830002E2D4E /* Debug configuration for PBXNativeTarget "MalachiteWatch" */ = {
+		78B72BB32E332830002E2D4E /* Debug configuration for PBXNativeTarget "mlchtRemote" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1890,16 +1890,16 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				EXCLUDED_ARCHS = arm64e;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MalachiteWatch/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Malachite Remote";
+				INFOPLIST_FILE = mlchtRemote/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = mlchtRemote;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "$(APP_PREFIX).Malachite";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "$(APP_PREFIX)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).Malachite.WatchRemote";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).watchremote";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1915,7 +1915,7 @@
 			};
 			name = Debug;
 		};
-		78B72BB42E332830002E2D4E /* Internal configuration for PBXNativeTarget "MalachiteWatch" */ = {
+		78B72BB42E332830002E2D4E /* Internal configuration for PBXNativeTarget "mlchtRemote" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1932,16 +1932,16 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				EXCLUDED_ARCHS = arm64e;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MalachiteWatch/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Malachite Remote";
+				INFOPLIST_FILE = mlchtRemote/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = mlchtRemote;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "$(APP_PREFIX).Malachite";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "$(APP_PREFIX)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).Malachite.WatchRemote";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).watchremote";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1957,7 +1957,7 @@
 			};
 			name = Internal;
 		};
-		78B72BB52E332830002E2D4E /* Release configuration for PBXNativeTarget "MalachiteWatch" */ = {
+		78B72BB52E332830002E2D4E /* Release configuration for PBXNativeTarget "mlchtRemote" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -1974,16 +1974,16 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				EXCLUDED_ARCHS = arm64e;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MalachiteWatch/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Malachite Remote";
+				INFOPLIST_FILE = mlchtRemote/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = mlchtRemote;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "$(APP_PREFIX).Malachite";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "$(APP_PREFIX)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).Malachite.WatchRemote";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).watchremote";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1999,7 +1999,7 @@
 			};
 			name = Release;
 		};
-		78F9DA642CBCDDB900A99638 /* Internal configuration for PBXProject "Malachite" */ = {
+		78F9DA642CBCDDB900A99638 /* Internal configuration for PBXProject "mlchtCamera" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -2066,7 +2066,7 @@
 			};
 			name = Internal;
 		};
-		78F9DA652CBCDDB900A99638 /* Internal configuration for PBXNativeTarget "Malachite" */ = {
+		78F9DA652CBCDDB900A99638 /* Internal configuration for PBXNativeTarget "mlchtCamera" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -2075,7 +2075,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
-				CODE_SIGN_ENTITLEMENTS = Malachite/Malachite.entitlements;
+				CODE_SIGN_ENTITLEMENTS = mlchtCamera/mlchtCamera.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
@@ -2087,13 +2087,13 @@
 					"$(inherited)",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Malachite/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Malachite;
+				INFOPLIST_FILE = mlchtCamera/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = mlchtCamera;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Malachite uses the rear camera system on iPhone to present your magnified view.";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Malachite uses write access to your library in order to save photos.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the rear camera system on iPhone to present your magnified view.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save photos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
@@ -2109,7 +2109,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).Malachite";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -2118,14 +2118,14 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "MAIN_APP $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Malachite-Swift.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "mlchtCamera-Swift.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Internal;
 		};
-		78F9DA662CBCDDB900A99638 /* Internal configuration for PBXNativeTarget "WidgetBundle" */ = {
+		78F9DA662CBCDDB900A99638 /* Internal configuration for PBXNativeTarget "mlchtWidgetBundle" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
@@ -2140,8 +2140,8 @@
 				ENABLE_C_BOUNDS_SAFETY = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Malachite/WidgetBundle/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MalachiteWidgetBundle;
+				INFOPLIST_FILE = mlchtCamera/WidgetBundle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = mlchtWidgetBundle;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2151,7 +2151,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).Malachite.WidgetBundle";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_PREFIX).widgetbundle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2170,57 +2170,57 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7837C1112E34C45B009396B0 /* Build configuration list for PBXNativeTarget "WidgetBundleWatch" */ = {
+		7837C1112E34C45B009396B0 /* Build configuration list for PBXNativeTarget "mlchtWidgetBundleWatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7837C1122E34C45B009396B0 /* Debug configuration for PBXNativeTarget "WidgetBundleWatch" */,
-				7837C1132E34C45B009396B0 /* Internal configuration for PBXNativeTarget "WidgetBundleWatch" */,
-				7837C1142E34C45B009396B0 /* Release configuration for PBXNativeTarget "WidgetBundleWatch" */,
+				7837C1122E34C45B009396B0 /* Debug configuration for PBXNativeTarget "mlchtWidgetBundleWatch" */,
+				7837C1132E34C45B009396B0 /* Internal configuration for PBXNativeTarget "mlchtWidgetBundleWatch" */,
+				7837C1142E34C45B009396B0 /* Release configuration for PBXNativeTarget "mlchtWidgetBundleWatch" */,
 			);
 			defaultConfigurationName = Internal;
 		};
-		785F08442B12D41100244EB4 /* Build configuration list for PBXProject "Malachite" */ = {
+		785F08442B12D41100244EB4 /* Build configuration list for PBXProject "mlchtCamera" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				785F085B2B12D41300244EB4 /* Debug configuration for PBXProject "Malachite" */,
-				78F9DA642CBCDDB900A99638 /* Internal configuration for PBXProject "Malachite" */,
-				785F085C2B12D41300244EB4 /* Release configuration for PBXProject "Malachite" */,
+				785F085B2B12D41300244EB4 /* Debug configuration for PBXProject "mlchtCamera" */,
+				78F9DA642CBCDDB900A99638 /* Internal configuration for PBXProject "mlchtCamera" */,
+				785F085C2B12D41300244EB4 /* Release configuration for PBXProject "mlchtCamera" */,
 			);
 			defaultConfigurationName = Internal;
 		};
-		785F085D2B12D41300244EB4 /* Build configuration list for PBXNativeTarget "Malachite" */ = {
+		785F085D2B12D41300244EB4 /* Build configuration list for PBXNativeTarget "mlchtCamera" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				785F085E2B12D41300244EB4 /* Debug configuration for PBXNativeTarget "Malachite" */,
-				78F9DA652CBCDDB900A99638 /* Internal configuration for PBXNativeTarget "Malachite" */,
-				785F085F2B12D41300244EB4 /* Release configuration for PBXNativeTarget "Malachite" */,
+				785F085E2B12D41300244EB4 /* Debug configuration for PBXNativeTarget "mlchtCamera" */,
+				78F9DA652CBCDDB900A99638 /* Internal configuration for PBXNativeTarget "mlchtCamera" */,
+				785F085F2B12D41300244EB4 /* Release configuration for PBXNativeTarget "mlchtCamera" */,
 			);
 			defaultConfigurationName = Internal;
 		};
-		78917F6D2B99AE73005E10FA /* Build configuration list for PBXNativeTarget "WidgetBundle" */ = {
+		78917F6D2B99AE73005E10FA /* Build configuration list for PBXNativeTarget "mlchtWidgetBundle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				78917F6B2B99AE73005E10FA /* Debug configuration for PBXNativeTarget "WidgetBundle" */,
-				78F9DA662CBCDDB900A99638 /* Internal configuration for PBXNativeTarget "WidgetBundle" */,
-				78917F6C2B99AE73005E10FA /* Release configuration for PBXNativeTarget "WidgetBundle" */,
+				78917F6B2B99AE73005E10FA /* Debug configuration for PBXNativeTarget "mlchtWidgetBundle" */,
+				78F9DA662CBCDDB900A99638 /* Internal configuration for PBXNativeTarget "mlchtWidgetBundle" */,
+				78917F6C2B99AE73005E10FA /* Release configuration for PBXNativeTarget "mlchtWidgetBundle" */,
 			);
 			defaultConfigurationName = Internal;
 		};
-		78A9DD6C2CD55551002C131D /* Build configuration list for PBXNativeTarget "CaptureBundle" */ = {
+		78A9DD6C2CD55551002C131D /* Build configuration list for PBXNativeTarget "mlchtCaptureBundle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				78A9DD6D2CD55551002C131D /* Debug configuration for PBXNativeTarget "CaptureBundle" */,
-				78A9DD6E2CD55551002C131D /* Internal configuration for PBXNativeTarget "CaptureBundle" */,
-				78A9DD6F2CD55551002C131D /* Release configuration for PBXNativeTarget "CaptureBundle" */,
+				78A9DD6D2CD55551002C131D /* Debug configuration for PBXNativeTarget "mlchtCaptureBundle" */,
+				78A9DD6E2CD55551002C131D /* Internal configuration for PBXNativeTarget "mlchtCaptureBundle" */,
+				78A9DD6F2CD55551002C131D /* Release configuration for PBXNativeTarget "mlchtCaptureBundle" */,
 			);
 			defaultConfigurationName = Internal;
 		};
-		78B72BB22E332830002E2D4E /* Build configuration list for PBXNativeTarget "MalachiteWatch" */ = {
+		78B72BB22E332830002E2D4E /* Build configuration list for PBXNativeTarget "mlchtRemote" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				78B72BB32E332830002E2D4E /* Debug configuration for PBXNativeTarget "MalachiteWatch" */,
-				78B72BB42E332830002E2D4E /* Internal configuration for PBXNativeTarget "MalachiteWatch" */,
-				78B72BB52E332830002E2D4E /* Release configuration for PBXNativeTarget "MalachiteWatch" */,
+				78B72BB32E332830002E2D4E /* Debug configuration for PBXNativeTarget "mlchtRemote" */,
+				78B72BB42E332830002E2D4E /* Internal configuration for PBXNativeTarget "mlchtRemote" */,
+				78B72BB52E332830002E2D4E /* Release configuration for PBXNativeTarget "mlchtRemote" */,
 			);
 			defaultConfigurationName = Internal;
 		};

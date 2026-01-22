@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1630"
-   wasCreatedForAppExtension = "YES"
-   version = "2.0">
+   LastUpgradeVersion = "2600"
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES"
@@ -16,10 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "78917F582B99AE72005E10FA"
-               BuildableName = "WidgetBundle.appex"
-               BlueprintName = "WidgetBundle"
-               ReferencedContainer = "container:Malachite.xcodeproj">
+               BlueprintIdentifier = "78B72BA62E33282E002E2D4E"
+               BuildableName = "mlchtRemote.app"
+               BlueprintName = "mlchtRemote"
+               ReferencedContainer = "container:mlchtCamera.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,9 +30,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "785F08482B12D41100244EB4"
-               BuildableName = "Malachite.app"
-               BlueprintName = "Malachite"
-               ReferencedContainer = "container:Malachite.xcodeproj">
+               BuildableName = "mlchtCamera.app"
+               BlueprintName = "mlchtCamera"
+               ReferencedContainer = "container:mlchtCamera.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,24 +46,22 @@
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = ""
-      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
-      askForAppToLaunch = "Yes"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES"
-      launchAutomaticallySubstyle = "2">
+      allowLocationSimulation = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "785F08482B12D41100244EB4"
-            BuildableName = "Malachite.app"
-            BlueprintName = "Malachite"
-            ReferencedContainer = "container:Malachite.xcodeproj">
+            BlueprintIdentifier = "78B72BA62E33282E002E2D4E"
+            BuildableName = "mlchtRemote.app"
+            BlueprintName = "mlchtRemote"
+            ReferencedContainer = "container:mlchtCamera.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -73,17 +70,15 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      debugDocumentVersioning = "YES"
-      askForAppToLaunch = "Yes"
-      launchAutomaticallySubstyle = "2">
+      debugDocumentVersioning = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "785F08482B12D41100244EB4"
-            BuildableName = "Malachite.app"
-            BlueprintName = "Malachite"
-            ReferencedContainer = "container:Malachite.xcodeproj">
+            BlueprintIdentifier = "78B72BA62E33282E002E2D4E"
+            BuildableName = "mlchtRemote.app"
+            BlueprintName = "mlchtRemote"
+            ReferencedContainer = "container:mlchtCamera.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

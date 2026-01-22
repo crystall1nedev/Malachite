@@ -1,5 +1,7 @@
 # 1.0.0 (build xxx)
-
+- **Renamed Malachite to mlchtCamera**
+    - Malachite Remote also gets a rename to mlchtRemote.
+    - Issues with App Store Connect and bundle IDs, I love Apple...
 
 # 1.0.0 (build 54)
 

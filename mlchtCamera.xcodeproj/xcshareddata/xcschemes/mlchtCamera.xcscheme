@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "785F08482B12D41100244EB4"
-               BuildableName = "Malachite.app"
-               BlueprintName = "Malachite"
-               ReferencedContainer = "container:Malachite.xcodeproj">
+               BuildableName = "mlchtCamera.app"
+               BlueprintName = "mlchtCamera"
+               ReferencedContainer = "container:mlchtCamera.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "785F08482B12D41100244EB4"
-            BuildableName = "Malachite.app"
-            BlueprintName = "Malachite"
-            ReferencedContainer = "container:Malachite.xcodeproj">
+            BuildableName = "mlchtCamera.app"
+            BlueprintName = "mlchtCamera"
+            ReferencedContainer = "container:mlchtCamera.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "785F08482B12D41100244EB4"
-            BuildableName = "Malachite.app"
-            BlueprintName = "Malachite"
-            ReferencedContainer = "container:Malachite.xcodeproj">
+            BuildableName = "mlchtCamera.app"
+            BlueprintName = "mlchtCamera"
+            ReferencedContainer = "container:mlchtCamera.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
