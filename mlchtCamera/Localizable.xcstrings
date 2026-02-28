@@ -126,7 +126,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Malachite’s story"
+            "value" : "mlchtCamera’s story"
           }
         }
       }
@@ -147,7 +147,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Malachite started as an app to help my love work on printed circuit boards with better clarity and manual controls that the stock iOS camera app can't provide, and it grew once my Discord community stood by, actually using it and suggesting new features. It's the first real test of my skills in Swift, and leading my own public project, and my goal is to now provide a free, all-inclusive experience to amazing macro photography - powered by your iPhone, iPad, or iPod touch."
+            "value" : "mlchtCamera started as an app to help my love work on printed circuit boards with better clarity and manual controls that the stock iOS camera app can't provide, and it grew once my Discord community stood by, actually using it and suggesting new features. It's the first real test of my skills in Swift, and leading my own public project, and my goal is to now provide a free, all-inclusive experience to amazing macro photography - powered by your iPhone, iPad, or iPod touch."
           }
         }
       }
@@ -202,7 +202,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In order to change Malachite’s settings, this device will need to be unlocked."
+            "value" : "In order to change mlchtCamera’s settings, this device will need to be unlocked."
           }
         }
       }
@@ -268,7 +268,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Malachite requires photo library access in order to capture images. Go to Settings > Apps > Malachite to enable this permission."
+            "value" : "mlchtCamera requires photo library access in order to capture images. Go to Settings > Apps > mlcht to enable this permission."
           }
         }
       }
@@ -334,7 +334,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Malachite quit unexpectedly."
+            "value" : "mlchtCamera quit unexpectedly."
           }
         }
       }
@@ -355,7 +355,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Malachite"
+            "value" : "mlchtCamera"
           }
         }
       }
@@ -365,7 +365,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Malachite"
+            "value" : "Open mlchtCamera"
           }
         }
       }
@@ -375,7 +375,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Capture with Malachite"
+            "value" : "Capture with mlchtCamera"
           }
         }
       }
@@ -385,7 +385,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add to quickly launch malachite from your control center, lock screen, or Action Button."
+            "value" : "Add to quickly launch mlchtCamera from your control center, lock screen, or Action Button."
           }
         }
       }
@@ -395,7 +395,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap to open Malachite directly from your lock screen."
+            "value" : "Tap to open mlchtCamera directly from your lock screen."
           }
         }
       }
@@ -435,7 +435,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The following screen shows what features of Malachite your current device can take advantage of. "
+            "value" : "The following screen shows what features of mlchtCamera your current device can take advantage of. "
           }
         }
       }
@@ -729,7 +729,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "DEBUG: Erases preferences.plist in Malachite’s home directory."
+            "value" : "DEBUG: Erases preferences.plist in mlchtCamera’s home directory."
           }
         }
       }
@@ -1149,7 +1149,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enable this if you want to disable Malachite’s haptic feedback on buttons and gestures."
+            "value" : "Enable this if you want to disable mlchtCamera’s haptic feedback on buttons and gestures."
           }
         }
       }
@@ -1169,7 +1169,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enable this to hide the user interface when Malachite opens, useful for using the app as a magnifier."
+            "value" : "Enable this to hide the user interface when mlchtCamera opens, useful for using the app as a magnifier."
           }
         }
       }
@@ -1199,7 +1199,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enable this if you want to enable Malachite’s watermarking feature. Great for adding credits or details about the camera."
+            "value" : "Enable this if you want to enable mlchtCamera's watermarking feature. Great for adding credits or details about the camera."
           }
         }
       }
@@ -1220,7 +1220,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "These options control how Malachite captures and saves images."
+            "value" : "These options control how mlchtCamera captures and saves images."
           }
         }
       }
@@ -1252,7 +1252,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "These options control the Malachite’s camera preview."
+            "value" : "These options control the mlchtCamera’s camera preview."
           }
         }
       }
@@ -1272,7 +1272,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "These options control various aspects of Malachite’s user interface."
+            "value" : "These options control various aspects of mlchtCamera's user interface."
           }
         }
       }
@@ -1282,7 +1282,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "These options control Malachite’s watermarking feature."
+            "value" : "These options control mlchtCamera's watermarking feature."
           }
         }
       }
@@ -1662,7 +1662,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shot on Malachite"
+            "value" : "Shot on mlchtCamera"
           }
         }
       }
@@ -1727,7 +1727,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Takes you to the About page for Malachite."
+            "value" : "Takes you to the About page for mlchtCamera."
           }
         }
       }
@@ -1737,7 +1737,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lists various features and capabilities of Malachite that your device can take advantage of, and ones it can't."
+            "value" : "Lists various features and capabilities of mlchtCamera that your device can take advantage of, and ones it can't."
           }
         }
       }
@@ -1747,7 +1747,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Extra settings and information, intended for people working on Malachite’s code."
+            "value" : "Extra settings and information, intended for people working on mlchtCamera’s code."
           }
         }
       }
@@ -1757,7 +1757,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About Malachite"
+            "value" : "About mlchtCamera"
           }
         }
       }

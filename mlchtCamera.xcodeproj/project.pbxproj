@@ -368,11 +368,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		786DAD902E4F282E00BE3137 /* .github */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = .github;
-			sourceTree = "<group>";
-		};
 		786DAD932E4F283000BE3137 /* ci_scripts */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ci_scripts;
@@ -438,7 +433,6 @@
 				78163D8D2CCB7BAE00146126 /* CHANGELOG.md */,
 				782FC7752B2DAFAB007709C1 /* README.md */,
 				78562BC22B450A7600920160 /* PRIVACY_POLICY.md */,
-				786DAD902E4F282E00BE3137 /* .github */,
 				786DAD932E4F283000BE3137 /* ci_scripts */,
 				785F084B2B12D41100244EB4 /* mlchtCamera */,
 				786DAE7C2E4F28BF00BE3137 /* mlchtRemote */,
@@ -1580,8 +1574,8 @@
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the rear camera system on iPhone to present your magnified view.";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save photos.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the rear camera system on iPhone to take pictures.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save pictures.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
@@ -1636,8 +1630,8 @@
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the rear camera system on iPhone to present your magnified view.";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save photos.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the rear camera system on iPhone to take pictures.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save pictures.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
@@ -2092,8 +2086,8 @@
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the rear camera system on iPhone to present your magnified view.";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save photos.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the rear camera system on iPhone to take pictures.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save pictures.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;

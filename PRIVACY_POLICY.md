@@ -1,5 +1,5 @@
 # PRIVACY POLICY
-This privacy policy will reference of the following terms: Malachite (the "App"), Adam Tunnicliff (the "Developer"), and the end-user interacting with the App (the "User").  
+This privacy policy will reference of the following terms: mlchtCamera (the "App"), Adam Tunnicliff (the "Developer"), and the end-user interacting with the App (the "User").  
 
 1.0: The App does not collect any data, and contains no functionality to do so.  
 
@@ -7,4 +7,4 @@ This privacy policy will reference of the following terms: Malachite (the "App")
 
 Some of this Apple Inc.-collected information is accessible to Developer for debugging and statistics purposes only, and it cannot be used to identify any user. This information is also not shared with any other entity.
 
-Privacy policy updated on **January 2nd, 2024**.
+Privacy policy updated on **January 21st, 2026**.

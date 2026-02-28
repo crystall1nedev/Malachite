@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 #  ci_post_xcodebuild.sh
-#  Malachite
+#  mlchtCamera
 #
 #  Created by Stella Luna on 1/9/24.
 #  

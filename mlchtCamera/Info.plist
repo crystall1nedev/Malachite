@@ -8,12 +8,12 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLIconFile</key>
-			<string>AppIcon</string>
+			<string>MalachiteIconMasked_Darwin25</string>
 			<key>CFBundleURLName</key>
-			<string>dev.crystall1ne.Malachite</string>
+			<string>dev.crystall1ne.mlcht</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>malachite</string>
+				<string>mlcht</string>
 			</array>
 		</dict>
 	</array>

@@ -12,4 +12,4 @@ CODE_SIGN_STYLE  = Automatic;
 // https://developer.apple.com/account
 DEVELOPMENT_TEAM = 95J8WZ4TN8;
 // Change this to anything you want.
-APP_PREFIX       = dev.crystll1ne;
+APP_PREFIX       = dev.crystll1ne.mlchtcamera;
