@@ -12,7 +12,7 @@ import UIKit
 
 // MARK: ControlLayer - Main
 extension CameraView {
-    class ControlLayer: NSObject, AVCaptureSessionControlsDelegate {
+    class ControlLayer: NSObject {
         /**
          The existing instance of ``CameraView`` to act on.
          */
@@ -237,7 +237,7 @@ extension CameraView.ControlLayer {
 
 // MARK: ControlLayer - Camera Control
 @available(iOS 18.0, *)
-extension CameraView.ControlLayer {
+extension CameraView.ControlLayer: AVCaptureSessionControlsDelegate {
     func sessionControlsDidBecomeActive(_ session: AVCaptureSession) {
         if !self.uiIsHidden { runUIHider() }
     }
