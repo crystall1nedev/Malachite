@@ -25,13 +25,13 @@ public class MalachiteViewUtils : NSObject {
         if #available(iOS 26.0, *) {
             var glass = UIButton.Configuration.glass()
             glass.cornerStyle = .capsule
-            button.configuration = .glass()
+            glass.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(hierarchicalColor: .label)
+            button.configuration = glass
         } else {
             button.layer.masksToBounds = true
             button.layer.cornerRadius = (dimensions.count > 2) ? dimensions[2] : (dimensions.count > 1) ? dimensions[1] / 2 : dimensions[0] / 2
             button.insertSubview(returnProperEffectView(viewForBounds: view, effect: UIBlurEffect(style: .systemThinMaterial)), at: 0)
-			if #available(iOS 18.0, *) { button.tintColor = UIColor(.primary) }
-			else { button.tintColor = UIColor(.white) }
+            button.tintColor = .label
         }
         
         button.isPointerInteractionEnabled = true
