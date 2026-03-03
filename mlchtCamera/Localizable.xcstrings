@@ -96,7 +96,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bringing macro camera control back to you."
+            "value" : "Pro camera features without the pro price."
           }
         }
       }
@@ -147,7 +147,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "mlchtCamera started as an app to help my love work on printed circuit boards with better clarity and manual controls that the stock iOS camera app can't provide, and it grew once my Discord community stood by, actually using it and suggesting new features. It's the first real test of my skills in Swift, and leading my own public project, and my goal is to now provide a free, all-inclusive experience to amazing macro photography - powered by your iPhone, iPad, or iPod touch."
+            "value" : "mlchtCamera started as an app to help my love work on printed circuit boards with better clarity and manual controls that the stock iOS camera app can't provide, and it grew once my Discord community stood by, actually using it and suggesting new features. It's the first real test of my skills in Swift, and leading my own public project, and my goal is to now provide a free, all-inclusive experience to amazing photography - powered by your iPhone, iPad, or iPod touch."
           }
         }
       }
@@ -213,7 +213,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Camera switching is only supported on devices with multiple rear cameras."
+            "value" : "Camera switching is only supported on devices with multiple cameras."
           }
         }
       }
@@ -235,7 +235,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This device does not have a flashlight to turn on."
+            "value" : "The flashlight couldn’t be turned on for this camera."
           }
         }
       }
@@ -290,7 +290,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unable to switch cameras"
+            "value" : "Can’t switch cameras"
           }
         }
       }
@@ -301,7 +301,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unable to adjust exposure"
+            "value" : "Exposure locked"
           }
         }
       }
@@ -312,7 +312,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unable to turn on flashlight"
+            "value" : "Can’t turn on flashlight"
           }
         }
       }
@@ -323,7 +323,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unable to adjust focus"
+            "value" : "Focus locked"
           }
         }
       }
@@ -345,7 +345,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unable to capture images"
+            "value" : "Can’t capture images"
           }
         }
       }
@@ -421,6 +421,7 @@
       }
     },
     "compatibility.header.resolution" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -490,7 +491,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ultra wide supports 12MP capture"
+            "value" : "Ultra Wide supports 12MP capture"
           }
         }
       }
@@ -501,7 +502,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ultra wide does not support 12MP capture"
+            "value" : "Ultra Wide does not support 12MP capture"
           }
         }
       }
@@ -512,7 +513,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wide angle supports 12MP capture"
+            "value" : "Main supports 12MP capture"
           }
         }
       }
@@ -523,7 +524,29 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wide angle does not support 12MP capture"
+            "value" : "Main does not support 12MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.48mp.telephoto" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fusion Telephoto supports 48MP capture"
+          }
+        }
+      }
+    },
+    "compatibility.title.48mp.telephoto.unsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telephoto does not support 48MP capture"
           }
         }
       }
@@ -534,7 +557,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ultra wide supports 48MP capture"
+            "value" : "Fusion Ultra Wide supports 48MP capture"
           }
         }
       }
@@ -545,7 +568,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ultra wide does not support 48MP capture"
+            "value" : "Ultra Wide does not support 48MP capture"
           }
         }
       }
@@ -556,7 +579,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wide angle supports 48MP capture"
+            "value" : "Fusion Main supports 48MP capture"
           }
         }
       }
@@ -567,7 +590,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wide angle does not support 48MP capture"
+            "value" : "Main does not support 48MP capture"
           }
         }
       }
@@ -666,7 +689,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ultra wide camera detected"
+            "value" : "Ultra Wide camera detected"
           }
         }
       }
@@ -677,7 +700,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No ultra wide camera detected"
+            "value" : "No Ultra Wide camera detected"
           }
         }
       }
@@ -688,7 +711,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wide angle camera detected"
+            "value" : "Main camera detected"
           }
         }
       }
@@ -699,7 +722,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No wide angle camera detected"
+            "value" : "No Main camera detected"
           }
         }
       }

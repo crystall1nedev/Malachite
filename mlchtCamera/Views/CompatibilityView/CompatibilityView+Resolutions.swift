@@ -34,6 +34,7 @@ extension CompatibilityView {
                 if utilities.preferences.ext.dictionary.isValid(dictionary: utilities.preferences.compatibility.telephoto) {
                     // Telephoto megapixel capabilities
                     MalachiteCompatibilityViewUtils(title: "compatibility.title.12mp.telephoto", available: utilities.preferences.compatibility.telephoto["12"] ?? false)
+                    MalachiteCompatibilityViewUtils(title: "compatibility.title.48mp.telephoto", available: utilities.preferences.compatibility.telephoto["48"] ?? false)
                 }
             }
         }
