@@ -497,7 +497,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         } else {
             #warning("refactor to call unsupported codepath")
             utilities.debugNSLog("[Flashlight Level] Device does not have a flashlight")
-            let alert = utilities.views.createAlertController(title: "alert.title.flash", message: "alert.detail.flash", button: self.controlLayer.buttons.flash.activator, defaultSet: true, action: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.flashlight", message: "alert.detail.flashlight", button: self.controlLayer.buttons.flash.activator, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Flashlight Level] Dialog has been dismissed")
             })
             self.present(alert, animated: true, completion: nil)
@@ -512,7 +512,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
             self.controlLayer.buttons.flash.sliderShown = utilities.views.sliders.runHiders(group: self.controlLayer.buttons.flash)
         } else {
             utilities.debugNSLog("[Flashlight Level] Device does not have a flashlight")
-            let alert = utilities.views.createAlertController(title: "alert.title.flash", message: "alert.detail.flash", button: self.controlLayer.buttons.flash.activator, defaultSet: true, action: { _ in
+            let alert = utilities.views.createAlertController(title: "alert.title.flashlight", message: "alert.detail.flashlight", button: self.controlLayer.buttons.flash.activator, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Flashlight Level] Dialog has been dismissed")
             })
             self.present(alert, animated: true, completion: nil)

@@ -117,12 +117,33 @@ extension CameraView {
                 MalachiteViewUtils.buttonBuilder(symbolName: "", action: #selector(delegate.stub), dimensions: [ 60.0 ], constraints: buttonConstraints[14], hidden: false, assign: { [self] button in self.buttons.currentCamera = button }),
             ]
             
+            let mappings: [ String : String ] = [
+                "Front Camera":            "camera.front.wideangle".localized,
+                "Front Ultra Wide Camera": "camera.front.ultrawide".localized,
+                "Back Telephoto Camera":   "camera.back.telephoto".localized,
+                "Back Camera":             "camera.back.wideangle".localized,
+                "Back Ultra Wide Camera":  "camera.back.ultrawide".localized,
+            ]
+            
             for config in buttonConfigs {
                 let button = delegate.utilities.views.createAndAddButtonToView(symbolName: config.symbolName, delegate: delegate, view: delegate.view, utilities: delegate.utilities, action: config.action, dimensions: config.dimensions, constraints: config.constraints)
                 if delegate.utilities.preferences.userInterface.appLaunch { button.alpha = 0.0; self.uiIsHidden = true }
                 if config.hidden { button.alpha = 0.0 }
                 config.assign(button)
             }
+            
+            let menuActions = delegate.camera.cameras.reversed().map { item in
+                UIAction(title: (mappings[item.localizedName] ?? item.localizedName), image: nil) { [self] action in
+                    delegate.camera.index = self.delegate.camera.cameras.firstIndex(of: item)
+                    delegate.runInputSwitch()
+                    delegate.camera.index = nil
+                    print("Selected \(mappings[item.localizedName], default: item.localizedName)")
+                }
+            }
+
+            let menu = UIMenu(title: "Cameras", children: menuActions)
+
+            self.buttons.camera.menu = menu
         }
         
         /**
