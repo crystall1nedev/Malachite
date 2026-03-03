@@ -38,6 +38,14 @@ extension Camera {
                 parent.utilities.debugNSLog("[Camera Initialization] \(device.deviceType.rawValue) available")
             }
             
+            if !currentProcess.isiOSAppOnMac && !currentProcess.isMacCatalystApp {
+                AVCaptureDevice.DiscoverySession.init(deviceTypes: camerasToDiscover, mediaType: .video, position: .front).devices.forEach { device in
+                    if parent.utilities.preferences.compatibility.device.changed { parent.compatibility.checkCameraCapabilities(device: device) }
+                    camerasFound.append(device)
+                    parent.utilities.debugNSLog("[Camera Initialization] \(device.deviceType.rawValue) available")
+                }
+            }
+            
             return camerasFound
         }
         
