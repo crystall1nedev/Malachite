@@ -50,7 +50,7 @@ extension SettingsView {
                     disabled: !utilities.preferences.compatibility.hdr,
                     dangerous: false)
                 {
-                    Toggle("settings.option.photo.hdr", isOn: $hdrSwitch)
+                    Toggle("settings.option.photo.hdr", isOn: $hdrSwitch )
                 }
                 MalachiteCellViewUtils(
                     icon: "plus.viewfinder",
@@ -76,7 +76,7 @@ extension SettingsView {
                 utilities.preferences.capture.format.heic = photoFormat == 1 ? true : false
             }
             .onChange(of: hdrSwitch) { _ in
-                utilities.preferences.capture.hdr = hdrSwitch
+                if utilities.preferences.compatibility.hdr { utilities.preferences.capture.hdr = hdrSwitch }
             }
             .onChange(of: continuousAEAF) { _ in
                 switch continuousAEAF {
@@ -99,9 +99,9 @@ extension SettingsView {
             
             if !utilities.preferences.compatibility.hdr {
                 formatFooterText = (formatFooterText != nil) ? formatFooterText! + "settings.footer.photo.hdr".localized : "settings.footer.photo.hdr".localized
+            } else {
+                hdrSwitch = utilities.preferences.capture.hdr
             }
-            
-            hdrSwitch = utilities.preferences.capture.hdr
             
             // TODO: Better way to do this
             photoFormat = utilities.preferences.capture.format.jpeg ? 0 : 1
@@ -122,7 +122,7 @@ extension SettingsView {
         func onDisappear() {
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, object: nil)
             
-            utilities.preferences.capture.hdr = hdrSwitch
+            if utilities.preferences.compatibility.hdr { utilities.preferences.capture.hdr = hdrSwitch }
             utilities.preferences.capture.format.jpeg = photoFormat == 0 ? true : false
             utilities.preferences.capture.format.heic = photoFormat == 1 ? true : false
             
