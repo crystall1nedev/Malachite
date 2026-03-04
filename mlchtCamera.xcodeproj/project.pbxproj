@@ -292,6 +292,9 @@
 		78474D2B2D7AC879006FBB96 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		7847D5022E8F26E9006759A6 /* View+Sliders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Sliders.swift"; sourceTree = "<group>"; };
 		784EDDD32E5EE52100DFF370 /* PhotoPreviewView+Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoPreviewView+Controls.swift"; sourceTree = "<group>"; };
+		785345F72F5845F600DA7A99 /* mlchtWidgetBundle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = mlchtWidgetBundle.entitlements; sourceTree = "<group>"; };
+		785345F82F58461300DA7A99 /* mlchtCaptureBundle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = mlchtCaptureBundle.entitlements; sourceTree = "<group>"; };
+		785345F92F58467700DA7A99 /* mlchtWidgetBundleWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = mlchtWidgetBundleWatch.entitlements; sourceTree = "<group>"; };
 		78562BC22B450A7600920160 /* PRIVACY_POLICY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_POLICY.md; sourceTree = SOURCE_ROOT; };
 		785F08492B12D41100244EB4 /* mlchtCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mlchtCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		785F084C2B12D41100244EB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -550,6 +553,8 @@
 		786DAE6C2E4F28B700BE3137 /* WidgetBundle */ = {
 			isa = PBXGroup;
 			children = (
+				785345F72F5845F600DA7A99 /* mlchtWidgetBundle.entitlements */,
+				785345F92F58467700DA7A99 /* mlchtWidgetBundleWatch.entitlements */,
 				786DAE682E4F28B700BE3137 /* ControlCenterWidget.swift */,
 				786DAE692E4F28B700BE3137 /* Info.plist */,
 				786DAE6A2E4F28B700BE3137 /* LockScreenWidget.swift */,
@@ -561,6 +566,7 @@
 		786DAE772E4F28B900BE3137 /* CaptureBundle */ = {
 			isa = PBXGroup;
 			children = (
+				785345F82F58461300DA7A99 /* mlchtCaptureBundle.entitlements */,
 				786DAE752E4F28B900BE3137 /* Info.plist */,
 				786DAE762E4F28B900BE3137 /* MalachiteCaptureBundle.swift */,
 			);
@@ -1299,6 +1305,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_ENTITLEMENTS = mlchtCamera/WidgetBundle/mlchtWidgetBundleWatch.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
@@ -1343,6 +1350,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_ENTITLEMENTS = mlchtCamera/WidgetBundle/mlchtWidgetBundleWatch.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
@@ -1387,6 +1395,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_ENTITLEMENTS = mlchtCamera/WidgetBundle/mlchtWidgetBundleWatch.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
@@ -1679,11 +1688,14 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_ENTITLEMENTS = mlchtCamera/WidgetBundle/mlchtWidgetBundle.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
 				ENABLE_CPLUSPLUS_BOUNDS_SAFE_BUFFERS = YES;
 				ENABLE_C_BOUNDS_SAFETY = YES;
+				ENABLE_ENHANCED_SECURITY = YES;
+				ENABLE_POINTER_AUTHENTICATION = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = mlchtCamera/WidgetBundle/Info.plist;
@@ -1721,11 +1733,14 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_ENTITLEMENTS = mlchtCamera/WidgetBundle/mlchtWidgetBundle.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
 				ENABLE_CPLUSPLUS_BOUNDS_SAFE_BUFFERS = YES;
 				ENABLE_C_BOUNDS_SAFETY = YES;
+				ENABLE_ENHANCED_SECURITY = YES;
+				ENABLE_POINTER_AUTHENTICATION = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = mlchtCamera/WidgetBundle/Info.plist;
@@ -1761,11 +1776,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_ENTITLEMENTS = mlchtCamera/CaptureBundle/mlchtCaptureBundle.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
 				ENABLE_CPLUSPLUS_BOUNDS_SAFE_BUFFERS = YES;
 				ENABLE_C_BOUNDS_SAFETY = YES;
+				ENABLE_ENHANCED_SECURITY = YES;
+				ENABLE_POINTER_AUTHENTICATION = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = mlchtCamera/CaptureBundle/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = mlchtCaptureBundle;
@@ -1801,11 +1819,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_ENTITLEMENTS = mlchtCamera/CaptureBundle/mlchtCaptureBundle.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
 				ENABLE_CPLUSPLUS_BOUNDS_SAFE_BUFFERS = YES;
 				ENABLE_C_BOUNDS_SAFETY = YES;
+				ENABLE_ENHANCED_SECURITY = YES;
+				ENABLE_POINTER_AUTHENTICATION = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = mlchtCamera/CaptureBundle/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = mlchtCaptureBundle;
@@ -1841,11 +1862,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_ENTITLEMENTS = mlchtCamera/CaptureBundle/mlchtCaptureBundle.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
 				ENABLE_CPLUSPLUS_BOUNDS_SAFE_BUFFERS = YES;
 				ENABLE_C_BOUNDS_SAFETY = YES;
+				ENABLE_ENHANCED_SECURITY = YES;
+				ENABLE_POINTER_AUTHENTICATION = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = mlchtCamera/CaptureBundle/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = mlchtCaptureBundle;
@@ -2139,11 +2163,14 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				CODE_SIGN_ENTITLEMENTS = mlchtCamera/WidgetBundle/mlchtWidgetBundle.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
 				ENABLE_CPLUSPLUS_BOUNDS_SAFE_BUFFERS = YES;
 				ENABLE_C_BOUNDS_SAFETY = YES;
+				ENABLE_ENHANCED_SECURITY = YES;
+				ENABLE_POINTER_AUTHENTICATION = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = mlchtCamera/WidgetBundle/Info.plist;
