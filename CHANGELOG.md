@@ -1,9 +1,21 @@
 # 1.0.0 (build xxx)
+**NOTE:** The build number is unrelated to previous build numbers because of an Apple Developer Program account change.
+- Bump Xcode project version to Xcode 26.3
+    - Xcode 26.3 runs on macOS Sequoia 15.6 and later
+- Add support for the front camera!
+- Introduce Enhanced Security capability for iOS and iPadOS 26
+- Fixed an issue where HDR would show as enabled in Settings on cameras that do not support it
+- Fixed an issue where symbols on buttons in the viewfinder would be hard to see
+    - Addressed by configuring the color on iOS and iPadOS 17
+    - Addressed by using labels on iOS and iPadOS 18
+- Fixed Liquid Glass issues on iOS and iPadOS 26.1 beta 2 and later
+    - Addressed by removing corner radius and masking
 - **Renamed Malachite to mlchtCamera**
-    - Malachite Remote also gets a rename to mlchtRemote.
+    - Malachite Remote also gets a rename to mlchtRemote
     - Issues with App Store Connect and bundle IDs, I love Apple...
 
 # 1.0.0 (build 54)
+**NOTE:** The build number is unrelated to previous build numbers because of an Apple Developer Program account change.
 
 - **Increased the minimum version requirement from iOS 14.1 to iOS 15**
     - Supporting the few users on iOS 14 is no longer worth the extra complexity for my workflow
