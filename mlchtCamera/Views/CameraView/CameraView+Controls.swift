@@ -117,14 +117,6 @@ extension CameraView {
                 MalachiteViewUtils.buttonBuilder(symbolName: "", action: #selector(delegate.stub), dimensions: [ 60.0 ], constraints: buttonConstraints[14], hidden: false, assign: { [self] button in self.buttons.currentCamera = button }),
             ]
             
-            let mappings: [ String : String ] = [
-                "Front Camera":            "camera.front.wideangle".localized,
-                "Front Ultra Wide Camera": "camera.front.ultrawide".localized,
-                "Back Telephoto Camera":   "camera.back.telephoto".localized,
-                "Back Camera":             "camera.back.wideangle".localized,
-                "Back Ultra Wide Camera":  "camera.back.ultrawide".localized,
-            ]
-            
             for config in buttonConfigs {
                 let button = delegate.utilities.views.createAndAddButtonToView(symbolName: config.symbolName, delegate: delegate, view: delegate.view, utilities: delegate.utilities, action: config.action, dimensions: config.dimensions, constraints: config.constraints)
                 if delegate.utilities.preferences.userInterface.appLaunch { button.alpha = 0.0; self.uiIsHidden = true }
@@ -132,6 +124,18 @@ extension CameraView {
                 config.assign(button)
             }
             
+            NotificationCenter.default.addObserver(self, selector: #selector(initMenus), name: MalachiteFunctionUtils.Notifications.cameraClassNotification.name, object: nil)
+        }
+        
+        @objc func initMenus() {
+            NSLog("[ControlLayer] Received notification that cameras were loaded, creating UIMenu")
+            let mappings: [ String : String ] = [
+                "Front Camera":            "camera.front.wideangle".localized,
+                "Front Ultra Wide Camera": "camera.front.ultrawide".localized,
+                "Back Telephoto Camera":   "camera.back.telephoto".localized,
+                "Back Camera":             "camera.back.wideangle".localized,
+                "Back Ultra Wide Camera":  "camera.back.ultrawide".localized,
+            ]
             let menuActions = delegate.camera.cameras.reversed().map { item in
                 UIAction(title: (mappings[item.localizedName] ?? item.localizedName), image: nil) { [self] action in
                     delegate.camera.index = self.delegate.camera.cameras.firstIndex(of: item)
