@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1630"
-   wasCreatedForAppExtension = "YES"
+   LastUpgradeVersion = "2640"
    version = "2.0">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -16,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "78917F582B99AE72005E10FA"
-               BuildableName = "mlchtWidgetBundle.appex"
-               BlueprintName = "mlchtWidgetBundle"
+               BlueprintIdentifier = "7837C1042E34C45B009396B0"
+               BuildableName = "mlchtWidgetBundleWatch.appex"
+               BlueprintName = "mlchtWidgetBundleWatch"
                ReferencedContainer = "container:mlchtCamera.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -36,17 +35,31 @@
                ReferencedContainer = "container:mlchtCamera.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "78B72BA62E33282E002E2D4E"
+               BuildableName = "mlchtRemote.app"
+               BlueprintName = "mlchtRemote"
+               ReferencedContainer = "container:mlchtCamera.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "Internal"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Internal"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = ""
       selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
@@ -56,39 +69,55 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
-      launchAutomaticallySubstyle = "2">
+      launchAutomaticallySubstyle = "2"
+      queueDebuggingEnableBacktraceRecording = "Yes">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "785F08482B12D41100244EB4"
-            BuildableName = "mlchtCamera.app"
-            BlueprintName = "mlchtCamera"
+            BlueprintIdentifier = "78B72BA62E33282E002E2D4E"
+            BuildableName = "mlchtRemote.app"
+            BlueprintName = "mlchtRemote"
             ReferencedContainer = "container:mlchtCamera.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "_XCWidgetKind"
+            value = ""
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "_XCWidgetDefaultView"
+            value = "timeline"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "_XCWidgetFamily"
+            value = "systemMedium"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Internal"
+      buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      debugDocumentVersioning = "YES"
-      askForAppToLaunch = "Yes"
-      launchAutomaticallySubstyle = "2">
+      debugDocumentVersioning = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "785F08482B12D41100244EB4"
-            BuildableName = "mlchtCamera.app"
-            BlueprintName = "mlchtCamera"
+            BlueprintIdentifier = "7837C1042E34C45B009396B0"
+            BuildableName = "mlchtWidgetBundleWatch.appex"
+            BlueprintName = "mlchtWidgetBundleWatch"
             ReferencedContainer = "container:mlchtCamera.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Internal">
+      buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Internal"

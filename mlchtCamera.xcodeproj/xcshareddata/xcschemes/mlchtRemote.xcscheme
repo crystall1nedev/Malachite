@@ -86,7 +86,7 @@
       buildConfiguration = "Internal">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Internal"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
