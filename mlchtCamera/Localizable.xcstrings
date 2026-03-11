@@ -421,7 +421,6 @@
       }
     },
     "compatibility.header.resolution" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
