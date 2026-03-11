@@ -28,6 +28,7 @@ extension CameraView {
                 temputils.notificationBuilder(delegate: delegate, name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, action: #selector(changeContinuousAEAF)),
                 temputils.notificationBuilder(delegate: delegate, name: MalachiteFunctionUtils.Notifications.aeafTapGestureNotification.name, action: #selector(changeAEAFRecognizer)),
                 temputils.notificationBuilder(delegate: delegate.utilities.function, name: MalachiteFunctionUtils.Notifications.idleTimerNotification.name, action: #selector(delegate.utilities.function.changeIdleTimerState)),
+                temputils.notificationBuilder(delegate: delegate.controlLayer ?? CameraView.ControlLayer(delegate: delegate), name: MalachiteFunctionUtils.Notifications.cameraClassNotification.name, action:#selector(delegate.controlLayer.initMenus))
             ]
             
             if #available(iOS 16.0, *) {

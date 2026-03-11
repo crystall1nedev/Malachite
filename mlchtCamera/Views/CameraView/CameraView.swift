@@ -59,13 +59,13 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
 		
 		if #unavailable(iOS 18.0) { overrideUserInterfaceStyle = .dark }
         self.view.backgroundColor = .black
+        
         self.notifications = CameraView.Notifications(delegate: self)
-        self.notifications.bringUpNotifications()
-        
-        self.camera = Camera(utilities: utilities)
-        
-        self.preview = CameraView.Preview(delegate: self)
         self.controlLayer = CameraView.ControlLayer(delegate: self)
+        
+        self.notifications.bringUpNotifications()
+        self.camera = Camera(utilities: utilities)
+        self.preview = CameraView.Preview(delegate: self)
     }
     
     @objc func cameraClassDidLoad() {

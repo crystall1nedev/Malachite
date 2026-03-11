@@ -123,8 +123,6 @@ extension CameraView {
                 if config.hidden { button.alpha = 0.0 }
                 config.assign(button)
             }
-            
-            NotificationCenter.default.addObserver(self, selector: #selector(initMenus), name: MalachiteFunctionUtils.Notifications.cameraClassNotification.name, object: nil)
         }
         
         @objc func initMenus() {
