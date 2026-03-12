@@ -13,10 +13,16 @@ extension Content {
         @Binding var hasSeenOnce: Bool
         
         var mainAction: some View {
-            Button {
-                Connection.shared.sendButtonPress(key: "capture")
-            } label: {
-                Text("Take picture")
+            CellViewUtils(
+                icon: "camera.aperture",
+                disabled: nil,
+                dangerous: false)
+            {
+                Button {
+                    Connection.shared.sendButtonPress(key: "capture")
+                } label: {
+                    Text("Take picture")
+                }
             }
         }
         
@@ -26,20 +32,40 @@ extension Content {
             } else {
                 mainAction
             }
-            Button {
-                Connection.shared.sendButtonPress(key: "settings")
-            } label: {
-                Text("Open Settings")
+            CellViewUtils(
+                icon: "gear",
+                disabled: nil,
+                dangerous: false)
+            {
+                Button {
+                    Connection.shared.sendButtonPress(key: "settings")
+                } label: {
+                    Text("Open Settings")
+                }
             }
-            Button {
-                Connection.shared.sendButtonPress(key: "flashlight")
-            } label: {
-                Text("Toggle flashlight")
+            
+            CellViewUtils(
+                icon: "flashlight.off.fill",
+                disabled: nil,
+                dangerous: false)
+            {
+                Button {
+                    Connection.shared.sendButtonPress(key: "flashlight")
+                } label: {
+                    Text("Toggle flashlight")
+                }
             }
-            Button {
-                Connection.shared.sendButtonPress(key: "cameras")
-            } label: {
-                Text("Switch cameras")
+            
+            CellViewUtils(
+                icon: "camera.fill",
+                disabled: nil,
+                dangerous: false)
+            {
+                Button {
+                    Connection.shared.sendButtonPress(key: "cameras")
+                } label: {
+                    Text("Switch cameras")
+                }
             }
         }
     }

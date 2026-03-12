@@ -12,8 +12,14 @@ extension Content {
         @Binding var isPresented: Bool
         
         var body: some View {
-            Button("DEBUG") {
-                isPresented.toggle()
+            CellViewUtils(
+                icon: "wrench.and.screwdriver",
+                disabled: nil,
+                dangerous: false)
+            {
+                Button("DEBUG") {
+                    isPresented.toggle()
+                }
             }
         }
     }

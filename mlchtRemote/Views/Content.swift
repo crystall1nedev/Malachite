@@ -70,7 +70,7 @@ struct Content: View {
                         Button {} label: {
                             ProgressView()
                         }
-                        .onTapGesture(count: 5) {
+                        .onTapGesture(count: 3) {
                             isPresented = false
                         }
                     }

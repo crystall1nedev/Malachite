@@ -199,6 +199,7 @@
 		78D3F0212F62A50A00760240 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F01D2F62A50A00760240 /* Content.swift */; };
 		78D3F0222F62A50A00760240 /* Content+Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F01E2F62A50A00760240 /* Content+Controls.swift */; };
 		78D3F0232F62A50A00760240 /* Content+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F01F2F62A50A00760240 /* Content+Debug.swift */; };
+		78D3F0252F62AA9000760240 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F0242F62AA8E00760240 /* View.swift */; };
 		78E170772E51C97B009BEF2F /* CompatibilityView+Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E170762E51C971009BEF2F /* CompatibilityView+Camera.swift */; };
 		78E170782E51C97B009BEF2F /* CompatibilityView+Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E170762E51C971009BEF2F /* CompatibilityView+Camera.swift */; };
 		78E170792E51C97B009BEF2F /* CompatibilityView+Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E170762E51C971009BEF2F /* CompatibilityView+Camera.swift */; };
@@ -378,6 +379,7 @@
 		78D3F01D2F62A50A00760240 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		78D3F01E2F62A50A00760240 /* Content+Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Content+Controls.swift"; sourceTree = "<group>"; };
 		78D3F01F2F62A50A00760240 /* Content+Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Content+Debug.swift"; sourceTree = "<group>"; };
+		78D3F0242F62AA8E00760240 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		78E142C92DD426260016B3DB /* Codesigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Codesigning.xcconfig; sourceTree = "<group>"; };
 		78E170762E51C971009BEF2F /* CompatibilityView+Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CompatibilityView+Camera.swift"; sourceTree = "<group>"; };
 		78E1707A2E51CC5C009BEF2F /* CompatibilityView+Resolutions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CompatibilityView+Resolutions.swift"; sourceTree = "<group>"; };
@@ -691,6 +693,7 @@
 		78D3F0072F629AF800760240 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				78D3F0262F62AA9600760240 /* ViewUtils */,
 				78D3F00B2F629B5500760240 /* Misc.swift */,
 				78D3F0082F629B1700760240 /* ConnectionUtils */,
 			);
@@ -714,6 +717,14 @@
 				78D3F01F2F62A50A00760240 /* Content+Debug.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		78D3F0262F62AA9600760240 /* ViewUtils */ = {
+			isa = PBXGroup;
+			children = (
+				78D3F0242F62AA8E00760240 /* View.swift */,
+			);
+			path = ViewUtils;
 			sourceTree = "<group>";
 		};
 		78E170752E51C312009BEF2F /* CompatibilityView */ = {
@@ -1317,6 +1328,7 @@
 		78B72BA32E33282E002E2D4E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
+				78D3F0252F62AA9000760240 /* View.swift in Sources */,
 				78D3F0212F62A50A00760240 /* Content.swift in Sources */,
 				78D3F0222F62A50A00760240 /* Content+Controls.swift in Sources */,
 				78D3F0232F62A50A00760240 /* Content+Debug.swift in Sources */,
