@@ -13,24 +13,26 @@ extension Content {
         @Binding var hasSeenOnce: Bool
         
         var mainAction: some View {
-            CellViewUtils(
-                icon: "camera.aperture",
-                disabled: nil,
-                dangerous: false)
-            {
-                Button {
-                    Connection.shared.sendButtonPress(key: "capture")
-                } label: {
-                    Text("Take picture")
-                }
+            Button {
+                Connection.shared.sendButtonPress(key: "capture")
+            } label: {
+                Text("Take picture")
             }
         }
         
         var body: some View {
             if #available(watchOS 11.0, *) {
-                mainAction.handGestureShortcut(.primaryAction)
+                CellViewUtils(
+                    icon: "camera.aperture",
+                    disabled: nil,
+                    dangerous: false)
+                { mainAction.handGestureShortcut(.primaryAction) }
             } else {
-                mainAction
+                CellViewUtils(
+                    icon: "camera.aperture",
+                    disabled: nil,
+                    dangerous: false)
+                { mainAction }
             }
             CellViewUtils(
                 icon: "gear",
