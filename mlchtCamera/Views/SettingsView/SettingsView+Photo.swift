@@ -120,6 +120,8 @@ extension SettingsView {
         }
         
         func onDisappear() {
+            formatFooterText = ""
+            
             NotificationCenter.default.post(name: MalachiteFunctionUtils.Notifications.continousAEAFNotification.name, object: nil)
             
             if utilities.preferences.compatibility.hdr { utilities.preferences.capture.hdr = hdrSwitch }

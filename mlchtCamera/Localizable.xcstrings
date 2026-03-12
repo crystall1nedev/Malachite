@@ -1711,6 +1711,17 @@
         }
       }
     },
+    "uibutton.flash.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flash brightness"
+          }
+        }
+      }
+    },
     "uibutton.focus.title" : {
       "extractionState" : "manual",
       "localizations" : {

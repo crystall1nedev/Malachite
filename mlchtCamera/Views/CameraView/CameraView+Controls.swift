@@ -204,7 +204,7 @@ extension CameraView {
                 let tooltipConfigs: [ MalachiteViewUtils.tooltipBuilder ] = [
                     MalachiteViewUtils.tooltipBuilder(text: "uibutton.focus.title", anchor: 10, assign: { [self] label in self.titles.focus = label } ),
                     MalachiteViewUtils.tooltipBuilder(text: "uibutton.exposure.title", anchor: 80, assign: { [self] label in self.titles.exposure = label } ),
-                    MalachiteViewUtils.tooltipBuilder(text: "uibutton.flash.title", anchor: 80, assign: { [self] label in self.titles.flash = label } ),
+                    MalachiteViewUtils.tooltipBuilder(text: "uibutton.flash.title", anchor: 150, assign: { [self] label in self.titles.flash = label } ),
                 ]
                 
                 var labels: [ UILabel ] = []
