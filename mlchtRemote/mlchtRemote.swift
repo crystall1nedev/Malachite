@@ -1,6 +1,6 @@
 //
-//  MalachiteWatchApp.swift
-//  MalachiteWatch Watch App
+//  mlchtRemote.swift
+//  mlchtRemote
 //
 //  Created by Eva Isabella Luna on 7/24/25.
 //
@@ -8,10 +8,10 @@
 import SwiftUI
 
 @main
-struct MalachiteWatch_Watch_AppApp: App {
+struct mlchtRemote: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Content()
         }
     }
 }

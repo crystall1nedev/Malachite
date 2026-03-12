@@ -17,3 +17,8 @@ class temputils {
         let action: Selector
     }
 }
+
+final class CompanionState: ObservableObject {
+    static let shared = CompanionState()
+    @Published var isForeground: Bool = false
+}

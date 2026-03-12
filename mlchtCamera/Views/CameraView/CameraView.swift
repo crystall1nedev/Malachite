@@ -15,7 +15,7 @@ import GameKit
 
 class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCapturePhotoCaptureDelegate {
     /// An instance of ``MalachiteClassesObject`` for reuse across the app.
-    public var utilities = MalachiteClassesObject()
+    public var utilities: MalachiteClassesObject!
     
     /// An instance of MalachiteKit's ``Camera`` class.
     var camera: Camera!
@@ -66,6 +66,8 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         self.notifications.bringUpNotifications()
         self.camera = Camera(utilities: utilities)
         self.preview = CameraView.Preview(delegate: self)
+        
+        self.utilities.watch.bringUpCompanionConnection()
     }
     
     @objc func cameraClassDidLoad() {
@@ -236,7 +238,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         let alert = utilities.views.createAlertController(title: "alert.title.app_extensions.settings", message: "alert.detail.app_extensions.settings", button: self.controlLayer.buttons.settings, defaultSet: true, action: { _ in
             self.utilities.debugNSLog("[Settings] Dialog has been dismissed")
         })
-        self.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async { self.present(alert, animated: true, completion: nil) }
         return
 #elseif MAIN_APP
         var aboutView = SettingsView(dismissAction: {self.dismiss( animated: true, completion: nil )})
@@ -250,7 +252,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
                 self.controlLayer.buttons.settings
             }
         }
-        self.present(hostingController, animated: true, completion: nil)
+        DispatchQueue.main.async { self.present(hostingController, animated: true, completion: nil) }
 #endif
     }
     
@@ -309,17 +311,19 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
             let alert = utilities.views.createAlertController(title: "alert.title.flashlight", message: "alert.detail.flashlight", button: self.controlLayer.buttons.flashlight, defaultSet: true, action: { _ in
                 self.utilities.debugNSLog("[Flashlight] Dialog has been dismissed")
             })
-            self.present(alert, animated: true, completion: nil)
+            DispatchQueue.main.async { self.present(alert, animated: true, completion: nil) }
         }
     }
     
     /// Function to take an image.
     @objc func runImageCapture() {
-        self.controlLayer.buttons.capture.isEnabled = false
-        progressIndicator = UIActivityIndicatorView(frame: self.controlLayer.buttons.capture.frame)
-        self.view.addSubview(progressIndicator)
-        self.controlLayer.buttons.capture.setImage(nil, for: .normal)
-        progressIndicator.startAnimating()
+        DispatchQueue.main.async { [self] in
+            self.controlLayer.buttons.capture.isEnabled = false
+            progressIndicator = UIActivityIndicatorView(frame: self.controlLayer.buttons.capture.frame)
+            self.view.addSubview(progressIndicator)
+            self.controlLayer.buttons.capture.setImage(nil, for: .normal)
+            progressIndicator.startAnimating()
+        }
         
         let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
         

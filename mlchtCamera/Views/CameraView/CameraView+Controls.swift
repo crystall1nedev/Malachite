@@ -401,5 +401,3 @@ extension CameraView.ControlLayer {
         eventInteraction = interaction
     }
 }
-
-

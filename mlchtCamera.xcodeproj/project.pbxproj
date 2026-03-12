@@ -111,8 +111,7 @@
 		786DAE722E4F28B700BE3137 /* LockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE6A2E4F28B700BE3137 /* LockScreenWidget.swift */; };
 		786DAE732E4F28B700BE3137 /* MalachiteWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE6B2E4F28B700BE3137 /* MalachiteWidgetBundle.swift */; };
 		786DAE782E4F28B900BE3137 /* MalachiteCaptureBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE762E4F28B900BE3137 /* MalachiteCaptureBundle.swift */; };
-		786DAE7D2E4F28BF00BE3137 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE792E4F28BF00BE3137 /* ContentView.swift */; };
-		786DAE7E2E4F28BF00BE3137 /* MalachiteWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE7B2E4F28BF00BE3137 /* MalachiteWatchApp.swift */; };
+		786DAE7E2E4F28BF00BE3137 /* mlchtRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DAE7B2E4F28BF00BE3137 /* mlchtRemote.swift */; };
 		78729C562E7368F3001027E9 /* Camera+Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78729C552E7368F0001027E9 /* Camera+Input.swift */; };
 		78729C572E7368F3001027E9 /* Camera+Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78729C552E7368F0001027E9 /* Camera+Input.swift */; };
 		78729C582E7368F3001027E9 /* Camera+Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78729C552E7368F0001027E9 /* Camera+Input.swift */; };
@@ -191,6 +190,15 @@
 		78C2EFC52E6972D600C6DD79 /* Init+Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C2EFC32E6972D300C6DD79 /* Init+Internal.swift */; };
 		78C2EFC62E6972D600C6DD79 /* Init+Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C2EFC32E6972D300C6DD79 /* Init+Internal.swift */; };
 		78CAC36A2CCD99B600A35AE8 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
+		78D3F0042F6284F400760240 /* Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F0032F6284F200760240 /* Watch.swift */; };
+		78D3F0052F6284F400760240 /* Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F0032F6284F200760240 /* Watch.swift */; };
+		78D3F0062F6284F400760240 /* Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F0032F6284F200760240 /* Watch.swift */; };
+		78D3F00A2F629B1C00760240 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F0092F629B1A00760240 /* Connection.swift */; };
+		78D3F00C2F629B5700760240 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F00B2F629B5500760240 /* Misc.swift */; };
+		78D3F00E2F629BC200760240 /* Connection+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F00D2F629BBD00760240 /* Connection+Notifications.swift */; };
+		78D3F0212F62A50A00760240 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F01D2F62A50A00760240 /* Content.swift */; };
+		78D3F0222F62A50A00760240 /* Content+Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F01E2F62A50A00760240 /* Content+Controls.swift */; };
+		78D3F0232F62A50A00760240 /* Content+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F01F2F62A50A00760240 /* Content+Debug.swift */; };
 		78E170772E51C97B009BEF2F /* CompatibilityView+Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E170762E51C971009BEF2F /* CompatibilityView+Camera.swift */; };
 		78E170782E51C97B009BEF2F /* CompatibilityView+Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E170762E51C971009BEF2F /* CompatibilityView+Camera.swift */; };
 		78E170792E51C97B009BEF2F /* CompatibilityView+Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E170762E51C971009BEF2F /* CompatibilityView+Camera.swift */; };
@@ -329,9 +337,8 @@
 		786DAE6B2E4F28B700BE3137 /* MalachiteWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteWidgetBundle.swift; sourceTree = "<group>"; };
 		786DAE752E4F28B900BE3137 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		786DAE762E4F28B900BE3137 /* MalachiteCaptureBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteCaptureBundle.swift; sourceTree = "<group>"; };
-		786DAE792E4F28BF00BE3137 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		786DAE7A2E4F28BF00BE3137 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		786DAE7B2E4F28BF00BE3137 /* MalachiteWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalachiteWatchApp.swift; sourceTree = "<group>"; };
+		786DAE7B2E4F28BF00BE3137 /* mlchtRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mlchtRemote.swift; sourceTree = "<group>"; };
 		78729C552E7368F0001027E9 /* Camera+Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Camera+Input.swift"; sourceTree = "<group>"; };
 		787B1CA92B8B095E000AFECC /* mlchtCamera.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = mlchtCamera.docc; sourceTree = "<group>"; };
 		7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = mlchtCamera/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
@@ -364,6 +371,13 @@
 		78B72BA72E33282E002E2D4E /* mlchtRemote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mlchtRemote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C2EFBF2E6971DE00C6DD79 /* Init+Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Init+Debug.swift"; sourceTree = "<group>"; };
 		78C2EFC32E6972D300C6DD79 /* Init+Internal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Init+Internal.swift"; sourceTree = "<group>"; };
+		78D3F0032F6284F200760240 /* Watch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watch.swift; sourceTree = "<group>"; };
+		78D3F0092F629B1A00760240 /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
+		78D3F00B2F629B5500760240 /* Misc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
+		78D3F00D2F629BBD00760240 /* Connection+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Connection+Notifications.swift"; sourceTree = "<group>"; };
+		78D3F01D2F62A50A00760240 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
+		78D3F01E2F62A50A00760240 /* Content+Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Content+Controls.swift"; sourceTree = "<group>"; };
+		78D3F01F2F62A50A00760240 /* Content+Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Content+Debug.swift"; sourceTree = "<group>"; };
 		78E142C92DD426260016B3DB /* Codesigning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Codesigning.xcconfig; sourceTree = "<group>"; };
 		78E170762E51C971009BEF2F /* CompatibilityView+Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CompatibilityView+Camera.swift"; sourceTree = "<group>"; };
 		78E1707A2E51CC5C009BEF2F /* CompatibilityView+Resolutions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CompatibilityView+Resolutions.swift"; sourceTree = "<group>"; };
@@ -534,6 +548,7 @@
 		786DAE4B2E4F28B100BE3137 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				78D3F0022F6284F000760240 /* WatchUtils */,
 				7818E23A2E8097110046F621 /* CompatibilityUtils */,
 				78C2EFBE2E6971CB00C6DD79 /* InitUtils */,
 				7866F5D52E62A5F7009AC9BF /* temputils.swift */,
@@ -576,9 +591,10 @@
 		786DAE7C2E4F28BF00BE3137 /* mlchtRemote */ = {
 			isa = PBXGroup;
 			children = (
-				786DAE792E4F28BF00BE3137 /* ContentView.swift */,
+				78D3F0202F62A50A00760240 /* Views */,
+				78D3F0072F629AF800760240 /* Utilities */,
 				786DAE7A2E4F28BF00BE3137 /* Info.plist */,
-				786DAE7B2E4F28BF00BE3137 /* MalachiteWatchApp.swift */,
+				786DAE7B2E4F28BF00BE3137 /* mlchtRemote.swift */,
 			);
 			path = mlchtRemote;
 			sourceTree = "<group>";
@@ -662,6 +678,42 @@
 				78C2EFC32E6972D300C6DD79 /* Init+Internal.swift */,
 			);
 			path = InitUtils;
+			sourceTree = "<group>";
+		};
+		78D3F0022F6284F000760240 /* WatchUtils */ = {
+			isa = PBXGroup;
+			children = (
+				78D3F0032F6284F200760240 /* Watch.swift */,
+			);
+			path = WatchUtils;
+			sourceTree = "<group>";
+		};
+		78D3F0072F629AF800760240 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				78D3F00B2F629B5500760240 /* Misc.swift */,
+				78D3F0082F629B1700760240 /* ConnectionUtils */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		78D3F0082F629B1700760240 /* ConnectionUtils */ = {
+			isa = PBXGroup;
+			children = (
+				78D3F00D2F629BBD00760240 /* Connection+Notifications.swift */,
+				78D3F0092F629B1A00760240 /* Connection.swift */,
+			);
+			path = ConnectionUtils;
+			sourceTree = "<group>";
+		};
+		78D3F0202F62A50A00760240 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				78D3F01D2F62A50A00760240 /* Content.swift */,
+				78D3F01E2F62A50A00760240 /* Content+Controls.swift */,
+				78D3F01F2F62A50A00760240 /* Content+Debug.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		78E170752E51C312009BEF2F /* CompatibilityView */ = {
@@ -1085,6 +1137,7 @@
 				788262E32E5172E8000085AC /* AboutView+Credits.swift in Sources */,
 				786DAE572E4F28B100BE3137 /* MalachiteFunctionUtils.swift in Sources */,
 				788262932E514F2D000085AC /* QuickHelpView+Photo.swift in Sources */,
+				78D3F0062F6284F400760240 /* Watch.swift in Sources */,
 				786DAE582E4F28B100BE3137 /* MalachiteGameUtils.swift in Sources */,
 				786DAE592E4F28B100BE3137 /* MalachiteHapticUtils.swift in Sources */,
 				78E170772E51C97B009BEF2F /* CompatibilityView+Camera.swift in Sources */,
@@ -1149,6 +1202,7 @@
 				788262E22E5172E8000085AC /* AboutView+Credits.swift in Sources */,
 				786DAE602E4F28B100BE3137 /* MalachiteFunctionUtils.swift in Sources */,
 				788262922E514F2D000085AC /* QuickHelpView+Photo.swift in Sources */,
+				78D3F0052F6284F400760240 /* Watch.swift in Sources */,
 				786DAE612E4F28B100BE3137 /* MalachiteGameUtils.swift in Sources */,
 				786DAE622E4F28B100BE3137 /* MalachiteHapticUtils.swift in Sources */,
 				78E170792E51C97B009BEF2F /* CompatibilityView+Camera.swift in Sources */,
@@ -1209,6 +1263,7 @@
 				788262602E513080000085AC /* SettingsView+About.swift in Sources */,
 				786DAE4C2E4F28B100BE3137 /* MalachitePreferences.swift in Sources */,
 				7847D5042E8F26EC006759A6 /* View+Sliders.swift in Sources */,
+				78D3F0042F6284F400760240 /* Watch.swift in Sources */,
 				78C2EFC42E6972D600C6DD79 /* Init+Internal.swift in Sources */,
 				788262DF2E517252000085AC /* AboutView+Eggs.swift in Sources */,
 				788262972E514F38000085AC /* QuickHelpView+Watermarking.swift in Sources */,
@@ -1262,8 +1317,13 @@
 		78B72BA32E33282E002E2D4E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
-				786DAE7D2E4F28BF00BE3137 /* ContentView.swift in Sources */,
-				786DAE7E2E4F28BF00BE3137 /* MalachiteWatchApp.swift in Sources */,
+				78D3F0212F62A50A00760240 /* Content.swift in Sources */,
+				78D3F0222F62A50A00760240 /* Content+Controls.swift in Sources */,
+				78D3F0232F62A50A00760240 /* Content+Debug.swift in Sources */,
+				78D3F00E2F629BC200760240 /* Connection+Notifications.swift in Sources */,
+				78D3F00A2F629B1C00760240 /* Connection.swift in Sources */,
+				786DAE7E2E4F28BF00BE3137 /* mlchtRemote.swift in Sources */,
+				78D3F00C2F629B5700760240 /* Misc.swift in Sources */,
 			);
 		};
 /* End PBXSourcesBuildPhase section */

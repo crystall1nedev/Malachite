@@ -27,6 +27,8 @@ public class MalachiteClassesObject : NSObject {
     public let tooltips  = MalachiteTooltipUtils()
     /// An instance of ``MalachiteGameUtils``
     public let games     = MalachiteGameUtils()
+    /// An instance of ``Watch``
+    public let watch     = Watch()
     
     /// Private static storage for the session queue.
     @available(iOS 18.0, *)
