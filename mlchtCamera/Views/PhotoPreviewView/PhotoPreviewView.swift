@@ -227,9 +227,14 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
         let context = CIContext()
         guard let cg = context.createCGImage(orientedCI, from: orientedCI.extent) else { return Data() }
         let upright = CIImage(cgImage: cg)
-
+        
         var imageProperties = rawImage.properties
-        imageProperties[exifOrientationKey] = nil
+        if var tiff = imageProperties[kCGImagePropertyTIFFDictionary as String] as? [String: Any] {
+            tiff[kCGImagePropertyTIFFOrientation as String] = 1
+            imageProperties[kCGImagePropertyTIFFDictionary as String] = tiff
+        }
+        imageProperties[kCGImagePropertyOrientation as String] = 1
+
 
         let canvasSize = upright.extent.size
         let watermarkUIImage = self.watermark(canvasSize: canvasSize)
@@ -237,18 +242,20 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
 
         let outputImage = (watermarkImage ?? CIImage()).composited(over: upright)
 
+        let gainMap = returnGainMap(properties: &imageProperties, imageData: imageData)
+        let outputImageWithProps = outputImage.settingProperties(imageProperties)
+
         if utilities.preferences.debug.logging.imageProps {
             for prop in imageProperties {
                 MalachiteClassesObject().internalNSLog("[Capture Photo] \(prop)")
             }
         }
-
-        let outputImageWithProps = outputImage.settingProperties(imageProperties)
-
+        
         return returnImageFile(
             imageForRepresentation: outputImageWithProps,
-            imageForGainMap: returnGainMap(properties: &imageProperties, imageData: imageData),
-            imageColorspace: rawImage.colorSpace?.name
+            imageForGainMap: gainMap,
+            imageColorspace: rawImage.colorSpace?.name,
+            imageProperties: imageProperties
         )
     }
     
@@ -300,23 +307,36 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
     }
     
     /// Function to return a HEIC representation of the passed image  with its colorspace and an optional gain map image.
-    func returnImageFile(imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage?, imageColorspace colorSpace: CFString?) -> Data {
+    func returnImageFile(imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage?, imageColorspace colorSpace: CFString?, imageProperties: [String: Any]) -> Data {
+        let context = CIContext()
+        
+        let finalSpace = CGColorSpace(name: colorSpace ?? CGColorSpace.sRGB) ?? CGColorSpace(name: CGColorSpace.sRGB)!
+        let metadataKey = CIImageRepresentationOption(rawValue: kCGImageDestinationMetadata as String)
+        
+        var options: [CIImageRepresentationOption: Any] = [ metadataKey: imageProperties ]
+        if enableHDR, let hdr = hdrImage { options[.hdrGainMapImage] = hdr }
+        
         let types = CGImageDestinationCopyTypeIdentifiers() as NSArray
-        utilities.debugNSLog("[Capture Photo] Saving JPEG representation")
-        if types.contains("public.heic") && enableHEIC {
-            if enableHDR && (hdrImage != nil) {
-                return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!, options:  [ .hdrGainMapImage : hdrImage! ])!
-            } else {
-                return CIContext().heifRepresentation(of: image, format: .RGBA8, colorSpace: CGColorSpace(name: colorSpace!)!)!
-            }
+        let useHEIC = enableHEIC && types.contains("public.heic")
+        
+        if useHEIC {
+            utilities.debugNSLog("[Capture Photo] Saving HEIC representation")
+            return context.heifRepresentation(
+                of: image,
+                format: .RGBAh,
+                colorSpace: finalSpace,
+                options: options
+            ) ?? Data()
         } else {
-            if enableHDR && (hdrImage != nil) {
-                return CIContext().jpegRepresentation(of: image, colorSpace: CGColorSpace(name: colorSpace!)!, options: [ .hdrGainMapImage : hdrImage! ])!
-            } else {
-                return CIContext().jpegRepresentation(of: image, colorSpace: CGColorSpace(name: colorSpace!)!)!
-            }
+            utilities.debugNSLog("[Capture Photo] Saving JPEG representation")
+            return context.jpegRepresentation(
+                of: image,
+                colorSpace: finalSpace,
+                options: options
+            ) ?? Data()
         }
     }
+
     
     /// Function to extract gain map data from the image.
     func returnGainMap(properties props: inout [String: Any], imageData: Data) -> CIImage? {
@@ -328,8 +348,12 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
         let propsDict = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any]
         let orientationCF = propsDict?[kCGImagePropertyOrientation] as? NSNumber
         let sourceOrientation = orientationCF.flatMap { CGImagePropertyOrientation(rawValue: $0.uint32Value) }
+        let key: CFString
+        
+        if #available(iOS 18.0, *) { key = kCGImageAuxiliaryDataTypeISOGainMap }
+        else { key = kCGImageAuxiliaryDataTypeHDRGainMap }
 
-        if let gainMapDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(source, 0, kCGImageAuxiliaryDataTypeHDRGainMap) as? Dictionary<CFString, Any> {
+        if let gainMapDataInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(source, 0, key) as? Dictionary<CFString, Any> {
             utilities.debugNSLog("[Capture Photo] Saving gain map properties from image")
             let gainMapData = gainMapDataInfo[kCGImageAuxiliaryDataInfoData] as! Data
             let gainMapDescription = gainMapDataInfo[kCGImageAuxiliaryDataInfoDataDescription]! as! [String: Int]
@@ -359,8 +383,9 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
             var applDict = extractEXIFData(properties: props, dictionary: kCGImagePropertyMakerAppleDictionary)
             var exifDict = extractEXIFData(properties: props, dictionary: kCGImagePropertyExifDictionary)
 
-            applDict["33"] = 0.0
-            applDict["48"] = 0.0
+            applDict["33"]             = 0.0
+            applDict["48"]             = 0.0
+            applDict["HDRImageType"]   = 3
             exifDict["CustomRendered"] = 2
 
             props[kCGImagePropertyMakerAppleDictionary as String] = applDict
