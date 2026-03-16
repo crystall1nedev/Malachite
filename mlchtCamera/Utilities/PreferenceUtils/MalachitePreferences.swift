@@ -102,6 +102,7 @@ struct MalachitePreferences: Codable {
     var debug:         debugPreferences
     
     struct debugPreferences: Codable {
+        var compatibility:  debug_compatibilityPreferences
         var logging:        debug_loggingPreferences
         var breakApp:       Bool
         
@@ -109,6 +110,10 @@ struct MalachitePreferences: Codable {
             var preferences:    Bool
             var unified:        Bool
             var imageProps:     Bool
+        }
+        
+        struct debug_compatibilityPreferences: Codable {
+            var forcecheck:     Bool
         }
     }
     

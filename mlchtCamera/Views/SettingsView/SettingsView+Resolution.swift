@@ -81,13 +81,13 @@ extension SettingsView {
                         dangerous: false)
                     {
                         Picker("settings.option.resolution.telephoto", selection: $telephotoMegapixelCount) {
-                            if let mp = utilities.preferences.compatibility.telephoto["48"] { if mp {
-                                Text("settings.option.resolution.48")
-                                    .tag(1)
-                            } }
                             if let mp = utilities.preferences.compatibility.telephoto["12"] { if mp {
                                 Text("settings.option.resolution.12")
                                     .tag(0)
+                            } }
+                            if let mp = utilities.preferences.compatibility.telephoto["48"] { if mp {
+                                Text("settings.option.resolution.48")
+                                    .tag(1)
                             } }
                         }
                     }

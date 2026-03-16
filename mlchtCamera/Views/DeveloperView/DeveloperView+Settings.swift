@@ -12,6 +12,7 @@ extension DeveloperView {
         @State private var debugLoggingUnified = false
         @State private var debugLoggingPreferences = false
         @State private var debugLoggingImageProps = false
+        @State private var forceCompatibilityRechecks = false
         /// A State variable used for determining whether or not to literally break the app.
         @State private var breakApp = false
         
@@ -45,6 +46,13 @@ extension DeveloperView {
                     dangerous: false)
                 {
                     Toggle("developer.option.debug.logging.imageprops", isOn: $debugLoggingImageProps)
+                }
+                MalachiteCellViewUtils(
+                    icon: "checkmark.seal",
+                    disabled: nil,
+                    dangerous: false)
+                {
+                    Toggle("developer.option.debug.forcecheck", isOn: $forceCompatibilityRechecks)
                 }
                 MalachiteCellViewUtils(
                     icon: "iphone.slash",
@@ -98,6 +106,7 @@ extension DeveloperView {
                 else { debugLoggingUnified = utilities.preferences.debug.logging.unified }
                 debugLoggingPreferences = utilities.preferences.debug.logging.preferences
                 debugLoggingImageProps = utilities.preferences.debug.logging.imageProps
+                forceCompatibilityRechecks = utilities.preferences.debug.compatibility.forcecheck
                 breakApp = utilities.preferences.debug.breakApp
             }
             .onChange(of: debugLoggingUnified) {_ in
@@ -108,6 +117,9 @@ extension DeveloperView {
             }
             .onChange(of: debugLoggingImageProps) {_ in
                 utilities.preferences.debug.logging.imageProps = debugLoggingImageProps
+            }
+            .onChange(of: forceCompatibilityRechecks) {_ in
+                utilities.preferences.debug.compatibility.forcecheck = forceCompatibilityRechecks
             }
             .onChange(of: breakApp) {_ in
                 utilities.preferences.debug.breakApp = breakApp

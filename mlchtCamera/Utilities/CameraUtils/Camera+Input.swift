@@ -133,6 +133,8 @@ extension Camera {
          */
         @available(iOS 16.0, *)
         @objc public func switchInputMegapixels(device: AVCaptureDevice, photoOutput: AVCapturePhotoOutput) {
+            guard device.position == .back else { return }
+            
             let maxDimensions = device.activeFormat.supportedMaxPhotoDimensions[device.activeFormat.supportedMaxPhotoDimensions.count - 1]
             
             var mpSetting = Int()
@@ -157,7 +159,6 @@ extension Camera {
                 if maxDimensions.width == 4032 && maxDimensions.height == 3024 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 4032, height: 3024) }
             default:
                 parent.utilities.debugNSLog("[Camera Input] Switching \(device.deviceType.rawValue) to 8MP mode")
-                if maxDimensions.width == 3264 && maxDimensions.height == 2448 { photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 3264, height: 2448) }
             }
         }
     }

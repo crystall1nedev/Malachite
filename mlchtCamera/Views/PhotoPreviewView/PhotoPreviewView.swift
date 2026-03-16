@@ -215,8 +215,7 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
     public func finalizeImageForExport(imageData: Data) -> Data {
         guard let rawImage = CIImage(data: imageData, options: [.toneMapHDRtoSDR : (enableHDR ? true : false)]) else { return Data() }
 
-        let exifOrientationKey = kCGImagePropertyOrientation as String
-        let exifOrientationValue = (rawImage.properties[exifOrientationKey] as? NSNumber)?.intValue
+        let exifOrientationValue = (rawImage.properties[kCGImagePropertyOrientation as String] as? NSNumber)?.intValue
         let orientedCI: CIImage
         if let exif = exifOrientationValue, let cgOrientation = CGImagePropertyOrientation(rawValue: UInt32(exif)) {
             orientedCI = rawImage.oriented(cgOrientation)
@@ -229,10 +228,12 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
         let upright = CIImage(cgImage: cg)
         
         var imageProperties = rawImage.properties
+        
         if var tiff = imageProperties[kCGImagePropertyTIFFDictionary as String] as? [String: Any] {
             tiff[kCGImagePropertyTIFFOrientation as String] = 1
             imageProperties[kCGImagePropertyTIFFDictionary as String] = tiff
         }
+        
         imageProperties[kCGImagePropertyOrientation as String] = 1
 
 

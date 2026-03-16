@@ -26,7 +26,8 @@ class Compatibility {
 	/// Checks whether or not the current device is the same device as previously recorded in preferences.
 	public func isSameDevice() {
 		if utilities.preferences.compatibility.device.changed { utilities.preferences.compatibility.device.changed = false }
-		if utilities.preferences.compatibility.device.model == utilities.preferences.ext.deviceModel() {
+		if (utilities.preferences.compatibility.device.model == utilities.preferences.ext.deviceModel()) &&
+            !utilities.preferences.debug.compatibility.forcecheck {
 			utilities.internalNSLog("[Initialization] This is the same device, can skip compatibility checks.")
 			return
 		}
@@ -44,7 +45,8 @@ class Compatibility {
      HEIC is supported on Apple devices with the A10 Fusion chip or later.
      */
     func checkDeviceForHEICCompatibility() {
-        if !utilities.preferences.compatibility.device.changed { return }
+        if !utilities.preferences.debug.compatibility.forcecheck &&
+            utilities.preferences.compatibility.device.changed { return }
         
         let supportedTypeIdentifiers = CGImageDestinationCopyTypeIdentifiers() as NSArray
         if utilities.preferences.compatibility.jpeg != supportedTypeIdentifiers.contains("public.jpeg") {
@@ -59,6 +61,10 @@ class Compatibility {
     
     /// Determines what resolutions that the passed ``AVCaptureDevice`` is capable of shooting.
     func checkCameraCapabilities(device: AVCaptureDevice) {
+        // Front camera resolution control is not supported as of now
+        // Even the iPhone 17 seems to only go up to 12MP.
+        guard device.position == .back else { return }
+        
         var tmpDictionary = Dictionary<String, Bool>()
         for format in device.formats {
             var maxDimensions: CMVideoDimensions
@@ -70,18 +76,21 @@ class Compatibility {
             if format == device.formats[0] { utilities.debugNSLog("[Compatibility] Querying supported modes of \(device.deviceType.rawValue)") }
             if maxDimensions.width == 3264 && maxDimensions.height == 2448 { tmpDictionary["8"] = true }
             if maxDimensions.width == 4032 && maxDimensions.height == 3024 { tmpDictionary["12"] = true }
-            if maxDimensions.width == 8064 && maxDimensions.height == 6048 { tmpDictionary["48"] = true }
-            switch device.deviceType {
-            case .builtInUltraWideCamera:
-                utilities.preferences.compatibility.ultrawide = tmpDictionary
-            case .builtInWideAngleCamera:
-                utilities.preferences.compatibility.wideangle = tmpDictionary
-            case .builtInTelephotoCamera:
-                utilities.preferences.compatibility.telephoto = tmpDictionary
-            default:
-                break
+            if maxDimensions.width == 8064 && maxDimensions.height == 6048 { tmpDictionary["48"] = true
             }
         }
+        
+        switch device.deviceType {
+        case .builtInUltraWideCamera:
+            utilities.preferences.compatibility.ultrawide = tmpDictionary
+        case .builtInWideAngleCamera:
+            utilities.preferences.compatibility.wideangle = tmpDictionary
+        case .builtInTelephotoCamera:
+            utilities.preferences.compatibility.telephoto = tmpDictionary
+        default:
+            break
+        }
+        
         utilities.debugNSLog("[Compatibility] \(device.deviceType.rawValue): \(tmpDictionary)")
     }
 }

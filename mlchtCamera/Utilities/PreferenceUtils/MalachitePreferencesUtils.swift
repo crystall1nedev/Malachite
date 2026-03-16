@@ -149,6 +149,7 @@ class MalachitePreferencesUtils {
             currentPreferences.debug.logging.preferences = debugPreferences["logging"]?["preferences"] as? Bool ?? false
             currentPreferences.debug.logging.unified = debugPreferences["logging"]?["unified"] as? Bool ?? true
             currentPreferences.debug.logging.imageProps = debugPreferences["logging"]?["imageProps"] as? Bool ?? false
+            currentPreferences.debug.compatibility.forcecheck = debugPreferences["compatibility"]?["forcecheck"] as? Bool ?? false
             currentPreferences.debug.breakApp = debugPreferences["breakApp"] as? Bool ?? false
         }
         
@@ -221,6 +222,9 @@ class MalachitePreferencesUtils {
                 hapticFeedback: false
             ),
             debug: MalachitePreferences.debugPreferences(
+                compatibility: MalachitePreferences.debugPreferences.debug_compatibilityPreferences(
+                    forcecheck: false
+                ),
                 logging: MalachitePreferences.debugPreferences.debug_loggingPreferences(
                     preferences: false,
                     unified: true,

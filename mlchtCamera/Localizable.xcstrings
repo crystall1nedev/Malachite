@@ -876,6 +876,16 @@
         }
       }
     },
+    "developer.option.debug.forcecheck" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Force check compatibility"
+          }
+        }
+      }
+    },
     "developer.option.debug.logging.imageprops" : {
       "localizations" : {
         "en" : {
