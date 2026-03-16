@@ -311,7 +311,7 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
     func returnImageFile(imageForRepresentation image: CIImage, imageForGainMap hdrImage: CIImage?, imageColorspace colorSpace: CFString?, imageProperties: [String: Any]) -> Data {
         let context = CIContext()
         
-        let finalSpace = CGColorSpace(name: colorSpace ?? CGColorSpace.sRGB) ?? CGColorSpace(name: CGColorSpace.sRGB)!
+        var finalSpace = CGColorSpace(name: colorSpace ?? CGColorSpace.sRGB)!
         let metadataKey = CIImageRepresentationOption(rawValue: kCGImageDestinationMetadata as String)
         
         var options: [CIImageRepresentationOption: Any] = [ metadataKey: imageProperties ]
@@ -324,7 +324,7 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
             utilities.debugNSLog("[Capture Photo] Saving HEIC representation")
             return context.heifRepresentation(
                 of: image,
-                format: .RGBAh,
+                format: .RGBAf,
                 colorSpace: finalSpace,
                 options: options
             ) ?? Data()
