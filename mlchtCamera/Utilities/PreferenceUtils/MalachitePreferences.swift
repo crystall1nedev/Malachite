@@ -124,5 +124,6 @@ struct MalachitePreferences: Codable {
         var settingsGesture: Int
         var cameraControlEnabled: Bool
         var cameraControlOptions: [ String ]
+        var locationEnabled: Bool
     }
 }

@@ -12,13 +12,15 @@ extension SettingsView {
         /// A State variable used for determining whether or not this view is being presented as a modal.
         var dismissAction: (() -> Void)
         /// A variable to hold the existing instance of ``MalachiteClassesObject``.
-        var utilities = MalachiteClassesObject()
-        
+        var utilities: MalachiteClassesObject
+        var location: Location
         init(
             utilities: MalachiteClassesObject,
+            location: Location,
             dismissAction: @escaping (() -> Void)
         ) {
             self.utilities = utilities
+            self.location = location
             self.dismissAction = dismissAction
         }
         
@@ -48,7 +50,7 @@ extension SettingsView {
                         disabled: nil,
                         dangerous: false)
                     {
-                        NavigationLink(destination: DeveloperView(dismissAction: dismissAction)) {
+                        NavigationLink(destination: DeveloperView(dismissAction: dismissAction, utilities: utilities, location: location)) {
                             Text("view.title.developer")
                         }
                     }

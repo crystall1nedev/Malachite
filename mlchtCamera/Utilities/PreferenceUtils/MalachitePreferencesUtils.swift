@@ -158,6 +158,7 @@ class MalachitePreferencesUtils {
             currentPreferences.evaintrnl.settingsGesture = evaintrnlPreferences["settingsGesture"] as? Int ?? 2
             currentPreferences.evaintrnl.cameraControlEnabled = evaintrnlPreferences["cameraControlEnabled"] as? Bool ?? true
             currentPreferences.evaintrnl.cameraControlOptions = evaintrnlPreferences["cameraControlOptions"] as? [ String ] ?? [ "zoom", "focus", "cameras", "flash", "flashLevel", "exposureBias" ]
+            currentPreferences.evaintrnl.locationEnabled = evaintrnlPreferences["locationEnabled"] as? Bool ?? false
         }
         
         return currentPreferences
@@ -236,7 +237,8 @@ class MalachitePreferencesUtils {
                 blockAccidentalGestures: true,
                 settingsGesture: 2,
                 cameraControlEnabled: true,
-                cameraControlOptions: [ "zoom", "focus", "cameras", "flash", "flashLevel", "exposureBias" ]
+                cameraControlOptions: [ "zoom", "focus", "cameras", "flash", "flashLevel", "exposureBias" ],
+                locationEnabled: false
             )
         )
     }

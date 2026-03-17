@@ -15,13 +15,18 @@ extension DeveloperView {
         @State private var blockAccidentalGestures = Bool()
         /// A State variable used for determining whether or not to enable the Camera Control.
         @State private var cameraControlEnabled = Bool()
+        /// A State variable used for determining whether or not to enable geotagging images.
+        @State private var locationEnabled = Bool()
         
         var utilities: MalachiteClassesObject
+        var location: Location
         
         init(
-            utilities: MalachiteClassesObject
+            utilities: MalachiteClassesObject,
+            location: Location
         ) {
             self.utilities = utilities
+            self.location = location
         }
         
         var body: some View {
@@ -56,6 +61,13 @@ extension DeveloperView {
                         Toggle("internal.option.cameracontrol", isOn: $cameraControlEnabled)
                     }
                 }
+                MalachiteCellViewUtils(
+                    icon: "",
+                    disabled: !location.locationEnabled,
+                    dangerous: false)
+                {
+                    Toggle("internal.option.location", isOn: $locationEnabled)
+                }
                 #warning("do camera control options")
             }
             .onAppear(perform: onAppear)
@@ -71,12 +83,16 @@ extension DeveloperView {
             .onChange(of: cameraControlEnabled) {_ in
                 utilities.preferences.evaintrnl.cameraControlEnabled = cameraControlEnabled
             }
+            .onChange(of: locationEnabled) {_ in
+                if location.locationEnabled { utilities.preferences.evaintrnl.locationEnabled = locationEnabled }
+            }
         }
         
         func onAppear() {
             settingsGestureFingers = utilities.preferences.evaintrnl.settingsGesture
             blockAccidentalGestures = utilities.preferences.evaintrnl.blockAccidentalGestures
             cameraControlEnabled = utilities.preferences.evaintrnl.cameraControlEnabled
+            locationEnabled = location.locationEnabled ? utilities.preferences.evaintrnl.locationEnabled : false
         }
         
         func onDisappear() {
@@ -85,6 +101,7 @@ extension DeveloperView {
             utilities.preferences.evaintrnl.settingsGesture = settingsGestureFingers
             utilities.preferences.evaintrnl.blockAccidentalGestures = blockAccidentalGestures
             utilities.preferences.evaintrnl.cameraControlEnabled = cameraControlEnabled
+            if location.locationEnabled { utilities.preferences.evaintrnl.locationEnabled = locationEnabled }
         }
     }
 }

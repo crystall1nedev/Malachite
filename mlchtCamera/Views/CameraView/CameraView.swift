@@ -19,6 +19,8 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// An instance of MalachiteKit's ``Camera`` class.
     var camera: Camera!
+    /// An instance of MalachiteKit's ``Location`` class.
+    var location: Location!
     
     /// An instance of ``CameraView/ControlLayer`` for this view.
     var controlLayer: CameraView.ControlLayer!
@@ -78,6 +80,11 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
             
             utilities.debugNSLog("[Initialization] Starting session stream")
             self.camera.queue.async { self.camera.session.startRunning() }
+            
+            if utilities.versionType == "INTERNAL" {
+                self.location = Location(utilities: utilities)
+                if self.location.locationEnabled { self.location.startLocationServices() }
+            }
         } else {
             utilities.debugNSLog("[Initialization] No cameras detected, skipping to user interface bringup")
         }
@@ -212,7 +219,7 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
     
     /// Function to change the video stabilization mode for the ``cameraPreview``.
     @objc func changeStabilizerMode() {
-        guard let connection = self.preview.previewLayer.connection else { print("bruh"); return }
+        guard let connection = self.preview.previewLayer.connection else { return }
         if utilities.preferences.preview.stablize {
             if #available(iOS 17.0, *) {
                 if ((camera.device?.activeFormat.isVideoStabilizationModeSupported(.previewOptimized)) != nil) {
@@ -241,9 +248,10 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         DispatchQueue.main.async { self.present(alert, animated: true, completion: nil) }
         return
 #elseif MAIN_APP
-        var aboutView = SettingsView(dismissAction: {self.dismiss( animated: true, completion: nil )})
-        aboutView.utilities = self.utilities
-        let hostingController = UIHostingController(rootView: aboutView)
+        var view = SettingsView(dismissAction: {self.dismiss( animated: true, completion: nil )})
+        view.utilities = self.utilities
+        view.location  = self.location
+        let hostingController = UIHostingController(rootView: view)
         hostingController.modalPresentationStyle = UIModalPresentationStyle.popover
         hostingController.popoverPresentationController?.sourceView = self.controlLayer.buttons.settings
         hostingController.isModalInPresentation = true
@@ -345,6 +353,9 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         let previewImage = UIImage(ciImage: CIImage(data: imageData, options: [.applyOrientationProperty: true,
                                                                                .properties: [kCGImagePropertyOrientation: CGImagePropertyOrientation(getterForOrientation!.imageOrientation).rawValue]])!)
         let photoPreview = PhotoPreviewView()
+        #warning("really need to get SceneDelegate.utilities up...")
+        photoPreview.utilities = utilities
+        photoPreview.location = location
         photoPreview.photoImageData = imageData
         photoPreview.photoImageView.frame = view.frame
         photoPreview.photoImage = previewImage

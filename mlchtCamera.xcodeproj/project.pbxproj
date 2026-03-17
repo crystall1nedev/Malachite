@@ -34,6 +34,9 @@
 		784EDDD62E5EE52600DFF370 /* PhotoPreviewView+Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784EDDD32E5EE52100DFF370 /* PhotoPreviewView+Controls.swift */; };
 		785F084D2B12D41100244EB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F084C2B12D41100244EB4 /* AppDelegate.swift */; };
 		785F084F2B12D41100244EB4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F084E2B12D41100244EB4 /* SceneDelegate.swift */; };
+		7863E4E32F695699008566AE /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7863E4E22F695697008566AE /* Location.swift */; };
+		7863E4E42F695699008566AE /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7863E4E22F695697008566AE /* Location.swift */; };
+		7863E4E52F695699008566AE /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7863E4E22F695697008566AE /* Location.swift */; };
 		7866F5CE2E6299A4009AC9BF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7866F5CD2E6299A0009AC9BF /* Camera.swift */; };
 		7866F5CF2E6299A4009AC9BF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7866F5CD2E6299A0009AC9BF /* Camera.swift */; };
 		7866F5D02E6299A4009AC9BF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7866F5CD2E6299A0009AC9BF /* Camera.swift */; };
@@ -309,6 +312,7 @@
 		785F084C2B12D41100244EB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		785F084E2B12D41100244EB4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		785F085A2B12D41300244EB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7863E4E22F695697008566AE /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		7866F5CD2E6299A0009AC9BF /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		7866F5D12E62A591009AC9BF /* CameraView+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraView+Notifications.swift"; sourceTree = "<group>"; };
 		7866F5D52E62A5F7009AC9BF /* temputils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = temputils.swift; sourceTree = "<group>"; };
@@ -491,6 +495,14 @@
 			path = mlchtCamera;
 			sourceTree = "<group>";
 		};
+		7863E4E12F69567C008566AE /* LocationUtils */ = {
+			isa = PBXGroup;
+			children = (
+				7863E4E22F695697008566AE /* Location.swift */,
+			);
+			path = LocationUtils;
+			sourceTree = "<group>";
+		};
 		7866F5CC2E62999B009AC9BF /* CameraUtils */ = {
 			isa = PBXGroup;
 			children = (
@@ -555,6 +567,7 @@
 				78C2EFBE2E6971CB00C6DD79 /* InitUtils */,
 				7866F5D52E62A5F7009AC9BF /* temputils.swift */,
 				7866F5CC2E62999B009AC9BF /* CameraUtils */,
+				7863E4E12F69567C008566AE /* LocationUtils */,
 				786DAE432E4F28B100BE3137 /* PreferenceUtils */,
 				7847D5012E8F26D1006759A6 /* ViewUtils */,
 				786DAE442E4F28B100BE3137 /* MalachiteFunctionUtils.swift */,
@@ -1151,6 +1164,7 @@
 				78D3F0062F6284F400760240 /* Watch.swift in Sources */,
 				786DAE582E4F28B100BE3137 /* MalachiteGameUtils.swift in Sources */,
 				786DAE592E4F28B100BE3137 /* MalachiteHapticUtils.swift in Sources */,
+				7863E4E52F695699008566AE /* Location.swift in Sources */,
 				78E170772E51C97B009BEF2F /* CompatibilityView+Camera.swift in Sources */,
 				786DAE5A2E4F28B100BE3137 /* MalachiteIntentUtils.swift in Sources */,
 				7818E23D2E80971C0046F621 /* Compatibility.swift in Sources */,
@@ -1216,6 +1230,7 @@
 				78D3F0052F6284F400760240 /* Watch.swift in Sources */,
 				786DAE612E4F28B100BE3137 /* MalachiteGameUtils.swift in Sources */,
 				786DAE622E4F28B100BE3137 /* MalachiteHapticUtils.swift in Sources */,
+				7863E4E42F695699008566AE /* Location.swift in Sources */,
 				78E170792E51C97B009BEF2F /* CompatibilityView+Camera.swift in Sources */,
 				786DAE632E4F28B100BE3137 /* MalachiteIntentUtils.swift in Sources */,
 				7818E23C2E80971C0046F621 /* Compatibility.swift in Sources */,
@@ -1322,6 +1337,7 @@
 				786DAE2A2E4F28A600BE3137 /* QuickHelpView.swift in Sources */,
 				7882628B2E514F18000085AC /* QuickHelpView+Preview.swift in Sources */,
 				786DAE2B2E4F28A600BE3137 /* SettingsView.swift in Sources */,
+				7863E4E32F695699008566AE /* Location.swift in Sources */,
 				786DAE2C2E4F28A600BE3137 /* CameraView.swift in Sources */,
 			);
 		};
@@ -1661,8 +1677,9 @@
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the rear camera system on iPhone to take pictures.";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save pictures.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the camera systems in order to show a viewfinder and take pictures.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "mlchtCamera can optionally embed your location in the pictures you take. You don't need to enable this if you never plan to embed locations, and can additionally configure this using the in-app Settings menu.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save pictures. You don't need to enable this if you plan to use the app as a viewfinder.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
@@ -1719,8 +1736,9 @@
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the rear camera system on iPhone to take pictures.";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save pictures.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the camera systems in order to show a viewfinder and take pictures.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "mlchtCamera can optionally embed your location in the pictures you take. You don't need to enable this if you never plan to embed locations, and can additionally configure this using the in-app Settings menu.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save pictures. You don't need to enable this if you plan to use the app as a viewfinder.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
@@ -2194,8 +2212,9 @@
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the rear camera system on iPhone to take pictures.";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save pictures.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "mlchtCamera uses the camera systems in order to show a viewfinder and take pictures.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "mlchtCamera can optionally embed your location in the pictures you take. You don't need to enable this if you never plan to embed locations, and can additionally configure this using the in-app Settings menu.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "mlchtCamera uses write access to your library in order to save pictures. You don't need to enable this if you plan to use the app as a viewfinder.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;

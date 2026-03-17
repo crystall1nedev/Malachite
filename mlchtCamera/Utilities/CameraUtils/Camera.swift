@@ -66,7 +66,6 @@ class Camera: NSObject {
      */
     var index:  Int?
     
-    
     /**
      Initailizer function for the ``Camera`` class.
      

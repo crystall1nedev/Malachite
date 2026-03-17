@@ -12,7 +12,9 @@ import LinkPresentation
 
 class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
     /// A variable to hold the existing instance of ``MalachiteClassesObject``.
-    var utilities = MalachiteClassesObject()
+    var utilities: MalachiteClassesObject!
+    /// A variable to hold the existing instance of ``Location``.
+    var location: Location!
     
     /// The scroll view that holds the image view for zooming and panning.
     var photoScrollView = UIScrollView()
@@ -235,7 +237,36 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
         }
         
         imageProperties[kCGImagePropertyOrientation as String] = 1
-
+        
+        if location.locationEnabled && utilities.versionType == "INTERNAL" && utilities.preferences.evaintrnl.locationEnabled, let loc = location.location.location {
+            let gps       = NSMutableDictionary()
+            let formatter = DateFormatter()
+            
+            // This is actually slightly more verbose than the stock camera app LOL
+            gps[kCGImagePropertyGPSAltitude]          = (loc.altitude >= 0.0) ? loc.altitude : -loc.altitude
+            gps[kCGImagePropertyGPSAltitudeRef]       = (loc.altitude >= 0.0) ? 0 : 1
+            formatter.dateFormat = "yyyy:MM:dd"
+            gps[kCGImagePropertyGPSDateStamp]         = formatter.string(from:loc.timestamp)
+            gps[kCGImagePropertyGPSDOP]               = loc.horizontalAccuracy
+            gps[kCGImagePropertyGPSHPositioningError] = loc.horizontalAccuracy
+            gps[kCGImagePropertyGPSLatitudeRef]       = (loc.coordinate.latitude >= 0.0) ? "N" : "S"
+            gps[kCGImagePropertyGPSLatitude]          = (loc.coordinate.latitude >= 0.0) ? loc.coordinate.latitude : -loc.coordinate.latitude
+            gps[kCGImagePropertyGPSLongitudeRef]      = (loc.coordinate.longitude >= 0.0) ? "E" : "W"
+            gps[kCGImagePropertyGPSLongitude]         = (loc.coordinate.longitude >= 0.0) ? loc.coordinate.longitude : -loc.coordinate.longitude
+            gps[kCGImagePropertyGPSSpeedRef]          = "K"
+            gps[kCGImagePropertyGPSSpeed]             = loc.speed
+            formatter.dateFormat = "HH:mm:ss"
+            gps[kCGImagePropertyGPSTimeStamp]         = formatter.string(from:loc.timestamp)
+            
+            if let heading = location.location.heading {
+                gps[kCGImagePropertyGPSDestBearingRef] = "T"
+                gps[kCGImagePropertyGPSDestBearing] = heading.trueHeading
+                gps[kCGImagePropertyGPSImgDirectionRef] = "T"
+                gps[kCGImagePropertyGPSImgDirection] = heading.trueHeading
+            }
+            
+            imageProperties[kCGImagePropertyGPSDictionary as String] = gps
+        }
 
         let canvasSize = upright.extent.size
         let watermarkUIImage = self.watermark(canvasSize: canvasSize)

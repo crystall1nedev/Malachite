@@ -12,12 +12,14 @@ struct DeveloperView: View {
     /// A State variable used for determining whether or not this view is being presented as a modal.
     var dismissAction: (() -> Void)
     /// A variable to hold the existing instance of ``MalachiteClassesObject``.
-    var utilities = MalachiteClassesObject()
+    var utilities: MalachiteClassesObject
+    
+    var location: Location
     
     var body: some View {
         Form {
             Settings(utilities: utilities)
-            if utilities.versionType == "INTERNAL" { InternalSettings(utilities: utilities)}
+            if utilities.versionType == "INTERNAL" { InternalSettings(utilities: utilities, location: location)}
             BuildInfo(utilities: utilities)
             DeviceInfo(utilities: utilities)
         }

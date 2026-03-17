@@ -52,7 +52,7 @@ public class Watch: NSObject, WCSessionDelegate {
         case "cameras":     NotificationCenter.default.post(name: Notifications.buttonPressed.cameras.name, object: nil)
         case "flashlight":  NotificationCenter.default.post(name: Notifications.buttonPressed.flashlight.name, object: nil)
         case "settings":    NotificationCenter.default.post(name: Notifications.buttonPressed.settings.name, object: nil)
-        default: print("bruh")
+        default: NSLog("wip")
         }
         
     }

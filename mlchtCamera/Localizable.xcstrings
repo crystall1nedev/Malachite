@@ -1046,6 +1046,16 @@
         }
       }
     },
+    "internal.option.location" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable geotagging"
+          }
+        }
+      }
+    },
     "internal.option.settingsgesture" : {
       "localizations" : {
         "en" : {

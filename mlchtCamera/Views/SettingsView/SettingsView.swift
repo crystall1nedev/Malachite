@@ -13,7 +13,9 @@ struct SettingsView: View {
     /// A State variable used for determining whether or not to literally break the app.
     @State private var breakApp = false
     /// A variable to hold the existing instance of ``MalachiteClassesObject``.
-    var utilities = MalachiteClassesObject()
+    var utilities: MalachiteClassesObject!
+    /// A variable to hold the existing instance of ``Location``.
+    var location: Location!
     /// A variable used to hold the function for dismissing with the toolbar item.
     var dismissAction: (() -> Void)
     
@@ -37,7 +39,7 @@ struct SettingsView: View {
     
     var guts: some View {
         Form {
-            About(utilities: utilities, dismissAction: dismissAction)
+            About(utilities: utilities, location: location, dismissAction: dismissAction)
             Preview(utilities: utilities, dismissAction: dismissAction)
             Resolution(utilities: utilities, dismissAction: dismissAction)
             Photo(utilities: utilities, dismissAction: dismissAction)
