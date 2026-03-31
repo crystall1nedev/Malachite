@@ -37,6 +37,9 @@
 		7863E4E32F695699008566AE /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7863E4E22F695697008566AE /* Location.swift */; };
 		7863E4E42F695699008566AE /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7863E4E22F695697008566AE /* Location.swift */; };
 		7863E4E52F695699008566AE /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7863E4E22F695697008566AE /* Location.swift */; };
+		7863E4E82F695CB7008566AE /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7863E4E72F695CB5008566AE /* Photo.swift */; };
+		7863E4E92F695CB7008566AE /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7863E4E72F695CB5008566AE /* Photo.swift */; };
+		7863E4EA2F695CB7008566AE /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7863E4E72F695CB5008566AE /* Photo.swift */; };
 		7866F5CE2E6299A4009AC9BF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7866F5CD2E6299A0009AC9BF /* Camera.swift */; };
 		7866F5CF2E6299A4009AC9BF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7866F5CD2E6299A0009AC9BF /* Camera.swift */; };
 		7866F5D02E6299A4009AC9BF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7866F5CD2E6299A0009AC9BF /* Camera.swift */; };
@@ -313,6 +316,7 @@
 		785F084E2B12D41100244EB4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		785F085A2B12D41300244EB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7863E4E22F695697008566AE /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		7863E4E72F695CB5008566AE /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		7866F5CD2E6299A0009AC9BF /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		7866F5D12E62A591009AC9BF /* CameraView+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraView+Notifications.swift"; sourceTree = "<group>"; };
 		7866F5D52E62A5F7009AC9BF /* temputils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = temputils.swift; sourceTree = "<group>"; };
@@ -503,6 +507,14 @@
 			path = LocationUtils;
 			sourceTree = "<group>";
 		};
+		7863E4E62F695C96008566AE /* PhotoUtils */ = {
+			isa = PBXGroup;
+			children = (
+				7863E4E72F695CB5008566AE /* Photo.swift */,
+			);
+			path = PhotoUtils;
+			sourceTree = "<group>";
+		};
 		7866F5CC2E62999B009AC9BF /* CameraUtils */ = {
 			isa = PBXGroup;
 			children = (
@@ -567,6 +579,7 @@
 				78C2EFBE2E6971CB00C6DD79 /* InitUtils */,
 				7866F5D52E62A5F7009AC9BF /* temputils.swift */,
 				7866F5CC2E62999B009AC9BF /* CameraUtils */,
+				7863E4E62F695C96008566AE /* PhotoUtils */,
 				7863E4E12F69567C008566AE /* LocationUtils */,
 				786DAE432E4F28B100BE3137 /* PreferenceUtils */,
 				7847D5012E8F26D1006759A6 /* ViewUtils */,
@@ -1196,6 +1209,7 @@
 				786DAE352E4F28A600BE3137 /* SettingsView.swift in Sources */,
 				7882628F2E514F25000085AC /* QuickHelpView+Resolution.swift in Sources */,
 				782850012E80C05100826FA7 /* Camera+Permissions.swift in Sources */,
+				7863E4E82F695CB7008566AE /* Photo.swift in Sources */,
 				7882629A2E514F3F000085AC /* QuickHelpView+UI.swift in Sources */,
 				788262762E5130D4000085AC /* SettingsView+Watermarking.swift in Sources */,
 				786DAE362E4F28A600BE3137 /* CameraView.swift in Sources */,
@@ -1262,6 +1276,7 @@
 				786DAE3C2E4F28A600BE3137 /* CompatibilityView.swift in Sources */,
 				7882628E2E514F25000085AC /* QuickHelpView+Resolution.swift in Sources */,
 				782850022E80C05100826FA7 /* Camera+Permissions.swift in Sources */,
+				7863E4EA2F695CB7008566AE /* Photo.swift in Sources */,
 				788262992E514F3F000085AC /* QuickHelpView+UI.swift in Sources */,
 				788262742E5130D4000085AC /* SettingsView+Watermarking.swift in Sources */,
 				786DAE3D2E4F28A600BE3137 /* PhotoPreviewView.swift in Sources */,
@@ -1304,6 +1319,7 @@
 				782850032E80C05100826FA7 /* Camera+Permissions.swift in Sources */,
 				786DAE782E4F28B900BE3137 /* MalachiteCaptureBundle.swift in Sources */,
 				786DAE4E2E4F28B100BE3137 /* MalachiteFunctionUtils.swift in Sources */,
+				7863E4E92F695CB7008566AE /* Photo.swift in Sources */,
 				7824CAF12E62E4970072870F /* Camera+Bringup.swift in Sources */,
 				7882629B2E514F3F000085AC /* QuickHelpView+UI.swift in Sources */,
 				786DAE4F2E4F28B100BE3137 /* MalachiteGameUtils.swift in Sources */,

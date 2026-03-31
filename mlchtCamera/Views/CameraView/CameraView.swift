@@ -355,12 +355,12 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
         let photoPreview = PhotoPreviewView()
         #warning("really need to get SceneDelegate.utilities up...")
         photoPreview.utilities = utilities
-        photoPreview.location = location
+        photoPreview.photo = Photo(data: imageData, utilities: utilities, location: location)
         photoPreview.photoImageData = imageData
         photoPreview.photoImageView.frame = view.frame
         photoPreview.photoImage = previewImage
         if utilities.preferences.preview.fastPath {
-            photoPreview.savePhoto(finalImage: photoPreview.finalizeImageForExport(imageData: imageData))
+            photoPreview.savePhoto(finalImage: photoPreview.photo.finalizeImageForExport(imageData: imageData))
         } else {
             let navigationController = UINavigationController(rootViewController: photoPreview)
             navigationController.modalPresentationStyle = UIModalPresentationStyle.pageSheet
