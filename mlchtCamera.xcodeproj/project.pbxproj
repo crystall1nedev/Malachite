@@ -372,6 +372,7 @@
 		78917F592B99AE72005E10FA /* mlchtWidgetBundle.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = mlchtWidgetBundle.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		78917F5B2B99AE72005E10FA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		78917F5D2B99AE72005E10FA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		789906202F7E00C80045A52E /* Jenkinsfile */ = {isa = PBXFileReference; lastKnownFileType = text; name = Jenkinsfile; path = Jenkinsfile; sourceTree = SOURCE_ROOT; };
 		78A9DD612CD55551002C131D /* mlchtCaptureBundle.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = mlchtCaptureBundle.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		78A9DE302CD581F1002C131D /* LockedCameraCapture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LockedCameraCapture.framework; path = System/Library/Frameworks/LockedCameraCapture.framework; sourceTree = SDKROOT; };
 		78AF68672E5D97E000BB9D5C /* CameraView+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraView+Preview.swift"; sourceTree = "<group>"; };
@@ -457,6 +458,7 @@
 			isa = PBXGroup;
 			children = (
 				78474D2B2D7AC879006FBB96 /* .gitignore */,
+				789906202F7E00C80045A52E /* Jenkinsfile */,
 				78163D8D2CCB7BAE00146126 /* CHANGELOG.md */,
 				782FC7752B2DAFAB007709C1 /* README.md */,
 				78562BC22B450A7600920160 /* PRIVACY_POLICY.md */,
