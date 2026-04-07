@@ -10,6 +10,6 @@ CODE_SIGN_STYLE  = Automatic;
 // Change this to your Apple Developer Program Team ID.
 // You can find it under "Membership details" on
 // https://developer.apple.com/account
-DEVELOPMENT_TEAM = 95J8WZ4TN8;
+DEVELOPMENT_TEAM = FBT742498U;
 // Change this to anything you want.
 APP_PREFIX       = dev.crystll1ne.mlchtcamera;
