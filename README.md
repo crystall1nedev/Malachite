@@ -1,8 +1,12 @@
-# mlchtCamera  
-
+# mlchtCamera 
+ 
+abbrev. "mlcht"
 *noun*; the name of my app to take back control of your iPhone or iPad's camera lenses.
 
 ---
+## Important Notice
+ As described in [this blog post](<https://blog.crystall1ne.dev/posts/2026/04/07/selfhosted-git.html>), mlchtCamera has migrated away from GitHub to an end-to-end self-hosted workflow. Once the post reaches one month old, mlchtCamera will no longer be in sync with or available on GitHub, and will exclusively at [the Enclave](<https://enclave.crystall1ne.dev>).
+
 ## What is it?
 With a name loosely based on the **malachite crystal** with properties of revealing hidden parts of yourself, mlchtCamera is a **work-in-progress** camera app, designed to put pro controls into the hands of even more users.
 
@@ -15,7 +19,7 @@ I recommend one of the following configurations...
     - iPhone 13 Pro or iPhone 13 Pro Max
     - iPhone 14 Pro or iPhone 14 Pro Max
     - iPhone 15 Pro or iPhone 15 Pro Max
-    - iPhone 16 or later (excluding iPhone 16e)
+    - iPhone 16 or later (excluding e-series iPhones)
 - ...and/or a third-party lens attachment
 
 ## What can I do with this?  
