@@ -5,7 +5,7 @@
 //  Created by Eva Isabella Luna on 5/13/25.
 //
 
-// Leave this line alone.
+// Most times, you won't need to do anything with this one.
 CODE_SIGN_STYLE  = Automatic;
 // Change this to your Apple Developer Program Team ID.
 // You can find it under "Membership details" on
@@ -13,3 +13,14 @@ CODE_SIGN_STYLE  = Automatic;
 DEVELOPMENT_TEAM = FBT742498U;
 // Change this to anything you want.
 APP_PREFIX       = dev.crystll1ne.mlchtcamera;
+
+// The following are primarily used for Jenkins builds.
+// Unless you have a reason to, they don't need to be changed.
+MLCHTCAMERA_PROFILE     =
+WIDGETBUNDL_PROFILE     =
+CAPTUREBUND_PROFILE     =
+MLCHTREMOTE_PROFILE     =
+REMWIDBUNDL_PROFILE     =
+
+BUILD_NUMBER = 129
+BRANCH_NAME  =

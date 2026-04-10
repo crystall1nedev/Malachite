@@ -80,33 +80,40 @@ pipeline {
                 script {
                     sh """
                     cp mlchtCamera/Codesigning{.example,}.xcconfig
-                    sed -i'' -e 's/Automatic/Manual/g' mlchtCamera/Codesigning.xcconfig
+
+                    sed -i '' -e 's/Automatic/Manual/g' mlchtCamera/Codesigning.xcconfig
+
+                    sed -i '' \
+                      -e "s|^MLCHTCAMERA_PROFILE[[:space:]]*=.*|MLCHTCAMERA_PROFILE = mlchtCamera|" \
+                      -e "s|^WIDGETBUNDL_PROFILE[[:space:]]*=.*|WIDGETBUNDL_PROFILE = mlchtCamera - widgetbundle|" \
+                      -e "s|^CAPTUREBUND_PROFILE[[:space:]]*=.*|CAPTUREBUND_PROFILE = mlchtCamera - capturebundle|" \
+                      -e "s|^MLCHTREMOTE_PROFILE[[:space:]]*=.*|MLCHTREMOTE_PROFILE = mlchtRemote|" \
+                      -e "s|^REMWIDBUNDL_PROFILE[[:space:]]*=.*|REMWIDBUNDL_PROFILE = mlchtRemote - WidgetBundle|" \
+                      mlchtCamera/Codesigning.xcconfig
+                      
+                    sed -i '' \
+                      -e "s|^BUILD_NUMBER[[:space:]]*=.*|BUILD_NUMBER = \$BUILD_NUM|" \
+                      -e "s|^BRANCH_NAME[[:space:]]*=.*|BRANCH_NAME = \$BRANCH_NAME|" \
+                      mlchtCamera/Codesigning.xcconfig
                     """
+
                     
                     xcodeBuild(
-                        appURL: '',
-                        assetPackManifestURL: '',
-                        buildDir: '',
                         buildIpa: true,
                         bundleID: 'dev.crystll1ne.mlchtcamera',
                         bundleIDInfoPlistPath: 'mlchtCamera/Info.plist',
-                        cfBundleShortVersionStringValue: "${env.VERSION}",
-                        cfBundleVersionValue: "${env.BUILD_NUM}",
+                        cfBundleShortVersionStringValue: env.VERSION,
+                        cfBundleVersionValue: env.BUILD_NUM,
                         cleanBeforeBuild: true,
                         cleanResultBundlePath: true,
-                        configuration: "${env.CONFIG}",
+                        configuration: env.CONFIG,
                         developmentTeamID: 'FBT742498U',
-                        developmentTeamName: '',
-                        displayImageURL: '',
-                        fullSizeImageURL: '',
                         generateArchive: true,
                         ipaName: 'mlchtCamera',
                         ipaExportMethod: 'app-store',
                         ipaOutputDirectory: '..',
-                        keychainId: '',
                         keychainPath: '/Volumes/BigDingus/Services/jenkins-eva/Library/Keychains/Login.keychain-db',
                         keychainPwd: hudson.util.Secret.fromString(env.KEYCHAIN_PASS),
-                        logfileOutputDirectory: '',
                         provisioningProfiles: [
                             [provisioningProfileAppId: 'dev.crystll1ne.mlchtcamera',
                              provisioningProfileUUID: 'dev.crystll1ne.mlchtcamera AppStore'],
@@ -119,18 +126,12 @@ pipeline {
                             [provisioningProfileAppId: 'dev.crystll1ne.mlchtcamera.watchremote.widgetbundle',
                              provisioningProfileUUID: 'dev.crystll1ne.mlchtcamera.watchremote.widgetbundle AppStore']
                         ],
-                        resultBundlePath: '',
-                        sdk: '',
                         signingMethod: 'manual',
-                        symRoot: '',
-                        target: '',
-                        thinning: '',
                         unlockKeychain: true,
-                        xcodeProjectFile: '',
-                        xcodeProjectPath: '',
+                        xcodeProjectFile: 'mlchtCamera.xcodeproj',
+                        xcodeProjectPath: '.',
                         xcodeSchema: 'mlchtCamera',
-                        xcodeWorkspaceFile: '',
-                        xcodebuildArguments: "-verbose CURRENT_PROJECT_VERSION=${env.BUILD_NUM} BRANCH_NAME=${env.BRANCH_NAME}"
+                        xcodebuildArguments: "-verbose"
                     )
                 }
             }
