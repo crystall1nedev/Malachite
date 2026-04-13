@@ -14,7 +14,11 @@ class Location: NSObject, CLLocationManagerDelegate {
     public var location = CLLocationManager()
     
     public var locationEnabled: Bool {
-        get { return location.authorizationStatus == .authorizedAlways || location.authorizationStatus == .authorizedWhenInUse }
+        get {
+            if utilities.versionType != "INTERNAL" { return false }
+            
+            return location.authorizationStatus == .authorizedWhenInUse
+        }
     }
     
     init(

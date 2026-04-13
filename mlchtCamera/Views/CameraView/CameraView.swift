@@ -81,8 +81,9 @@ class CameraView: UIViewController, AVCaptureMetadataOutputObjectsDelegate, AVCa
             utilities.debugNSLog("[Initialization] Starting session stream")
             self.camera.queue.async { self.camera.session.startRunning() }
             
+            self.location = Location(utilities: utilities)
+            
             if utilities.versionType == "INTERNAL" {
-                self.location = Location(utilities: utilities)
                 if self.location.locationEnabled { self.location.startLocationServices() }
             }
         } else {
