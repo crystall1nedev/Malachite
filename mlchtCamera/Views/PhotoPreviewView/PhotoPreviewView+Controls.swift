@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 extension PhotoPreviewView {
-    class controls: NSObject {
+    class ControlLayer: NSObject {
         /// The existing instance of ``PhotoPreviewView`` to act on.
         var delegate = PhotoPreviewView()
         
@@ -35,7 +35,7 @@ extension PhotoPreviewView {
         }
         
         func initRecognizers() {
-            let doubleTapRecognizer = UITapGestureRecognizer(target: delegate, action: #selector(handleDoubleTap(_:)))
+            let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
             doubleTapRecognizer.numberOfTapsRequired = 2
             delegate.photoScrollView.addGestureRecognizer(doubleTapRecognizer)
         }
@@ -61,6 +61,21 @@ extension PhotoPreviewView {
             initButtons()
             initRecognizers()
             initTooltips(showLabels: true)
+        }
+    }
+}
+
+// MARK: ControlLayer - UIScrollViewDelegate
+extension PhotoPreviewView.ControlLayer: UIScrollViewDelegate {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return delegate.photoImageView
+    }
+    
+    @objc func handleDoubleTap(_ sender: UITapGestureRecognizer) {
+        if delegate.photoScrollView.zoomScale == 1 {
+            delegate.photoScrollView.setZoomScale(2, animated: true)
+        } else {
+            delegate.photoScrollView.setZoomScale(1, animated: true)
         }
     }
 }

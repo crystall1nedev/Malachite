@@ -20,7 +20,7 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
     /// The scroll view that holds the image view for zooming and panning.
     var photoScrollView = UIScrollView()
     
-    var controls: controls?
+    var controls: ControlLayer?
     
     /** 
      The image view that holds the captuerd image for user review.
@@ -80,7 +80,7 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
         // TODO: dev/malachitekit refactor this file
         self.finalizedImage = photo.finalizeImageForExport(imageData: self.photo.imageData)
         
-        self.controls = PhotoPreviewView.controls(delegate: self)
+        self.controls = PhotoPreviewView.ControlLayer(delegate: self)
         
         super.viewDidLoad()
 		
@@ -134,7 +134,7 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
         photoScrollView.maximumZoomScale = 5
         photoScrollView.showsHorizontalScrollIndicator = false
         photoScrollView.showsVerticalScrollIndicator = false
-        photoScrollView.delegate = self
+        photoScrollView.delegate = self.controls
         
         // Center photoImageView inside of photoScrollView
         let xOffset: CGFloat = (photoScrollView.bounds.width - photoImageView.bounds.width) / 2
@@ -149,18 +149,6 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
         self.controls!.bringUpControlLayer()
         
         orientationChanged()
-    }
-    
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return photoImageView
-    }
-    
-    @objc func handleDoubleTap(_ sender: UITapGestureRecognizer) {
-        if photoScrollView.zoomScale == 1 {
-            photoScrollView.setZoomScale(2, animated: true)
-        } else {
-            photoScrollView.setZoomScale(1, animated: true)
-        }
     }
     
     /// Function to allow the user to close the model view.
@@ -204,15 +192,6 @@ class PhotoPreviewView : UIViewController, UIScrollViewDelegate {
             shareSheet.preferredTransition = .zoom { [self] _ in sharePhotoButton }
         }
         self.present(shareSheet, animated: true)
-    }
-    
-    /**
-     Function to extract EXIF properties from the image. 
-     
-     Currently used to extract MakerApple and the EXIFDictionary for HDR.
-     */
-    func extractEXIFData(properties props: [String : Any], dictionary dict: CFString) -> [String : Any] {
-        return props[dict as String] as? [String: Any] ?? [:]
     }
     
     /// Override function to force the status bar to never be shown.
