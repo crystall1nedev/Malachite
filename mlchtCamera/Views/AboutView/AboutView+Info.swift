@@ -43,19 +43,11 @@ extension AboutView {
                             if clicks < 8 { utilities.preferences.ext.showGameKitOptionInAbout(in: &utilities.preferences, clicks: &clicks) }
                         }
                     } label: {
-                        if #available(iOS 26.0, *) {
-                            Image("icon26")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(maxWidth: 80, alignment: .trailing)
-                                .clipShape(RoundedRectangle(cornerRadius: 17))
-                        } else {
-                            Image("icon")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(maxWidth: 80, alignment: .trailing)
-                                .clipShape(RoundedRectangle(cornerRadius: 17))
-                        }
+                        Image("icon")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: 80, alignment: .trailing)
+                            .clipShape(RoundedRectangle(cornerRadius: 17))
                     }
                 }
                 Text("about.description")

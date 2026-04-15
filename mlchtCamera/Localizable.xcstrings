@@ -53,7 +53,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Great tester, greater tester 🟢"
+            "value" : "Great tester, greater friend 🟢"
           }
         }
       }
@@ -1495,6 +1495,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Maximum zoom level"
+          }
+        }
+      }
+    },
+    "settings.option.reset_appicon" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset app icon"
           }
         }
       }

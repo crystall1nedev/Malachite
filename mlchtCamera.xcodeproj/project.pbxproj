@@ -176,6 +176,24 @@
 		78917F5C2B99AE72005E10FA /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5B2B99AE72005E10FA /* WidgetKit.framework */; };
 		78917F5E2B99AE72005E10FA /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78917F5D2B99AE72005E10FA /* SwiftUI.framework */; };
 		78917F692B99AE73005E10FA /* mlchtWidgetBundle.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 78917F592B99AE72005E10FA /* mlchtWidgetBundle.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7895CD512F8CDBCD001F5163 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD4B2F8CDBCD001F5163 /* Assets.xcassets */; };
+		7895CD532F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD4D2F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png */; };
+		7895CD542F8CDBCD001F5163 /* mlcht.icon in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD492F8CDBCD001F5163 /* mlcht.icon */; };
+		7895CD552F8CDBCD001F5163 /* asb_approved.icon in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD4A2F8CDBCD001F5163 /* asb_approved.icon */; };
+		7895CD562F8CDBCD001F5163 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD4B2F8CDBCD001F5163 /* Assets.xcassets */; };
+		7895CD582F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD4D2F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png */; };
+		7895CD592F8CDBCD001F5163 /* mlcht.icon in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD492F8CDBCD001F5163 /* mlcht.icon */; };
+		7895CD5A2F8CDBCD001F5163 /* asb_approved.icon in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD4A2F8CDBCD001F5163 /* asb_approved.icon */; };
+		7895CD5B2F8CDBCD001F5163 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD4B2F8CDBCD001F5163 /* Assets.xcassets */; };
+		7895CD5D2F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD4D2F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png */; };
+		7895CD602F8CDBCD001F5163 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD4B2F8CDBCD001F5163 /* Assets.xcassets */; };
+		7895CD622F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD4D2F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png */; };
+		7895CD652F8CDBCD001F5163 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD4B2F8CDBCD001F5163 /* Assets.xcassets */; };
+		7895CD672F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD4D2F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png */; };
+		7895CD692F8CDBF2001F5163 /* thatsniceguy.icon in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD682F8CDBF2001F5163 /* thatsniceguy.icon */; };
+		7895CD6A2F8CDBF2001F5163 /* thatsniceguy.icon in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD682F8CDBF2001F5163 /* thatsniceguy.icon */; };
+		7895CD6E2F8CE6A2001F5163 /* original.icon in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD6D2F8CE6A2001F5163 /* original.icon */; };
+		7895CD6F2F8CE6A2001F5163 /* original.icon in Resources */ = {isa = PBXBuildFile; fileRef = 7895CD6D2F8CE6A2001F5163 /* original.icon */; };
 		78A9DD6A2CD55551002C131D /* mlchtCaptureBundle.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = 78A9DD612CD55551002C131D /* mlchtCaptureBundle.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		78A9DE312CD581F1002C131D /* LockedCameraCapture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78A9DE302CD581F1002C131D /* LockedCameraCapture.framework */; };
 		78A9DE752CD5AE5F002C131D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7881A98B2C1F77AB00B1F83B /* Localizable.xcstrings */; };
@@ -372,6 +390,12 @@
 		78917F592B99AE72005E10FA /* mlchtWidgetBundle.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = mlchtWidgetBundle.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		78917F5B2B99AE72005E10FA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		78917F5D2B99AE72005E10FA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		7895CD492F8CDBCD001F5163 /* mlcht.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = mlcht.icon; sourceTree = "<group>"; };
+		7895CD4A2F8CDBCD001F5163 /* asb_approved.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = asb_approved.icon; sourceTree = "<group>"; };
+		7895CD4B2F8CDBCD001F5163 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7895CD4D2F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MalachiteIconMasked_Darwin25.png; sourceTree = "<group>"; };
+		7895CD682F8CDBF2001F5163 /* thatsniceguy.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = thatsniceguy.icon; sourceTree = "<group>"; };
+		7895CD6D2F8CE6A2001F5163 /* original.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = original.icon; sourceTree = "<group>"; };
 		789906202F7E00C80045A52E /* Jenkinsfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Jenkinsfile; sourceTree = SOURCE_ROOT; };
 		78A9DD612CD55551002C131D /* mlchtCaptureBundle.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = mlchtCaptureBundle.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		78A9DE302CD581F1002C131D /* LockedCameraCapture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LockedCameraCapture.framework; path = System/Library/Frameworks/LockedCameraCapture.framework; sourceTree = SDKROOT; };
@@ -394,14 +418,6 @@
 		78E1707A2E51CC5C009BEF2F /* CompatibilityView+Resolutions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CompatibilityView+Resolutions.swift"; sourceTree = "<group>"; };
 		78E1707E2E51CE3D009BEF2F /* CompatibilityView+Format.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CompatibilityView+Format.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		786DAD982E4F283500BE3137 /* Assets */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Assets;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		7837C10A2E34C45B009396B0 /* Frameworks */ = {
@@ -432,6 +448,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7804FD3B2F8CE80A00CAB29B /* AppIcons */ = {
+			isa = PBXGroup;
+			children = (
+				7895CD492F8CDBCD001F5163 /* mlcht.icon */,
+				7895CD4A2F8CDBCD001F5163 /* asb_approved.icon */,
+				7895CD682F8CDBF2001F5163 /* thatsniceguy.icon */,
+				7895CD6D2F8CE6A2001F5163 /* original.icon */,
+			);
+			path = AppIcons;
+			sourceTree = "<group>";
+		};
 		7818E23A2E8097110046F621 /* CompatibilityUtils */ = {
 			isa = PBXGroup;
 			children = (
@@ -479,7 +506,7 @@
 		785F084B2B12D41100244EB4 /* mlchtCamera */ = {
 			isa = PBXGroup;
 			children = (
-				786DAD982E4F283500BE3137 /* Assets */,
+				7895CD4E2F8CDBCD001F5163 /* Assets */,
 				78E142C92DD426260016B3DB /* Codesigning.xcconfig */,
 				787B1CA92B8B095E000AFECC /* mlchtCamera.docc */,
 				788589912B8974680018E2DA /* mlchtCamera.entitlements */,
@@ -673,6 +700,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7895CD4E2F8CDBCD001F5163 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				7804FD3B2F8CE80A00CAB29B /* AppIcons */,
+				7895CD4B2F8CDBCD001F5163 /* Assets.xcassets */,
+				7895CD4D2F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		78AF68652E5D8E9200BB9D5C /* CameraView */ = {
 			isa = PBXGroup;
 			children = (
@@ -773,9 +810,6 @@
 			);
 			buildRules = (
 			);
-			fileSystemSynchronizedGroups = (
-				786DAD982E4F283500BE3137 /* Assets */,
-			);
 			name = mlchtWidgetBundleWatch;
 			productName = MalachiteWidgetBundle;
 			productReference = 7837C1152E34C45B009396B0 /* mlchtWidgetBundleWatch.appex */;
@@ -799,9 +833,6 @@
 				78A9DD692CD55551002C131D /* PBXTargetDependency */,
 				78B72BB02E332830002E2D4E /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				786DAD982E4F283500BE3137 /* Assets */,
-			);
 			name = mlchtCamera;
 			productName = Malachite;
 			productReference = 785F08492B12D41100244EB4 /* mlchtCamera.app */;
@@ -817,9 +848,6 @@
 			);
 			buildRules = (
 			);
-			fileSystemSynchronizedGroups = (
-				786DAD982E4F283500BE3137 /* Assets */,
-			);
 			name = mlchtWidgetBundle;
 			productName = MalachiteWidgetBundle;
 			productReference = 78917F592B99AE72005E10FA /* mlchtWidgetBundle.appex */;
@@ -834,9 +862,6 @@
 				78A9DD5F2CD55551002C131D /* Resources */,
 			);
 			buildRules = (
-			);
-			fileSystemSynchronizedGroups = (
-				786DAD982E4F283500BE3137 /* Assets */,
 			);
 			name = mlchtCaptureBundle;
 			productName = MalachiteCaptureBundle;
@@ -858,9 +883,6 @@
 			dependencies = (
 				7837C1022E34BD60009396B0 /* PBXTargetDependency */,
 				7837C1192E34C47D009396B0 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				786DAD982E4F283500BE3137 /* Assets */,
 			);
 			name = mlchtRemote;
 			productName = "MalachiteWatch Watch App";
@@ -918,29 +940,47 @@
 			isa = PBXResourcesBuildPhase;
 			files = (
 				7837C10E2E34C45B009396B0 /* Localizable.xcstrings in Resources */,
+				7895CD602F8CDBCD001F5163 /* Assets.xcassets in Resources */,
+				7895CD622F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png in Resources */,
 			);
 		};
 		785F08472B12D41100244EB4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 				78EC5D5F2E4EC110005044E2 /* Localizable.xcstrings in Resources */,
+				7895CD6E2F8CE6A2001F5163 /* original.icon in Resources */,
+				7895CD542F8CDBCD001F5163 /* mlcht.icon in Resources */,
+				7895CD552F8CDBCD001F5163 /* asb_approved.icon in Resources */,
+				7895CD562F8CDBCD001F5163 /* Assets.xcassets in Resources */,
+				7895CD6A2F8CDBF2001F5163 /* thatsniceguy.icon in Resources */,
+				7895CD582F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png in Resources */,
 			);
 		};
 		78917F572B99AE72005E10FA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 				78CAC36A2CCD99B600A35AE8 /* Localizable.xcstrings in Resources */,
+				7895CD652F8CDBCD001F5163 /* Assets.xcassets in Resources */,
+				7895CD672F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png in Resources */,
 			);
 		};
 		78A9DD5F2CD55551002C131D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 				78A9DE752CD5AE5F002C131D /* Localizable.xcstrings in Resources */,
+				7895CD512F8CDBCD001F5163 /* Assets.xcassets in Resources */,
+				7895CD532F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png in Resources */,
 			);
 		};
 		78B72BA52E33282E002E2D4E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
+				7895CD692F8CDBF2001F5163 /* thatsniceguy.icon in Resources */,
+				7895CD592F8CDBCD001F5163 /* mlcht.icon in Resources */,
+				7895CD5A2F8CDBCD001F5163 /* asb_approved.icon in Resources */,
+				7895CD6F2F8CE6A2001F5163 /* original.icon in Resources */,
+				7895CD5B2F8CDBCD001F5163 /* Assets.xcassets in Resources */,
+				7895CD5D2F8CDBCD001F5163 /* MalachiteIconMasked_Darwin25.png in Resources */,
 			);
 		};
 /* End PBXResourcesBuildPhase section */
@@ -1406,7 +1446,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
 				CODE_SIGN_ENTITLEMENTS = mlchtCamera/WidgetBundle/mlchtWidgetBundleWatch.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
@@ -1454,7 +1493,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
 				CODE_SIGN_ENTITLEMENTS = mlchtCamera/WidgetBundle/mlchtWidgetBundleWatch.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
@@ -1502,7 +1540,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
 				CODE_SIGN_ENTITLEMENTS = mlchtCamera/WidgetBundle/mlchtWidgetBundleWatch.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
@@ -1676,11 +1713,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "asb_approved thatsinceguy";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "asb_approved thatsinceguy original";
+				ASSETCATALOG_COMPILER_APPICON_NAME = mlcht;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				ASSETCATALOG_OTHER_FLAGS = "";
 				CODE_SIGN_ENTITLEMENTS = mlchtCamera/mlchtCamera.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
@@ -1741,11 +1778,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "asb_approved thatsinceguy";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "asb_approved thatsinceguy original";
+				ASSETCATALOG_COMPILER_APPICON_NAME = mlcht;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				ASSETCATALOG_OTHER_FLAGS = "";
 				CODE_SIGN_ENTITLEMENTS = mlchtCamera/mlchtCamera.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
@@ -1806,7 +1843,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
 				CODE_SIGN_ENTITLEMENTS = mlchtCamera/WidgetBundle/mlchtWidgetBundle.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
@@ -1854,7 +1890,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
 				CODE_SIGN_ENTITLEMENTS = mlchtCamera/WidgetBundle/mlchtWidgetBundle.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
@@ -1900,7 +1935,6 @@
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
 				CODE_SIGN_ENTITLEMENTS = mlchtCamera/CaptureBundle/mlchtCaptureBundle.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
@@ -1946,7 +1980,6 @@
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
 				CODE_SIGN_ENTITLEMENTS = mlchtCamera/CaptureBundle/mlchtCaptureBundle.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
@@ -1992,7 +2025,6 @@
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
 				CODE_SIGN_ENTITLEMENTS = mlchtCamera/CaptureBundle/mlchtCaptureBundle.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
@@ -2037,10 +2069,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = mlcht;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				CURRENT_PROJECT_VERSION = "$(BUILD_NUMBER)";
@@ -2082,10 +2113,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = mlcht;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				CURRENT_PROJECT_VERSION = "$(BUILD_NUMBER)";
@@ -2127,10 +2157,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = mlcht;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				CURRENT_PROJECT_VERSION = "$(BUILD_NUMBER)";
@@ -2241,11 +2270,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78E142C92DD426260016B3DB /* Codesigning.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "asb_approved thatsinceguy";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "asb_approved thatsinceguy original";
+				ASSETCATALOG_COMPILER_APPICON_NAME = mlcht;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
+				ASSETCATALOG_OTHER_FLAGS = "";
 				CODE_SIGN_ENTITLEMENTS = mlchtCamera/mlchtCamera.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
@@ -2309,7 +2338,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
 				CODE_SIGN_ENTITLEMENTS = mlchtCamera/WidgetBundle/mlchtWidgetBundle.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";

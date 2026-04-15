@@ -1,0 +1,103 @@
+{
+  "fill" : {
+    "automatic-gradient" : "extended-srgb:0.00000,0.53333,1.00000,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "based-apng-10.png",
+          "name" : "based-apng-10",
+          "position" : {
+            "scale" : 2.35,
+            "translation-in-points" : [
+              192.95062500000006,
+              89.81906250000009
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "balengcia skull low quality.png",
+          "name" : "balengcia skull low quality",
+          "position" : {
+            "scale" : 1.49,
+            "translation-in-points" : [
+              -194.17562499999997,
+              -51.637187500000095
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "sus.png",
+          "name" : "sus",
+          "position" : {
+            "scale" : 0.58,
+            "translation-in-points" : [
+              0,
+              188.1640625
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "htc moyai.png",
+          "name" : "htc moyai",
+          "position" : {
+            "scale" : 1.09,
+            "translation-in-points" : [
+              125.7890625,
+              -132.65625
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "thatsniceguy.png",
+          "name" : "thatsniceguy",
+          "opacity-specializations" : [
+            {
+              "appearance" : "dark",
+              "value" : 0
+            },
+            {
+              "appearance" : "tinted",
+              "value" : 0
+            }
+          ]
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    },
+    {
+      "layers" : [
+
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : "shared"
+  }
+}

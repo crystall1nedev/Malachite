@@ -20,7 +20,7 @@ extension AboutView {
         }
         /// A variable used to determine the currently available app icons.
         private var appIcons = [
-            AppIcon(name: "crystall1nedev", description: "about.credits.crystall1nedev", image: "crystall1nedev", symbol: false, icon: nil, achievement: "icon.default"),
+            AppIcon(name: "crystall1nedev", description: "about.credits.crystall1nedev", image: "crystall1nedev", symbol: false, icon: "original", achievement: "icon.default"),
             AppIcon(name: "ThatStella7922", description: "about.credits.thatstella7922", image: "thatstella7922", symbol: false, icon: "thatsniceguy", achievement: "icon.wifey"),
             AppIcon(name: "ASentientBot", description: "about.credits.asentientbot", image: "asentientbot", symbol: false, icon: "asb_approved", achievement: "icon.marimo"),
             AppIcon(name: "The Sanctuary Discord", description: "about.credits.discord", image: "", symbol: true, icon: nil, achievement: nil),
@@ -83,6 +83,30 @@ extension AboutView {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(maxWidth: 30, alignment: .trailing)
                                 .padding(.trailing, 5)
+                        }
+                    }
+                }
+                MalachiteCellViewUtils(
+                    icon: "trash",
+                    disabled: nil,
+                    dangerous: true)
+                {
+                    Button {
+                        utilities.debugNSLog("[Preferences] Resetting icon to default.")
+#if MAIN_APP
+                        UIApplication.shared.setAlternateIconName(nil) { (error) in
+                            if let error = error {
+                                print("Failed request to update the app’s icon: \(error)")
+                            }
+                        }
+#endif
+                    } label: {
+                        if #available(iOS 17.0, *) {
+                            Text("settings.option.reset_appicon")
+                                .foregroundStyle(.red)
+                        } else {
+                            Text("settings.option.reset_appicon")
+                                .foregroundColor(.red)
                         }
                     }
                 }
